@@ -1,0 +1,238 @@
+{
+    "info": {
+        "name": "English",
+        "version": "07e79429",
+        "description": "English language for Sparkamek."
+    },
+    "data": {
+        "QMainWindow": {
+            "title": "Sparkamek"
+        },
+        "QSettingsDialog": {
+            "title": "Sparkamek > Settings",
+            "QSidePanel": {
+                "appearance": {
+                    "title": "Appearance",
+                    "QLabel": {
+                        "language": {
+                            "title": "Language",
+                            "description": "Select a display language for Sparkamek."
+                        },
+                        "theme": {
+                            "title": "Theme",
+                            "description": "Select a display theme for Sparkamek."
+                        }
+                    },
+                    "QNamedComboBox": {
+                        "language": "Language",
+                        "theme": "Theme",
+                        "themeVariant": "Theme Variant"
+                    }
+                },
+                "updates": {
+                    "title": "Updates",
+                    "QLabel": {
+                        "checkForUpdates": {
+                            "title": "Check for Updates",
+                            "description": "Determines how often Sparkamek checks for updates."
+                        }
+                    },
+                    "QNamedComboBox": {
+                        "checkForUpdates": {
+                            "title": "Check for Updates",
+                            "values": {
+                                "never": "Never",
+                                "daily": "Daily",
+                                "weekly": "Weekly",
+                                "monthly": "Monthly",
+                                "atLaunch": "At Launch"
+                            }
+                        }
+                    }
+                },
+                "interface": {
+                    "title": "Interface",
+                    "QLabel": {
+                        "startAtLaunch": {
+                            "title": "Start at Launch",
+                            "description": "Determines whether Sparkamek starts at launch."
+                        },
+                        "minimizeToTray": {
+                            "title": "Minimize to Tray",
+                            "description": "Determines whether Sparkamek minimizes to the tray when closed."
+                        },
+                        "compactPaths": {
+                            "title": "Compact Paths",
+                            "description": "Determines whether Sparkamek compacts paths in the interface."
+                        }
+                    },
+                    "QNamedComboBox": {
+                        "compactPaths": {
+                            "title": "Compact Paths",
+                            "values": {
+                                "auto": "Auto",
+                                "disabled": "Disabled",
+                                "enabled": "Enabled"
+                            }
+                        }
+                    },
+                    "QToggleButton": {
+                        "startAtLaunch": "Start at Launch",
+                        "minimizeToTray": "Minimize to Tray"
+                    }
+                },
+                "notification": {
+                    "title": "Notification",
+                    "QLabel": {
+                        "goesToTray": {
+                            "title": "Goes to Tray Notification",
+                            "description": "Determines if a notification will be sent when the app goes to the tray."
+                        }
+                    },
+                    "QToggleButton": {
+                        "goesToTray": "Goes to Tray"
+                    },
+                    "QPushButton": {
+                        "checkAll": "Check All",
+                        "uncheckAll": "Uncheck All",
+                        "invertAll": "Invert All"
+                    }
+                },
+                "data": {
+                    "title": "Data",
+                    "QLabel": {
+                        "clearData": {
+                            "title": "Clear Data",
+                            "description": "Clears all data stored by Sparkamek and restarts the app."
+                        },
+                        "importData": {
+                            "title": "Import Data",
+                            "description": "Imports data from a file and restarts the app. This will overwrite all data."
+                        },
+                        "exportData": {
+                            "title": "Export Data",
+                            "description": "Exports data to a file."
+                        }
+                    },
+                    "QPushButton": {
+                        "clearData": "Clear Data",
+                        "importData": "Import Data",
+                        "exportData": "Export Data"
+                    },
+                    "QFileDialog": {
+                        "importData": "Sparkamek > Settings > Data > Import Data",
+                        "exportData": "Sparkamek > Settings > Data > Export Data"
+                    }
+                }
+            },
+            "QPushButton": {
+                "cancel": "Cancel",
+                "apply": "Apply"
+            }
+        },
+        "QMessageBox": {
+            "critical": {
+                "notImplemented": {
+                    "title": "Sparkamek > Not Implemented Feature",
+                    "text": "This functionality doesn't exist yet and will be\navailable in a later version of the software.",
+                    "details": "Details"
+                }
+            },
+            "warning": {},
+            "information": {
+                "settingsReload": {
+                    "title": "Sparkamek > Settings",
+                    "text": "A restart of the software is necessary in order\nto correctly apply all the settings."
+                }
+            }
+        },
+        "QAbout": {
+            "Sparkamek": {
+                "title": "About Sparkamek",
+                "texts": [
+                    "Sparkamek is an open-source software that allows you manage Kamek 1.3.X projects, which are C++ projects that have for goal to add code to NSMBW.",
+                    "Sparkamek was programmed by %s, is written in Python, uses PySide 6 for the interface and is available for Windows, MacOS and Linux.",
+                    "Go to the %s for more information."
+                ]
+            }
+        },
+        "QMenu": {
+            "about": {
+                "PySide": "About PySide...",
+                "Sparkamek": "About Sparkamek..."
+            },
+            "whatsNew": "What's New...",
+            "changelog": "Changelog...",
+            "reportBug": "Report a Bug...",
+            "donate": {
+                "title": "Donate"
+            }
+        },
+        "QSystemTrayIcon": {
+            "QMenu": {
+                "exit": "Exit"
+            },
+            "showMessage": {
+                "goesToTray": {
+                    "title": "Goes to Tray",
+                    "message": "Sparkamek is still running in the background."
+                }
+            }
+        },
+        "QUpdater": {
+            "title": "Sparkamek Updater",
+            "QLabel": {
+                "downloading": "Downloading... (%s)",
+                "installing": "Installing... (%s)",
+                "calculatingRemainingTime": "Calculating remaining time...",
+                "remainingTime": "Remaining time: %s",
+                "waiting": "Waiting...",
+                "done": "Done",
+                "bytes": "%s/s",
+                "items": "%s packages/s",
+                "eta": "ETA: %s",
+                "days": "%s days",
+                "hours": "%s hours",
+                "minutes": "%s minutes",
+                "seconds": "%s seconds",
+                "day": "%s day",
+                "hour": "%s hour",
+                "minute": "%s minute",
+                "second": "%s second",
+                "undefined": "Undefined"
+            },
+            "QSlidingStackedWidget": {
+                "texts": [
+                    "Sparkamek is being updated to the latest version.",
+                    "Sparkamek allows you to manage your Kamek projects more easily.",
+                    "Don't forget that this app is experimental and that it may contain bugs. Remember to often make backups of your projects, manually or using Git.",
+                    "You already have an advanced project ? No problem, Sparkamek can import it.",
+                    "Sparkamek is not meant to fix bugs in the game, but to add new features. However, you can always use the build-in debugger to help you find bugs.",
+                    "You can choose how often Sparkamek checks for updates in the settings."
+                ]
+            },
+            "QMessageBox": {
+                "critical": {
+                    "downloadFailed": {
+                        "title": "Download Failed",
+                        "text": "An error occurred while downloading the update."
+                    },
+                    "installFailed": {
+                        "title": "Install Failed",
+                        "text": "An error occurred while installing the update."
+                    },
+                    "openAppFailed": {
+                        "title": "Open App Failed",
+                        "text": "An error occurred while opening the app."
+                    },
+                    "appNotFound": {
+                        "title": "App Not Found",
+                        "text": "The app was not found."
+                    }
+                },
+                "warning": {},
+                "information": {}
+            }
+        }
+    }
+}
