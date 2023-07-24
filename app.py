@@ -112,11 +112,39 @@ class Application(QBaseApplication):
         ).exec()
 
     def create_widgets(self) -> None:
-        self.root = QSlidingStackedWidget()
+        self.root = QGridFrame()
+        self.root.grid_layout.setSpacing(0)
+        self.root.grid_layout.setContentsMargins(0, 0, 0, 0)
 
         self.window.setCentralWidget(self.root)
 
+        self.create_top_bar()
+        self.create_main_menu()
 
+
+    def create_top_bar(self) -> None:
+        top_menu = QGridFrame()
+        top_menu.grid_layout.setSpacing(10)
+        top_menu.grid_layout.setContentsMargins(16, 16, 16, 16)
+        top_menu.setProperty('light', True)
+        top_menu.setProperty('border-bottom', True)
+
+        settings_button = QPushButton('Settings')
+        settings_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        # settings_button.setIcon(self.save_data.get_icon('menubar/settings.png', mode = QSaveData.IconMode.Global))
+        # settings_button.setIconSize(QSize(24, 24))
+        settings_button.clicked.connect(self.settings_menu)
+        top_menu.grid_layout.addWidget(settings_button, 0, 0, Qt.AlignmentFlag.AlignRight)
+
+        self.root.grid_layout.addWidget(top_menu, 0, 0, Qt.AlignmentFlag.AlignTop)
+
+
+    def create_main_menu(self) -> None:
+        self.main_menu = QSlidingStackedWidget()
+
+        #todo
+
+        self.root.grid_layout.addWidget(self.main_menu, 1, 0)
 
 
 

@@ -34,12 +34,7 @@ class SaveData(QSaveData):
         super().__init__(save_path)
 
 
-    @property
-    def category_keywords(self) -> list[str]:
-        return [category.keyword for category in self.categories]
-
-
-    def settings_menu_extra(self):
+    def settings_menu_extra(self) -> tuple[dict, callable]:
         return {
             self.language_data['QSettingsDialog']['QSidePanel']['updates']['title']: (self.settings_menu_updates(), f'{self.get_icon_dir()}/sidepanel/updates.png'),
             self.language_data['QSettingsDialog']['QSidePanel']['interface']['title']: (self.settings_menu_interface(), f'{self.get_icon_dir()}/sidepanel/interface.png'),
@@ -48,7 +43,7 @@ class SaveData(QSaveData):
 
 
 
-    def settings_menu_updates(self):
+    def settings_menu_updates(self) -> QScrollableGridWidget:
         lang = self.language_data['QSettingsDialog']['QSidePanel']['updates']
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
@@ -78,8 +73,11 @@ class SaveData(QSaveData):
         root_frame.grid_layout.setAlignment(widget.check_for_updates_combobox, Qt.AlignmentFlag.AlignLeft)
 
 
+        return widget
 
-    def settings_menu_interface(self):
+
+
+    def settings_menu_interface(self) -> QScrollableGridWidget:
         lang = self.language_data['QSettingsDialog']['QSidePanel']['interface']
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
@@ -142,7 +140,7 @@ class SaveData(QSaveData):
 
 
 
-    def settings_menu_notification(self):
+    def settings_menu_notification(self) -> QScrollableGridWidget:
         lang = self.language_data['QSettingsDialog']['QSidePanel']['notification']
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
@@ -157,11 +155,11 @@ class SaveData(QSaveData):
 
         all_checkboxes: list[QNamedToggleButton] = []
 
-        def check_all(checked: bool):
+        def check_all(checked: bool) -> None:
             for checkbox in all_checkboxes:
                 checkbox.setChecked(checked)
 
-        def invert_all():
+        def invert_all() -> None:
             for checkbox in all_checkboxes:
                 checkbox.setChecked(not checkbox.isChecked())
 
@@ -223,7 +221,7 @@ class SaveData(QSaveData):
 
 
 
-    def get_extra(self, extra_tabs: dict = {}):
+    def get_extra(self, extra_tabs: dict = {}) -> None:
         self.check_for_updates = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['updates']['title']].check_for_updates_combobox.combo_box.currentIndex()
 
         self.start_at_launch = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['interface']['title']].start_at_launch_checkbox.isChecked()
