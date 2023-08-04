@@ -28,8 +28,6 @@ class Application(QBaseApplication):
 
     UPDATE_LINK = 'https://github.com/Synell/Sparkamek'
 
-    APP_RELEASES = ['all', 'official', 'pre', 'custom']
-
     def __init__(self, platform: QPlatform) -> None:
         super().__init__(platform = platform, single_instance = True)
 
@@ -130,9 +128,9 @@ class Application(QBaseApplication):
         top_menu.setProperty('border-bottom', True)
 
         settings_button = QPushButton('Settings')
+        settings_button.setProperty('icon-padding', True)
         settings_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        # settings_button.setIcon(self.save_data.get_icon('menubar/settings.png', mode = QSaveData.IconMode.Global))
-        # settings_button.setIconSize(QSize(24, 24))
+        settings_button.setIcon(self.save_data.get_icon('pushbutton/settings.png', mode = QSaveData.IconMode.Local))
         settings_button.clicked.connect(self.settings_menu)
         top_menu.grid_layout.addWidget(settings_button, 0, 0, Qt.AlignmentFlag.AlignRight)
 
