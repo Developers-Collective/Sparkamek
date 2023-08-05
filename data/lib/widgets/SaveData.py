@@ -31,6 +31,8 @@ class SaveData(QSaveData):
 
         self.goes_to_tray_notif = True
 
+        self.projects = []
+
         super().__init__(save_path)
 
 
@@ -256,6 +258,8 @@ class SaveData(QSaveData):
             'compactPaths': self.compact_paths,
 
             'goesToTrayNotif': self.goes_to_tray_notif,
+
+            'projects': self.projects,
         }
 
     def load_extra_data(self, extra_data: dict = ..., reload: list = []) -> bool:
@@ -272,6 +276,8 @@ class SaveData(QSaveData):
         with exc: self.compact_paths = extra_data['compactPaths']
 
         with exc: self.goes_to_tray_notif = extra_data['goesToTrayNotif']
+
+        with exc: self.projects = extra_data['projects']
 
         return res
 

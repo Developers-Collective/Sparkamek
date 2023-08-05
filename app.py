@@ -44,10 +44,15 @@ class Application(QBaseApplication):
 
         self.save_data = SaveData(save_path = os.path.abspath('./data/save.dat').replace('\\', '/'))
 
+        Project.init(self)
+        OpenProjectDialog.init(self)
+
         self.save_data.set_stylesheet(self)
-        self.window.setProperty('color', 'green')
+        self.window.setProperty('color', 'blue')
 
         self.setWindowIcon(QIcon('./data/icons/Sparkamek.svg'))
+
+        self.projects: list[Project] = []
 
         self.load_colors()
         self.create_widgets()
@@ -121,28 +126,126 @@ class Application(QBaseApplication):
 
 
     def create_top_bar(self) -> None:
+        lang = self.save_data.language_data['QMainWindow']['topBar']
+
         top_menu = QGridFrame()
         top_menu.grid_layout.setSpacing(10)
         top_menu.grid_layout.setContentsMargins(16, 16, 16, 16)
         top_menu.setProperty('light', True)
         top_menu.setProperty('border-bottom', True)
 
-        settings_button = QPushButton('Settings')
+
+        left_frame = QGridFrame()
+        left_frame.grid_layout.setSpacing(10)
+        left_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        top_menu.grid_layout.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
+
+        open_project_button = QPushButton(lang['QPushButton']['openProject'])
+        open_project_button.setProperty('icon-padding', True)
+        open_project_button.setProperty('color', 'main')
+        open_project_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        open_project_button.setIcon(self.save_data.get_icon('pushbutton/open.png', mode = QSaveData.IconMode.Local))
+        open_project_button.clicked.connect(self.open_project_clicked)
+        left_frame.grid_layout.addWidget(open_project_button, 0, 0)
+
+        # edit_project_button = QPushButton(lang['QPushButton']['editProject'])
+        # edit_project_button.setProperty('icon-padding', True)
+        # edit_project_button.setProperty('color', 'main')
+        # edit_project_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        # edit_project_button.setIcon(self.save_data.get_icon('pushbutton/edit.png', mode = QSaveData.IconMode.Local))
+        # edit_project_button.clicked.connect(self.not_implemented)
+        # edit_project_button.setDisabled(True)
+        # left_frame.grid_layout.addWidget(edit_project_button, 0, 1)
+
+
+        right_frame = QGridFrame()
+        right_frame.grid_layout.setSpacing(10)
+        right_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        top_menu.grid_layout.addWidget(right_frame, 0, 0, Qt.AlignmentFlag.AlignRight)
+
+        self.update_button = QPushButton(lang['QPushButton']['update'])
+        self.update_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.update_button.clicked.connect(self.update_click)
+        self.update_button.setProperty('color', 'main')
+        self.update_button.setProperty('transparent', True)
+        right_frame.grid_layout.addWidget(self.update_button, 0, 1)
+        self.update_button.setVisible(False)
+
+        settings_button = QPushButton(lang['QPushButton']['settings'])
         settings_button.setProperty('icon-padding', True)
         settings_button.setCursor(Qt.CursorShape.PointingHandCursor)
         settings_button.setIcon(self.save_data.get_icon('pushbutton/settings.png', mode = QSaveData.IconMode.Local))
         settings_button.clicked.connect(self.settings_menu)
-        top_menu.grid_layout.addWidget(settings_button, 0, 0, Qt.AlignmentFlag.AlignRight)
+        right_frame.grid_layout.addWidget(settings_button, 0, 2)
+
 
         self.root.grid_layout.addWidget(top_menu, 0, 0, Qt.AlignmentFlag.AlignTop)
 
 
     def create_main_menu(self) -> None:
+        lang = self.save_data.language_data['QMainWindow']['QSlidingStackedWidget']
+
+        def create_empty_menu() -> QGridFrame:
+            sublang = lang['emptyMenu']
+            w = QGridFrame()
+            w.grid_layout.setSpacing(10)
+            w.grid_layout.setContentsMargins(16, 16, 16, 16)
+
+            frame = QGridFrame()
+            frame.grid_layout.setSpacing(10)
+            frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+
+            icon = QIconWidget(
+                icon = self.save_data.get_icon('mainmenu/empty.png', mode = QSaveData.IconMode.Local),
+                icon_size = QSize(72, 72),
+                check_file = False
+            )
+            frame.grid_layout.addWidget(icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
+
+            label = QLabel(sublang['QLabel']['title'])
+            label.setProperty('h', 2)
+            frame.grid_layout.addWidget(label, 1, 0, Qt.AlignmentFlag.AlignCenter)
+
+            label = QLabel(sublang['QLabel']['text'])
+            label.setProperty('h', 4)
+            frame.grid_layout.addWidget(label, 2, 0, Qt.AlignmentFlag.AlignCenter)
+
+            frame.grid_layout.setRowStretch(3, 1)
+            w.grid_layout.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignCenter)
+
+            return w
+
+
+        def create_projects_menu() -> QSidePanelWidget:
+            sidepanelwidget = QSidePanelWidget(width = 220, direction = QSlidingStackedWidget.Direction.Automatic)
+            sidepanelwidget.setProperty('color', 'main')
+
+            return sidepanelwidget
+
+
         self.main_menu = QSlidingStackedWidget()
 
-        #todo
+        em = create_empty_menu()
+        self.main_menu.addWidget(em)
+
+        self.sidepanelwidget: QSidePanelWidget = create_projects_menu()
+        self.main_menu.addWidget(self.sidepanelwidget)
 
         self.root.grid_layout.addWidget(self.main_menu, 1, 0)
+
+        if not self.save_data.projects: return
+
+        for project in self.save_data.projects:
+            self.projects.append(Project(project = project['data']))
+            self.sidepanelwidget.add_widget(self.projects[-1], project['name'], project['icon'])
+
+        self.main_menu.setCurrentIndex(1)
+
+
+
+    def open_project_clicked(self) -> None:
+        result = OpenProjectDialog(self.window).exec()
+        print(result)
 
 
 

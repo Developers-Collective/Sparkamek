@@ -6,7 +6,103 @@
     },
     "data": {
         "QMainWindow": {
-            "title": "Sparkamek"
+            "title": "Sparkamek",
+            "topBar": {
+                "QPushButton": {
+                    "update": "Update",
+                    "settings": "Settings",
+                    "openProject": "Open Project...",
+                    "editProject": "Edit Project..."
+                }
+            },
+            "QSlidingStackedWidget": {
+                "emptyMenu": {
+                    "QLabel": {
+                        "title": "Seems like you don't have any project opened.",
+                        "text": "You can open a project by clicking on the \"Open Project...\" button."
+                    }
+                },
+                "mainMenu": {
+                    "projects": {
+                        "QTabWidget": {
+                            "loader": "Loader",
+                            "kamek": "Kamek",
+                            "reggieNext": "Reggie Next"
+                        }
+                    }
+                }
+            }
+        },
+        "OpenProjectDialog": {
+            "title": "Sparkamek > Open Project",
+            "QPushButton": {
+                "load": "Load",
+                "cancel": "Cancel",
+                "next": "Next",
+                "back": "Back"
+            },
+            "QSlidingStackedWidget": {
+                "general": {
+                    "QLabel": {
+                        "name": {
+                            "title": "Name",
+                            "description": "The name of the project."
+                        }
+                    },
+                    "QNamedLineEdit": {
+                        "name": "Name"
+                    }
+                },
+                "icon": {
+                    "QLabel": {
+                        "icon": {
+                            "title": "Icon",
+                            "description": "The icon of the project."
+                        },
+                        "predefinedIcons": {
+                            "title": "Predefined Icons",
+                            "description": "A list of predefined icons available for the project."
+                        },
+                        "currentIcon": "Current Icon"
+                    },
+                    "QFileButton": {
+                        "icon": {
+                            "title": "Icon",
+                            "dialog": "Sparkamek > Open Project > Icon"
+                        }
+                    }
+                },
+                "path": {
+                    "QLabel": {
+                        "loaderFile": {
+                            "title": "Loader File",
+                            "description": "The loader assembly file of the project (usually named \"Loader.S\")."
+                        },
+                        "kamekFile": {
+                            "title": "Kamek File",
+                            "description": "The file containing the list of patches of the project (usually named \"NewerProject.yaml\")."
+                        },
+                        "reggieNextFolder": {
+                            "title": "Reggie Next Folder",
+                            "description": "The Reggie Next patch folder of the project, which contains the patch files (like \"spritedata.xml\", \"sprites.py\", etc.)."
+                        }
+                    },
+                    "QFileButton": {
+                        "loaderFile": {
+                            "title": "Loader File",
+                            "dialog": "Sparkamek > Open Project > Loader File"
+                        },
+                        "kamekFile": {
+                            "title": "Kamek File",
+                            "dialog": "Sparkamek > Open Project > Kamek File"
+                        },
+                        "reggieNextFolder": {
+                            "title": "Reggie Next Folder",
+                            "dialog": "Sparkamek > Open Project > Reggie Next Folder"
+                        }
+                    }
+                }
+            }
         },
         "QSettingsDialog": {
             "title": "Sparkamek > Settings",

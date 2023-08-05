@@ -32,6 +32,7 @@ class QSaveData:
         self.path = save_path
         self.lang_folder = lang_folder
         self.themes_folder = themes_folder
+        self.first_time = False
 
         self.load()
 
@@ -45,7 +46,10 @@ class QSaveData:
     def load(self, safe_mode: bool = False, reload: list = []) -> bool:
         res = False
 
-        if not os.path.exists(self.path): self.save()
+        if not os.path.exists(self.path):
+            self.first_time = True
+            self.save()
+
         try:
             with open(self.path, 'r', encoding = 'utf-8') as infile:
                 data = json.load(infile)
