@@ -243,9 +243,30 @@ class Application(QBaseApplication):
 
 
 
+    def add_project(self, project: dict) -> None:
+        self.save_data.projects.append(project)
+        self.projects.append(Project(project = project['data']))
+        self.sidepanelwidget.add_widget(self.projects[-1], project['name'], project['icon'])
+
+        if self.main_menu.current_index == 0: self.main_menu.slide_in_index(1)
+
+        self.save_data.save()
+
+    def remove_project(self, index: int) -> None:
+        self.save_data.projects.pop(index)
+        self.projects.pop(index)
+        self.sidepanelwidget.remove_widget(index)
+
+        if not self.projects:
+            self.main_menu.slide_in_index(0)
+
+        self.save_data.save()
+
     def open_project_clicked(self) -> None:
         result = OpenProjectDialog(self.window).exec()
-        print(result)
+        if not result: return
+
+        self.add_project(result)
 
 
 

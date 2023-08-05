@@ -195,6 +195,10 @@ class QSidePanel(QScrollableGridFrame):
         self._items = []
         self.update()
 
+    def set_item_callback(self, index: int, callback: Callable) -> None:
+        self._items[index].connect = callback
+        self.update()
+
     @property
     def items(self) -> list[QSidePanelItem]:
         return [item for item in self._items]

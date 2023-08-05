@@ -39,6 +39,18 @@ class QSidePanelWidget(QWidget):
         i = self._widget.count() - 1
         self.sidepanel.add_item(QSidePanelItem(title, icon, lambda: self.set_current_index(i)))
 
+    def remove_widget(self, index: int) -> None:
+        self._widget.removeWidget(index)
+        self.sidepanel.remove_item(index)
+
+        for index, item in enumerate(self.sidepanel.items):
+            if type(item) is QSidePanelItem:
+                item.connect = lambda: self.set_current_index(index)
+
+        self.sidepanel.update()
+
+        if self._widget.current_index == index: self.set_current_index(0)
+
     def current_index(self) -> int:
         return self._widget.currentIndex()
 
