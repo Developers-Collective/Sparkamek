@@ -8,5 +8,6 @@ from enum import StrEnum
 class ProjectKeys(StrEnum):
     Loader = 'loader'
     Kamek = 'kamek'
-    Reggie = 'reggieNext'
+    ReggieNext = 'reggieNext'
+    Riivolution = 'riivolution'
 #----------------------------------------------------------------------

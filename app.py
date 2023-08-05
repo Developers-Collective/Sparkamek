@@ -8,6 +8,7 @@ from PySide6.QtSvg import *
 from PySide6.QtSvgWidgets import *
 from math import *
 import os, json, sys
+from contextlib import suppress
 from datetime import datetime, timedelta
 from data.lib import *
 #----------------------------------------------------------------------
@@ -235,13 +236,34 @@ class Application(QBaseApplication):
 
         if not self.save_data.projects: return
 
-        for project in self.save_data.projects:
-            self.projects.append(Project(project = project['data']))
-            self.sidepanelwidget.add_widget(self.projects[-1], project['name'], project['icon'])
+        send_param_edit = lambda i: lambda: self.edit_project(i)
+        send_param_remove = lambda i: lambda: self.remove_project(i)
+
+        for index, project in enumerate(self.save_data.projects):
+            p = Project(project = project['data'])
+            self.projects.append(p)
+            self.sidepanelwidget.add_widget(p, project['name'], project['icon'])
+            p.edit_clicked.connect(send_param_edit(index))
+            p.remove_clicked.connect(send_param_remove(index))
 
         self.main_menu.setCurrentIndex(1)
 
 
+
+    def refresh_project_connections(self) -> None:
+        send_param_edit = lambda i: lambda: self.edit_project(i)
+        send_param_remove = lambda i: lambda: self.remove_project(i)
+
+        exc = suppress(Exception)
+
+        for index, project in enumerate(self.save_data.projects):
+            p = self.projects[index]
+
+            with exc: p.edit_clicked.disconnect()
+            with exc: p.remove_clicked.disconnect()
+
+            p.edit_clicked.connect(send_param_edit(index))
+            p.remove_clicked.connect(send_param_remove(index))
 
     def add_project(self, project: dict) -> None:
         self.save_data.projects.append(project)
@@ -249,6 +271,20 @@ class Application(QBaseApplication):
         self.sidepanelwidget.add_widget(self.projects[-1], project['name'], project['icon'])
 
         if self.main_menu.current_index == 0: self.main_menu.slide_in_index(1)
+
+        self.refresh_project_connections()
+        self.save_data.save()
+
+    def edit_project(self, index: int) -> None:
+        result = OpenProjectDialog(self.window, self.save_data.projects[index]).exec()
+        if not result: return
+
+        self.save_data.projects[index] = result
+        self.sidepanelwidget.sidepanel.item_at(index).icon = result['icon']
+        self.sidepanelwidget.sidepanel.item_at(index).text = result['name']
+        self.sidepanelwidget.sidepanel.update()
+
+        self.projects[index].rebuild(result['data'])
 
         self.save_data.save()
 
@@ -260,7 +296,10 @@ class Application(QBaseApplication):
         if not self.projects:
             self.main_menu.slide_in_index(0)
 
+        self.refresh_project_connections()
         self.save_data.save()
+
+
 
     def open_project_clicked(self) -> None:
         result = OpenProjectDialog(self.window).exec()

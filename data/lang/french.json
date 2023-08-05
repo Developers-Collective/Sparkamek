@@ -27,14 +27,30 @@
                         "QTabWidget": {
                             "loader": "Loader",
                             "kamek": "Kamek",
-                            "reggieNext": "Reggie Next"
+                            "reggieNext": "Reggie Next",
+                            "riivolution": "Riivolution / Jeu"
+                        },
+                        "QMenu": {
+                            "more": {
+                                "QAction": {
+                                    "showLoaderInExplorer": "Afficher le Loader dans l'Explorateur de Fichiers",
+                                    "showKamekInExplorer": "Afficher Kamek dans l'Explorateur de Fichiers",
+                                    "showReggieNextInExplorer": "Afficher Reggie Next dans l'Explorateur de Fichiers",
+                                    "showRiivolutionInExplorer": "Afficher Riivolution dans l'Explorateur de Fichiers",
+                                    "edit": "Éditer...",
+                                    "remove": "Supprimer"
+                                }
+                            }
                         }
                     }
                 }
             }
         },
         "OpenProjectDialog": {
-            "title": "Sparkamek > Ouvrir un Projet",
+            "title": {
+                "open": "Sparkamek > Ouvrir un Projet",
+                "edit": "Sparkamek > Éditer un Projet"
+            },
             "QPushButton": {
                 "load": "Charger",
                 "cancel": "Annuler",
@@ -72,33 +88,75 @@
                         }
                     }
                 },
-                "path": {
+                "loader": {
                     "QLabel": {
                         "loaderFile": {
                             "title": "Fichier Loader",
                             "description": "Le fichier assembleur du projet (généralement nommé \"Loader.S\")."
+                        }
+                    },
+                    "QFileButton": {
+                        "openLoaderFile": {
+                            "title": "Fichier Loader",
+                            "dialog": "Sparkamek > Ouvrir un Projet > Fichier Loader"
                         },
+                        "editLoaderFile": {
+                            "title": "Fichier Loader",
+                            "dialog": "Sparkamek > Éditer un Projet > Fichier Loader"
+                        }
+                    }
+                },
+                "kamek": {
+                    "QLabel": {
                         "kamekFile": {
                             "title": "Fichier Kamek",
                             "description": "Le fichier contenant la liste des patchs du projet (généralement nommé \"NewerProject.yaml\")."
+                        }
+                    },
+                    "QFileButton": {
+                        "openKamekFile": {
+                            "title": "Fichier Kamek",
+                            "dialog": "Sparkamek > Ouvrir un Projet > Fichier Kamek"
                         },
+                        "editKamekFile": {
+                            "title": "Fichier Kamek",
+                            "dialog": "Sparkamek > Éditer un Projet > Fichier Kamek"
+                        }
+                    }
+                },
+                "reggieNext": {
+                    "QLabel": {
                         "reggieNextFolder": {
                             "title": "Dossier Reggie Next",
                             "description": "Le dossier contenant les patchs de Reggie Next du projet (comme \"spritedata.xml\", \"sprites.py\", etc.)."
                         }
                     },
                     "QFileButton": {
-                        "loaderFile": {
-                            "title": "Fichier Loader",
-                            "dialog": "Sparkamek > Ouvrir un Projet > Fichier Loader"
-                        },
-                        "kamekFile": {
-                            "title": "Fichier Kamek",
-                            "dialog": "Sparkamek > Ouvrir un Projet > Fichier Kamek"
-                        },
-                        "reggieNextFolder": {
+                        "openReggieNextFolder": {
                             "title": "Dossier Reggie Next",
                             "dialog": "Sparkamek > Ouvrir un Projet > Dossier Reggie Next"
+                        },
+                        "editReggieNextFolder": {
+                            "title": "Dossier Reggie Next",
+                            "dialog": "Sparkamek > Éditer un Projet > Dossier Reggie Next"
+                        }
+                    }
+                },
+                "riivolution": {
+                    "QLabel": {
+                        "riivolutionFile": {
+                            "title": "Fichier Riivolution",
+                            "description": "Le fichier Riivolution du projet (généralement nommé \"NewerSMBW.xml\")."
+                        }
+                    },
+                    "QFileButton": {
+                        "openRiivolutionFile": {
+                            "title": "Fichier Riivolution",
+                            "dialog": "Sparkamek > Ouvrir un Projet > Fichier Riivolution"
+                        },
+                        "editRiivolutionFile": {
+                            "title": "Fichier Riivolution",
+                            "dialog": "Sparkamek > Éditer un Projet > Fichier Riivolution"
                         }
                     }
                 }

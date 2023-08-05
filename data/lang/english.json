@@ -27,14 +27,30 @@
                         "QTabWidget": {
                             "loader": "Loader",
                             "kamek": "Kamek",
-                            "reggieNext": "Reggie Next"
+                            "reggieNext": "Reggie Next",
+                            "riivolution": "Riivolution / Game"
+                        },
+                        "QMenu": {
+                            "more": {
+                                "QAction": {
+                                    "showLoaderInExplorer": "Show Loader in File Explorer",
+                                    "showKamekInExplorer": "Show Kamek in File Explorer",
+                                    "showReggieNextInExplorer": "Show Reggie Next in File Explorer",
+                                    "showRiivolutionInExplorer": "Show Riivolution in File Explorer",
+                                    "edit": "Edit...",
+                                    "remove": "Remove"
+                                }
+                            }
                         }
                     }
                 }
             }
         },
         "OpenProjectDialog": {
-            "title": "Sparkamek > Open Project",
+            "title": {
+                "open": "Sparkamek > Open Project",
+                "edit": "Sparkamek > Edit Project"
+            },
             "QPushButton": {
                 "load": "Load",
                 "cancel": "Cancel",
@@ -72,33 +88,75 @@
                         }
                     }
                 },
-                "path": {
+                "loader": {
                     "QLabel": {
                         "loaderFile": {
                             "title": "Loader File",
                             "description": "The loader assembly file of the project (usually named \"Loader.S\")."
+                        }
+                    },
+                    "QFileButton": {
+                        "openLoaderFile": {
+                            "title": "Loader File",
+                            "dialog": "Sparkamek > Open Project > Loader File"
                         },
+                        "editLoaderFile": {
+                            "title": "Loader File",
+                            "dialog": "Sparkamek > Edit Project > Loader File"
+                        }
+                    }
+                },
+                "kamek": {
+                    "QLabel": {
                         "kamekFile": {
                             "title": "Kamek File",
                             "description": "The file containing the list of patches of the project (usually named \"NewerProject.yaml\")."
+                        }
+                    },
+                    "QFileButton": {
+                        "openKamekFile": {
+                            "title": "Kamek File",
+                            "dialog": "Sparkamek > Open Project > Kamek File"
                         },
+                        "editKamekFile": {
+                            "title": "Kamek File",
+                            "dialog": "Sparkamek > Edit Project > Kamek File"
+                        }
+                    }
+                },
+                "reggieNext": {
+                    "QLabel": {
                         "reggieNextFolder": {
                             "title": "Reggie Next Folder",
                             "description": "The Reggie Next patch folder of the project, which contains the patch files (like \"spritedata.xml\", \"sprites.py\", etc.)."
                         }
                     },
                     "QFileButton": {
-                        "loaderFile": {
-                            "title": "Loader File",
-                            "dialog": "Sparkamek > Open Project > Loader File"
-                        },
-                        "kamekFile": {
-                            "title": "Kamek File",
-                            "dialog": "Sparkamek > Open Project > Kamek File"
-                        },
-                        "reggieNextFolder": {
+                        "openReggieNextFolder": {
                             "title": "Reggie Next Folder",
                             "dialog": "Sparkamek > Open Project > Reggie Next Folder"
+                        },
+                        "editReggieNextFolder": {
+                            "title": "Reggie Next Folder",
+                            "dialog": "Sparkamek > Edit Project > Reggie Next Folder"
+                        }
+                    }
+                },
+                "riivolution": {
+                    "QLabel": {
+                        "riivolutionFile": {
+                            "title": "Riivolution File",
+                            "description": "The Riivolution XML file of the project (usually named \"NewerSMBW.xml\")."
+                        }
+                    },
+                    "QFileButton": {
+                        "openRiivolutionFile": {
+                            "title": "Riivolution File",
+                            "dialog": "Sparkamek > Open Project > Riivolution File"
+                        },
+                        "editRiivolutionFile": {
+                            "title": "Riivolution File",
+                            "dialog": "Sparkamek > Edit Project > Riivolution File"
                         }
                     }
                 }

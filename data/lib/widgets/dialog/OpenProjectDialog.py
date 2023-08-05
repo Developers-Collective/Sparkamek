@@ -28,8 +28,10 @@ class OpenProjectDialog(QDialog):
         OpenProjectDialog._open_file_icon = f'{app.save_data.get_icon_dir()}filebutton/file.png'
         OpenProjectDialog._open_folder_icon = f'{app.save_data.get_icon_dir()}filebutton/folder.png'
 
-    def __init__(self, parent = None) -> None:
+    def __init__(self, parent = None, data: dict = None) -> None:
         super().__init__(parent)
+
+        self._data = data
 
         self._layout = QGridLayout()
         self._layout.setSpacing(0)
@@ -52,7 +54,7 @@ class OpenProjectDialog(QDialog):
         self._load_button.setProperty('color', 'main')
         right_buttons.grid_layout.addWidget(self._load_button, 0, 1)
 
-        self.setWindowTitle(self._lang['title'])
+        self.setWindowTitle(self._lang['title']['edit' if data else 'open'])
 
         self._root = QSlidingStackedWidget()
         self._root.set_orientation(Qt.Orientation.Horizontal)
@@ -69,8 +71,17 @@ class OpenProjectDialog(QDialog):
         self._pages['icon'] = self._menu_icon()
         self._root.addWidget(self._pages['icon'])
 
-        self._pages['path'] = self._menu_path()
-        self._root.addWidget(self._pages['path'])
+        self._pages['loader'] = self._menu_loader()
+        self._root.addWidget(self._pages['loader'])
+
+        self._pages['kamek'] = self._menu_kamek()
+        self._root.addWidget(self._pages['kamek'])
+
+        self._pages['reggienext'] = self._menu_reggienext()
+        self._root.addWidget(self._pages['reggienext'])
+
+        self._pages['riivolution'] = self._menu_riivolution()
+        self._root.addWidget(self._pages['riivolution'])
 
         self._frame = QGridFrame()
         self._frame.grid_layout.addWidget(right_buttons, 0, 0)
@@ -108,7 +119,7 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         self.name_entry = QNamedLineEdit(None, '', lang['QNamedLineEdit']['name'])
-        self.name_entry.setText('Project')
+        self.name_entry.setText(self._data['name'] if self._data else 'Project')
         root_frame.grid_layout.addWidget(self.name_entry, root_frame.grid_layout.count(), 0)
 
 
@@ -119,7 +130,7 @@ class OpenProjectDialog(QDialog):
     def _menu_icon(self) -> QWidget:
         lang = self._lang['QSlidingStackedWidget']['icon']
 
-        self.raw_icon = os.path.abspath('./data/icons/questionMark.svg')
+        self.raw_icon = self._data['icon'] if self._data else os.path.abspath('./data/icons/questionMark.svg')
 
         widget = QGridFrame()
         widget.grid_layout.setSpacing(16)
@@ -181,8 +192,10 @@ class OpenProjectDialog(QDialog):
 
 
 
-    def _menu_path(self) -> QWidget:
-        lang = self._lang['QSlidingStackedWidget']['path']
+    def _menu_loader(self) -> QWidget:
+        loader_data = self._data['data'].get(ProjectKeys.Loader.value, None) if self._data else None
+
+        lang = self._lang['QSlidingStackedWidget']['loader']
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
         widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
@@ -197,15 +210,16 @@ class OpenProjectDialog(QDialog):
         label = OpenProjectDialog._text_group(lang['QLabel']['loaderFile']['title'], lang['QLabel']['loaderFile']['description'])
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
+        kw = ('edit' if loader_data else 'open') + 'LoaderFile'
         l = {
-            "title": lang['QFileButton']['loaderFile']['title'],
-            "dialog": lang['QFileButton']['loaderFile']['dialog']
+            "title": lang['QFileButton'][kw]['title'],
+            "dialog": lang['QFileButton'][kw]['dialog']
         }
 
         self.loader_file_button = QFileButton(
             None,
             l,
-            None,
+            loader_data['path'] if loader_data else None,
             self._open_file_icon,
             QFiles.Dialog.OpenFileName,
             'All supported files (*.s *.S);;ASM (*.s *.S)'
@@ -215,24 +229,38 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.setAlignment(self.loader_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
-        frame = QFrame()
-        frame.setProperty('border-top', True)
-        frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        return widget
+
+
+
+    def _menu_kamek(self) -> QWidget:
+        kamek_data = self._data['data'].get(ProjectKeys.Kamek.value, None) if self._data else None
+
+        lang = self._lang['QSlidingStackedWidget']['kamek']
+        widget = QScrollableGridWidget()
+        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        root_frame = QGridFrame()
+        root_frame.grid_layout.setSpacing(16)
+        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
         label = OpenProjectDialog._text_group(lang['QLabel']['kamekFile']['title'], lang['QLabel']['kamekFile']['description'])
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
+        kw = ('edit' if kamek_data else 'open') + 'KamekFile'
         l = {
-            "title": lang['QFileButton']['kamekFile']['title'],
-            "dialog": lang['QFileButton']['kamekFile']['dialog']
+            "title": lang['QFileButton'][kw]['title'],
+            "dialog": lang['QFileButton'][kw]['dialog']
         }
 
         self.kamek_file_button = QFileButton(
             None,
             l,
-            None,
+            kamek_data['path'] if kamek_data else None,
             self._open_file_icon,
             QFiles.Dialog.OpenFileName,
             'All supported files (*.yaml *.yml);;YAML (*.yaml *.yml)'
@@ -242,30 +270,85 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.setAlignment(self.kamek_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
-        frame = QFrame()
-        frame.setProperty('border-top', True)
-        frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        return widget
+
+
+
+    def _menu_reggienext(self) -> QWidget:
+        reggienext_data = self._data['data'].get(ProjectKeys.ReggieNext.value, None) if self._data else None
+
+        lang = self._lang['QSlidingStackedWidget']['reggieNext']
+        widget = QScrollableGridWidget()
+        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        root_frame = QGridFrame()
+        root_frame.grid_layout.setSpacing(16)
+        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
         label = OpenProjectDialog._text_group(lang['QLabel']['reggieNextFolder']['title'], lang['QLabel']['reggieNextFolder']['description'])
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
+        kw = ('edit' if reggienext_data else 'open') + 'ReggieNextFolder'
         l = {
-            "title": lang['QFileButton']['reggieNextFolder']['title'],
-            "dialog": lang['QFileButton']['reggieNextFolder']['dialog']
+            "title": lang['QFileButton'][kw]['title'],
+            "dialog": lang['QFileButton'][kw]['dialog']
         }
 
         self.reggie_folder_button = QFileButton(
             None,
             l,
-            None,
+            reggienext_data['path'] if reggienext_data else None,
             self._open_folder_icon,
             QFiles.Dialog.ExistingDirectory
         )
         self.reggie_folder_button.setFixedWidth(350)
         root_frame.grid_layout.addWidget(self.reggie_folder_button, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(self.reggie_folder_button, Qt.AlignmentFlag.AlignLeft)
+
+
+        return widget
+
+
+
+    def _menu_riivolution(self) -> QWidget:
+        riivolution_data = self._data['data'].get(ProjectKeys.Riivolution.value, None) if self._data else None
+
+        lang = self._lang['QSlidingStackedWidget']['riivolution']
+        widget = QScrollableGridWidget()
+        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        root_frame = QGridFrame()
+        root_frame.grid_layout.setSpacing(16)
+        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+
+
+        label = OpenProjectDialog._text_group(lang['QLabel']['riivolutionFile']['title'], lang['QLabel']['riivolutionFile']['description'])
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        kw = ('edit' if riivolution_data else 'open') + 'RiivolutionFile'
+        l = {
+            "title": lang['QFileButton'][kw]['title'],
+            "dialog": lang['QFileButton'][kw]['dialog']
+        }
+
+        self.riivolution_file_button = QFileButton(
+            None,
+            l,
+            riivolution_data['path'] if riivolution_data else None,
+            self._open_file_icon,
+            QFiles.Dialog.OpenFileName,
+            'All supported files (*.xml);;XML (*.xml)'
+        )
+        self.riivolution_file_button.setFixedWidth(350)
+        root_frame.grid_layout.addWidget(self.riivolution_file_button, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(self.riivolution_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
         return widget
@@ -364,15 +447,45 @@ class OpenProjectDialog(QDialog):
         else:
             self._cancel_button.setText(self._lang['QPushButton']['back'])
 
+    def _get_loader(self) -> dict | None:
+        if self.loader_file_button.path() in ['', '.', './']: return None
+
+        return {
+            'path': self.loader_file_button.path()
+        }
+    
+    def _get_kamek(self) -> dict | None:
+        if self.kamek_file_button.path() in ['', '.', './']: return None
+
+        return {
+            'path': self.kamek_file_button.path()
+        }
+    
+    def _get_reggienext(self) -> dict | None:
+        if self.reggie_folder_button.path() in ['', '.', './']: return None
+
+        return {
+            'path': self.reggie_folder_button.path()
+        }
+    
+    def _get_riivolution(self) -> dict | None:
+        if self.riivolution_file_button.path() in ['', '.', './']: return None
+
+        return {
+            'path': self.riivolution_file_button.path()
+        }
+
+
     def exec(self) -> dict | None:
         if super().exec():
             return {
                 'name': self.name_entry.text() if self.name_entry.text() else 'Project',
                 'icon': self.icon_button.path() if self.icon_button.path() not in ['', '.', './'] else None,
                 'data': {
-                    ProjectKeys.Loader.value: self.loader_file_button.path() if self.loader_file_button.path() not in ['', '.', './'] else None,
-                    ProjectKeys.Kamek.value: self.kamek_file_button.path() if self.kamek_file_button.path() not in ['', '.', './'] else None,
-                    ProjectKeys.Reggie.value: self.reggie_folder_button.path() if self.reggie_folder_button.path() not in ['', '.', './'] else None
+                    ProjectKeys.Loader.value: self._get_loader(),
+                    ProjectKeys.Kamek.value: self._get_kamek(),
+                    ProjectKeys.ReggieNext.value: self._get_reggienext(),
+                    ProjectKeys.Riivolution.value: self._get_riivolution()
                 }
             }
         return None
