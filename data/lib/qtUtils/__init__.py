@@ -50,4 +50,7 @@ from .QSavableDockWidget import QSavableDockWidget
 # from .QMemoryCondition import QMemoryCondition
 from .QIconLabel import QIconLabel
 from .QMoreButton import QMoreButton
+from .QSubMainWindow import QSubMainWindow
+from .QSubGridMainWindow import QSubGridMainWindow
+from .QSubScrollableGridMainWindow import QSubScrollableGridMainWindow
 #----------------------------------------------------------------------

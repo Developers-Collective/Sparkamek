@@ -1,56 +1,17 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu
+from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu, QMainWindow
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QIcon, QAction
 from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QBaseApplication
 from .ProjectKeys import ProjectKeys
-from .dialog import OpenProjectDialog
+from .project import *
 
 import subprocess
 #----------------------------------------------------------------------
 
     # Class
-class SubProjectWidgetBase(QGridWidget):
-    def __init__(self, data: dict) -> None:
-        super().__init__(None)
-        self._path = data['path']
-
-    @property
-    def path(self) -> str:
-        return self._path
-
-    def export(self) -> dict:
-        return {
-            'path': self._path
-        }
-
-
-class LoaderWidget(SubProjectWidgetBase):
-    def __init__(self, data: dict) -> None:
-        super().__init__(data)
-
-
-
-class KamekWidget(SubProjectWidgetBase):
-    def __init__(self, data: dict) -> None:
-        super().__init__(data)
-
-
-
-class ReggieNextWidget(SubProjectWidgetBase):
-    def __init__(self, data: dict) -> None:
-        super().__init__(data)
-
-
-
-class RiivolutionWidget(SubProjectWidgetBase):
-    def __init__(self, data: dict) -> None:
-        super().__init__(data)
-
-
-
 class Project(QGridWidget):
     class TabInfo:
         def __init__(self, widget: QWidget, key: str, index: str) -> None:
@@ -63,6 +24,7 @@ class Project(QGridWidget):
 
     _lang = {}
 
+    _base_app: QBaseApplication = None
     _more_icon = None
     _show_in_explorer_icon = None
     _edit_icon = None
@@ -70,6 +32,7 @@ class Project(QGridWidget):
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
+        Project._base_app = app
         Project._lang = app.save_data.language_data['QMainWindow']['QSlidingStackedWidget']['mainMenu']['projects']
         Project._more_icon = QIcon(f'{app.save_data.get_icon_dir()}pushbutton/more.png')
         Project._show_in_explorer_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/showInExplorer.png')
@@ -77,8 +40,9 @@ class Project(QGridWidget):
         Project._remove_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/remove.png')
 
 
-    def __init__(self, parent = None, project: dict = None) -> None:
-        super().__init__(parent)
+    def __init__(self, project: dict = None) -> None:
+        super().__init__()
+
         self._load_project(project)
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
@@ -88,7 +52,7 @@ class Project(QGridWidget):
 
     def _build(self, project: dict) -> None:
         top_frame = QGridWidget()
-        top_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        top_frame.grid_layout.setContentsMargins(16, 16, 16, 0)
         top_frame.grid_layout.setSpacing(0)
         self.grid_layout.addWidget(top_frame, 0, 0)
 
@@ -104,24 +68,26 @@ class Project(QGridWidget):
 
         self._tabs: dict[int, Project.TabInfo] = {}
 
-        for tab in [
+        for tab, w in [
             s for s in [
-                ProjectKeys.Loader.value,
-                ProjectKeys.Kamek.value,
-                ProjectKeys.ReggieNext.value,
-                ProjectKeys.Riivolution.value
-            ] if project.get(s, None)
+                (ProjectKeys.Loader.value, self._loader),
+                (ProjectKeys.Kamek.value, self._kamek),
+                (ProjectKeys.ReggieNext.value, self._reggie_next),
+                (ProjectKeys.Riivolution.value, self._riivolution)
+            ] if project.get(s[0], None)
         ]:
             widget = QWidget()
             widget.setFixedHeight(1)
             i = self._notebook.addTab(widget, self._lang['QTabWidget'][tab])
 
-            sw = QScrollableGridWidget()
-            self._notebook_tabs.addWidget(sw)
-            sw.scroll_layout.setAlignment(sw, Qt.AlignmentFlag.AlignTop)
-            sw.scroll_layout.setSpacing(1)
+            gw = QGridWidget()
+            gw.grid_layout.setContentsMargins(0, 0, 0, 0)
+            gw.grid_layout.addWidget(w)
+            self._notebook_tabs.addWidget(gw)
+            gw.grid_layout.setAlignment(gw, Qt.AlignmentFlag.AlignTop)
+            gw.grid_layout.setSpacing(1)
 
-            self._tabs[tab] = Project.TabInfo(sw, tab, i)
+            self._tabs[tab] = Project.TabInfo(gw, tab, i)
 
         self._notebook.currentChanged.connect(self._tab_switch_index)
 
@@ -140,13 +106,14 @@ class Project(QGridWidget):
                 self.grid_layout.removeWidget(w)
                 w.deleteLater()
 
+        self._load_project(project)
         self._build(project)
 
     def _load_project(self, project: dict) -> None:
-        self._loader = LoaderWidget(project[ProjectKeys.Loader]) if project.get(ProjectKeys.Loader, None) else None
-        self._kamek = KamekWidget(project[ProjectKeys.Kamek]) if project.get(ProjectKeys.Kamek, None) else None
-        self._reggie_next = ReggieNextWidget(project[ProjectKeys.ReggieNext]) if project.get(ProjectKeys.ReggieNext, None) else None
-        self._riivolution = RiivolutionWidget(project[ProjectKeys.Riivolution]) if project.get(ProjectKeys.Riivolution, None) else None
+        self._loader = LoaderWidget(self._base_app, project[ProjectKeys.Loader]) if project.get(ProjectKeys.Loader, None) else None
+        self._kamek = KamekWidget(self._base_app, project[ProjectKeys.Kamek]) if project.get(ProjectKeys.Kamek, None) else None
+        self._reggie_next = ReggieNextWidget(self._base_app, project[ProjectKeys.ReggieNext]) if project.get(ProjectKeys.ReggieNext, None) else None
+        self._riivolution = RiivolutionWidget(self._base_app, project[ProjectKeys.Riivolution]) if project.get(ProjectKeys.Riivolution, None) else None
 
     def save_project(self) -> dict:
         return {

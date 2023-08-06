@@ -12,7 +12,7 @@ from .QGridWidget import QGridWidget
 class QSidePanelWidget(QWidget):
     current_index_changed = Signal(int)
 
-    def __init__(self, parent = None, width: int = 120, direction: QSlidingStackedWidget.Direction = QSlidingStackedWidget.Direction.Bottom2Top) -> None:
+    def __init__(self, parent = None, width: int = 120, direction: QSlidingStackedWidget.Direction = QSlidingStackedWidget.Direction.Bottom2Top, content_margins: tuple = (16, 16, 16, 16)) -> None:
         super().__init__(parent)
         self._layout = QGridLayout(self)
         self._direction = direction
@@ -22,7 +22,7 @@ class QSidePanelWidget(QWidget):
 
         w = QGridWidget()
         w.grid_layout.setSpacing(0)
-        w.grid_layout.setContentsMargins(16, 16, 16, 16)
+        w.grid_layout.setContentsMargins(*content_margins)
 
         self._widget = QSlidingStackedWidget()
         self._widget.set_orientation(Qt.Orientation.Vertical)

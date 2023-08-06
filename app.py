@@ -218,7 +218,7 @@ class Application(QBaseApplication):
 
 
         def create_projects_menu() -> QSidePanelWidget:
-            sidepanelwidget = QSidePanelWidget(width = 220, direction = QSlidingStackedWidget.Direction.Automatic)
+            sidepanelwidget = QSidePanelWidget(width = 220, direction = QSlidingStackedWidget.Direction.Bottom2Top, content_margins = (0, 0, 0, 0))
             sidepanelwidget.setProperty('color', 'main')
 
             return sidepanelwidget
