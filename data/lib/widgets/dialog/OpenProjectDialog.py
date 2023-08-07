@@ -23,7 +23,7 @@ class OpenProjectDialog(QDialog):
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        OpenProjectDialog._lang = app.save_data.language_data['OpenProjectDialog']
+        OpenProjectDialog._lang = app.get_lang_data('OpenProjectDialog')
         OpenProjectDialog._open_image_icon = f'{app.save_data.get_icon_dir()}filebutton/image.png'
         OpenProjectDialog._open_file_icon = f'{app.save_data.get_icon_dir()}filebutton/file.png'
         OpenProjectDialog._open_folder_icon = f'{app.save_data.get_icon_dir()}filebutton/folder.png'

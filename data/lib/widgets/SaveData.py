@@ -36,17 +36,17 @@ class SaveData(QSaveData):
         super().__init__(save_path)
 
 
-    def settings_menu_extra(self) -> tuple[dict, callable]:
+    def _settings_menu_extra(self) -> tuple[dict, callable]:
         return {
-            self.language_data['QSettingsDialog']['QSidePanel']['updates']['title']: (self.settings_menu_updates(), f'{self.get_icon_dir()}/sidepanel/updates.png'),
-            self.language_data['QSettingsDialog']['QSidePanel']['interface']['title']: (self.settings_menu_interface(), f'{self.get_icon_dir()}/sidepanel/interface.png'),
-            self.language_data['QSettingsDialog']['QSidePanel']['notification']['title']: (self.settings_menu_notification(), f'{self.get_icon_dir()}/sidepanel/notification.png'),
+            self.get_lang_data('QSettingsDialog.QSidePanel.updates.title'): (self.settings_menu_updates(), f'{self.get_icon_dir()}/sidepanel/updates.png'),
+            self.get_lang_data('QSettingsDialog.QSidePanel.interface.title'): (self.settings_menu_interface(), f'{self.get_icon_dir()}/sidepanel/interface.png'),
+            self.get_lang_data('QSettingsDialog.QSidePanel.notification.title'): (self.settings_menu_notification(), f'{self.get_icon_dir()}/sidepanel/notification.png'),
         }, self.get_extra
 
 
 
     def settings_menu_updates(self) -> QScrollableGridWidget:
-        lang = self.language_data['QSettingsDialog']['QSidePanel']['updates']
+        lang = self.get_lang_data('QSettingsDialog.QSidePanel.updates')
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
         widget.scroll_layout.setContentsMargins(0, 0, 0, 0)
@@ -59,16 +59,16 @@ class SaveData(QSaveData):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = QSettingsDialog._text_group(lang['QLabel']['checkForUpdates']['title'], lang['QLabel']['checkForUpdates']['description'])
+        label = QSettingsDialog._text_group(lang.get_data('QLabel.checkForUpdates.title'), lang.get_data('QLabel.checkForUpdates.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        widget.check_for_updates_combobox = QNamedComboBox(None, lang['QNamedComboBox']['checkForUpdates']['title'])
+        widget.check_for_updates_combobox = QNamedComboBox(None, lang.get_data('QNamedComboBox.checkForUpdates.title'))
         widget.check_for_updates_combobox.combo_box.addItems([
-            lang['QNamedComboBox']['checkForUpdates']['values']['never'],
-            lang['QNamedComboBox']['checkForUpdates']['values']['daily'],
-            lang['QNamedComboBox']['checkForUpdates']['values']['weekly'],
-            lang['QNamedComboBox']['checkForUpdates']['values']['monthly'],
-            lang['QNamedComboBox']['checkForUpdates']['values']['atLaunch']
+            lang.get_data('QNamedComboBox.checkForUpdates.values.never'),
+            lang.get_data('QNamedComboBox.checkForUpdates.values.daily'),
+            lang.get_data('QNamedComboBox.checkForUpdates.values.weekly'),
+            lang.get_data('QNamedComboBox.checkForUpdates.values.monthly'),
+            lang.get_data('QNamedComboBox.checkForUpdates.values.atLaunch')
         ])
         widget.check_for_updates_combobox.combo_box.setCurrentIndex(self.check_for_updates)
         root_frame.grid_layout.addWidget(widget.check_for_updates_combobox, root_frame.grid_layout.count(), 0)
@@ -80,7 +80,7 @@ class SaveData(QSaveData):
 
 
     def settings_menu_interface(self) -> QScrollableGridWidget:
-        lang = self.language_data['QSettingsDialog']['QSidePanel']['interface']
+        lang = self.get_lang_data('QSettingsDialog.QSidePanel.interface')
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
         widget.scroll_layout.setContentsMargins(0, 0, 0, 0)
@@ -92,11 +92,11 @@ class SaveData(QSaveData):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        # label = QSettingsDialog.textGroup(lang['QLabel']['startAtLaunch']['title'], lang['QLabel']['startAtLaunch']['description'])
+        # label = QSettingsDialog.textGroup(lang.get_data('QLabel.startAtLaunch.title'), lang.get_data('QLabel.startAtLaunch.description'))
         # root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.start_at_launch_checkbox = QNamedToggleButton()
-        widget.start_at_launch_checkbox.setText(lang['QToggleButton']['startAtLaunch'])
+        widget.start_at_launch_checkbox.setText(lang.get_data('QToggleButton.startAtLaunch'))
         widget.start_at_launch_checkbox.setChecked(self.start_at_launch)
         # root_frame.grid_layout.addWidget(widget.start_at_launch_checkbox, root_frame.grid_layout.count(), 0)
         # root_frame.grid_layout.setAlignment(widget.start_at_launch_checkbox, Qt.AlignmentFlag.AlignLeft)
@@ -108,11 +108,11 @@ class SaveData(QSaveData):
         # root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = QSettingsDialog._text_group(lang['QLabel']['minimizeToTray']['title'], lang['QLabel']['minimizeToTray']['description'])
+        label = QSettingsDialog._text_group(lang.get_data('QLabel.minimizeToTray.title'), lang.get_data('QLabel.minimizeToTray.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.minimize_to_tray_checkbox = QNamedToggleButton()
-        widget.minimize_to_tray_checkbox.setText(lang['QToggleButton']['minimizeToTray'])
+        widget.minimize_to_tray_checkbox.setText(lang.get_data('QToggleButton.minimizeToTray'))
         widget.minimize_to_tray_checkbox.setChecked(self.minimize_to_tray)
         root_frame.grid_layout.addWidget(widget.minimize_to_tray_checkbox, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(widget.minimize_to_tray_checkbox, Qt.AlignmentFlag.AlignLeft)
@@ -124,14 +124,14 @@ class SaveData(QSaveData):
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = QSettingsDialog._text_group(lang['QLabel']['compactPaths']['title'], lang['QLabel']['compactPaths']['description'])
+        label = QSettingsDialog._text_group(lang.get_data('QLabel.compactPaths.title'), lang.get_data('QLabel.compactPaths.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        widget.compact_paths_combobox = QNamedComboBox(None, lang['QNamedComboBox']['compactPaths']['title'])
+        widget.compact_paths_combobox = QNamedComboBox(None, lang.get_data('QNamedComboBox.compactPaths.title'))
         widget.compact_paths_combobox.combo_box.addItems([
-            lang['QNamedComboBox']['compactPaths']['values']['auto'],
-            lang['QNamedComboBox']['compactPaths']['values']['enabled'],
-            lang['QNamedComboBox']['compactPaths']['values']['disabled']
+            lang.get_data('QNamedComboBox.compactPaths.values.auto'),
+            lang.get_data('QNamedComboBox.compactPaths.values.enabled'),
+            lang.get_data('QNamedComboBox.compactPaths.values.disabled')
         ])
         widget.compact_paths_combobox.combo_box.setCurrentIndex(self.compact_paths)
         root_frame.grid_layout.addWidget(widget.compact_paths_combobox, root_frame.grid_layout.count(), 0)
@@ -143,7 +143,7 @@ class SaveData(QSaveData):
 
 
     def settings_menu_notification(self) -> QScrollableGridWidget:
-        lang = self.language_data['QSettingsDialog']['QSidePanel']['notification']
+        lang = self.get_lang_data('QSettingsDialog.QSidePanel.notification')
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(0)
         widget.scroll_layout.setContentsMargins(0, 0, 0, 0)
@@ -171,19 +171,19 @@ class SaveData(QSaveData):
         root_frame.grid_layout.addWidget(buttonframe, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(buttonframe, Qt.AlignmentFlag.AlignTop)
 
-        button = QPushButton(lang['QPushButton']['checkAll'])
+        button = QPushButton(lang.get_data('QPushButton.checkAll'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.setProperty('color', 'main')
         button.clicked.connect(lambda: check_all(True))
         buttonframe.grid_layout.addWidget(button, 0, buttonframe.grid_layout.count())
 
-        button = QPushButton(lang['QPushButton']['uncheckAll'])
+        button = QPushButton(lang.get_data('QPushButton.uncheckAll'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.setProperty('color', 'main')
         button.clicked.connect(lambda: check_all(False))
         buttonframe.grid_layout.addWidget(button, 0, buttonframe.grid_layout.count())
 
-        button = QPushButton(lang['QPushButton']['invertAll'])
+        button = QPushButton(lang.get_data('QPushButton.invertAll'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.setProperty('color', 'main')
         button.clicked.connect(lambda: invert_all())
@@ -203,11 +203,11 @@ class SaveData(QSaveData):
             frame.setFixedHeight(1)
             subframe.grid_layout.addWidget(frame, subframe.grid_layout.count(), 0)
 
-            label = QSettingsDialog._text_group(lang['QLabel'][key]['title'], lang['QLabel'][key]['description'])
+            label = QSettingsDialog._text_group(lang.get_data(f'QLabel.{key}.title'), lang.get_data(f'QLabel.{key}.description'))
             subframe.grid_layout.addWidget(label, subframe.grid_layout.count(), 0)
 
             w = QNamedToggleButton()
-            w.setText(lang['QToggleButton'][key])
+            w.setText(lang.get_data(f'QToggleButton.{key}'))
             w.setChecked(checked)
             subframe.grid_layout.addWidget(w, subframe.grid_layout.count(), 0)
             subframe.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
@@ -224,14 +224,14 @@ class SaveData(QSaveData):
 
 
     def get_extra(self, extra_tabs: dict = {}) -> None:
-        self.check_for_updates = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['updates']['title']].check_for_updates_combobox.combo_box.currentIndex()
+        self.check_for_updates = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.updates.title')].check_for_updates_combobox.combo_box.currentIndex()
 
-        self.start_at_launch = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['interface']['title']].start_at_launch_checkbox.isChecked()
-        self.minimize_to_tray = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['interface']['title']].minimize_to_tray_checkbox.isChecked()
+        self.start_at_launch = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].start_at_launch_checkbox.isChecked()
+        self.minimize_to_tray = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].minimize_to_tray_checkbox.isChecked()
 
-        self.compact_paths = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['interface']['title']].compact_paths_combobox.combo_box.currentIndex()
+        self.compact_paths = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].compact_paths_combobox.combo_box.currentIndex()
 
-        self.goes_to_tray_notif = extra_tabs[self.language_data['QSettingsDialog']['QSidePanel']['notification']['title']].goes_to_tray_notif_checkbox.isChecked()
+        self.goes_to_tray_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].goes_to_tray_notif_checkbox.isChecked()
 
 
 
@@ -247,7 +247,7 @@ class SaveData(QSaveData):
         return list(dict.fromkeys(l))
 
 
-    def save_extra_data(self) -> dict:
+    def _save_extra_data(self) -> dict:
         return {
             'checkForUpdates': self.check_for_updates,
             'lastCheckForUpdates': self.last_check_for_updates.strftime(self.dateformat),
@@ -262,7 +262,7 @@ class SaveData(QSaveData):
             'projects': self.projects,
         }
 
-    def load_extra_data(self, extra_data: dict = ..., reload: list = []) -> bool:
+    def _load_extra_data(self, extra_data: dict = ..., reload: list = []) -> bool:
         exc = suppress(Exception)
         res = False
 
@@ -281,7 +281,7 @@ class SaveData(QSaveData):
 
         return res
 
-    def export_extra_data(self) -> dict:
-        dct = self.save_extra_data()
+    def _export_extra_data(self) -> dict:
+        dct = self._save_extra_data()
         return dct
 #----------------------------------------------------------------------

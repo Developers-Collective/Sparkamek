@@ -8,6 +8,10 @@ from data.lib.widgets.ProjectKeys import ProjectKeys
     # Class
 class SubProjectWidgetBase(QSubScrollableGridMainWindow):
     type: ProjectKeys = None
+
+    def init(app: QBaseApplication) -> None:
+        pass
+
     def __init__(self, app: QBaseApplication, data: dict) -> None:
         super().__init__(app)
 

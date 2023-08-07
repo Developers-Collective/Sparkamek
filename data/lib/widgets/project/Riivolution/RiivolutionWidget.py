@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .SubProjectWidgetBase import SubProjectWidgetBase
+from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication
 from data.lib.widgets.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------

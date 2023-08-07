@@ -85,7 +85,7 @@ class Application(QBaseApplication):
 
 
     def update_title(self) -> None:
-        self.window.setWindowTitle(self.save_data.language_data['QMainWindow']['title'] + f' | Version: {self.VERSION} | Build: {self.BUILD}')
+        self.window.setWindowTitle(self.get_lang_data('QMainWindow.title') + f' | Version: {self.VERSION} | Build: {self.BUILD}')
 
     def load_colors(self) -> None:
         qss = super().load_colors()
@@ -105,7 +105,7 @@ class Application(QBaseApplication):
             w = QDropDownWidget(text = lang['details'], widget = QLabel(text))
         else: w = None
 
-        lang = self.save_data.language_data['QMessageBox']['critical']['notImplemented']
+        lang = self.get_lang_data('QMessageBox.critical.notImplemented')
 
         QMessageBoxWithWidget(
             app = self,
@@ -127,7 +127,7 @@ class Application(QBaseApplication):
 
 
     def create_top_bar(self) -> None:
-        lang = self.save_data.language_data['QMainWindow']['topBar']
+        lang = self.get_lang_data('QMainWindow.topBar')
 
         top_menu = QGridFrame()
         top_menu.grid_layout.setSpacing(10)
@@ -184,7 +184,7 @@ class Application(QBaseApplication):
 
 
     def create_main_menu(self) -> None:
-        lang = self.save_data.language_data['QMainWindow']['QSlidingStackedWidget']
+        lang = self.get_lang_data('QMainWindow.QSlidingStackedWidget')
 
         def create_empty_menu() -> QGridFrame:
             sublang = lang['emptyMenu']
@@ -339,21 +339,21 @@ class Application(QBaseApplication):
         self.about_menu = QMenu(self.window)
         self.about_menu.setCursor(Qt.CursorShape.PointingHandCursor)
 
-        act = self.about_menu.addAction(self.save_data.get_icon('menubar/qt.png', mode = QSaveData.IconMode.Global), self.save_data.language_data['QMenu']['about']['PySide'])
+        act = self.about_menu.addAction(self.save_data.get_icon('menubar/qt.png', mode = QSaveData.IconMode.Global), self.get_lang_data('QMenu.about.PySide'))
         act.triggered.connect(self.aboutQt)
 
-        act = self.about_menu.addAction(QIcon('./data/icons/Sparkamek.svg'), self.save_data.language_data['QMenu']['about']['Sparkamek'])
+        act = self.about_menu.addAction(QIcon('./data/icons/Sparkamek.svg'), self.get_lang_data('QMenu.about.Sparkamek'))
         act.triggered.connect(self.about_clicked)
 
         self.about_menu.addSeparator()
 
-        act = self.about_menu.addAction(self.save_data.get_icon('menubar/bug.png', mode = QSaveData.IconMode.Local), self.save_data.language_data['QMenu']['reportBug'])
+        act = self.about_menu.addAction(self.save_data.get_icon('menubar/bug.png', mode = QSaveData.IconMode.Local), self.get_lang_data('QMenu.reportBug'))
         act.triggered.connect(lambda: QDesktopServices.openUrl(QUrl('https://github.com/Synell/Sparkamek/issues')))
 
         self.about_menu.addSeparator()
 
         def create_donate_menu():
-            donate_menu = QMenu(self.save_data.language_data['QMenu']['donate']['title'], self.window)
+            donate_menu = QMenu(self.get_lang_data('QMenu.donate.title'), self.window)
             donate_menu.setIcon(self.save_data.get_icon('menubar/donate.png'))
 
             buymeacoffee_action = QAction(self.save_data.get_icon('menubar/buyMeACoffee.png'), 'Buy Me a Coffee', self.window)
@@ -373,7 +373,7 @@ class Application(QBaseApplication):
         self.about_menu.popup(QCursor.pos())
 
     def about_clicked(self) -> None:
-        lang = self.save_data.language_data['QAbout']['Sparkamek']
+        lang = self.get_lang_data('QAbout.Sparkamek')
         supports = '\n'.join(f'&nbsp;&nbsp;&nbsp;• <a href=\"{link}\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">{name}</a>' for name, link in [
             ('GitHub', 'https://github.com')
         ])
@@ -402,7 +402,7 @@ class Application(QBaseApplication):
         self.sys_tray_menu = QMenu(self.window)
         self.sys_tray_menu.setCursor(Qt.CursorShape.PointingHandCursor)
         self.sys_tray_menu.setProperty('QSystemTrayIcon', True)
-        act = self.sys_tray_menu.addAction(self.save_data.get_icon('popup/exit.png'), self.save_data.language_data['QSystemTrayIcon']['QMenu']['exit'])
+        act = self.sys_tray_menu.addAction(self.save_data.get_icon('popup/exit.png'), self.get_lang_data('QSystemTrayIcon.QMenu.exit'))
         act.triggered.connect(self.exit)
 
 
@@ -422,13 +422,13 @@ class Application(QBaseApplication):
 
         if self.save_data.minimize_to_tray:
             if self.save_data.goes_to_tray_notif: self.sys_tray.showMessage(
-                self.save_data.language_data['QSystemTrayIcon']['showMessage']['goesToTray']['title'],
-                self.save_data.language_data['QSystemTrayIcon']['showMessage']['goesToTray']['message'],
+                self.get_lang_data('QSystemTrayIcon.showMessage.goesToTray.title'),
+                self.get_lang_data('QSystemTrayIcon.showMessage.goesToTray.message'),
                 QSystemTrayIcon.MessageIcon.Information,
                 self.MESSAGE_DURATION
             )
             self.show_alert(
-                self.save_data.language_data['QSystemTrayIcon']['showMessage']['goesToTray']['message'],
+                self.get_lang_data('QSystemTrayIcon.showMessage.goesToTray.message'),
                 raise_duration = self.ALERT_RAISE_DURATION,
                 pause_duration = self.ALERT_PAUSE_DURATION,
                 fade_duration = self.ALERT_FADE_DURATION,

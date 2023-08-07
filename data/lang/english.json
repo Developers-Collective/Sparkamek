@@ -41,7 +41,15 @@
                                     "remove": "Remove"
                                 }
                             }
-                        }
+                        },
+                        "LoaderWidget": {},
+                        "KamekWidget": {
+                            "CompilerDockWidget": {
+                                "title": "%s Kamek Compiler"
+                            }
+                        },
+                        "ReggieNextWidget": {},
+                        "RiivolutionWidget": {}
                     }
                 }
             }

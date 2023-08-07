@@ -34,11 +34,14 @@ class Project(QGridWidget):
     @staticmethod
     def init(app: QBaseApplication) -> None:
         Project._base_app = app
-        Project._lang = app.save_data.language_data['QMainWindow']['QSlidingStackedWidget']['mainMenu']['projects']
+        Project._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects')
         Project._more_icon = QIcon(f'{app.save_data.get_icon_dir()}pushbutton/more.png')
         Project._show_in_explorer_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/showInExplorer.png')
         Project._edit_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/edit.png')
         Project._remove_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/remove.png')
+
+        for cls in ProjectType.get_all():
+            cls.init(app)
 
 
     def __init__(self, project: dict = None, name: str = '', icon: str = '') -> None:
