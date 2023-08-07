@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QLabel
 from PySide6.QtCore import QPauseAnimation, QRect, QEvent, QSequentialAnimationGroup, QPauseAnimation, QPropertyAnimation, Qt, QEasingCurve, Signal
 from PySide6.QtNetwork import QLocalSocket, QLocalServer
 from PySide6.QtGui import QIcon, QPixmap
+from typing import Union
 
 from . import QSaveData
 
@@ -268,7 +269,7 @@ class QBaseApplication(QApplication):
     def theme_variant(self) -> str:
         return self.save_data.theme_variant
 
-    def get_lang_data(self, path: str) -> 'QSaveData.LangData':
+    def get_lang_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
         return self.save_data.get_lang_data(path)
 
     def get_icon_dir(self) -> str:

@@ -36,7 +36,7 @@ class QSaveData:
 
             super().__init__(d)
 
-        def get_data(self, path: str) -> Union[str, 'QSaveData.LangData']:
+        def get_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
             keys = path.split('.')
             data = self
 
@@ -57,7 +57,7 @@ class QSaveData:
 
         self._load()
 
-    def get_lang_data(self, path: str) -> Union[str, 'QSaveData.LangData']:
+    def get_lang_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
         keys = path.split('.')
         data = self._language_data
 
