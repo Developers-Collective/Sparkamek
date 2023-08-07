@@ -5,10 +5,13 @@ from PySide6.QtWidgets import QFrame, QPushButton
 from PySide6.QtCore import Qt
 from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget
 from .SubProjectWidgetBase import SubProjectWidgetBase
+from data.lib.widgets.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------
 
     # Class
 class KamekWidget(SubProjectWidgetBase):
+    type: ProjectKeys = ProjectKeys.Kamek
+
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
 

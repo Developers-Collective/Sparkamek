@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QIcon, QAction
 from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QBaseApplication
 from .ProjectKeys import ProjectKeys
+from .ProjectType import ProjectType
 from .project import *
 
 import subprocess
@@ -68,14 +69,8 @@ class Project(QGridWidget):
 
         self._tabs: dict[int, Project.TabInfo] = {}
 
-        for tab, w in [
-            s for s in [
-                (ProjectKeys.Loader.value, self._loader),
-                (ProjectKeys.Kamek.value, self._kamek),
-                (ProjectKeys.ReggieNext.value, self._reggie_next),
-                (ProjectKeys.Riivolution.value, self._riivolution)
-            ] if project.get(s[0], None)
-        ]:
+        for w in self._projects:
+            tab = w.type.value
             widget = QWidget()
             widget.setFixedHeight(1)
             i = self._notebook.addTab(widget, self._lang['QTabWidget'][tab])
@@ -110,17 +105,28 @@ class Project(QGridWidget):
         self._build(project)
 
     def _load_project(self, project: dict, name: str, icon: str) -> None:
-        self._loader = LoaderWidget(self._base_app, name, icon, project[ProjectKeys.Loader]) if project.get(ProjectKeys.Loader, None) else None
-        self._kamek = KamekWidget(self._base_app, name, icon, project[ProjectKeys.Kamek]) if project.get(ProjectKeys.Kamek, None) else None
-        self._reggie_next = ReggieNextWidget(self._base_app, name, icon, project[ProjectKeys.ReggieNext]) if project.get(ProjectKeys.ReggieNext, None) else None
-        self._riivolution = RiivolutionWidget(self._base_app, name, icon, project[ProjectKeys.Riivolution]) if project.get(ProjectKeys.Riivolution, None) else None
+        self._projects: list[SubProjectWidgetBase] = []
+
+        for cls in ProjectType.get_all():
+            if instance := cls(self._base_app, name, icon, project[cls.type]) if project.get(cls.type, None) else None:
+                self._projects.append(instance)
 
     def save_project(self) -> dict:
+        index = 0
+        dct = {}
+
+        for k in ProjectType.get_all_keys():
+            if k == self._projects[index].type:
+                dct[k.value] = self._projects[index].export()
+                if len(self._projects) > index + 1: index += 1
+
+            else:
+                dct[k.value] = None
+
         return {
-            ProjectKeys.Loader.value: self._loader.export() if self._loader else None,
-            ProjectKeys.Kamek.value: self._kamek.export() if self._kamek else None,
-            ProjectKeys.ReggieNext.value: self._reggie_next.export() if self._reggie_next else None,
-            ProjectKeys.Riivolution.value: self._riivolution.export() if self._riivolution else None
+            type: project.export() for type, project in [
+                (p.type.value, p) for p in self._projects
+            ]
         }
 
     def _tab_switch_index(self, index: int) -> None:
@@ -132,37 +138,17 @@ class Project(QGridWidget):
         menu = QMenu(self)
         menu.setCursor(Qt.CursorShape.PointingHandCursor)
 
-        need_separator = False
+        send_param = lambda i: lambda: self._show_in_explorer(i)
+        actions_showInExplorer = []
 
-        if self._loader:
-            action_showLoaderInExplorer = QAction(lang['QAction']['showLoaderInExplorer'])
-            action_showLoaderInExplorer.setIcon(self._show_in_explorer_icon)
-            action_showLoaderInExplorer.triggered.connect(lambda: self._show_in_explorer(self._loader))
-            menu.addAction(action_showLoaderInExplorer)
-            need_separator = True
+        for p in self._projects:
+            action_showInExplorer = QAction(lang['QAction'][f'show{p.type.value[0].upper() + p.type.value[1:]}InExplorer'])
+            action_showInExplorer.setIcon(self._show_in_explorer_icon)
+            action_showInExplorer.triggered.connect(send_param(p))
+            actions_showInExplorer.append(action_showInExplorer)
 
-        if self._kamek:
-            action_showKamekInExplorer = QAction(lang['QAction']['showKamekInExplorer'])
-            action_showKamekInExplorer.setIcon(self._show_in_explorer_icon)
-            action_showKamekInExplorer.triggered.connect(lambda: self._show_in_explorer(self._kamek))
-            menu.addAction(action_showKamekInExplorer)
-            need_separator = True
-
-        if self._reggie_next:
-            action_showReggieNextInExplorer = QAction(lang['QAction']['showReggieNextInExplorer'])
-            action_showReggieNextInExplorer.setIcon(self._show_in_explorer_icon)
-            action_showReggieNextInExplorer.triggered.connect(lambda: self._show_in_explorer(self._reggie_next))
-            menu.addAction(action_showReggieNextInExplorer)
-            need_separator = True
-
-        if self._riivolution:
-            action_showRiivolutionInExplorer = QAction(lang['QAction']['showRiivolutionInExplorer'])
-            action_showRiivolutionInExplorer.setIcon(self._show_in_explorer_icon)
-            action_showRiivolutionInExplorer.triggered.connect(lambda: self._show_in_explorer(self._riivolution))
-            menu.addAction(action_showRiivolutionInExplorer)
-            need_separator = True
-
-        if need_separator: menu.addSeparator()
+        for a in actions_showInExplorer: menu.addAction(a) # Doesn't work if I do it in the loop above for some reason
+        if actions_showInExplorer: menu.addSeparator()
 
         action_edit = QAction(lang['QAction']['edit'])
         action_edit.setIcon(self._edit_icon)
