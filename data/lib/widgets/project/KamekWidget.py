@@ -9,7 +9,7 @@ from .SubProjectWidgetBase import SubProjectWidgetBase
 
     # Class
 class KamekWidget(SubProjectWidgetBase):
-    def __init__(self, app: QBaseApplication, data: dict) -> None:
+    def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
 
         # for i in range(100):

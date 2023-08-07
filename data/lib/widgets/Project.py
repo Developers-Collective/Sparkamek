@@ -40,10 +40,10 @@ class Project(QGridWidget):
         Project._remove_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/remove.png')
 
 
-    def __init__(self, project: dict = None) -> None:
+    def __init__(self, project: dict = None, name: str = '', icon: str = '') -> None:
         super().__init__()
 
-        self._load_project(project)
+        self._load_project(project, name, icon)
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
         self.grid_layout.setSpacing(0)
@@ -109,11 +109,11 @@ class Project(QGridWidget):
         self._load_project(project)
         self._build(project)
 
-    def _load_project(self, project: dict) -> None:
-        self._loader = LoaderWidget(self._base_app, project[ProjectKeys.Loader]) if project.get(ProjectKeys.Loader, None) else None
-        self._kamek = KamekWidget(self._base_app, project[ProjectKeys.Kamek]) if project.get(ProjectKeys.Kamek, None) else None
-        self._reggie_next = ReggieNextWidget(self._base_app, project[ProjectKeys.ReggieNext]) if project.get(ProjectKeys.ReggieNext, None) else None
-        self._riivolution = RiivolutionWidget(self._base_app, project[ProjectKeys.Riivolution]) if project.get(ProjectKeys.Riivolution, None) else None
+    def _load_project(self, project: dict, name: str, icon: str) -> None:
+        self._loader = LoaderWidget(self._base_app, name, icon, project[ProjectKeys.Loader]) if project.get(ProjectKeys.Loader, None) else None
+        self._kamek = KamekWidget(self._base_app, name, icon, project[ProjectKeys.Kamek]) if project.get(ProjectKeys.Kamek, None) else None
+        self._reggie_next = ReggieNextWidget(self._base_app, name, icon, project[ProjectKeys.ReggieNext]) if project.get(ProjectKeys.ReggieNext, None) else None
+        self._riivolution = RiivolutionWidget(self._base_app, name, icon, project[ProjectKeys.Riivolution]) if project.get(ProjectKeys.Riivolution, None) else None
 
     def save_project(self) -> dict:
         return {

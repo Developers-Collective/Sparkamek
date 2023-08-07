@@ -240,7 +240,7 @@ class Application(QBaseApplication):
         send_param_remove = lambda i: lambda: self.remove_project(i)
 
         for index, project in enumerate(self.save_data.projects):
-            p = Project(project = project['data'])
+            p = Project(project = project['data'], name = project['name'], icon = project['icon'])
             self.projects.append(p)
             self.sidepanelwidget.add_widget(p, project['name'], project['icon'])
             p.edit_clicked.connect(send_param_edit(index))
