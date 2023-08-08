@@ -61,6 +61,9 @@ class QNamedLineEdit(QGridWidget):
     def setText(self, text: str) -> None:
         self.line_edit.setText(text)
 
+    def clear(self) -> None:
+        self.line_edit.clear()
+
     def placeholderText(self) -> str:
         return self.line_edit.placeholderText()
 

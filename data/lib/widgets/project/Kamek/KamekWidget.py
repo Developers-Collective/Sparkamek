@@ -30,4 +30,8 @@ class KamekWidget(SubProjectWidgetBase):
 
         # if 'properties' in self.save_data.dock_widgets: self.properties_menu_dock_widget.load_dict(self.window, self.save_data.dock_widgets['properties'])
         # else: self.window.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.properties_menu_dock_widget)
+
+    @property
+    def task_is_running(self) -> bool:
+        return self._compiler_dock_widget.task_is_running
 #----------------------------------------------------------------------

@@ -97,14 +97,14 @@ class Project(QGridWidget):
         self._more_button.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
         top_frame.grid_layout.addWidget(self._more_button, 0, 0, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
-    def rebuild(self, project: dict) -> None:
+    def rebuild(self, project: dict, name: str, icon: str) -> None:
         while self.grid_layout.count() > 0:
             w = self.grid_layout.itemAt(0).widget()
             if w:
                 self.grid_layout.removeWidget(w)
                 w.deleteLater()
 
-        self._load_project(project)
+        self._load_project(project, name, icon)
         self._build(project)
 
     def _load_project(self, project: dict, name: str, icon: str) -> None:
@@ -154,6 +154,7 @@ class Project(QGridWidget):
         if actions_showInExplorer: menu.addSeparator()
 
         action_edit = QAction(lang['QAction']['edit'])
+        if self.task_is_running: action_edit.setEnabled(False)
         action_edit.setIcon(self._edit_icon)
         action_edit.triggered.connect(self._edit)
         menu.addAction(action_edit)
@@ -161,8 +162,9 @@ class Project(QGridWidget):
         menu.addSeparator()
 
         action_remove = QAction(lang['QAction']['remove'])
+        if self.task_is_running: action_remove.setEnabled(False)
         action_remove.setIcon(self._remove_icon)
-        action_remove.triggered.connect(lambda: self.remove_clicked.emit())
+        action_remove.triggered.connect(self._remove)
         menu.addAction(action_remove)
 
         menu.exec(self._more_button.mapToGlobal(QPoint(0, 0)))
@@ -173,5 +175,16 @@ class Project(QGridWidget):
         subprocess.Popen(rf'explorer /select, "{path}"', shell = False)
 
     def _edit(self) -> None:
+        if self.task_is_running: return
         self.edit_clicked.emit()
+
+    def _remove(self) -> None:
+        if self.task_is_running: return
+        self.remove_clicked.emit()
+
+    @property
+    def task_is_running(self) -> bool:
+        for p in self._projects:
+            if p.task_is_running: return True
+        return False
 #----------------------------------------------------------------------

@@ -30,4 +30,8 @@ class SubProjectWidgetBase(QSubScrollableGridMainWindow):
         return {
             'path': self._path
         }
+
+    @property
+    def task_is_running(self) -> bool:
+        return False
 #----------------------------------------------------------------------

@@ -2,6 +2,7 @@
 
     # Libraries
 from PySide6.QtWidgets import QTextEdit, QLabel
+from PySide6.QtGui import QTextBlockFormat, QTextCursor
 from PySide6.QtCore import Qt, QEvent
 from .QGridWidget import QGridWidget
 #----------------------------------------------------------------------
@@ -21,6 +22,7 @@ class QNamedTextEdit(QGridWidget):
         self.setProperty('color', 'main')
 
         self.text_edit = QTextEdit()
+        self.text_edit.setStyleSheet('p { margin: 0; padding: 0; line-height: 30px; }')
         self.text_edit.setPlaceholderText(placeholder)
         self.grid_layout.addWidget(self.text_edit, 0, 0)
         self.label = QLabel(name)
@@ -61,6 +63,14 @@ class QNamedTextEdit(QGridWidget):
 
     def setText(self, text: str) -> None:
         self.text_edit.setText(text)
+        # self.setLineHeight(self._line_height)
+
+    def append(self, text: str) -> None:
+        self.text_edit.append(text)
+        # self.setLineHeight(self._line_height)
+
+    def clear(self) -> None:
+        self.text_edit.clear()
 
     def placeholderText(self) -> str:
         return self.text_edit.placeholderText()

@@ -284,7 +284,7 @@ class Application(QBaseApplication):
         self.sidepanelwidget.sidepanel.item_at(index).text = result['name']
         self.sidepanelwidget.sidepanel.update()
 
-        self.projects[index].rebuild(result['data'])
+        self.projects[index].rebuild(result['data'], result['name'], result['icon'])
 
         self.save_data.save()
 

@@ -45,7 +45,22 @@
                         "LoaderWidget": {},
                         "KamekWidget": {
                             "CompilerDockWidget": {
-                                "title": "Compilateur Kamek de %s"
+                                "title": "Compilateur Kamek de %s",
+                                "QPushButton": {
+                                    "compile": "Compiler",
+                                    "stop": "Arrêter la Compilation"
+                                },
+                                "QNamedToggleButton": {
+                                    "showCompleteLogs": "Afficher le Journal Complet"
+                                },
+                                "QNamedTextEdit": {
+                                    "simpleLogs": "Journal Simple",
+                                    "completeLogs": "Journal Complet",
+                                    "error": "Erreur",
+                                    "warning": "Avertissement",
+                                    "info": "Info",
+                                    "success": "Succès"
+                                }
                             }
                         },
                         "ReggieNextWidget": {},
@@ -119,6 +134,26 @@
                         "kamekFile": {
                             "title": "Fichier Kamek",
                             "description": "Le fichier contenant la liste des patchs du projet (généralement nommé \"NewerProject.yaml\")."
+                        },
+                        "buildFolder": {
+                            "title": "Dossier de Compilation Kamek",
+                            "description": "Le dossier contenant les fichiers de compilation du projet (généralement nommé \"build\").\nATTENTION: Ce dossier sera supprimé avant chaque compilation !"
+                        },
+                        "generatePAL": {
+                            "title": "Générer la Version PAL",
+                            "description": "Détermine si Sparkamek doit générer une version Européeene (EU) du projet."
+                        },
+                        "generateNTSC": {
+                            "title": "Générer la Version NTSC",
+                            "description": "Détermine si Sparkamek doit générer une version Américaine (US) du projet."
+                        },
+                        "generateJP": {
+                            "title": "Générer la Version JP",
+                            "description": "Détermine si Sparkamek doit générer une version Japonaise (JP) du projet."
+                        },
+                        "generateKR": {
+                            "title": "Générer la Version KR",
+                            "description": "Détermine si Sparkamek doit générer une version Coréenne (KR) du projet."
                         }
                     },
                     "QFileButton": {
@@ -130,6 +165,15 @@
                             "title": "Fichier Kamek",
                             "dialog": "Sparkamek > Éditer un Projet > Fichier Kamek"
                         }
+                    },
+                    "QNamedLineEdit": {
+                        "buildFolder": "Dossier de Compilation Kamek"
+                    },
+                    "QToggleButton": {
+                        "generatePAL": "Générer la Version PAL (Requis)",
+                        "generateNTSC": "Générer la Version NTSC",
+                        "generateJP": "Générer la Version JP",
+                        "generateKR": "Générer la Version KR"
                     }
                 },
                 "reggieNext": {

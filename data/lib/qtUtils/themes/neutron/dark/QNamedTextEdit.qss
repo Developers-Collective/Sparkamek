@@ -23,6 +23,10 @@ QWidget[QNamedTextEdit=true] QTextEdit:focus {
 	background-color: #333333;
 }
 
+QWidget[QNamedTextEdit=true] QTextEdit[readOnly=true] {
+	background-color: #262626;
+}
+
 QWidget[QNamedTextEdit=true] QLabel {
 	color: #909090;
 	height: 50px;

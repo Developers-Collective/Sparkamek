@@ -8,7 +8,7 @@ from PySide6.QtNetwork import QLocalSocket, QLocalServer
 from PySide6.QtGui import QIcon, QPixmap
 from typing import Union
 
-from . import QSaveData
+from .QSaveData import QSaveData
 
 from .QPlatform import QPlatform
 from .QssParser import QssParser, QssSelector
@@ -269,12 +269,12 @@ class QBaseApplication(QApplication):
     def theme_variant(self) -> str:
         return self.save_data.theme_variant
 
-    def get_lang_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
+    def get_lang_data(self, path: str) -> Union[str, QSaveData.LangData, list[Union[str, QSaveData.LangData]]]:
         return self.save_data.get_lang_data(path)
 
     def get_icon_dir(self) -> str:
         return self.save_data.get_icon_dir()
     
-    def get_icon(self, name: str) -> QIcon:
-        return self.save_data.get_icon(name)
+    def get_icon(self, name: str, asQIcon = True, mode: QSaveData.IconMode = QSaveData.IconMode.Local) -> QIcon | str:
+        return self.save_data.get_icon(name, asQIcon, mode)
 #----------------------------------------------------------------------
