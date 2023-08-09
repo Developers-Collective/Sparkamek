@@ -6,7 +6,7 @@ from PySide6.QtGui import QTextBlockFormat, QTextCursor
 from PySide6.QtCore import Qt
 from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextEdit, QUtilsColor
 from .CompilerWorker import CompilerWorker
-from .LogType import LogType
+from ..LogType import LogType
 #----------------------------------------------------------------------
 
     # Class
@@ -24,8 +24,14 @@ class CompilerDockWidget(QSavableDockWidget):
         CompilerDockWidget._compile_icon = app.get_icon('pushbutton/play.png', True, QSaveData.IconMode.Local)
         CompilerDockWidget._stop_icon = app.get_icon('pushbutton/stop.png', True, QSaveData.IconMode.Local)
 
+        CompilerWorker.init(app)
+
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(self._lang.get_data('title').replace('%s', name))
+
+        self._name = name
+        self._icon = icon
+        self._data = data
 
         self._root = QScrollableGridWidget()
         self._root.setProperty('wide', True)
@@ -72,7 +78,7 @@ class CompilerDockWidget(QSavableDockWidget):
             self._simple_logs_textedit.clear()
             self._complete_logs_textedit.clear()
 
-            self._compile_thread = CompilerWorker()
+            self._compile_thread = CompilerWorker(self._data)
             self._compile_thread.done.connect(self._compile_done)
             self._compile_thread.error.connect(self._compile_error)
             self._compile_thread.log_simple.connect(self._log_simple)
@@ -112,18 +118,21 @@ class CompilerDockWidget(QSavableDockWidget):
             self._complete_logs_textedit.hide()
             self._simple_logs_textedit.show()
 
-    def _format_msg(self, msg: str, log_type: LogType) -> str:
+    def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
         l = self._lang.get_data(f'QNamedTextEdit.{log_type.name.lower()}')
+        if invisible:
+            l = '<span>' + '&nbsp;' * (len(l) + 2) * 2 + '</span>'
 
         def gen_span(msg: str, color: QUtilsColor, bold: bool = False) -> str:
             bold_text = 'font-weight: 700;' if bold else 'font-weight: 400;'
             return f'<span style="color: {color.hex}; {bold_text};">{msg}</span>'
 
+        if invisible: return f'{l} {gen_span(msg, self._neutral_color)}'
         return f'{gen_span("[", self._bracket_color, True)}{gen_span(l, log_type.value, True)}{gen_span("]", self._bracket_color, True)} {gen_span(msg, self._neutral_color)}'
 
-    def _log_simple(self, msg: str, log_type: LogType) -> None:
-        self._simple_logs_textedit.append(self._format_msg(msg, log_type))
+    def _log_simple(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
+        self._simple_logs_textedit.append(self._format_msg(msg, log_type, invisible))
 
-    def _log_complete(self, msg: str, log_type: LogType) -> None:
-        self._complete_logs_textedit.append(self._format_msg(msg, log_type))
+    def _log_complete(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
+        self._complete_logs_textedit.append(self._format_msg(msg, log_type, invisible))
 #----------------------------------------------------------------------
