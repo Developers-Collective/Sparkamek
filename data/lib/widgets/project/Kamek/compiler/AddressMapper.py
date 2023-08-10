@@ -78,7 +78,7 @@ class AddressMapperController(QObject):
 
     def run(self) -> None:
         if not os.path.exists(f'{self._cwd}/tools/versions-nsmbw.txt'):
-            raise ProjectException(f'Unable to find "versions-nsmbw.txt" at "{self._cwd}/tools"', LogType.Error)
+            raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">versions-nsmbw.txt</span>" at "{self._cwd}/tools"', LogType.Error)
 
         with open(f'{self._cwd}/tools/versions-nsmbw.txt', 'r', encoding = 'utf-8') as infile:
             try: mappers = self._read_version_info(infile)
@@ -89,7 +89,7 @@ class AddressMapperController(QObject):
 
         for x_id, txt_id in self._version_ids.items():
             try: self._do_mapfile(f'kamek_{self._base_version}.x', f'kamek_{x_id}.x', mappers[txt_id])
-            except FileNotFoundError: raise ProjectException(f'Unable to find "kamek_{self._base_version}.x" at "{self._cwd}"', LogType.Error)
+            except FileNotFoundError: raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">kamek_{self._base_version}.x</span>" at "{self._cwd}"', LogType.Error)
             except Exception as e: raise ProjectException(str(e), LogType.Error)
 
         already_done = set()
@@ -121,7 +121,7 @@ class AddressMapperController(QObject):
                 # New version
                 current_version_name = match.group(1)
                 if current_version_name in mappers:
-                    raise ValueError(f'versions file contains duplicate version name {current_version_name}')
+                    raise ValueError(f'Versions file contains duplicate version name <span style="background-color: #55{LogType.Error.value.hex[1:]}">{current_version_name}</span>')
 
                 current_version = AddressMapper()
                 mappers[current_version_name] = current_version
@@ -133,9 +133,9 @@ class AddressMapperController(QObject):
                 if match:
                     base_name = match.group(1)
                     if base_name not in mappers:
-                        raise ValueError(f'version {current_version_name} extends unknown version {base_name}')
+                        raise ValueError(f'Version {current_version_name} extends unknown version <span style="background-color: #55{LogType.Error.value.hex[1:]}">{base_name}</span>')
                     if current_version._base is not None:
-                        raise ValueError(f'version {current_version_name} already extends a version')
+                        raise ValueError(f'Version {current_version_name} already extends a version')
 
                     current_version._base = mappers[base_name]
                     continue
@@ -155,7 +155,7 @@ class AddressMapperController(QObject):
                     current_version.add_mapping(start_address, end_address, delta)
                     continue
 
-            ret = (f'unrecognised line in versions file: {line}', LogType.Warning, False)
+            ret = (f'Unrecognised line in versions file: <span style="background-color: #55{LogType.Warning.value.hex[1:]}">{line}</span>', LogType.Warning, False)
             self.log_simple.emit(*ret)
             self.log_complete.emit(*ret)
 
@@ -210,7 +210,7 @@ class AddressMapperController(QObject):
                 hook[f'area_{name}'] = new_area
 
         except KeyError:
-            ret = (f'Key Error {error} in {name}', LogType.Error, False)
+            ret = (f'Key Error <span style="background-color: #55{LogType.Error.value.hex[1:]}">{error}</span> in {name}', LogType.Error, False)
             self.log_simple.emit(*ret)
             self.log_complete.emit(*ret)
 

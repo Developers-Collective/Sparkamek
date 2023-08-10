@@ -19,6 +19,12 @@ class OpenProjectDialog(QDialog):
 
     _icon_path = os.path.abspath('./data/icons/sample/')
 
+    _forbidden_paths = [
+        '',
+        '.',
+        './'
+    ]
+
     icon_size = 64
 
     @staticmethod
@@ -251,16 +257,15 @@ class OpenProjectDialog(QDialog):
         label = OpenProjectDialog._text_group(lang.get_data('QLabel.kamekFile.title'), lang.get_data('QLabel.kamekFile.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        kw = ('edit' if kamek_data else 'open') + 'KamekFile'
         l = {
-            "title": lang.get_data(f'QFileButton.{kw}.title'),
-            "dialog": lang.get_data(f'QFileButton.{kw}.dialog')
+            "title": lang.get_data(f'QFileButton.kamekFile'),
+            "dialog": lang.get_data(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get_data(f'QFileButton.kamekFile'))
         }
 
         self.kamek_file_button = QFileButton(
             None,
             l,
-            kamek_data['path'] if kamek_data else None,
+            kamek_data.get('path', None) if kamek_data else None,
             self._open_file_icon,
             QFiles.Dialog.OpenFileName,
             'All supported files (*.yaml *.yml);;YAML (*.yaml *.yml)'
@@ -283,6 +288,32 @@ class OpenProjectDialog(QDialog):
         self.kamek_build_folder_entry.setText(kamek_data.get('build', None) if kamek_data else 'Build')
         if self.kamek_build_folder_entry.text() == '': self.kamek_build_folder_entry.setText('Build')
         root_frame.grid_layout.addWidget(self.kamek_build_folder_entry, root_frame.grid_layout.count(), 0)
+
+
+        frame = QFrame()
+        frame.setProperty('border-top', True)
+        frame.setFixedHeight(1)
+        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+
+
+        label = OpenProjectDialog._text_group(lang.get_data('QLabel.outputFolder.title'), lang.get_data('QLabel.outputFolder.description'))
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        l = {
+            "title": lang.get_data(f'QFileButton.outputFolder'),
+            "dialog": lang.get_data(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get_data(f'QFileButton.outputFolder'))
+        }
+
+        self.kamek_output_folder = QFileButton(
+            None,
+            l,
+            kamek_data.get('outputFolder') if kamek_data else None,
+            self._open_folder_icon,
+            QFiles.Dialog.ExistingDirectory
+        )
+        self.kamek_output_folder.setFixedWidth(350)
+        root_frame.grid_layout.addWidget(self.kamek_output_folder, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(self.kamek_output_folder, Qt.AlignmentFlag.AlignLeft)
 
 
         def generate_version(key: str, checked: bool) -> QNamedToggleButton:
@@ -489,14 +520,14 @@ class OpenProjectDialog(QDialog):
             self._cancel_button.setText(self._lang.get_data('QPushButton.back'))
 
     def _get_loader(self) -> dict | None:
-        if self.loader_file_button.path() in ['', '.', './']: return None
+        if self.loader_file_button.path() in self._forbidden_paths: return None
 
         return {
             'path': self.loader_file_button.path()
         }
     
     def _get_kamek(self) -> dict | None:
-        if self.kamek_file_button.path() in ['', '.', './']: return None
+        if self.kamek_file_button.path() in self._forbidden_paths: return None
 
         build_folder = self.kamek_build_folder_entry.text() if self.kamek_build_folder_entry.text() else 'Build'
         new_build_folder = ''
@@ -516,6 +547,7 @@ class OpenProjectDialog(QDialog):
         return {
             'path': self.kamek_file_button.path(),
             'buildFolder': new_build_folder,
+            'outputFolder': self.kamek_output_folder.path() if self.kamek_output_folder.path() not in self._forbidden_paths else None,
             'generatePAL': self._kamek_generate_pal_toggle.isChecked(),
             'generateNTSC': self._kamek_generate_ntsc_toggle.isChecked(),
             'generateJP': self._kamek_generate_jp_toggle.isChecked(),
@@ -524,14 +556,14 @@ class OpenProjectDialog(QDialog):
         }
     
     def _get_reggienext(self) -> dict | None:
-        if self.reggie_folder_button.path() in ['', '.', './']: return None
+        if self.reggie_folder_button.path() in self._forbidden_paths: return None
 
         return {
             'path': self.reggie_folder_button.path()
         }
     
     def _get_riivolution(self) -> dict | None:
-        if self.riivolution_file_button.path() in ['', '.', './']: return None
+        if self.riivolution_file_button.path() in self._forbidden_paths: return None
 
         return {
             'path': self.riivolution_file_button.path()
@@ -542,7 +574,7 @@ class OpenProjectDialog(QDialog):
         if super().exec():
             return {
                 'name': self.name_entry.text() if self.name_entry.text() else 'Project',
-                'icon': self.icon_button.path() if self.icon_button.path() not in ['', '.', './'] else None,
+                'icon': self.icon_button.path() if self.icon_button.path() not in self._forbidden_paths else None,
                 'data': {
                     ProjectKeys.Loader.value: self._get_loader(),
                     ProjectKeys.Kamek.value: self._get_kamek(),

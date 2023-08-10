@@ -169,6 +169,17 @@ class CompilerWorker(QThread):
                 self.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;• <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{symbol.name}</span>', LogType.Warning, True)
 
 
+        if path := self._data.get('outputFolder', None):
+            self.log_info(f'Copying files to {path}...', False)
+
+            if not os.path.isdir(path):
+                os.makedirs(path)
+
+            for file in self._build_folder.iterdir():
+                if file.is_file():
+                    file.replace(Path(self._cwd) / path / file.name)
+
+
         self.log_info_all('&nbsp;', True)
         if missing_symbols: self.log_success('All done, but the game will crash at some point due to missing symbols.', False)
         else: self.log_success('All done!', False)

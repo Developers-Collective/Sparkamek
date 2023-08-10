@@ -139,6 +139,10 @@
                             "title": "Kamek Build Folder",
                             "description": "The folder where the project will be built (usually named \"Build\").\nWARNING: This folder will be deleted before each compilation !"
                         },
+                        "outputFolder": {
+                            "title": "Kamek Output Folder",
+                            "description": "The folder where the project will be moved after each compilation (usually named \"NewerRes\")."
+                        },
                         "generatePAL": {
                             "title": "Generate PAL Version",
                             "description": "Determines whether the European version (EU) of the project will be generated."
@@ -161,14 +165,12 @@
                         }
                     },
                     "QFileButton": {
-                        "openKamekFile": {
-                            "title": "Kamek File",
-                            "dialog": "Sparkamek > Open Project > Kamek File"
+                        "pattern": {
+                            "open":"Sparkamek > Open Project > %s",
+                            "edit":"Sparkamek > Edit Project > %s"
                         },
-                        "editKamekFile": {
-                            "title": "Kamek File",
-                            "dialog": "Sparkamek > Edit Project > Kamek File"
-                        }
+                        "kamekFile": "Kamek File",
+                        "outputFolder": "Kamek Output Folder"
                     },
                     "QNamedLineEdit": {
                         "buildFolder": "Kamek Build Folder"

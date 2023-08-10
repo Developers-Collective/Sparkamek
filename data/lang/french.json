@@ -139,6 +139,10 @@
                             "title": "Dossier de Compilation Kamek",
                             "description": "Le dossier contenant les fichiers de compilation du projet (généralement nommé \"build\").\nATTENTION: Ce dossier sera supprimé avant chaque compilation !"
                         },
+                        "outputFolder": {
+                            "title": "Dossier de Sortie Kamek",
+                            "description": "Le dossier où seront placés les fichiers une fois compilés (généralement nommé \"NewerRes\")."
+                        },
                         "generatePAL": {
                             "title": "Générer la Version PAL",
                             "description": "Détermine si Sparkamek doit générer une version Européeene (EU) du projet."
@@ -151,20 +155,22 @@
                             "title": "Générer la Version JP",
                             "description": "Détermine si Sparkamek doit générer une version Japonaise (JP) du projet."
                         },
+                        "generateTW": {
+                            "title": "Générer la Version TW",
+                            "description": "Détermine si Sparkamek doit générer une version Taïwanaise (TW) du projet."
+                        },
                         "generateKR": {
                             "title": "Générer la Version KR",
                             "description": "Détermine si Sparkamek doit générer une version Coréenne (KR) du projet."
                         }
                     },
                     "QFileButton": {
-                        "openKamekFile": {
-                            "title": "Fichier Kamek",
-                            "dialog": "Sparkamek > Ouvrir un Projet > Fichier Kamek"
+                        "pattern": {
+                            "open":"Sparkamek > Ouvrir un Projet > %s",
+                            "edit":"Sparkamek > Éditer un Projet > %s"
                         },
-                        "editKamekFile": {
-                            "title": "Fichier Kamek",
-                            "dialog": "Sparkamek > Éditer un Projet > Fichier Kamek"
-                        }
+                        "kamekFile": "Fichier Kamek",
+                        "outputFolder": "Dossier de Sortie Kamek"
                     },
                     "QNamedLineEdit": {
                         "buildFolder": "Dossier de Compilation Kamek"
@@ -173,6 +179,7 @@
                         "generatePAL": "Générer la Version PAL (Requis)",
                         "generateNTSC": "Générer la Version NTSC",
                         "generateJP": "Générer la Version JP",
+                        "generateTW": "Générer la Version TW",
                         "generateKR": "Générer la Version KR"
                     }
                 },
