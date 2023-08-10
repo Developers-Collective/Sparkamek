@@ -5,6 +5,7 @@ from PySide6.QtCore import Signal, QObject
 from typing import Any
 import binascii, os, os.path, shutil, struct, subprocess, sys, tempfile, yaml, elftools.elf.elffile, dataclasses
 from .Hooks import Hooks as hooks
+from .MissingSymbol import MissingSymbol
 
 from ...LogType import LogType
 from ...ProjectException import ProjectException
@@ -210,7 +211,8 @@ class KamekBuilder:
 
                 if self.dynamic_link_base:
                     self.dynamic_link = DyLinkCreator(self._controller, self.dynamic_link_base)
-                    self.dynamic_link.set_elf(open(self._current_out_file, 'rb'))
+                    with open(self._current_out_file, 'rb') as infile:
+                        self.dynamic_link.set_elf(infile)
 
                 for hook in self._hooks:
                     hook.create_patches()
@@ -233,7 +235,7 @@ class KamekBuilder:
     def _set_config(self, config) -> None:
         self._config = config
         self._controller.log_info('&nbsp;', True)
-        self._controller.log_info('Building for configuration: ' + config['friendly_name'])
+        self._controller.log_info_all('Building for configuration: ' + config['friendly_name'])
 
         self.config_short_name = config['short_name']
         if 'rel_area_start' in config:
@@ -669,7 +671,7 @@ class KamekBuilder:
             self._patches.append((offset, data))
 
 
-    def _create_patch(self, short_name) -> None:
+    def _create_patch(self, short_name: str) -> None:
         self._controller.log_info_all('&nbsp;', True)
         self._controller.log_info_all('Creating patch')
 
@@ -755,14 +757,6 @@ class KamekProject:
 
 
 
-@dataclasses.dataclass
-class MissingSymbol:
-    addr: int
-    target: int
-    name: str
-
-
-
 class KamekController(QObject):
     log_simple = Signal(str, LogType, bool)
     log_complete = Signal(str, LogType, bool)
@@ -780,12 +774,12 @@ class KamekController(QObject):
 
         self._current_unique_id = 0
         self._symbols = []
-        self._missing_symbols: list[MissingSymbol] = []
+        self._missing_symbols: dict[str, MissingSymbol] = {}
 
 
     def add_missing_symbol(self, symbol: MissingSymbol) -> None:
-        self.log_warning('The following reloc (%x) points to %d: Is this right? %s' % (symbol.addr, symbol.target, symbol.name))
-        self._missing_symbols.append(symbol)
+        self.log_complete.emit(f'The following reloc ({symbol.addr:x}) points to {symbol.target:d}: Is this right? <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{symbol.name}</span>', LogType.Warning, False)
+        if symbol.name not in self._missing_symbols: self._missing_symbols[symbol.name] = symbol
 
 
     def set_config(self, config: KamekConfig | str) -> None:
@@ -846,9 +840,11 @@ class KamekController(QObject):
         self.log_simple.emit(msg, LogType.Success, invisible)
 
 
-    def run(self) -> None:
+    def run(self) -> tuple[MissingSymbol]:
         project = KamekProject(self, self._project_full_path, self._read_configs(f'{self._cwd}/kamek_configs.yaml'))
         project.build()
+
+        return tuple(self._missing_symbols.values())
 
 
     def generate_unique_id(self) -> int:

@@ -117,14 +117,19 @@ class CompilerWorker(QThread):
                 **kamekopts
             )
         )
-        try: self._kamek_controller.run()
+
+        missing_symbols: list[MissingSymbol] = []
+        try: missing_symbols = self._kamek_controller.run()
 
         except Exception as e:
             print(traceback.format_exc())
             self.log_error(str(e), False)
             return self.error.emit(str(e))
 
-        self._build_folder = Path(f'{self._cwd}/Build_{self._project_name}')
+        self._build_folder = Path(f'{self._cwd}/{self._data["buildFolder"]}')
+        if not self._build_folder.is_dir():
+            self._build_folder.mkdir()
+
 
         self.log_info('&nbsp;', True)
 
@@ -155,8 +160,18 @@ class CompilerWorker(QThread):
             self.log_info('Renaming CH files...', False)
             self._copy_files('chn', 'CN_5')
 
+
+        if missing_symbols:
+            self.log_simple.emit('&nbsp;', LogType.Info, True)
+            self.log_simple.emit('Your code is missing the following symbols:', LogType.Warning, False)
+
+            for symbol in missing_symbols:
+                self.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;• <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{symbol.name}</span>', LogType.Warning, True)
+
+
         self.log_info_all('&nbsp;', True)
-        self.log_success('All done!', False)
+        if missing_symbols: self.log_success('All done, but the game will crash at some point due to missing symbols.', False)
+        else: self.log_success('All done!', False)
         self.done.emit()
 
     def _copy_files(self, version_name_1: str, version_name_2: str) -> None:
