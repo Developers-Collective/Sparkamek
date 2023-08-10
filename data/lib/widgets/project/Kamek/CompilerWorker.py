@@ -2,7 +2,7 @@
 
     # Libraries
 from PySide6.QtCore import Signal, QThread
-import os, yaml, sys, traceback
+import os, yaml, sys, difflib, traceback
 from pathlib import Path
 
 from data.lib.qtUtils import QBaseApplication
@@ -99,6 +99,7 @@ class CompilerWorker(QThread):
         self.log_info(f'Mapping addresses for {self._project_name}...', False)
 
         try: self._address_mapper_controller.run()
+
         except ProjectException as e:
             self.log_error(e.msg, False)
             return self.error.emit(e.msg)
@@ -118,8 +119,42 @@ class CompilerWorker(QThread):
             )
         )
 
-        missing_symbols: list[MissingSymbol] = []
-        try: missing_symbols = self._kamek_controller.run()
+        missing_symbols: tuple[MissingSymbol] = tuple()
+        func_symbols: tuple[FuncSymbol] = tuple()
+        try: missing_symbols, func_symbols = self._kamek_controller.run()
+
+        except CannotFindFunctionException as e:
+            self.log_error(f'Cannot find function: "<span style="background-color: #55{LogType.Error.value.hex[1:]}">{e.not_found_func}</span>"', False)
+
+            def make_diff(a: str, b: str) -> str:
+                new_s = ''
+                s = difflib.SequenceMatcher(None, a, b, autojunk = False)
+
+                for tag, i1, i2, j1, j2 in s.get_opcodes():
+                    if tag == 'equal': new_s += a[i1:i2]
+                    elif tag == 'replace': new_s += make_span(b[j1:j2], LogType.Info)
+                    # elif tag == 'delete': new_s += make_span(a[i1:i2], LogType.Error) # To prevent confusion, don't highlight deleted characters
+                    elif tag == 'insert': new_s += make_span(b[j1:j2], LogType.Success)
+
+                return new_s
+
+            def make_span(s: str, log_type: LogType) -> str:
+                return f'<span style="background-color: #55{log_type.value.hex[1:]}">{s}</span>'
+
+            if len(e.func_symbols) == 1:
+                self.log_error(f'&nbsp;&nbsp;Did you mean "{make_diff(e.not_found_func, e.func_symbols[0].raw)}"?', True)
+                # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;→ {e.func_symbols[0].raw}', True)
+
+            elif len(e.func_symbols) > 1:
+                self.log_error(f'&nbsp;&nbsp;Did you mean one of these?', True)
+
+                for func in e.func_symbols:
+                    self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;• {make_diff(e.not_found_func, func.raw)}', True)
+                    # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ {func.raw}', True)
+
+                    # if func != e.func_symbols[-1]: self.log_error('&nbsp;', True)
+
+            return self.error.emit(e.msg)
 
         except Exception as e:
             print(traceback.format_exc())
@@ -184,6 +219,8 @@ class CompilerWorker(QThread):
         if missing_symbols: self.log_success('All done, but the game will crash at some point due to missing symbols.', False)
         else: self.log_success('All done!', False)
         self.done.emit()
+
+        print(func_symbols)
 
     def _copy_files(self, version_name_1: str, version_name_2: str) -> None:
         (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_loader.bin').replace(self._build_folder / f'System{version_name_2}.bin')

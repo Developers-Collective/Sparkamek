@@ -3,9 +3,11 @@
     # Libraries
 from PySide6.QtCore import Signal, QObject
 from typing import Any
-import binascii, os, os.path, shutil, struct, subprocess, sys, tempfile, yaml, elftools.elf.elffile, dataclasses
+import binascii, os, os.path, shutil, struct, subprocess, sys, tempfile, yaml, elftools.elf.elffile, dataclasses, difflib
 from .Hooks import Hooks as hooks
 from .MissingSymbol import MissingSymbol
+from .CannotFindFunctionException import CannotFindFunctionException
+from .FuncSymbol import FuncSymbol
 
 from ...LogType import LogType
 from ...ProjectException import ProjectException
@@ -659,9 +661,13 @@ class KamekBuilder:
             if sym[2] == find_symbol:
                 return sym[0]
 
-        l = [sym[2] for sym in self._symbols if sym[2].startswith(find_symbol.split('(')[0])]
+        def similar(a: str, b: str) -> float:
+            return difflib.SequenceMatcher(None, a, b).ratio()
 
-        raise ValueError(f'Cannot find function: {find_symbol}' + ('\nDid you mean one of these?\n' + '\n'.join(l) if len(l) > 0 else ''))
+        raise CannotFindFunctionException(
+            str(find_symbol),
+            sorted([FuncSymbol(*sym) for sym in self._symbols if similar(sym[2], find_symbol) > 0.6], key = lambda x: similar(x.name, find_symbol), reverse=True)
+        )
 
 
     def add_patch(self, offset, data) -> None:
@@ -750,10 +756,12 @@ class KamekProject:
         return os.path.normpath(os.path.join(self.project_dir, path))
 
 
-    def build(self) -> None:
+    def build(self) -> tuple[FuncSymbol]:
         # compile everything in the project
         builder = KamekBuilder(self._controller, self, self.configs)
         builder.build()
+
+        return [FuncSymbol(s[0], s[1], s[2]) for s in builder._symbols]
 
 
 
@@ -773,7 +781,6 @@ class KamekController(QObject):
         self._config = None
 
         self._current_unique_id = 0
-        self._symbols = []
         self._missing_symbols: dict[str, MissingSymbol] = {}
 
 
@@ -840,11 +847,11 @@ class KamekController(QObject):
         self.log_simple.emit(msg, LogType.Success, invisible)
 
 
-    def run(self) -> tuple[MissingSymbol]:
+    def run(self) -> tuple[tuple[MissingSymbol], tuple[FuncSymbol]]:
         project = KamekProject(self, self._project_full_path, self._read_configs(f'{self._cwd}/kamek_configs.yaml'))
-        project.build()
+        func_symbols = project.build()
 
-        return tuple(self._missing_symbols.values())
+        return tuple(self._missing_symbols.values()), func_symbols
 
 
     def generate_unique_id(self) -> int:
