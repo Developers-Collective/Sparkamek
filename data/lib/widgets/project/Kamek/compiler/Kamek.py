@@ -761,7 +761,7 @@ class KamekProject:
         builder = KamekBuilder(self._controller, self, self.configs)
         builder.build()
 
-        return [FuncSymbol(s[0], s[1], s[2]) for s in builder._symbols]
+        return (FuncSymbol(s[0], s[1], s[2]) for s in builder._symbols)
 
 
 

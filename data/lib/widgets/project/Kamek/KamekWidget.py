@@ -1,12 +1,12 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QFrame, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget
+from data.lib.qtUtils import QBaseApplication
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .CompilerDockWidget import CompilerDockWidget
+from .SymbolsDockWidget import SymbolsDockWidget
 #----------------------------------------------------------------------
 
     # Class
@@ -18,6 +18,7 @@ class KamekWidget(SubProjectWidgetBase):
     def init(app: QBaseApplication) -> None:
         KamekWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget')
         CompilerDockWidget.init(app)
+        SymbolsDockWidget.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
@@ -27,6 +28,13 @@ class KamekWidget(SubProjectWidgetBase):
 
         self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
+
+        self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
+
+        self.tabifyDockWidget(self._compiler_dock_widget, self._symbols_dock_widget)
+
+        self._compiler_dock_widget.new_symbols.connect(self._symbols_dock_widget.set_symbols)
 
         # if 'properties' in self.save_data.dock_widgets: self.properties_menu_dock_widget.load_dict(self.window, self.save_data.dock_widgets['properties'])
         # else: self.window.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.properties_menu_dock_widget)

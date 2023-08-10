@@ -18,6 +18,7 @@ QWidget[QNamedComboBox=true] QComboBox::down-arrow {
 
 QWidget[QNamedComboBox=true] QLabel {
 	color: #909090;
+	background-color: transparent;
 	height: 50px;
 	border: none;
 	font-size: 12px;

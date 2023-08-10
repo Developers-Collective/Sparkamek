@@ -61,6 +61,30 @@
                                     "info": "Info",
                                     "success": "Succès"
                                 }
+                            },
+                            "SymbolsDockWidget": {
+                                "title": "Symboles de %s",
+                                "QIconLineEdit": {
+                                    "search": "Rechercher..."
+                                },
+                                "QBetterListWidget": {
+                                    "address": "Adresse",
+                                    "name": "Nom Joli",
+                                    "raw": "Nom Brut"
+                                },
+                                "QNamedToggleButton": {
+                                    "caseSensitive": "Sensible à la Casse"
+                                },
+                                "QNamedComboBox": {
+                                    "searchBy": {
+                                        "title": "Rechercher par",
+                                        "values": {
+                                            "address": "Adresse",
+                                            "name": "Nom Joli",
+                                            "raw": "Nom Brut"
+                                        }
+                                    }
+                                }
                             }
                         },
                         "ReggieNextWidget": {},

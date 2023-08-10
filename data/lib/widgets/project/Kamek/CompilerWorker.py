@@ -19,6 +19,7 @@ class CompilerWorker(QThread):
     error = Signal(str)
     log_simple = Signal(str, LogType, bool)
     log_complete = Signal(str, LogType, bool)
+    new_symbols = Signal(tuple)
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
@@ -218,9 +219,10 @@ class CompilerWorker(QThread):
         self.log_info_all('&nbsp;', True)
         if missing_symbols: self.log_success('All done, but the game will crash at some point due to missing symbols.', False)
         else: self.log_success('All done!', False)
-        self.done.emit()
 
-        print(func_symbols)
+        self.new_symbols.emit(func_symbols)
+
+        self.done.emit()
 
     def _copy_files(self, version_name_1: str, version_name_2: str) -> None:
         (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_loader.bin').replace(self._build_folder / f'System{version_name_2}.bin')

@@ -8,6 +8,6 @@ import dataclasses
 @dataclasses.dataclass
 class FuncSymbol:
     addr: int
-    name: str
     raw: str
+    name: str
 #----------------------------------------------------------------------

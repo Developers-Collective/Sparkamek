@@ -19,6 +19,7 @@ class QNamedComboBox(QGridWidget):
 
         self.setProperty('QNamedComboBox', True)
         self.setProperty('color', 'main')
+        self.setProperty('transparent', True)
 
         self.combo_box = QComboBox()
         self.combo_box.setCursor(Qt.CursorShape.PointingHandCursor)

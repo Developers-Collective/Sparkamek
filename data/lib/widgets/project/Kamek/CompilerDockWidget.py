@@ -2,10 +2,11 @@
 
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextEdit, QUtilsColor, QSlidingStackedWidget
 from .CompilerWorker import CompilerWorker
 from ..LogType import LogType
+from .compiler import FuncSymbol
 #----------------------------------------------------------------------
 
     # Class
@@ -17,6 +18,8 @@ class CompilerDockWidget(QSavableDockWidget):
 
     _neutral_color = QUtilsColor.from_hex('#aaaaaa')
     _bracket_color = QUtilsColor.from_hex('#dddddd')
+
+    new_symbols = Signal(tuple)
 
     def init(app: QBaseApplication) -> None:
         CompilerDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.CompilerDockWidget')
@@ -84,6 +87,7 @@ class CompilerDockWidget(QSavableDockWidget):
             self._compile_thread.error.connect(self._compile_error)
             self._compile_thread.log_simple.connect(self._log_simple)
             self._compile_thread.log_complete.connect(self._log_complete)
+            self._compile_thread.new_symbols.connect(self.new_symbols.emit)
             self._compile_thread.start()
 
         else:
