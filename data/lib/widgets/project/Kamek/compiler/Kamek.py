@@ -193,7 +193,7 @@ class KamekBuilder:
             else:
                 self._multi_build = {self._config['short_name']: self._config['linker_script']}
 
-            keys = list(self._controller.version_ids.keys())
+            keys = list(self._controller.version_ids.keys()) + ['pal']
             for s_name, s_script in self._multi_build.items():
                 if s_name not in keys: continue
 
@@ -232,7 +232,7 @@ class KamekBuilder:
 
     def _set_config(self, config) -> None:
         self._config = config
-        self._controller.log_info('---')
+        self._controller.log_info('&nbsp;', True)
         self._controller.log_info('Building for configuration: ' + config['friendly_name'])
 
         self.config_short_name = config['short_name']
@@ -243,7 +243,7 @@ class KamekBuilder:
 
 
     def _create_hooks(self) -> None:
-        self._controller.log_info('---')
+        self._controller.log_info_all('&nbsp;', True)
         self._controller.log_info('Creating hooks')
 
         for m in self.project.modules:
@@ -262,15 +262,23 @@ class KamekBuilder:
 
 
     def _filter_compilation_output(self, output: str) -> None:
+        fasthack_content: list[str] = None
+
+        if self._controller.config.fast_hack:
+            with open(f'{self._controller.cwd}/{self._fast_cpp_path}', 'r') as infile:
+                fasthack_content = infile.read().replace('\r', '').split('\n')
+
+
         lines = output.split('\n')
-        warnings = {}
-        errors = {}
+        warnings: dict[str, list] = {}
+        errors: dict[str, list] = {}
+        first_error: tuple = None
 
         digits = '0123456789'
 
         file = ''
         waves = ''
-        fasthack_line = 0
+        fasthack_line: int = 0
         code = ''
 
         while lines:
@@ -278,23 +286,67 @@ class KamekBuilder:
 
             if line.startswith('###'): continue
 
+
             if line.startswith('#    File: '):
                 file = line[11:]
                 continue
 
+
             if line.startswith('# Warning: '):
                 waves = line[11:]
-                line = lines.pop(0)[1:].strip()
-                if file not in warnings: warnings[file] = []
-                warnings[file].append((fasthack_line, code, waves.find('^'), waves.rfind('^'), line))
+                details = []
 
-            if line.startswith('# Error: '):
-                waves = line[9:]
-                line = lines.pop(0)[1:].strip()
+                while lines[0].startswith('# '):
+                    line = lines.pop(0)[1:].strip()
+                    details.append(line)
+
+                if self._controller.config.fast_hack and fasthack_content is not None:
+                    index = fasthack_line
+                    while ((not fasthack_content[index].startswith('// [Fasthack File Info] ')) or (not fasthack_content[index - 1].startswith('//')) or (not fasthack_content[index + 1].startswith('//'))) and index > 1:
+                        index -= 1
+
+                    fasthack_line_content = fasthack_content[index].replace('// [Fasthack File Info] ', '')
+                    true_line = fasthack_line - index - 3
+
+                    file = fasthack_line_content
+                    fasthack_line = true_line
+
+                if file not in warnings: warnings[file] = []
+                warnings[file].append((fasthack_line, code, waves.find('^'), waves.rfind('^'), details))
+
+                continue
+
+
+            if line.startswith('#   Error: '):
+                waves = line[11:]
+                details = []
+
+                while lines[0].startswith('# '):
+                    line = lines.pop(0)[1:].strip()
+                    details.append(line)
+
+                if self._controller.config.fast_hack and fasthack_content is not None:
+                    index = fasthack_line
+                    while ((not fasthack_content[index].startswith('// [Fasthack File Info] ')) or (not fasthack_content[index - 1].startswith('//')) or (not fasthack_content[index + 1].startswith('//'))) and index > 1:
+                        index -= 1
+
+                    fasthack_line_content = fasthack_content[index].replace('// [Fasthack File Info] ', '')
+                    true_line = fasthack_line - index - 3
+
+                    file = fasthack_line_content
+                    fasthack_line = true_line
+
                 if file not in errors: errors[file] = []
-                errors[file].append((fasthack_line, code, waves.find('^'), waves.rfind('^'), line))
+                wavef = waves.find('^')
+                wavel = waves.rfind('^')
+
+                errors[file].append((fasthack_line, code, wavef, wavel, details))
+                if first_error is None: first_error = (file, fasthack_line, code, wavef, wavel, details)
+
+                continue
 
             if line.startswith('# -'): continue
+
 
             if line.startswith('# '):
                 index = 1
@@ -312,23 +364,55 @@ class KamekBuilder:
 
                 fasthack_line = int(nb)
                 code = line[index + 2:]
+
                 continue
 
+        if warnings or errors: self._controller.log_info_all('&nbsp;', True)
 
         for file in warnings:
-            self._controller.log_warning(f'{file}:')
+            self._controller.log_warning(f'<span style="font-weight: 700">{file}</span>:')
 
             for fasthack_line, code, pos1, pos2, details in warnings[file]:
                 code_begin = code[:pos1]
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
-                self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;Line {fasthack_line} - {details}', True)
+                self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', True)
                 self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Warning.value.hex[1:]}">{code_middle}</span>{code_end}', True)
+                for detail in details:
+                    self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', True)
                 self._controller.log_warning('&nbsp;', True)
 
 
+        if not first_error: return
+
+        file, fasthack_line, code, pos1, pos2, details = first_error
+        self._controller.log_simple.emit(f'<span style="font-weight: 700">{file}</span>:', LogType.Error, False)
+
+        code_begin = code[:pos1]
+        code_middle = code[pos1:pos2 + 1]
+        code_end = code[pos2 + 1:]
+        self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', LogType.Error, True)
+        self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{code_middle}</span>{code_end}', LogType.Error, True)
+        for detail in details:
+            self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
+        self._controller.log_simple.emit('&nbsp;', LogType.Error, True)
+
+        for file in errors:
+            self._controller.log_complete.emit(f'<span style="font-weight: 700">{file}</span>:', LogType.Error, False)
+
+            for fasthack_line, code, pos1, pos2, details in errors[file]:
+                code_begin = code[:pos1]
+                code_middle = code[pos1:pos2 + 1]
+                code_end = code[pos2 + 1:]
+                self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', LogType.Error, True)
+                self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{code_middle}</span>{code_end}', LogType.Error, True)
+                for detail in details:
+                    self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
+                self._controller.log_complete.emit('&nbsp;', LogType.Error, True)
+
+
     def _compile_modules(self) -> None:
-        self._controller.log_info('---')
+        self._controller.log_info('&nbsp;', True)
         self._controller.log_info('Compiling modules')
 
         if self._controller.config.use_mw:
@@ -365,11 +449,12 @@ class KamekBuilder:
                 cc_command.append('-I%s' % i)
 
 
-        self._moduleFiles = []
+        self._module_files = []
+        self._fast_cpp_path = None
 
         if self._controller.config.fast_hack:
-            fast_cpp_path = os.path.join(self._config_temp_dir, 'fasthack.cpp')
-            fast_cpp = open(f'{self._controller.cwd}/{fast_cpp_path}', 'w')
+            self._fast_cpp_path = os.path.join(self._config_temp_dir, 'fasthack.cpp')
+            fast_cpp = open(f'{self._controller.cwd}/{self._fast_cpp_path}', 'w')
 
         for m in self.project.modules:
             for normal_sourcefile in m.data['source_files']:
@@ -391,7 +476,7 @@ class KamekBuilder:
                         command = as_command
 
                     elif sourcefile.endswith('.cpp') and self._controller.config.fast_hack:
-                        fast_cpp.write('//\n// %s\n//\n\n' % sourcefile)
+                        fast_cpp.write('//\n// [Fasthack File Info] %s\n//\n\n' % sourcefile)
                         with open(f'{self._controller.cwd}/{sourcefile}', 'r') as sf:
                             fast_cpp.write(sf.read())
                         fast_cpp.write('\n')
@@ -421,7 +506,7 @@ class KamekBuilder:
                 if error_val != 0:
                     raise ProjectException('Compiler returned %d - An error occurred while compiling %s' % (error_val, sourcefile), LogType.Error)
 
-                self._moduleFiles.append(objfile)
+                self._module_files.append(objfile)
 
         if self._controller.config.fast_hack:
             fast_cpp.close()
@@ -429,7 +514,7 @@ class KamekBuilder:
             self._controller.log_info('Fast compilation!!')
             objfile = os.path.join(self._config_temp_dir, 'fasthack.o')
 
-            new_command = cc_command + ['-c', '-o', objfile, fast_cpp_path]
+            new_command = cc_command + ['-c', '-o', objfile, self._fast_cpp_path]
             if self._controller.config.show_cmd:
                 self._controller.log_info(str(new_command))
 
@@ -445,18 +530,18 @@ class KamekBuilder:
             if error_val != 0:
                 raise ProjectException('Compiler returned %d - An error occurred while compiling the fast hack' % error_val, LogType.Error)
 
-            self._moduleFiles.append(objfile)
+            self._module_files.append(objfile)
 
         self._controller.log_success('Compilation complete')
 
 
     def _link(self, short_name, script_file) -> None:
-        self._controller.log_info('---')
+        self._controller.log_info('&nbsp;', True)
         self._controller.log_info_all('Linking %s (%s)...' % (short_name, script_file))
 
         nice_name = '%s_%s' % (self._config['short_name'], short_name)
 
-        self._controller.log_info('---')
+        self._controller.log_info('&nbsp;', True)
 
         self._current_map_file = '%s/%s_linkmap.map' % (self._out_dir, nice_name)
         outname = 'object.plf' if self.dynamic_link_base else 'object.bin'
@@ -479,7 +564,7 @@ class KamekBuilder:
         ld_command.append(self._current_map_file)
         ld_command.append('--no-demangle') # for debugging
         #ld_command.append('--verbose')
-        ld_command += self._moduleFiles
+        ld_command += self._module_files
 
         if self._controller.config.show_cmd:
             self._controller.log_info(str(ld_command))
@@ -496,7 +581,7 @@ class KamekBuilder:
 
 
     def _read_symbol_map(self) -> None:
-        self._controller.log_info('---')
+        self._controller.log_info('&nbsp;', True)
         self._controller.log_info('Reading symbol map')
 
         self._symbols = []
@@ -585,7 +670,7 @@ class KamekBuilder:
 
 
     def _create_patch(self, short_name) -> None:
-        self._controller.log_info('---')
+        self._controller.log_info_all('&nbsp;', True)
         self._controller.log_info_all('Creating patch')
 
         nice_name = '%s_%s' % (self._config['short_name'], short_name)

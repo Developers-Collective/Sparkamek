@@ -27,6 +27,8 @@ class CompilerWorker(QThread):
     def __init__(self, data: dict) -> None:
         super(CompilerWorker, self).__init__()
 
+        self._data = data
+
         path = os.path.abspath(data['path']).replace('\\', '/')
 
         self._project_path = os.path.basename(path)
@@ -60,28 +62,22 @@ class CompilerWorker(QThread):
 
 
     def run(self) -> None:
-        ret = ('Starting compilation...', LogType.Info, False)
-        self.log_simple.emit(*ret)
-        self.log_complete.emit(*ret)
+        self.log_info_all('Starting compilation...', False)
 
         with open(self._project_full_path, 'r', encoding = 'utf-8') as f:
             project_data = yaml.safe_load(f)
 
         if not isinstance(project_data, dict):
-            ret = ('The project file is an invalid format (it should be a YAML mapping)', LogType.Error, False)
-
-            self.log_simple.emit(*ret)
-            self.log_complete.emit(*ret)
-            return self.error.emit(ret[0])
+            msg = 'The project file is an invalid format (it should be a YAML mapping)'
+            self.log_error(msg, False)
+            return self.error.emit(msg)
 
         if 'output_dir' not in project_data:
-            ret = ('Missing output_dir field in the project file', LogType.Error, False)
+            msg = 'Missing output_dir field in the project file'
+            self.log_error(msg, False)
+            return self.error.emit(msg)
 
-            self.log_simple.emit(*ret)
-            self.log_complete.emit(*ret)
-            return self.error.emit(ret[0])
-
-        asm_folder = Path(project_data['output_dir'])
+        self._asm_folder = Path(project_data['output_dir'])
 
 
         gccpath = Path(self._devkitppc_path)
@@ -100,12 +96,11 @@ class CompilerWorker(QThread):
                 # Running on Mac/Linux
                 kamekopts = {'use_wine': True}
 
-        self.log_complete.emit(f'Mapping addresses for {self._project_name}...', LogType.Info, False)
+        self.log_info(f'Mapping addresses for {self._project_name}...', False)
 
         try: self._address_mapper_controller.run()
         except ProjectException as e:
-            self.log_simple.emit(e.msg, e.type, False)
-            self.log_complete.emit(e.msg, e.type, False)
+            self.log_error(e.msg, False)
             return self.error.emit(e.msg)
 
 
@@ -126,13 +121,75 @@ class CompilerWorker(QThread):
 
         except Exception as e:
             print(traceback.format_exc())
-            self.log_simple.emit(str(e), LogType.Error, False)
-            self.log_complete.emit(str(e), LogType.Error, False)
+            self.log_error(str(e), False)
             return self.error.emit(str(e))
 
+        self._build_folder = Path(f'{self._cwd}/Build_{self._project_name}')
 
-        ret = ('All done!', LogType.Success, False)
-        self.log_simple.emit(*ret)
-        self.log_complete.emit(*ret)
+        self.log_info('&nbsp;', True)
+
+        if self._data.get('generatePAL', None):
+            self.log_info('Renaming PAL files...', False)
+            self._copy_files('pal', 'EU_1')
+            self._copy_files('pal2', 'EU_2')
+
+        if self._data.get('generateNTSC', None):
+            self.log_info('Renaming NTSC files...', False)
+            self._copy_files('ntsc', 'US_1')
+            self._copy_files('ntsc2', 'US_2')
+
+        if self._data.get('generateJP', None):
+            self.log_info('Renaming JP files...', False)
+            self._copy_files('jpn', 'JP_1')
+            self._copy_files('jpn2', 'JP_2')
+
+        if self._data.get('generateKR', None):
+            self.log_info('Renaming KR files...', False)
+            self._copy_files('kor', 'KR_3')
+
+        if self._data.get('generateTW', None):
+            self.log_info('Renaming TW files...', False)
+            self._copy_files('twn', 'TW_4')
+
+        if self._data.get('generateCH', None):
+            self.log_info('Renaming CH files...', False)
+            self._copy_files('chn', 'CN_5')
+
+        self.log_info_all('&nbsp;', True)
+        self.log_success('All done!', False)
         self.done.emit()
+
+    def _copy_files(self, version_name_1: str, version_name_2: str) -> None:
+        (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_loader.bin').replace(self._build_folder / f'System{version_name_2}.bin')
+        (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_dlcode.bin').replace(self._build_folder / f'DLCode{version_name_2}.bin')
+        (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_dlrelocs.bin').replace(self._build_folder / f'DLRelocs{version_name_2}.bin')
+
+    def log_info(self, msg: str, invisible: bool = False) -> None:
+        msg = msg.strip()
+        if not msg: return
+        self.log_complete.emit(msg, LogType.Info, invisible)
+
+    def log_info_all(self, msg: str, invisible: bool = False) -> None:
+        msg = msg.strip()
+        if not msg: return
+        self.log_complete.emit(msg, LogType.Info, invisible)
+        self.log_simple.emit(msg, LogType.Info, invisible)
+
+    def log_warning(self, msg: str, invisible: bool = False) -> None:
+        msg = msg.strip()
+        if not msg: return
+        self.log_complete.emit(msg, LogType.Warning, invisible)
+        self.log_simple.emit(msg, LogType.Warning, invisible)
+
+    def log_error(self, msg: str, invisible: bool = False) -> None:
+        msg = msg.strip()
+        if not msg: return
+        self.log_complete.emit(msg, LogType.Error, invisible)
+        self.log_simple.emit(msg, LogType.Error, invisible)
+
+    def log_success(self, msg: str, invisible: bool = False) -> None:
+        msg = msg.strip()
+        if not msg: return
+        self.log_complete.emit(msg, LogType.Success, invisible)
+        self.log_simple.emit(msg, LogType.Success, invisible)
 #----------------------------------------------------------------------

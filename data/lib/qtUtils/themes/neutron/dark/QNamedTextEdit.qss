@@ -29,6 +29,7 @@ QWidget[QNamedTextEdit=true] QTextEdit[readOnly=true] {
 
 QWidget[QNamedTextEdit=true] QLabel {
 	color: #909090;
+	background-color: transparent;
 	height: 50px;
 	border: none;
 	font-size: 12px;

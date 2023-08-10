@@ -2,9 +2,8 @@
 
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
-from PySide6.QtGui import QTextBlockFormat, QTextCursor
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextEdit, QUtilsColor
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextEdit, QUtilsColor, QSlidingStackedWidget
 from .CompilerWorker import CompilerWorker
 from ..LogType import LogType
 #----------------------------------------------------------------------
@@ -61,14 +60,16 @@ class CompilerDockWidget(QSavableDockWidget):
         self._complete_view_toggle.toggle_button.toggled.connect(self._switch_logs_view)
         frame.grid_layout.addWidget(self._complete_view_toggle, 0, 1, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
+        self._logs_slide_widget = QSlidingStackedWidget()
+        self._root.scroll_layout.addWidget(self._logs_slide_widget, 1, 0)
+
         self._simple_logs_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.simpleLogs'))
         self._simple_logs_textedit.setReadOnly(True)
-        self._root.scroll_layout.addWidget(self._simple_logs_textedit, 1, 0)
+        self._logs_slide_widget.addWidget(self._simple_logs_textedit)
 
         self._complete_logs_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.completeLogs'))
         self._complete_logs_textedit.setReadOnly(True)
-        self._root.scroll_layout.addWidget(self._complete_logs_textedit, 2, 0)
-        self._complete_logs_textedit.hide()
+        self._logs_slide_widget.addWidget(self._complete_logs_textedit)
 
     def _compile(self) -> None:
         if self._compile_thread is None:
@@ -111,12 +112,7 @@ class CompilerDockWidget(QSavableDockWidget):
         return self._compile_thread is not None
 
     def _switch_logs_view(self, value: bool) -> None:
-        if value:
-            self._simple_logs_textedit.hide()
-            self._complete_logs_textedit.show()
-        else:
-            self._complete_logs_textedit.hide()
-            self._simple_logs_textedit.show()
+        self._logs_slide_widget.slide_in_index(int(value))
 
     def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
         l = self._lang.get_data(f'QNamedTextEdit.{log_type.name.lower()}')
