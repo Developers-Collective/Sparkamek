@@ -86,6 +86,8 @@ class SymbolsDockWidget(QSavableDockWidget):
         self._proxy_model.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self._list.setModel(self._proxy_model)
 
+        self._task_is_running = False
+
     def text_changed(self, text: str) -> None:
         self._proxy_model.setFilterRegularExpression(text)
 
@@ -96,7 +98,15 @@ class SymbolsDockWidget(QSavableDockWidget):
         self._proxy_model.setFilterKeyColumn(index)
 
     def set_symbols(self, symbols: list[FuncSymbol]) -> None:
-        self._list.clear()
+        self._task_is_running = True
 
-        for symbol in symbols: self._list.add_item([f'0x{symbol.addr:08X}', symbol.name, symbol.raw], None, Qt.AlignmentFlag.AlignLeft)
+        self._list.clear()
+        for symbol in symbols: self._list.add_item([f'0x{symbol.addr:08X}', symbol.name, symbol.raw], None, [Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignLeft, Qt.AlignmentFlag.AlignLeft])
+
+        self._task_is_running = False
+
+
+    @property
+    def task_is_running(self) -> bool:
+        return self._task_is_running
 #----------------------------------------------------------------------

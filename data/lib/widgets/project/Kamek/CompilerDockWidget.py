@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextEdit, QUtilsColor, QSlidingStackedWidget
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QUtilsColor, QSlidingStackedWidget
 from .CompilerWorker import CompilerWorker
 from ..LogType import LogType
 from .compiler import FuncSymbol
@@ -66,21 +66,31 @@ class CompilerDockWidget(QSavableDockWidget):
         self._logs_slide_widget = QSlidingStackedWidget()
         self._root.scroll_layout.addWidget(self._logs_slide_widget, 1, 0)
 
-        self._simple_logs_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.simpleLogs'))
-        self._simple_logs_textedit.setReadOnly(True)
-        self._logs_slide_widget.addWidget(self._simple_logs_textedit)
+        self._simple_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get_data('QNamedTextBrowser.simpleLogs'))
+        self._simple_logs_textbrowser.setReadOnly(True)
+        self._simple_logs_textbrowser.text_browser.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse |
+            Qt.TextInteractionFlag.LinksAccessibleByMouse
+        )
+        self._simple_logs_textbrowser.text_browser.setOpenExternalLinks(True)
+        self._logs_slide_widget.addWidget(self._simple_logs_textbrowser)
 
-        self._complete_logs_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.completeLogs'))
-        self._complete_logs_textedit.setReadOnly(True)
-        self._logs_slide_widget.addWidget(self._complete_logs_textedit)
+        self._complete_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get_data('QNamedTextBrowser.completeLogs'))
+        self._complete_logs_textbrowser.setReadOnly(True)
+        self._complete_logs_textbrowser.text_browser.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse |
+            Qt.TextInteractionFlag.LinksAccessibleByMouse
+        )
+        self._complete_logs_textbrowser.text_browser.setOpenExternalLinks(True)
+        self._logs_slide_widget.addWidget(self._complete_logs_textbrowser)
 
     def _compile(self) -> None:
         if self._compile_thread is None:
             self._compile_button.setIcon(self._stop_icon)
             self._compile_button.setText(self._lang.get_data('QPushButton.stop'))
 
-            self._simple_logs_textedit.clear()
-            self._complete_logs_textedit.clear()
+            self._simple_logs_textbrowser.clear()
+            self._complete_logs_textbrowser.clear()
 
             self._compile_thread = CompilerWorker(self._data)
             self._compile_thread.done.connect(self._compile_done)
@@ -119,7 +129,7 @@ class CompilerDockWidget(QSavableDockWidget):
         self._logs_slide_widget.slide_in_index(int(value))
 
     def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
-        l = self._lang.get_data(f'QNamedTextEdit.{log_type.name.lower()}')
+        l = self._lang.get_data(f'QNamedTextBrowser.{log_type.name.lower()}')
         if invisible:
             l = '<span>' + '&nbsp;' * (len(l) + 2) * 2 + '</span>'
 
@@ -131,8 +141,8 @@ class CompilerDockWidget(QSavableDockWidget):
         return f'{gen_span("[", self._bracket_color, True)}{gen_span(l, log_type.value, True)}{gen_span("]", self._bracket_color, True)} {gen_span(msg, self._neutral_color)}'
 
     def _log_simple(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
-        self._simple_logs_textedit.append(self._format_msg(msg, log_type, invisible))
+        self._simple_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
 
     def _log_complete(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
-        self._complete_logs_textedit.append(self._format_msg(msg, log_type, invisible))
+        self._complete_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
 #----------------------------------------------------------------------

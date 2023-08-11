@@ -15,6 +15,7 @@ from .QGridGroupBox import QGridGroupBox
 from .QIconLineEdit import QIconLineEdit
 from .QNamedLineEdit import QNamedLineEdit
 from .QNamedTextEdit import QNamedTextEdit
+from .QNamedTextBrowser import QNamedTextBrowser
 from .QNamedComboBox import QNamedComboBox
 from .QNamedSpinBox import QNamedSpinBox
 from .QNamedDoubleSpinBox import QNamedDoubleSpinBox

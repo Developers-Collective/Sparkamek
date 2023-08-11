@@ -191,10 +191,14 @@ class KamekBuilder:
 
             # figure out how many copies we need to build
             # this is a mess!
-            if 'multi_build' in self._config:
-                self._multi_build = self._config['multi_build']
-            else:
-                self._multi_build = {self._config['short_name']: self._config['linker_script']}
+            try:
+                if 'multi_build' in self._config:
+                    self._multi_build = self._config['multi_build']
+                else:
+                    self._multi_build = {self._config['short_name']: self._config['linker_script']}
+
+            except Exception:
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
 
             keys = list(self._controller.version_ids.keys()) + ['pal']
             for s_name, s_script in self._multi_build.items():
@@ -421,36 +425,44 @@ class KamekBuilder:
 
         if self._controller.config.use_mw:
             # metrowerks setup
-            cc_command = ['%smwcceppc.exe' % self._controller.config.mw_path, '-I.', '-I-', '-I.', '-nostdinc', '-Cpp_exceptions', 'off', '-fp', 'hard', '-enum', 'int', '-sdata', '0', '-sdata2', '0', '-g', '-RTTI', 'off', '-use_lmw_stmw', 'on']
-            as_command = ['%smwasmeppc.exe' % self._controller.config.mw_path, '-I.', '-I-', '-I.', '-nostdinc', '-d', '__MWERKS__']
+            cc_command = ['%smwcceppc.exe' % self._controller.config.mw_path, '-I.', '-I-', '-I.', '-nostdinc', '-Cpp_exceptions', 'off', '-Os', '-proc', 'gekko', '-fp', 'hard', '-enum', 'int', '-sdata', '0', '-sdata2', '0', '-g', '-RTTI', 'off', '-use_lmw_stmw', 'on']
+            as_command = ['%smwasmeppc.exe' % self._controller.config.mw_path, '-I.', '-I-', '-I.', '-nostdinc', '-proc', 'gekko', '-d', '__MWERKS__']
 
-            for d in self._config.get('defines', []) + self.project.data.get('defines', []):
-                cc_command.append('-d')
-                cc_command.append(d)
-                as_command.append('-d')
-                as_command.append(d)
-                self._controller.log_info(f'Defined: {d}')
+            try:
+                for d in self._config.get('defines', []) + self.project.data.get('defines', []):
+                    cc_command.append('-d')
+                    cc_command.append(d)
+                    as_command.append('-d')
+                    as_command.append(d)
+                    self._controller.log_info(f'Defined: {d}')
 
-            for i in self._config['include_dirs']:
-                cc_command.append('-I%s' % i)
-                #cc_command.append(i)
-                as_command.append('-I%s' % i)
-                #as_command.append(i)
+                for i in self._config['include_dirs']:
+                    cc_command.append('-I%s' % i)
+                    #cc_command.append(i)
+                    as_command.append('-I%s' % i)
+                    #as_command.append(i)
 
-            if self._controller.config.use_wine:
-                cc_command.insert(0, 'wine')
-                as_command.insert(0, 'wine')
+                if self._controller.config.use_wine:
+                    cc_command.insert(0, 'wine')
+                    as_command.insert(0, 'wine')
+
+            except Exception:
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
 
         else:
             # gcc setup
             cc_command = ['%s%s-g++' % (self._controller.config.gcc_path, self._controller.config.gcc_type), '-nodefaultlibs', '-I.', '-fno-builtin', '-Os', '-fno-exceptions', '-fno-rtti', '-mno-sdata']
             as_command = cc_command
 
-            for d in self._config.get('defines', []) + self.project.data.get('defines', []):
-                cc_command.append('-D%s' % d)
+            try:
+                for d in self._config.get('defines', []) + self.project.data.get('defines', []):
+                    cc_command.append('-D%s' % d)
 
-            for i in self._config['include_dirs']:
-                cc_command.append('-I%s' % i)
+                for i in self._config['include_dirs']:
+                    cc_command.append('-I%s' % i)
+
+            except Exception:
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
 
 
         self._module_files = []
@@ -500,7 +512,10 @@ class KamekBuilder:
 
                 try:
                     os.chdir(self._controller.cwd)
-                    error_val = subprocess.call(new_command, stdout = subprocess.PIPE)
+                    # error_val = subprocess.call(new_command, stdout = subprocess.PIPE)
+                    p = subprocess.Popen(new_command, stdout = subprocess.PIPE)
+                    output = p.communicate()[0].decode('utf-8')
+                    error_val = p.poll()
                     os.chdir(cwd)
 
                 except:
@@ -508,7 +523,11 @@ class KamekBuilder:
                     raise ProjectException('An error occured while calling the compiler. Please make sure CodeWarrior is installed correctly into the tools folder.', LogType.Error)
                 
                 if error_val != 0:
-                    raise ProjectException('Compiler returned %d - An error occurred while compiling %s' % (error_val, sourcefile), LogType.Error)
+                    if 'Driver Error' in output:
+                        raise ProjectException(output, LogType.Error)
+
+                    else:
+                        raise ProjectException('Compiler returned %d - An error occurred while compiling %s' % (error_val, sourcefile), LogType.Error)
 
                 self._module_files.append(objfile)
 
@@ -543,7 +562,11 @@ class KamekBuilder:
         self._controller.log_info('&nbsp;', True)
         self._controller.log_info_all('Linking %s (%s)...' % (short_name, script_file))
 
-        nice_name = '%s_%s' % (self._config['short_name'], short_name)
+        try:
+            nice_name = '%s_%s' % (self._config['short_name'], short_name)
+
+        except Exception:
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
 
         self._controller.log_info('&nbsp;', True)
 
@@ -681,7 +704,11 @@ class KamekBuilder:
         self._controller.log_info_all('&nbsp;', True)
         self._controller.log_info_all('Creating patch')
 
-        nice_name = '%s_%s' % (self._config['short_name'], short_name)
+        try:
+            nice_name = '%s_%s' % (self._config['short_name'], short_name)
+
+        except Exception:
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
 
         # convert the .rel patches to KamekPatcher format
         if len(self._rel_patches) > 0:

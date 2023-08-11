@@ -45,9 +45,6 @@ class Application(QBaseApplication):
 
         self.save_data = SaveData(save_path = os.path.abspath('./data/save.dat').replace('\\', '/'))
 
-        Project.init(self)
-        OpenProjectDialog.init(self)
-
         self.save_data.set_stylesheet(self)
         self.window.setProperty('color', 'blue')
 
@@ -56,6 +53,10 @@ class Application(QBaseApplication):
         self.projects: list[Project] = []
 
         self.load_colors()
+
+        Project.init(self)
+        OpenProjectDialog.init(self)
+
         self.create_widgets()
         self.update_title()
 
@@ -272,8 +273,8 @@ class Application(QBaseApplication):
 
         if self.main_menu.current_index == 0: self.main_menu.slide_in_index(1)
 
-        self.refresh_project_connections()
         self.save_data.save()
+        self.refresh_project_connections()
 
     def edit_project(self, index: int) -> None:
         result = OpenProjectDialog(self.window, self.save_data.projects[index]).exec()
@@ -296,8 +297,8 @@ class Application(QBaseApplication):
         if not self.projects:
             self.main_menu.slide_in_index(0)
 
-        self.refresh_project_connections()
         self.save_data.save()
+        self.refresh_project_connections()
 
 
 

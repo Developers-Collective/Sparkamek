@@ -80,14 +80,15 @@ class QBetterListWidget(QTreeView):
     def count(self) -> int:
         return len(self.get_items())
 
-    def add_item(self, items: list[str], icon = None, alignmentFlag: Qt.AlignmentFlag = Qt.AlignmentFlag.AlignLeft) -> None:
+    def add_item(self, items: list[str], icon = None, alignment_flag: Qt.AlignmentFlag | list[Qt.AlignmentFlag] = Qt.AlignmentFlag.AlignLeft) -> None:
         if not _verification.good_headers(items):
             print('Items must be strings!')
             return
 
         for index in range(min(len(self._headers), len(items))):
             items[index] = QStandardItem(items[index])
-            items[index].setTextAlignment(alignmentFlag)
+            if isinstance(alignment_flag, list): items[index].setTextAlignment(alignment_flag[index])
+            else: items[index].setTextAlignment(alignment_flag)
 
         for index in range(len(self._headers) - len(items)):
             items.append(QStandardItem(''))

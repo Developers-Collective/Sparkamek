@@ -5,7 +5,7 @@ from PySide6.QtCore import Signal, QThread
 import os, yaml, sys, difflib, traceback
 from pathlib import Path
 
-from data.lib.qtUtils import QBaseApplication
+from data.lib.qtUtils import QBaseApplication, QUtilsColor
 from ..LogType import LogType
 from ..ProjectException import ProjectException
 from .compiler import *
@@ -14,6 +14,7 @@ from .compiler import *
     # Class
 class CompilerWorker(QThread):
     _devkitppc_path: str = None
+    _color_link = QUtilsColor('#0000FF')
 
     done = Signal()
     error = Signal(str)
@@ -24,6 +25,7 @@ class CompilerWorker(QThread):
     @staticmethod
     def init(app: QBaseApplication) -> None:
         CompilerWorker._devkitppc_path = 'D:/Programmes/devkitPro/devkitPPC/bin/' # todo: get from settings
+        CompilerWorker._color_link = app.COLOR_LINK
 
     def __init__(self, data: dict) -> None:
         super(CompilerWorker, self).__init__()
@@ -102,7 +104,7 @@ class CompilerWorker(QThread):
         try: self._address_mapper_controller.run()
 
         except ProjectException as e:
-            self.log_error(e.msg, False)
+            self.log_error(e.msg.replace('\n', '<br/>'), False)
             return self.error.emit(e.msg)
 
 
@@ -154,6 +156,26 @@ class CompilerWorker(QThread):
                     # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ {func.raw}', True)
 
                     # if func != e.func_symbols[-1]: self.log_error('&nbsp;', True)
+
+            return self.error.emit(e.msg)
+
+        except ProjectException as e:
+            if 'Driver Error' in e.msg:
+                func = lambda s, inv: self.log_complete.emit(s, LogType.Error, inv)
+                self.log_simple.emit('An Driver Error occured while calling the compiler.', LogType.Error, False)
+                self.log_simple.emit('Please make sure the right version of CodeWarrior is installed into the tools folder.', LogType.Error, True)
+                self.log_simple.emit(f'You can find the installer here: <a href=\"http://cache.nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe?WT_TYPE=IDE%20-%20Debug,%20Compile%20and%20Build%20Tools&WT_VENDOR=FREESCALE&WT_FILE_FORMAT=exe&WT_ASSET=Downloads&fileExt=.exe\" style=\"color: {self._color_link.hex}; text-decoration: none;\">NXP \'CodeWarrior Special Edition\' for MPC55xx/MPC56xx v2.10</a>.', LogType.Error, True)
+                self.log_simple.emit(f'If this direct link doesn\'t work, the original page is <a href=\"http://web.archive.org/web/20160602205749/http://www.nxp.com/products/software-and-tools/software-development-tools/codewarrior-development-tools/downloads/special-edition-software:CW_SPECIALEDITIONS\" style=\"color: {self._color_link.hex}; text-decoration: none;\">available on the Internet Archive</a>.', LogType.Error, True)
+
+            else:
+                func = self.log_error
+
+            lines = e.msg.split('\n')
+            first_line = lines.pop(0)
+            func(first_line, False)
+
+            for line in lines:
+                func(line, True)
 
             return self.error.emit(e.msg)
 

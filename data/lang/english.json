@@ -44,6 +44,34 @@
                         },
                         "LoaderWidget": {},
                         "KamekWidget": {
+                            "QLabel": {
+                                "spritesAndActors": "Sprites and Actors"
+                            },
+                            "QBetterListWidget": {
+                                "actorName": "Actor Name",
+                                "actorID": "Actor ID",
+                                "spriteID": "Sprite ID",
+                                "replaceOrNew": "Replace or New",
+                                "replace": "Replace",
+                                "new": "New"
+                            },
+                            "QNamedToggleButton": {
+                                "caseSensitive": "Case Sensitive"
+                            },
+                            "QIconLineEdit": {
+                                "search": "Search..."
+                            },
+                            "QNamedComboBox": {
+                                "searchBy": {
+                                    "title": "Search By",
+                                    "values": {
+                                        "actorName": "Actor Name",
+                                        "actorID": "Actor ID",
+                                        "spriteID": "Sprite ID",
+                                        "replaceOrNew": "Replace or New"
+                                    }
+                                }
+                            },
                             "CompilerDockWidget": {
                                 "title": "%s Kamek Compiler",
                                 "QPushButton": {
@@ -53,7 +81,7 @@
                                 "QNamedToggleButton": {
                                     "showCompleteLogs": "Show Complete Logs"
                                 },
-                                "QNamedTextEdit": {
+                                "QNamedTextBrowser": {
                                     "simpleLogs": "Simple Logs",
                                     "completeLogs": "Complete Logs",
                                     "error": "Error",

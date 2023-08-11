@@ -15,6 +15,7 @@ from .QssParser import QssParser, QssSelector
 from .QUtilsColor import QUtilsColor
 from .QNamedLineEdit import QNamedLineEdit
 from .QNamedTextEdit import QNamedTextEdit
+from .QNamedTextBrowser import QNamedTextBrowser
 from .QNamedComboBox import QNamedComboBox
 from .QNamedSpinBox import QNamedSpinBox
 from .QNamedDoubleSpinBox import QNamedDoubleSpinBox
@@ -183,6 +184,20 @@ class QBaseApplication(QApplication):
         QNamedTextEdit.focus_color = qss.search(
             QssSelector(widget = 'QWidget', attributes = {'color': self.window.property('color')}),
             QssSelector(widget = 'QWidget', attributes = {'QNamedTextEdit': True, 'color': 'main'}),
+            QssSelector(widget = 'QLabel', attributes = {'focus': True})
+        )['color']
+
+        QNamedTextBrowser.normal_color = qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'QNamedTextBrowser': True}),
+            QssSelector(widget = 'QLabel')
+        )['color']
+        QNamedTextBrowser.hover_color = qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'QNamedTextBrowser': True}),
+            QssSelector(widget = 'QLabel', attributes = {'hover': True})
+        )['color']
+        QNamedTextBrowser.focus_color = qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'color': self.window.property('color')}),
+            QssSelector(widget = 'QWidget', attributes = {'QNamedTextBrowser': True, 'color': 'main'}),
             QssSelector(widget = 'QLabel', attributes = {'focus': True})
         )['color']
 
