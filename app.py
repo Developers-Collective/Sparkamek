@@ -257,48 +257,49 @@ class Application(QBaseApplication):
 
         exc = suppress(Exception)
 
-        for index, project in enumerate(self.save_data.projects):
-            p = self.projects[index]
+        for index, project in enumerate(self.projects):
+            with exc: project.edit_clicked.disconnect()
+            with exc: project.remove_clicked.disconnect()
 
-            with exc: p.edit_clicked.disconnect()
-            with exc: p.remove_clicked.disconnect()
-
-            p.edit_clicked.connect(send_param_edit(index))
-            p.remove_clicked.connect(send_param_remove(index))
+            project.edit_clicked.connect(send_param_edit(index))
+            project.remove_clicked.connect(send_param_remove(index))
 
     def add_project(self, project: dict) -> None:
-        self.save_data.projects.append(project)
         self.projects.append(Project(project = project['data']))
         self.sidepanelwidget.add_widget(self.projects[-1], project['name'], project['icon'])
 
         if self.main_menu.current_index == 0: self.main_menu.slide_in_index(1)
 
-        self.save_data.save()
+        self.save()
         self.refresh_project_connections()
 
     def edit_project(self, index: int) -> None:
-        result = OpenProjectDialog(self.window, self.save_data.projects[index]).exec()
+        result = OpenProjectDialog(self.window, self.projects[index].save_project()).exec()
         if not result: return
 
-        self.save_data.projects[index] = result
         self.sidepanelwidget.sidepanel.item_at(index).icon = result['icon']
         self.sidepanelwidget.sidepanel.item_at(index).text = result['name']
         self.sidepanelwidget.sidepanel.update()
 
         self.projects[index].rebuild(result['data'], result['name'], result['icon'])
 
-        self.save_data.save()
+        self.save()
 
     def remove_project(self, index: int) -> None:
-        self.save_data.projects.pop(index)
         self.projects.pop(index)
         self.sidepanelwidget.remove_widget(index)
 
         if not self.projects:
             self.main_menu.slide_in_index(0)
 
-        self.save_data.save()
+        self.save()
         self.refresh_project_connections()
+
+
+
+    def save(self) -> None:
+        self.save_data.projects = [project.save_project() for project in self.projects]
+        self.save_data.save()
 
 
 
@@ -330,7 +331,7 @@ class Application(QBaseApplication):
         self.update_button.setVisible(update)
 
     def update_click(self) -> None:
-        self.save_data.save()
+        self.save()
         self.must_update = self.must_update_link
         self.exit()
 
@@ -444,6 +445,8 @@ class Application(QBaseApplication):
 
             if self.update_request.isRunning():
                 self.update_request.terminate()
+
+        self.save()
 
         super().exit()
 #----------------------------------------------------------------------

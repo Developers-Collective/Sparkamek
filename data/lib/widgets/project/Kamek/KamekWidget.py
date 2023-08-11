@@ -38,10 +38,11 @@ class KamekWidget(SubProjectWidgetBase):
         dockwidgets = data.get('dockwidgets', {})
 
         self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data)
+        self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
+
         if 'compiler' in dockwidgets: self._compiler_dock_widget.load_dict(self, dockwidgets['compiler'])
         else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
 
-        self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
         if 'symbols' in dockwidgets: self._symbols_dock_widget.load_dict(self, dockwidgets['symbols'])
         else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
 

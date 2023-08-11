@@ -108,6 +108,8 @@ class Project(QGridWidget):
         self._build()
 
     def _load_project(self, project: dict, name: str, icon: str) -> None:
+        self._name = name
+        self._icon = icon
         self._projects: list[SubProjectWidgetBase] = []
 
         for cls in ProjectType.get_all():
@@ -127,9 +129,14 @@ class Project(QGridWidget):
                 dct[k.value] = None
 
         return {
-                type: project.export() for type, project in [
-                    (p.type.value, p) for p in self._projects
-                ]
+            'name': self._name,
+            'icon': self._icon,
+            'data':
+                {
+                    type: project.export() for type, project in [
+                        (p.type.value, p) for p in self._projects
+                    ]
+                }
             }
 
     def _tab_switch_index(self, index: int) -> None:
