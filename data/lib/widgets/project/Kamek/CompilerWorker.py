@@ -184,7 +184,7 @@ class CompilerWorker(QThread):
             self.log_error(str(e), False)
             return self.error.emit(str(e))
 
-        self._build_folder = Path(f'{self._cwd}/{self._data["buildFolder"]}')
+        self._build_folder = Path(f'{self._cwd}/{self._data.get("buildFolder", "Build")}')
         if not self._build_folder.is_dir():
             self._build_folder.mkdir()
 

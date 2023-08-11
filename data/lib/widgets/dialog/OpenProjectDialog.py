@@ -340,6 +340,7 @@ class OpenProjectDialog(QDialog):
         self._kamek_generate_jp_toggle = generate_version('generateJP', kamek_data.get('generateJP', True) if kamek_data else True)
         self._kamek_generate_tw_toggle = generate_version('generateTW', kamek_data.get('generateTW', True) if kamek_data else True)
         self._kamek_generate_kr_toggle = generate_version('generateKR', kamek_data.get('generateKR', True) if kamek_data else True)
+        # self._kamek_generate_cn_toggle = generate_version('generateCN', kamek_data.get('generateCN', True) if kamek_data else True)
 
 
         return widget
@@ -552,7 +553,8 @@ class OpenProjectDialog(QDialog):
             'generateNTSC': self._kamek_generate_ntsc_toggle.isChecked(),
             'generateJP': self._kamek_generate_jp_toggle.isChecked(),
             'generateTW': self._kamek_generate_tw_toggle.isChecked(),
-            'generateKR': self._kamek_generate_kr_toggle.isChecked()
+            'generateKR': self._kamek_generate_kr_toggle.isChecked(),
+            # 'generateCN': self._kamek_generate_cn_toggle.isChecked(),
         }
     
     def _get_reggienext(self) -> dict | None:

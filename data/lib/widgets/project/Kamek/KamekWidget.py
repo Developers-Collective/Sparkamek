@@ -35,6 +35,14 @@ class KamekWidget(SubProjectWidgetBase):
         self.scroll_layout.setSpacing(20)
 
         dockwidgets = data.get('dockwidgets', {})
+        self._build_folder = data.get('buildFolder', None)
+        self._output_folder = data.get('outputFolder', None)
+        self._generate_pal = data.get('generatePAL', True)
+        self._generate_ntsc = data.get('generateNTSC', True)
+        self._generate_jp = data.get('generateJP', True)
+        self._generate_kr = data.get('generateKR', True)
+        self._generate_tw = data.get('generateTW', True)
+        # self._generate_ch = data.get('generateCH', True)
 
         self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data)
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
@@ -177,6 +185,18 @@ class KamekWidget(SubProjectWidgetBase):
             dockwidgets[dw.objectName()] = dw.to_dict()
 
         return dockwidgets
+
+    def export(self) -> dict:
+        return super().export() | {
+            'buildFolder': self._build_folder,
+            'outputFolder': self._output_folder,
+            'generatePAL': self._generate_pal,
+            'generateNTSC': self._generate_ntsc,
+            'generateJP': self._generate_jp,
+            'generateKR': self._generate_kr,
+            'generateTW': self._generate_tw,
+            # 'generateCN': self._generate_cn,
+        }
 
     def reset_dock_widgets(self) -> None:
         for dw in [self._compiler_dock_widget, self._symbols_dock_widget]:
