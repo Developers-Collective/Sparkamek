@@ -28,10 +28,14 @@ class SubProjectWidgetBase(QSubScrollableGridMainWindow):
 
     def export(self) -> dict:
         return {
-            'path': self._path
+            'path': self._path,
+            'dockwidgets': self._save_dock_widgets()
         }
 
     @property
     def task_is_running(self) -> bool:
         return False
+
+    def _save_dock_widgets(self) -> dict:
+        return {}
 #----------------------------------------------------------------------

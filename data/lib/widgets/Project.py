@@ -52,9 +52,9 @@ class Project(QGridWidget):
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
         self.grid_layout.setSpacing(0)
 
-        self._build(project)
+        self._build()
 
-    def _build(self, project: dict) -> None:
+    def _build(self) -> None:
         top_frame = QGridWidget()
         top_frame.grid_layout.setContentsMargins(16, 16, 16, 0)
         top_frame.grid_layout.setSpacing(0)
@@ -105,7 +105,7 @@ class Project(QGridWidget):
                 w.deleteLater()
 
         self._load_project(project, name, icon)
-        self._build(project)
+        self._build()
 
     def _load_project(self, project: dict, name: str, icon: str) -> None:
         self._projects: list[SubProjectWidgetBase] = []
@@ -127,10 +127,10 @@ class Project(QGridWidget):
                 dct[k.value] = None
 
         return {
-            type: project.export() for type, project in [
-                (p.type.value, p) for p in self._projects
-            ]
-        }
+                type: project.export() for type, project in [
+                    (p.type.value, p) for p in self._projects
+                ]
+            }
 
     def _tab_switch_index(self, index: int) -> None:
         self._notebook_tabs.slide_in_index(index)

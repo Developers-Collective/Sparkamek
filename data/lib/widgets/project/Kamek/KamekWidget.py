@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QLabel, QPushButton
+from PySide6.QtWidgets import QLabel, QPushButton, QDockWidget
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from data.lib.qtUtils import QBaseApplication, QBetterListWidget, QSaveData, QGridWidget, QIconLineEdit, QNamedComboBox, QNamedToggleButton
 from ..SubProjectWidgetBase import SubProjectWidgetBase
@@ -35,20 +35,21 @@ class KamekWidget(SubProjectWidgetBase):
 
         self.scroll_layout.setSpacing(20)
 
+        dockwidgets = data.get('dockwidgets', {})
+
         self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data)
-        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
+        if 'compiler' in dockwidgets: self._compiler_dock_widget.load_dict(self, dockwidgets['compiler'])
+        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
 
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
-        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
+        if 'symbols' in dockwidgets: self._symbols_dock_widget.load_dict(self, dockwidgets['symbols'])
+        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
 
-        self.tabifyDockWidget(self._compiler_dock_widget, self._symbols_dock_widget)
-
-        self._compiler_dock_widget.raise_()
+        if 'compiler' not in dockwidgets and 'symbols' not in dockwidgets:
+            self.tabifyDockWidget(self._compiler_dock_widget, self._symbols_dock_widget)
+            self._compiler_dock_widget.raise_()
 
         self._compiler_dock_widget.new_symbols.connect(self._symbols_dock_widget.set_symbols)
-
-        # if 'properties' in self.save_data.dock_widgets: self.properties_menu_dock_widget.load_dict(self.window, self.save_data.dock_widgets['properties'])
-        # else: self.window.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.properties_menu_dock_widget)
 
 
         topframe = QGridWidget()
@@ -164,4 +165,17 @@ class KamekWidget(SubProjectWidgetBase):
 
     def _refresh_sprites_and_actors_found_item(self, actor_name: str, actor_id: int, sprite_id: int, replace: bool) -> None:
         self._sprite_list.add_item([actor_name, str(actor_id), str(sprite_id) if sprite_id > -1 else '-', self._lang.get_data('QBetterListWidget.replace') if replace else self._lang.get_data('QBetterListWidget.new')], None, [Qt.AlignmentFlag.AlignLeft, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter])
+
+    def _save_dock_widgets(self) -> dict:
+        if self._sprites_and_actors_worker is not None:
+            self._sprites_and_actors_worker.terminate()
+
+        self._compiler_dock_widget.terminate_task()
+
+        dockwidgets = {}
+
+        for dw in self.findChildren(QDockWidget):
+            dockwidgets[dw.objectName()] = dw.to_dict()
+
+        return dockwidgets
 #----------------------------------------------------------------------

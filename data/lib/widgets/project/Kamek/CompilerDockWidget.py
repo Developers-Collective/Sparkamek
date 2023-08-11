@@ -145,4 +145,9 @@ class CompilerDockWidget(QSavableDockWidget):
 
     def _log_complete(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
         self._complete_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
+
+    def terminate_task(self) -> None:
+        if self._compile_thread is not None:
+            self._compile_thread.terminate()
+            self._compile_thread = None
 #----------------------------------------------------------------------
