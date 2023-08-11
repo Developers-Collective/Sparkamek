@@ -9,7 +9,6 @@ from data.lib.widgets.ProjectKeys import ProjectKeys
 from .CompilerDockWidget import CompilerDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
 from .SpritesAndActorsWorker import SpritesAndActorsWorker
-import yaml, os
 #----------------------------------------------------------------------
 
     # Class
@@ -124,7 +123,6 @@ class KamekWidget(SubProjectWidgetBase):
         self._sprite_list.setModel(self._proxy_model)
 
         self._sprites_and_actors_worker: SpritesAndActorsWorker = None
-        # self._refresh_sprites_and_actors()
 
 
     @property
