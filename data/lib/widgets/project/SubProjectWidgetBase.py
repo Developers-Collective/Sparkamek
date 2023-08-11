@@ -38,4 +38,7 @@ class SubProjectWidgetBase(QSubScrollableGridMainWindow):
 
     def _save_dock_widgets(self) -> dict:
         return {}
+
+    def reset_dock_widgets(self) -> None:
+        pass
 #----------------------------------------------------------------------

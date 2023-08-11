@@ -179,4 +179,14 @@ class KamekWidget(SubProjectWidgetBase):
             dockwidgets[dw.objectName()] = dw.to_dict()
 
         return dockwidgets
+
+    def reset_dock_widgets(self) -> None:
+        for dw in [self._compiler_dock_widget, self._symbols_dock_widget]:
+            dw.setVisible(True)
+            dw.setFloating(False)
+
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
+
+        if self._compiler_dock_widget not in self.tabifiedDockWidgets(self._symbols_dock_widget): self.tabifyDockWidget(self._symbols_dock_widget, self._compiler_dock_widget)
 #----------------------------------------------------------------------

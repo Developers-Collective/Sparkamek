@@ -28,6 +28,7 @@ class Project(QGridWidget):
     _base_app: QBaseApplication = None
     _more_icon = None
     _show_in_explorer_icon = None
+    _reset_dockwidgets_icon = None
     _edit_icon = None
     _remove_icon = None
 
@@ -37,6 +38,7 @@ class Project(QGridWidget):
         Project._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects')
         Project._more_icon = QIcon(f'{app.save_data.get_icon_dir()}pushbutton/more.png')
         Project._show_in_explorer_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/showInExplorer.png')
+        Project._reset_dockwidgets_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/resetDockWidgets.png')
         Project._edit_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/edit.png')
         Project._remove_icon = QIcon(f'{app.save_data.get_icon_dir()}popup/remove.png')
 
@@ -160,6 +162,13 @@ class Project(QGridWidget):
         for a in actions_showInExplorer: menu.addAction(a) # Doesn't work if I do it in the loop above for some reason
         if actions_showInExplorer: menu.addSeparator()
 
+        action_reset_dockwidgets = QAction(lang['QAction']['resetDockWidgets'])
+        action_reset_dockwidgets.setIcon(self._reset_dockwidgets_icon)
+        action_reset_dockwidgets.triggered.connect(self._reset_dockwidgets)
+        menu.addAction(action_reset_dockwidgets)
+
+        menu.addSeparator()
+
         action_edit = QAction(lang['QAction']['edit'])
         if self.task_is_running: action_edit.setEnabled(False)
         action_edit.setIcon(self._edit_icon)
@@ -180,6 +189,10 @@ class Project(QGridWidget):
         if not w: return
         path = w.path.replace('/', '\\')
         subprocess.Popen(rf'explorer /select, "{path}"', shell = False)
+
+    def _reset_dockwidgets(self) -> None:
+        for p in self._projects:
+            p.reset_dock_widgets()
 
     def _edit(self) -> None:
         if self.task_is_running: return

@@ -37,6 +37,7 @@
                                     "showKamekInExplorer": "Afficher Kamek dans l'Explorateur de Fichiers",
                                     "showReggieNextInExplorer": "Afficher Reggie Next dans l'Explorateur de Fichiers",
                                     "showRiivolutionInExplorer": "Afficher Riivolution dans l'Explorateur de Fichiers",
+                                    "resetDockWidgets": "Réinitialiser les Widgets de la Barre Latérale",
                                     "edit": "Éditer...",
                                     "remove": "Supprimer"
                                 }

@@ -37,6 +37,7 @@
                                     "showKamekInExplorer": "Show Kamek in File Explorer",
                                     "showReggieNextInExplorer": "Show Reggie Next in File Explorer",
                                     "showRiivolutionInExplorer": "Show Riivolution in File Explorer",
+                                    "resetDockWidgets": "Reset Dock Widgets",
                                     "edit": "Edit...",
                                     "remove": "Remove"
                                 }
