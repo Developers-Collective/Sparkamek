@@ -116,7 +116,22 @@
                                 }
                             }
                         },
-                        "ReggieNextWidget": {},
+                        "ReggieNextWidget": {
+                            "SpriteListDockWidget": {
+                                "title": "Liste des Sprites de %s",
+                                "QBetterListWidget": {
+                                    "spriteID": "ID du Sprite",
+                                    "name": "Nom"
+                                },
+                                "QIconLineEdit": {
+                                    "search": "Rechercher..."
+                                },
+                                "QPushButton": {
+                                    "load": "Charger",
+                                    "save": "Sauvegarder"
+                                }
+                            }
+                        },
                         "RiivolutionWidget": {}
                     }
                 }
