@@ -168,17 +168,22 @@ class SpriteListDockWidget(QSavableDockWidget):
                 self._list.add_item([str(sprite.id), sprite.name], None, self._list_alignment)
 
         else:
-            if self._sprites.get_by_id(prev_info[0]):
-                self._sprites.remove_by_id(prev_info[0])
+            if prev_sprite := self._sprites.get_by_id(prev_info[0]):
+                self._sprites.remove_by_id(prev_sprite.id)
 
-                index = self._list.index((str(prev_info[0]), prev_info[1]))
+                index = self._list.index((str(prev_sprite.id), prev_sprite.name))
                 self._list.remove_item(index)
 
-            if self._sprites.get_by_id(sprite.id):
-                self._sprites.replace_by_id(sprite.id, sprite)
+            if existing_sprite := self._sprites.get_by_id(sprite.id):
+                self._sprites.replace_by_id(existing_sprite.id, sprite)
 
-                index = self._list.index((str(prev_info[0]), prev_info[1]))
-                self._list.replace_item(index, [str(sprite.id), sprite.name])
+                index = self._list.index((str(existing_sprite.id), existing_sprite.name))
+                # load_next_sprite = False
+                # if self._list.get_selected_row() == index and index != -1: load_next_sprite = True
+                self._list.replace_item(index, [str(sprite.id), sprite.name], None, self._list_alignment)
+                # if load_next_sprite:
+                #     self._list.select(index)
+                #     print('should be:', self._list.get_item(index))
 
             else:
                 self._sprites.add(sprite)

@@ -136,6 +136,17 @@
                                     "load": "Load",
                                     "save": "Save"
                                 }
+                            },
+                            "SpriteWidget": {
+                                "QPushButton": {
+                                    "addEntry": "Add Entry"
+                                },
+                                "QNamedSpinBox": {
+                                    "spriteID": "Sprite ID"
+                                },
+                                "QNamedLineEdit": {
+                                    "name": "Name"
+                                }
                             }
                         },
                         "RiivolutionWidget": {}

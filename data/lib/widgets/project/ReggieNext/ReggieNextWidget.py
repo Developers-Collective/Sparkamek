@@ -4,9 +4,10 @@
 from PySide6.QtWidgets import QDockWidget, QPushButton
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .SpriteListDockWidget import SpriteListDockWidget
+from .SpriteWidget import SpriteWidget
 from .sprites.Sprite import Sprite
 from data.lib.storage.xml import XMLNode
 #----------------------------------------------------------------------
@@ -30,6 +31,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         ReggieNextWidget._delete_icon = app.get_icon('pushbutton/delete.png', True, QSaveData.IconMode.Local)
 
         SpriteListDockWidget.init(app)
+        SpriteWidget.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
@@ -84,6 +86,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._reset_button.setProperty('icon-padding', True)
         self._reset_button.setProperty('color', 'main')
         self._reset_button.clicked.connect(self._reset)
+        self._reset_button.setEnabled(False)
         topframe.grid_layout.addWidget(self._reset_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._clear_button = QPushButton(self._lang.get_data('QPushButton.clear'))
@@ -92,7 +95,12 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._clear_button.setProperty('icon-padding', True)
         self._clear_button.setProperty('color', 'main')
         self._clear_button.clicked.connect(self._clear)
+        self._clear_button.setEnabled(False)
         topframe.grid_layout.addWidget(self._clear_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+
+        self._sprite_widget = SpriteWidget()
+        self._sprite_widget.sprite_edited.connect(self._sprite_edited)
+        self._root.scroll_layout.addWidget(self._sprite_widget, 2, 0)
 
 
     @property
@@ -131,11 +139,13 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
 
     def _draw_current_sprite(self) -> None:
-        print('draw current sprite', self._current_sprite.name if self._current_sprite else None)
+        self._sprite_widget.sprite = self._current_sprite.copy() if self._current_sprite is not None else None
 
 
     def _update_buttons(self) -> None:
         self._delete_button.setEnabled(self._current_sprite is not None)
+        self._clear_button.setEnabled(self._current_sprite is not None)
+        self._reset_button.setEnabled(self._current_sprite is not None)
 
 
     def _create(self) -> None:
@@ -148,21 +158,26 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         self._draw_current_sprite()
         self._update_buttons()
+        self._delete_button.setEnabled(False)
+        self._reset_button.setEnabled(False)
 
     def _delete(self) -> None:
         if self._prev_info: self._sprite_list_dock_widget.delete_sprite(self._prev_info)
 
     def _reset(self) -> None:
-        pass
+        self._sprite_widget.sprite = self._current_sprite.copy() if self._current_sprite is not None else None
+        self._sprite_modified = False
 
     def _clear(self) -> None:
-        pass
+        self._sprite_widget.sprite = Sprite(XMLNode('sprite', {'id': self._current_sprite.id, 'name': self._current_sprite.name}, [], None))
+        self._sprite_modified = True
 
     def _save_current_sprite(self) -> None:
         if not self._sprite_modified: return
         if self._current_sprite is None: return
 
         self._sprite_modified = False
+        self._current_sprite = self._sprite_widget.sprite
 
         if self._prev_info is None: self._sprite_list_dock_widget.update_sprite((self._current_sprite.id, self._current_sprite.name), self._current_sprite)
         else: self._sprite_list_dock_widget.update_sprite(self._prev_info, self._current_sprite)
@@ -176,6 +191,11 @@ class ReggieNextWidget(SubProjectWidgetBase):
     def _sprite_selection_changed(self, selected: Sprite | None, deselected: Sprite | None) -> None:
         if deselected: self._save_current_sprite()
         if not deselected and self._current_sprite is not None: self._save_current_sprite()
+        print((selected.id, selected.name) if selected is not None else None)
 
         self._set_sprite(selected)
+
+
+    def _sprite_edited(self) -> None:
+        self._sprite_modified = True
 #----------------------------------------------------------------------
