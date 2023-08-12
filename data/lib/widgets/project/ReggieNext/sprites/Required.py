@@ -24,4 +24,7 @@ class Required(BaseSprite):
             sup.children,
             sup.value
         ) if self.sprite is not None else None
+
+    def copy(self) -> 'Required':
+        return Required(self.export())
 #----------------------------------------------------------------------

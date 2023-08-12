@@ -2,6 +2,7 @@
 
     # Libraries
 from data.lib.storage import XMLNode
+from data.lib.widgets.project.ReggieNext.sprites.BaseSprite import BaseSprite
 from .BaseSprite import BaseSprite
 from .NybbleRange import NybbleRange
 #----------------------------------------------------------------------
@@ -59,4 +60,7 @@ class BaseItem(BaseSprite):
             sup.children,
             sup.value
         )
+
+    def copy(self) -> 'BaseItem':
+        return BaseItem(self.export())
 #----------------------------------------------------------------------

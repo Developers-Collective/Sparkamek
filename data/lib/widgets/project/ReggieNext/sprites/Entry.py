@@ -24,4 +24,7 @@ class Entry(BaseItem):
             sup.children,
             self.item
         )
+
+    def copy(self) -> 'Entry':
+        return Entry(self.export())
 #----------------------------------------------------------------------

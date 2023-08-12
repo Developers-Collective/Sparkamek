@@ -11,4 +11,7 @@ class BaseSprite:
 
     def export(self) -> XMLNode:
         return XMLNode('sprite', {}, [], None)
+
+    def copy(self) -> 'BaseSprite':
+        return BaseSprite(self.export())
 #----------------------------------------------------------------------

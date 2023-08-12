@@ -23,4 +23,7 @@ class CheckBox(BaseItem):
             sup.children,
             sup.value
         )
+
+    def copy(self) -> 'CheckBox':
+        return CheckBox(self.export())
 #----------------------------------------------------------------------

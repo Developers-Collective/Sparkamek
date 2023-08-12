@@ -23,15 +23,21 @@ class Sprites:
     def get(self, id: int) -> Sprite:
         return self.children[id]
 
-    def get_by_id(self, id: int) -> Sprite:
+    def get_by_id(self, id: int) -> Sprite | None:
         sprite = next((s for s in self.children if s.id == id), None)
-        if sprite is None: raise ValueError(f'Sprite ID not found: {id}')
         return sprite
+
+    def index(self, sprite: Sprite) -> int:
+        return self.children.index(sprite)
+    
+    def index_by_id(self, id: str) -> int:
+        return self.index(self.get_by_id(id))
 
     def add(self, sprite: Sprite) -> None:
         if sprite.id is None: raise ValueError('Sprite ID cannot be None')
         if sprite.id in [s.id for s in self.children]: raise ValueError(f'Sprite ID already exists: {sprite.id}')
         self.children.append(sprite)
+        self.sort_by_id()
 
     def remove(self, sprite: Sprite | int) -> None:
         if isinstance(sprite, int): self.children.pop(sprite)
@@ -39,6 +45,16 @@ class Sprites:
 
     def remove_by_id(self, id: str) -> None:
         self.remove(self.get_by_id(id))
+
+    def replace(self, index: int, sprite: Sprite) -> None:
+        self.children[index] = sprite
+        self.sort_by_id()
+
+    def replace_by_id(self, id: str, sprite: Sprite) -> None:
+        self.replace(self.index_by_id(id), sprite)
+
+    def sort_by_id(self) -> None:
+        self.children.sort(key = lambda s: s.id)
 
     def export(self) -> XML:
         return XML(

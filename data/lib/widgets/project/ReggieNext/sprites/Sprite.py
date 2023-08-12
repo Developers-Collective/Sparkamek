@@ -60,4 +60,7 @@ class Sprite(BaseSprite):
             sup.children + ([self.dependency.export()] if self.dependency else []) + [c.export() for c in self.children],
             sup.value
         )
+
+    def copy(self) -> 'Sprite':
+        return Sprite(self.export())
 #----------------------------------------------------------------------

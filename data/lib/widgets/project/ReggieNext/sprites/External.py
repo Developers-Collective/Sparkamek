@@ -25,4 +25,7 @@ class External(BaseItem):
             sup.children,
             sup.value
         )
+
+    def copy(self) -> 'External':
+        return External(self.export())
 #----------------------------------------------------------------------

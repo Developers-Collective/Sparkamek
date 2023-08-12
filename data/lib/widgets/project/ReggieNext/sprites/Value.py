@@ -25,4 +25,7 @@ class Value(BaseItem):
             sup.children,
             sup.value
         )
+
+    def copy(self) -> 'Value':
+        return Value(self.export())
 #----------------------------------------------------------------------

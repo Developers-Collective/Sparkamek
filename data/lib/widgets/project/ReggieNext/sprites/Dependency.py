@@ -28,4 +28,7 @@ class Dependency(BaseSprite):
             sup.children + [s.export() for s in self.suggested if s.export()] + [r.export() for r in self.required if r.export()],
             sup.value
         )
+
+    def copy(self) -> 'Dependency':
+        return Dependency(self.export())
 #----------------------------------------------------------------------

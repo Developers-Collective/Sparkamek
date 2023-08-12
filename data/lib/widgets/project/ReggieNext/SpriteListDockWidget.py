@@ -2,7 +2,7 @@
 
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
-from PySide6.QtCore import Qt, QSortFilterProxyModel
+from PySide6.QtCore import Qt, QSortFilterProxyModel, Signal
 from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData
 from .SpriteListLoaderWorker import SpriteListLoaderWorker
 from .sprites import *
@@ -18,6 +18,10 @@ class SpriteListDockWidget(QSavableDockWidget):
 
     _neutral_color = QUtilsColor.from_hex('#aaaaaa')
     _bracket_color = QUtilsColor.from_hex('#dddddd')
+
+    _list_alignment = [Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignLeft]
+
+    selected_sprite_changed = Signal(Sprite or None, Sprite or None)
 
     def init(app: QBaseApplication) -> None:
         SpriteListDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteListDockWidget')
@@ -86,6 +90,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         )
         self._list.setSortingEnabled(True)
         self._list.sortByColumn(0, Qt.SortOrder.AscendingOrder)
+        self._list.item_selection_changed.connect(self._sprite_selection_changed)
         self._root.scroll_layout.addWidget(self._list, 2, 0)
 
         self._proxy_model = QSortFilterProxyModel(
@@ -97,9 +102,6 @@ class SpriteListDockWidget(QSavableDockWidget):
 
     def text_changed(self, text: str) -> None:
         self._proxy_model.setFilterRegularExpression(text)
-
-    def case_sensitive_toggled(self, state: bool) -> None:
-        self._proxy_model.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseSensitive if state else Qt.CaseSensitivity.CaseInsensitive)
 
     def _search_by_changed(self, index: int) -> None:
         self._proxy_model.setFilterKeyColumn(index)
@@ -136,9 +138,10 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._sprite_list_loader_worker.start()
 
     def _load_item(self, item: Sprite) -> None:
-        try: self._sprites.add(item)
+        try:
+            self._sprites.add(item)
+            self._list.add_item([str(item.id), item.name], None, self._list_alignment)
         except: pass
-        self._list.add_item([str(item.id), item.name], None, [Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignLeft])
 
     def _load_done(self) -> None:
         if self._sprite_list_loader_worker.isRunning():
@@ -152,6 +155,58 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._load_done()
 
 
+    def update_sprite(self, prev_info: tuple[int, str], sprite: Sprite) -> None:
+        if prev_info[0] == sprite.id:
+            if self._sprites.get_by_id(prev_info[0]):
+                self._sprites.replace_by_id(prev_info[0], sprite)
+
+                index = self._list.index((str(prev_info[0]), prev_info[1]))
+                self._list.replace_item(index, [str(sprite.id), sprite.name], None, self._list_alignment)
+
+            else:
+                self._sprites.add(sprite)
+                self._list.add_item([str(sprite.id), sprite.name], None, self._list_alignment)
+
+        else:
+            if self._sprites.get_by_id(prev_info[0]):
+                self._sprites.remove_by_id(prev_info[0])
+
+                index = self._list.index((str(prev_info[0]), prev_info[1]))
+                self._list.remove_item(index)
+
+            if self._sprites.get_by_id(sprite.id):
+                self._sprites.replace_by_id(sprite.id, sprite)
+
+                index = self._list.index((str(prev_info[0]), prev_info[1]))
+                self._list.replace_item(index, [str(sprite.id), sprite.name])
+
+            else:
+                self._sprites.add(sprite)
+                self._list.add_item([str(sprite.id), sprite.name], None, self._list_alignment)
+
+
+    def delete_sprite(self, data: tuple[int, str]) -> None:
+        if self._sprites.get_by_id(data[0]):
+            self._sprites.remove_by_id(data[0])
+
+            index = self._list.index((str(data[0]), data[1]))
+            self._list.remove_item(index)
+
+
+    def deselect_sprite(self) -> None:
+        self._list.clearSelection()
+
+
     def _save(self) -> None:
         pass
+
+
+    def _sprite_selection_changed(self, selected: tuple[str, str], deselected: tuple[str, str]) -> None:
+        if deselected:
+            deselected_sprite = self._sprites.get_by_id(int(deselected[0]))
+
+        if selected:
+            selected_sprite = self._sprites.get_by_id(int(selected[0])).copy()
+
+        self.selected_sprite_changed.emit(selected_sprite if selected else None, deselected_sprite if deselected else None)
 #----------------------------------------------------------------------

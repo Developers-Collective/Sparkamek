@@ -25,4 +25,7 @@ class DualBox(BaseItem):
             sup.children,
             sup.value
         )
+
+    def copy(self) -> 'DualBox':
+        return DualBox(self.export())
 #----------------------------------------------------------------------

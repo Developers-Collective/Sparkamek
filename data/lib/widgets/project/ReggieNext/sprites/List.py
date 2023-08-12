@@ -25,4 +25,7 @@ class List(BaseItem):
             sup.children + [e.export() for e in self.children],
             sup.value
         )
+
+    def copy(self) -> 'List':
+        return List(self.export())
 #----------------------------------------------------------------------

@@ -17,15 +17,15 @@ class XMLNode:
         @property
         def name(self) -> str:
             return self._name
-        
+
         @property
         def attributes(self) -> dict[str, int | float | str | None]:
             return self._attributes
-        
+
         @property
         def children(self) -> list['XMLNode']:
             return self._children
-        
+
         @property
         def value(self) -> int | float | str | None:
             return self._value
@@ -74,7 +74,7 @@ class XML:
     @property
     def root_name(self) -> str:
         return self._root_name
-    
+
     @property
     def children(self) -> list[XMLNode]:
         return self._children
@@ -87,6 +87,9 @@ class XML:
             s += '\n\t' + str(child)
 
         return s + f'\n</{self.root_name}>'
+
+    def __str__(self) -> str:
+        return self.__repr__()
 
 
     @staticmethod

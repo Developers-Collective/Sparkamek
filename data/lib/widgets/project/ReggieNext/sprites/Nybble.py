@@ -19,4 +19,7 @@ class Nybble:
             return str(self.n)
         
         return f'{self.n}.{self.b + 1}'
+
+    def copy(self) -> 'Nybble':
+        return Nybble(self.export())
 #----------------------------------------------------------------------

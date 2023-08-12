@@ -24,4 +24,7 @@ class Suggested(BaseSprite):
             sup.children,
             sup.value
         ) if self.sprite is not None else None
+
+    def copy(self) -> 'Suggested':
+        return Suggested(self.export())
 #----------------------------------------------------------------------

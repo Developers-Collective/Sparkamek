@@ -33,4 +33,7 @@ class NybbleRange:
             return self.start.export()
         
         return f'{self.start.export()}-{self.end.export()}'
+
+    def copy(self) -> 'NybbleRange':
+        return NybbleRange(self.export())
 #----------------------------------------------------------------------

@@ -117,6 +117,12 @@
                             }
                         },
                         "ReggieNextWidget": {
+                            "QPushButton": {
+                                "clear": "Effacer",
+                                "reset": "Réinitialiser",
+                                "create": "Créer un Nouveau Sprite",
+                                "delete": "Supprimer le Sprite Sélectionné"
+                            },
                             "SpriteListDockWidget": {
                                 "title": "Liste des Sprites de %s",
                                 "QBetterListWidget": {
