@@ -160,6 +160,12 @@
                                     },
                                     "QNamedToggleButton": {
                                         "advanced": "Advanced"
+                                    },
+                                    "QNamedComboBox": {
+                                        "firstNybble": "First Nybble",
+                                        "firstNybbleBit": "First Nybble Bit",
+                                        "lastNybble": "Last Nybble",
+                                        "lastNybbleBit": "Last Nybble Bit"
                                     }
                                 },
                                 "DualBoxData": {

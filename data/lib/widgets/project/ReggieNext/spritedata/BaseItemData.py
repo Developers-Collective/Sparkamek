@@ -4,8 +4,9 @@
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton
+from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QNamedComboBox
 from ..sprites.BaseItem import BaseItem
+from ..sprites.Nybble import Nybble
 #----------------------------------------------------------------------
 
     # Class
@@ -101,8 +102,43 @@ class BaseItemData(QDragListItem):
         nybble_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
         nybble_frame.grid_layout.setSpacing(8)
         self._property_frame.grid_layout.addWidget(nybble_frame, self._property_frame.grid_layout.rowCount(), 0)
+        nybble_frame.grid_layout.setColumnStretch(6, 1)
 
-        # todo: add nybble frame content
+        self._property_frame._first_nybble_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.firstNybble'))
+        self._property_frame._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, 17)])
+        self._property_frame._first_nybble_combobox.combo_box.setCurrentIndex(self._data.nybble.start.n - 1)
+        self._property_frame._first_nybble_combobox.combo_box.currentIndexChanged.connect(self._first_nybble_changed)
+        nybble_frame.grid_layout.addWidget(self._property_frame._first_nybble_combobox, 0, 0)
+
+        label = QLabel('.')
+        label.setProperty('brighttitle', True)
+        nybble_frame.grid_layout.addWidget(label, 0, 1)
+
+        self._property_frame._first_nybblebit_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.firstNybbleBit'))
+        self._property_frame._first_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
+        self._property_frame._first_nybblebit_combobox.combo_box.setCurrentIndex((self._data.nybble.start.b + 1) if self._data.nybble.start.b is not None else 0)
+        self._property_frame._first_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._first_nybblebit_changed)
+        nybble_frame.grid_layout.addWidget(self._property_frame._first_nybblebit_combobox, 0, 2)
+
+        label = QLabel('-')
+        label.setProperty('brighttitle', True)
+        nybble_frame.grid_layout.addWidget(label, 0, 3)
+
+        self._property_frame._last_nybble_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.lastNybble'))
+        self._property_frame._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 17)])
+        if self._data.nybble.end is not None: self._property_frame._last_nybble_combobox.combo_box.setCurrentIndex(self._data.nybble.end.n if self._data.nybble.end.n is not None else 0)
+        self._property_frame._last_nybble_combobox.combo_box.currentIndexChanged.connect(self._last_nybble_changed)
+        nybble_frame.grid_layout.addWidget(self._property_frame._last_nybble_combobox, 0, 4)
+
+        label = QLabel('.')
+        label.setProperty('brighttitle', True)
+        nybble_frame.grid_layout.addWidget(label, 0, 5)
+
+        self._property_frame._last_nybblebit_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.lastNybbleBit'))
+        self._property_frame._last_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
+        if self._data.nybble.end is not None: self._property_frame._last_nybblebit_combobox.combo_box.setCurrentIndex((self._data.nybble.end.b + 1) if self._data.nybble.end.b is not None else 0)
+        self._property_frame._last_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._last_nybblebit_changed)
+        nybble_frame.grid_layout.addWidget(self._property_frame._last_nybblebit_combobox, 0, 6)
 
 
         required_nybbleval_frame = QGridWidget()
@@ -203,6 +239,53 @@ class BaseItemData(QDragListItem):
     def _advancedcomment_changed(self) -> None:
         self._data.advancedcomment = self._property_frame.advancedcomment_textedit.text()
         self.data_changed.emit()
+
+    def _fix_nybbles(self) -> None:
+        fn = self._property_frame._first_nybble_combobox.combo_box.currentIndex()
+        fnb = self._property_frame._first_nybblebit_combobox.combo_box.currentIndex() - 1
+        ln = self._property_frame._last_nybble_combobox.combo_box.currentIndex() - 1
+        lnb = self._property_frame._last_nybblebit_combobox.combo_box.currentIndex() - 1
+
+        if ln == -1: lnb = -1
+
+        if ln >= 0:
+            if fn > ln:
+                fn, ln = ln, fn
+
+            if (fn == ln) and (fnb > lnb):
+                fnb, lnb = lnb, fnb
+
+        self._property_frame._first_nybble_combobox.combo_box.setCurrentIndex(fn)
+        self._property_frame._first_nybblebit_combobox.combo_box.setCurrentIndex(fnb + 1)
+        self._property_frame._last_nybble_combobox.combo_box.setCurrentIndex(ln + 1)
+        self._property_frame._last_nybblebit_combobox.combo_box.setCurrentIndex(lnb + 1)
+
+        self._data.nybble.start.n = fn + 1
+        self._data.nybble.start.b = fnb if fnb >= 0 else None
+
+        if ln >= 0:
+            s = f'{ln + 1}'
+            if lnb >= 0: s += f'.{lnb + 1}'
+            self._data.nybble.end = Nybble(s)
+
+        else:
+            self._data.nybble.end = None
+
+        self._update_nybbles_settings_text()
+        self.data_changed.emit()
+
+    def _first_nybble_changed(self, index: int) -> None:
+        self._fix_nybbles()
+
+    def _first_nybblebit_changed(self, index: int) -> None:
+        self._fix_nybbles()
+
+    def _last_nybble_changed(self, index: int) -> None:
+        self._fix_nybbles()
+
+    def _last_nybblebit_changed(self, index: int) -> None:
+        self._fix_nybbles()
+
 
 
     def export(self) -> BaseItem:
