@@ -194,6 +194,14 @@
                                             "item": "Item"
                                         }
                                     }
+                                },
+                                "ExternalData": {
+                                    "QNamedLineEdit": {
+                                        "title": "Title"
+                                    },
+                                    "QNamedComboBox": {
+                                        "type": "Type"
+                                    }
                                 }
                             },
                             "ItemDataPropertyDockWidget": {

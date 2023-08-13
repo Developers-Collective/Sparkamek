@@ -105,7 +105,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._clear_button.setEnabled(False)
         topframe.grid_layout.addWidget(self._clear_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
-        self._sprite_widget = SpriteWidget()
+        self._sprite_widget = SpriteWidget(self._path)
         self._sprite_widget.sprite_edited.connect(self._sprite_edited)
         self._sprite_widget.current_sprite_changed.connect(self._item_data_property_dock_widget.update_title)
         self._sprite_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)

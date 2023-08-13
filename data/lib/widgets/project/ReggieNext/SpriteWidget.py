@@ -30,9 +30,12 @@ class SpriteWidget(QGridWidget):
         ValueData.init(app)
         CheckBoxData.init(app)
         ListData.init(app)
+        ExternalData.init(app)
 
-    def __init__(self) -> None:
+    def __init__(self, path: str) -> None:
         super().__init__()
+
+        self._path = path
 
         self._disable_send = True
 
@@ -112,6 +115,9 @@ class SpriteWidget(QGridWidget):
                     case 'list':
                         item = ListData(child)
 
+                    case 'external':
+                        item = ExternalData(child, self._path)
+
                     case _:
                         item = BaseItemData(child)
 
@@ -135,26 +141,11 @@ class SpriteWidget(QGridWidget):
 
     def _add_entry(self) -> None:
         if self._sprite is None: return
-
         self._send_data()
-
-        # send_param = lambda i, w: self._entry_selected(i, w)
-        # # todo: add entry to drag list
-        # item = BaseItemData(self._sprite.children[0]) # tmp
-        # self._drag_list.add_item(item)
-        # item.selected.connect(lambda w: send_param(item, w))
-        # item.data_changed.connect(self._send_data)
+        # todo: add entry
 
     def _delete_entry(self, item: BaseItemData) -> None:
         if self._sprite is None: return
-
-        # l = self._drag_list.findChildren(BaseItemData)
-        # if not (isinstance(l, list) or isinstance(l, tuple)): l = [l]
-        # index = l.index(item)
-        # if index == -1: return
-
-        # self._sprite.children.pop(index)
-        # item.deleteLater()
 
         self._sprite.children.remove(item.data)
         item.deleteLater()
