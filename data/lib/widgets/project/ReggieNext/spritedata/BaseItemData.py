@@ -5,7 +5,6 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton
-from data.lib.storage.xml import XMLNode
 from ..sprites.BaseItem import BaseItem
 #----------------------------------------------------------------------
 
@@ -95,7 +94,7 @@ class BaseItemData(QDragListItem):
 
         self._property_frame = QGridWidget()
         self._property_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._property_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.setSpacing(20)
 
 
         nybble_frame = QGridWidget()
@@ -112,6 +111,12 @@ class BaseItemData(QDragListItem):
         self._property_frame.grid_layout.addWidget(required_nybbleval_frame, self._property_frame.grid_layout.rowCount(), 0)
 
         # todo: add required nybbleval frame content
+
+
+        self._property_last_frame = QGridWidget()
+        self._property_last_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        self._property_last_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.addWidget(self._property_last_frame, self._property_frame.grid_layout.rowCount(), 0)
 
 
         comment_frame = QGridWidget()
@@ -148,10 +153,9 @@ class BaseItemData(QDragListItem):
         advanced_frame.grid_layout.addWidget(self._property_frame.advancedcomment_textedit, 0, 1)
 
 
-        self._property_last_frame = QGridWidget()
-        self._property_last_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._property_last_frame.grid_layout.setSpacing(8)
-        self._property_frame.grid_layout.addWidget(self._property_last_frame, self._property_frame.grid_layout.rowCount(), 0)
+    @property
+    def data(self) -> BaseItem:
+        return self._data
 
 
     def _update_title_text(self) -> None:

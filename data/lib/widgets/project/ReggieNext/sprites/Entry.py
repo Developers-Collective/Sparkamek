@@ -12,7 +12,7 @@ class Entry(BaseItem):
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
-        self.value = data.get_attribute('value', '')
+        self.value = int(data.get_attribute('value', '0'))
         self.item = data.value
 
     def export(self) -> XMLNode:

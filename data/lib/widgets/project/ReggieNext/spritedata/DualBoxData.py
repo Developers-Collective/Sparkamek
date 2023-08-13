@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import QSize
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget
+from data.lib.qtUtils import QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget
 from .BaseItemData import BaseItemData
 from ..sprites.DualBox import DualBox
 #----------------------------------------------------------------------

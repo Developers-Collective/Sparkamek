@@ -28,6 +28,8 @@ class SpriteWidget(QGridWidget):
         BaseItemData.init(app)
         DualBoxData.init(app)
         ValueData.init(app)
+        CheckBoxData.init(app)
+        ListData.init(app)
 
     def __init__(self) -> None:
         super().__init__()
@@ -104,6 +106,12 @@ class SpriteWidget(QGridWidget):
                     case 'value':
                         item = ValueData(child)
 
+                    case 'checkbox':
+                        item = CheckBoxData(child)
+
+                    case 'list':
+                        item = ListData(child)
+
                     case _:
                         item = BaseItemData(child)
 
@@ -140,12 +148,15 @@ class SpriteWidget(QGridWidget):
     def _delete_entry(self, item: BaseItemData) -> None:
         if self._sprite is None: return
 
-        l = self._drag_list.findChildren(BaseItemData)
-        if not (isinstance(l, list) or isinstance(l, tuple)): l = [l]
-        index = l.index(item)
-        if index == -1: return
+        # l = self._drag_list.findChildren(BaseItemData)
+        # if not (isinstance(l, list) or isinstance(l, tuple)): l = [l]
+        # index = l.index(item)
+        # if index == -1: return
 
-        self._sprite.children.pop(index)
+        # self._sprite.children.pop(index)
+        # item.deleteLater()
+
+        self._sprite.children.remove(item.data)
         item.deleteLater()
 
         self.property_entry_selected.emit(None)

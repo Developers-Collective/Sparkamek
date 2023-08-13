@@ -173,6 +173,27 @@
                                         "title": "Titre",
                                         "idtype": "Collection d'ID"
                                     }
+                                },
+                                "CheckBoxData": {
+                                    "QNamedLineEdit": {
+                                        "title": "Titre"
+                                    },
+                                    "ListData": {
+                                        "QNamedLineEdit": {
+                                            "title": "Titre"
+                                        },
+                                        "QPushButton": {
+                                            "add": "Ajouter une Entrée"
+                                        },
+                                        "EntryListItem": {
+                                            "QNamedSpinBox": {
+                                                "value": "Valeur"
+                                            },
+                                            "QNamedLineEdit": {
+                                                "item": "Entrée"
+                                            }
+                                        }
+                                    }
                                 }
                             },
                             "ItemDataPropertyDockWidget": {
