@@ -145,3 +145,10 @@ QLabel[brightnormal=true] {
 	font-size: 14px;
 	text-align: center;
 }
+
+QLabel[brightsubtitle=true] {
+	color: #909090;
+	background-color: transparent;
+	border: none;
+	font-size: 12px;
+}

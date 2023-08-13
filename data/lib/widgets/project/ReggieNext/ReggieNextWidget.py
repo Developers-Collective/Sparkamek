@@ -167,10 +167,12 @@ class ReggieNextWidget(SubProjectWidgetBase):
     def _reset(self) -> None:
         self._sprite_widget.sprite = self._current_sprite.copy() if self._current_sprite is not None else None
         self._sprite_modified = False
+        self._delete_button.setEnabled(True)
 
     def _clear(self) -> None:
-        self._sprite_widget.sprite = Sprite(XMLNode('sprite', {'id': self._current_sprite.id, 'name': self._current_sprite.name}, [], None))
+        self._sprite_widget.sprite = Sprite(XMLNode('sprite', {'id': 0, 'name': 'New Sprite'}, [], None))
         self._sprite_modified = True
+        self._delete_button.setEnabled(False)
 
     def _save_current_sprite(self) -> None:
         if not self._sprite_modified: return
@@ -191,7 +193,6 @@ class ReggieNextWidget(SubProjectWidgetBase):
     def _sprite_selection_changed(self, selected: Sprite | None, deselected: Sprite | None) -> None:
         if deselected: self._save_current_sprite()
         if not deselected and self._current_sprite is not None: self._save_current_sprite()
-        print((selected.id, selected.name) if selected is not None else None)
 
         self._set_sprite(selected)
 

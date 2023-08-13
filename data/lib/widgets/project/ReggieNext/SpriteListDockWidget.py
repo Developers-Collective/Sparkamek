@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
 from PySide6.QtCore import Qt, QSortFilterProxyModel, Signal
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, DelayedSignal
 from .SpriteListLoaderWorker import SpriteListLoaderWorker
 from .sprites import *
 #----------------------------------------------------------------------
@@ -22,6 +22,7 @@ class SpriteListDockWidget(QSavableDockWidget):
     _list_alignment = [Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignLeft]
 
     selected_sprite_changed = Signal(Sprite or None, Sprite or None)
+    _fix_selected_sprite_changed = Signal()
 
     def init(app: QBaseApplication) -> None:
         SpriteListDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteListDockWidget')
@@ -123,6 +124,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
     def _load(self) -> None:
+        self._sprites = Sprites()
         self._list.clear()
 
         if self._sprite_list_loader_worker:
@@ -141,7 +143,8 @@ class SpriteListDockWidget(QSavableDockWidget):
         try:
             self._sprites.add(item)
             self._list.add_item([str(item.id), item.name], None, self._list_alignment)
-        except: pass
+
+        except Exception as e: print(e)
 
     def _load_done(self) -> None:
         if self._sprite_list_loader_worker.isRunning():
@@ -178,12 +181,16 @@ class SpriteListDockWidget(QSavableDockWidget):
                 self._sprites.replace_by_id(existing_sprite.id, sprite)
 
                 index = self._list.index((str(existing_sprite.id), existing_sprite.name))
-                # load_next_sprite = False
-                # if self._list.get_selected_row() == index and index != -1: load_next_sprite = True
+
+                load_next_sprite = False
+                if self._list.get_selected_row() == index and index != -1: load_next_sprite = True
                 self._list.replace_item(index, [str(sprite.id), sprite.name], None, self._list_alignment)
-                # if load_next_sprite:
-                #     self._list.select(index)
-                #     print('should be:', self._list.get_item(index))
+
+                if load_next_sprite:
+                    self._list.select(index)
+                    item = self._list.get_item(index)
+                    self._timer = DelayedSignal(1, lambda: self._fix_sprite_selection_changed(item))
+                    self._timer()
 
             else:
                 self._sprites.add(sprite)
@@ -214,4 +221,7 @@ class SpriteListDockWidget(QSavableDockWidget):
             selected_sprite = self._sprites.get_by_id(int(selected[0])).copy()
 
         self.selected_sprite_changed.emit(selected_sprite if selected else None, deselected_sprite if deselected else None)
+
+    def _fix_sprite_selection_changed(self, item: Sprite) -> None: # seperate function just in case we want to do something else
+        self._sprite_selection_changed(item, None)
 #----------------------------------------------------------------------

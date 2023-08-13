@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedComboBox, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .sprites.Sprite import Sprite
+from .spritedata.BaseItemData import BaseItemData
 #----------------------------------------------------------------------
 
     # Class
@@ -21,6 +22,8 @@ class SpriteWidget(QGridWidget):
     def init(app: QBaseApplication) -> None:
         SpriteWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget')
         SpriteWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
+
+        BaseItemData.init(app)
 
     def __init__(self) -> None:
         super().__init__()
@@ -96,6 +99,24 @@ class SpriteWidget(QGridWidget):
 
 
     def _add_entry(self) -> None:
+        if self._sprite is None: return
+
         self._send_data()
+
+        send_param = lambda i, w: self._entry_selected(i, w)
         # todo: add entry to drag list
+        item = BaseItemData(self._sprite.children[0]) # tmp
+        self._drag_list.add_item(item)
+        item.selected.connect(lambda w: send_param(item, w))
+
+    def _delete_entry(self, index: int) -> None:
+        if self._sprite is None: return
+        self._send_data()
+
+    def _entry_selected(self, sender: BaseItemData, widget: QGridWidget) -> None:
+        print(sender, widget)
+        for item in self._drag_list.items:
+            item.set_checked(False)
+
+        sender.set_checked(True)
 #----------------------------------------------------------------------

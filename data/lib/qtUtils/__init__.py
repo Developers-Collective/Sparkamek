@@ -54,4 +54,5 @@ from .QMoreButton import QMoreButton
 from .QSubMainWindow import QSubMainWindow
 from .QSubGridMainWindow import QSubGridMainWindow
 from .QSubScrollableGridMainWindow import QSubScrollableGridMainWindow
+from .DelayedSignal import DelayedSignal
 #----------------------------------------------------------------------

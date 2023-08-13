@@ -146,6 +146,11 @@
                                 },
                                 "QNamedLineEdit": {
                                     "name": "Nom"
+                                },
+                                "BaseItemData": {
+                                    "nybbleRange": "%s à %s",
+                                    "nybbles": "Nybble(s): %s",
+                                    "settings": "Paramètres: %s"
                                 }
                             }
                         },
