@@ -15,7 +15,7 @@ class ValueData(BaseItemData):
     _sublang = {}
 
     _value_icon = None
-    _icon_size = QSize(120, 16)
+    _icon_size = QSize(24, 24)
 
     def init(app: QBaseApplication) -> None:
         ValueData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ValueData')
@@ -28,12 +28,12 @@ class ValueData(BaseItemData):
         self._title_label.setProperty('brighttitle', True)
         self._content_frame.grid_layout.addWidget(self._title_label, 0, 0)
 
+        iw = QIconWidget(None, self._value_icon, self._icon_size, False)
+        self._content_frame.grid_layout.addWidget(iw, 0, 1)
+
         self._idtype_label = QLabel(self._data.idtype)
         self._idtype_label.setProperty('indice', True)
-        self._content_frame.grid_layout.addWidget(self._idtype_label, 0, 1)
-
-        iw = QIconWidget(None, self._value_icon, self._icon_size, False)
-        self._content_frame.grid_layout.addWidget(iw, 0, 2)
+        self._content_frame.grid_layout.addWidget(self._idtype_label, 0, 2)
 
         self._content_frame.grid_layout.setColumnStretch(3, 1)
 
