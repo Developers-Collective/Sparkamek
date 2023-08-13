@@ -146,10 +146,14 @@ class QBetterListWidget(QTreeView):
 
     def select(self, index: int = 0) -> None:
         self.deselect_all()
-        self.selectionModel().select(self.tree_view_model.index(index, 0, QModelIndex()), QItemSelectionModel.SelectionFlag.Select|QItemSelectionModel.SelectionFlag.Rows)
+        self.selectionModel().select(self.tree_view_model.index(index, 0, QModelIndex()), QItemSelectionModel.SelectionFlag.Select | QItemSelectionModel.SelectionFlag.Rows)
 
     def deselect_all(self) -> None:
-        self.clearSelection()
+        self.selectionModel().clearSelection()
+
+        for item in self.selectedIndexes():
+            if self.selectionModel().isSelected(item):
+                self.selectionModel().select(item, QItemSelectionModel.SelectionFlag.Deselect)
 
     def is_selection(self) -> bool:
         return bool(len(self.selectedIndexes()))

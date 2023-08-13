@@ -40,6 +40,8 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._icon = icon
         self._data = data
 
+        self._disable_list_update = False
+
         self._root = QScrollableGridWidget()
         self._root.setProperty('wide', True)
         self._root.setMinimumWidth(200)
@@ -102,7 +104,10 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._list.setModel(self._proxy_model)
 
     def text_changed(self, text: str) -> None:
+        self._disable_list_update = True
         self._proxy_model.setFilterRegularExpression(text)
+        self._disable_list_update = False
+        self.deselect_sprite()
 
     def _search_by_changed(self, index: int) -> None:
         self._proxy_model.setFilterKeyColumn(index)
@@ -206,7 +211,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
     def deselect_sprite(self) -> None:
-        self._list.clearSelection()
+        self._list.deselect_all()
 
 
     def _save(self) -> None:
@@ -214,6 +219,8 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
     def _sprite_selection_changed(self, selected: tuple[str, str], deselected: tuple[str, str]) -> None:
+        if self._disable_list_update: return
+
         if deselected:
             deselected_sprite = self._sprites.get_by_id(int(deselected[0]))
 
