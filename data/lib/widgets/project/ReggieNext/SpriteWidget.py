@@ -27,6 +27,7 @@ class SpriteWidget(QGridWidget):
 
         BaseItemData.init(app)
         DualBoxData.init(app)
+        ValueData.init(app)
 
     def __init__(self) -> None:
         super().__init__()
@@ -99,6 +100,9 @@ class SpriteWidget(QGridWidget):
                 match child.name:
                     case 'dualbox':
                         item = DualBoxData(child)
+
+                    case 'value':
+                        item = ValueData(child)
 
                     case _:
                         item = BaseItemData(child)

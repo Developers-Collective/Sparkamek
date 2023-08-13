@@ -152,3 +152,15 @@ QLabel[brightsubtitle=true] {
 	border: none;
 	font-size: 12px;
 }
+
+QLabel[power=true] {
+	padding-bottom: 4px;
+	padding-top: 0px;
+	font-size: 12px;
+}
+
+QLabel[indice=true] {
+	padding-top: 4px;
+	padding-bottom: 0px;
+	font-size: 12px;
+}

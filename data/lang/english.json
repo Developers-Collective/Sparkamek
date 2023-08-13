@@ -167,6 +167,12 @@
                                         "title1": "Title 1 (Value = 0)",
                                         "title2": "Title 2 (Value = 1)"
                                     }
+                                },
+                                "ValueData": {
+                                    "QNamedLineEdit": {
+                                        "title": "Title",
+                                        "idtype": "ID Collection"
+                                    }
                                 }
                             },
                             "ItemDataPropertyDockWidget": {
