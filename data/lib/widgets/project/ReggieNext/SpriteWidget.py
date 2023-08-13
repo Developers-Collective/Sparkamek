@@ -17,6 +17,7 @@ class SpriteWidget(QGridWidget):
 
     _lang = {}
 
+    current_sprite_changed = Signal(Sprite or None)
     sprite_edited = Signal()
 
     def init(app: QBaseApplication) -> None:
@@ -75,6 +76,7 @@ class SpriteWidget(QGridWidget):
     @sprite.setter
     def sprite(self, sprite: Sprite or None) -> None:
         self._sprite = sprite
+        self.current_sprite_changed.emit(sprite)
 
         self._disable_send = True
 
@@ -114,9 +116,10 @@ class SpriteWidget(QGridWidget):
         self._send_data()
 
     def _entry_selected(self, sender: BaseItemData, widget: QGridWidget) -> None:
-        print(sender, widget)
+        checked = sender.is_checked()
+
         for item in self._drag_list.items:
             item.set_checked(False)
 
-        sender.set_checked(True)
+        sender.set_checked(checked)
 #----------------------------------------------------------------------

@@ -7,6 +7,7 @@ from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .SpriteListDockWidget import SpriteListDockWidget
+from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 from .SpriteWidget import SpriteWidget
 from .sprites.Sprite import Sprite
 from data.lib.storage.xml import XMLNode
@@ -32,6 +33,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         SpriteListDockWidget.init(app)
         SpriteWidget.init(app)
+        ItemDataPropertyDockWidget.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
@@ -43,8 +45,13 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._sprite_list_dock_widget = SpriteListDockWidget(app, name, icon, data)
         self._sprite_list_dock_widget.selected_sprite_changed.connect(self._sprite_selection_changed)
 
+        self._item_data_property_dock_widget = ItemDataPropertyDockWidget(app, name, icon, data)
+
         if 'spriteList' in dockwidgets: self._sprite_list_dock_widget.load_dict(self, dockwidgets['spriteList'])
         else: self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._sprite_list_dock_widget)
+
+        if 'itemDataProperty' in dockwidgets: self._item_data_property_dock_widget.load_dict(self, dockwidgets['itemDataProperty'])
+        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._item_data_property_dock_widget)
 
 
         self._current_sprite: Sprite = None
@@ -100,6 +107,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         self._sprite_widget = SpriteWidget()
         self._sprite_widget.sprite_edited.connect(self._sprite_edited)
+        self._sprite_widget.current_sprite_changed.connect(self._item_data_property_dock_widget.update_title)
         self._root.scroll_layout.addWidget(self._sprite_widget, 2, 0)
 
 

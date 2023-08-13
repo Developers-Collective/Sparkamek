@@ -152,6 +152,9 @@
                                     "nybbles": "Nybble(s): %s",
                                     "settings": "Settings: %s"
                                 }
+                            },
+                            "ItemDataPropertyDockWidget": {
+                                "title": "%s Properties"
                             }
                         },
                         "RiivolutionWidget": {}

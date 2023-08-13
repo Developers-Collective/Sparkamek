@@ -14,7 +14,7 @@ class BaseItemData(QDragListItem):
     type: str = 'BaseItem'
 
     delete = Signal()
-    selected = Signal(QGridWidget)
+    selected = Signal(QGridWidget or None)
 
     _lang = {}
 
@@ -107,9 +107,12 @@ class BaseItemData(QDragListItem):
         self.deleteLater()
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
-        self.set_checked(True)
-        self.selected.emit(QGridWidget())
+        self.set_checked(not self.property('checked'))
+        self.selected.emit(QGridWidget() if self.property('checked') else None)
         return super().mousePressEvent(event)
+
+    def is_checked(self) -> bool:
+        return self.property('checked')
 
     def set_checked(self, checked: bool) -> None:
         self.setProperty('checked', checked)

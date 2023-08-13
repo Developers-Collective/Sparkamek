@@ -151,6 +151,9 @@
                                     "nybbleRange": "%s à %s",
                                     "nybbles": "Nybble(s): %s",
                                     "settings": "Paramètres: %s"
+                                },
+                                "ItemDataPropertyDockWidget": {
+                                    "title": "Propriétés de %s"
                                 }
                             }
                         },
