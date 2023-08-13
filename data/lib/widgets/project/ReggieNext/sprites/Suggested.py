@@ -7,6 +7,8 @@ from .BaseSprite import BaseSprite
 
     # Class
 class Suggested(BaseSprite):
+    name: str = 'suggested'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -17,7 +19,7 @@ class Suggested(BaseSprite):
         sup = super().export()
 
         return XMLNode(
-            'suggested',
+            self.name,
             (
                 ({'sprite': self.sprite} if self.sprite else {})
             ) | sup.attributes,

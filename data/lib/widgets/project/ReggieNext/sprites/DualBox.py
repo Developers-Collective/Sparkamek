@@ -7,6 +7,8 @@ from .BaseItem import BaseItem
 
     # Class
 class DualBox(BaseItem):
+    name: str = 'dualbox'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -17,7 +19,7 @@ class DualBox(BaseItem):
         sup = super().export()
 
         return XMLNode(
-            'dualbox',
+            self.name,
             (
                 ({'title1': self.title1} if self.title1 else {}) |
                 ({'title2': self.title2} if self.title2 else {})

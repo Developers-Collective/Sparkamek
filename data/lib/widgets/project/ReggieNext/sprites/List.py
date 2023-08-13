@@ -8,6 +8,8 @@ from .Entry import Entry
 
     # Class
 class List(BaseItem):
+    name: str = 'list'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -18,7 +20,7 @@ class List(BaseItem):
         sup = super().export()
 
         return XMLNode(
-            'list',
+            self.name,
             (
                 ({'title': self.title} if self.title else {})
             ) | sup.attributes,

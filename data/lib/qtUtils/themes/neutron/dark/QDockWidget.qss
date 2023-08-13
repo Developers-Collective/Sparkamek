@@ -44,6 +44,13 @@ QMainWindow > QTabBar::tab:selected {
 
 
 
+/* QDockWidget QLabel */
+QDockWidget QLabel {
+	background-color: transparent;
+}
+
+
+
 /* QDockWidget QTabBar - Blue */
 
 QMainWindow[color='blue'] > QTabBar::tab:selected {

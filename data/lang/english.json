@@ -148,9 +148,25 @@
                                     "name": "Name"
                                 },
                                 "BaseItemData": {
-                                    "nybbleRange": "%s to %s",
-                                    "nybbles": "Nybble(s): %s",
-                                    "settings": "Settings: %s"
+                                    "QLabel": {
+                                        "nybbleRange": "%s to %s",
+                                        "nybbles": "Nybble(s): %s",
+                                        "settings": "Settings: %s"
+                                    },
+                                    "QNamedTextEdit": {
+                                        "comment": "Comment",
+                                        "comment2": "Comment 2",
+                                        "advancedcomment": "Advanced Comment"
+                                    },
+                                    "QNamedToggleButton": {
+                                        "advanced": "Advanced"
+                                    }
+                                },
+                                "DualBoxData": {
+                                    "QNamedLineEdit": {
+                                        "title1": "Title 1 (Value = 0)",
+                                        "title2": "Title 2 (Value = 1)"
+                                    }
                                 }
                             },
                             "ItemDataPropertyDockWidget": {

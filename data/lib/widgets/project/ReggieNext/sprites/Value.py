@@ -7,6 +7,8 @@ from .BaseItem import BaseItem
 
     # Class
 class Value(BaseItem):
+    name: str = 'value'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -17,7 +19,7 @@ class Value(BaseItem):
         sup = super().export()
 
         return XMLNode(
-            'value',
+            self.name,
             (
                 ({'title': self.title} if self.title else {}) |
                 ({'idtype': self.idtype} if self.idtype else {})

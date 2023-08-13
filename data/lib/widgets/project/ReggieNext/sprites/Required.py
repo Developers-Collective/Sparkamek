@@ -7,6 +7,8 @@ from .BaseSprite import BaseSprite
 
     # Class
 class Required(BaseSprite):
+    name: str = 'required'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -17,7 +19,7 @@ class Required(BaseSprite):
         sup = super().export()
 
         return XMLNode(
-            'required',
+            self.name,
             (
                 ({'sprite': self.sprite} if self.sprite is not None else {})
             ) | sup.attributes,

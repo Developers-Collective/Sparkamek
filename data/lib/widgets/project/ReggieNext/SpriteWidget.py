@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedComboBox, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .sprites.Sprite import Sprite
-from .spritedata.BaseItemData import BaseItemData
+from .spritedata import *
 #----------------------------------------------------------------------
 
     # Class
@@ -19,12 +19,14 @@ class SpriteWidget(QGridWidget):
 
     current_sprite_changed = Signal(Sprite or None)
     sprite_edited = Signal()
+    property_entry_selected = Signal(QGridWidget or None)
 
     def init(app: QBaseApplication) -> None:
         SpriteWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget')
         SpriteWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
         BaseItemData.init(app)
+        DualBoxData.init(app)
 
     def __init__(self) -> None:
         super().__init__()
@@ -54,6 +56,7 @@ class SpriteWidget(QGridWidget):
         self.grid_layout.addWidget(self._settings_widget, 1, 0)
 
         self._drag_list = QDragList(None, Qt.Orientation.Vertical)
+        self._drag_list.moved.connect(self._entry_moved)
         self._settings_widget.grid_layout.addWidget(self._drag_list, 0, 0)
 
         self._add_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
@@ -82,6 +85,7 @@ class SpriteWidget(QGridWidget):
 
         self._drag_list.clear()
         self.setEnabled(sprite is not None)
+        self.property_entry_selected.emit(None)
 
         if sprite is None:
             self._name_lineedit.setText('')
@@ -90,10 +94,27 @@ class SpriteWidget(QGridWidget):
         else:
             self._name_lineedit.setText(sprite.name)
             self._id_spinbox.setValue(sprite.id)
-            # todo: add entries to drag list
+
+            for child in sprite.children:
+                match child.name:
+                    case 'dualbox':
+                        item = DualBoxData(child)
+
+                    case _:
+                        item = BaseItemData(child)
+
+                self._drag_list.add_item(item)
+                item.selected.connect(self._entry_selected)
+                item.deleted.connect(self._delete_entry)
+                item.data_changed.connect(self._send_data)
 
         self._disable_send = False
 
+
+    def _entry_moved(self, from_: int, to_: int) -> None:
+        if self._sprite is None: return
+        self._sprite.children.insert(to_, self._sprite.children.pop(from_))
+        self._send_data()
 
     def _send_data(self, *args) -> None:
         if self._disable_send: return
@@ -105,21 +126,36 @@ class SpriteWidget(QGridWidget):
 
         self._send_data()
 
-        send_param = lambda i, w: self._entry_selected(i, w)
-        # todo: add entry to drag list
-        item = BaseItemData(self._sprite.children[0]) # tmp
-        self._drag_list.add_item(item)
-        item.selected.connect(lambda w: send_param(item, w))
+        # send_param = lambda i, w: self._entry_selected(i, w)
+        # # todo: add entry to drag list
+        # item = BaseItemData(self._sprite.children[0]) # tmp
+        # self._drag_list.add_item(item)
+        # item.selected.connect(lambda w: send_param(item, w))
+        # item.data_changed.connect(self._send_data)
 
-    def _delete_entry(self, index: int) -> None:
+    def _delete_entry(self, item: BaseItemData) -> None:
         if self._sprite is None: return
+
+        l = self._drag_list.findChildren(BaseItemData)
+        if not (isinstance(l, list) or isinstance(l, tuple)): l = [l]
+        index = l.index(item)
+        if index == -1: return
+
+        self._sprite.children.pop(index)
+        item.deleteLater()
+
+        self.property_entry_selected.emit(None)
+        for item in self._drag_list.items:
+            item.set_checked(False)
+
         self._send_data()
 
-    def _entry_selected(self, sender: BaseItemData, widget: QGridWidget) -> None:
+    def _entry_selected(self, sender: BaseItemData, widget: QGridWidget | None) -> None:
         checked = sender.is_checked()
 
         for item in self._drag_list.items:
             item.set_checked(False)
 
         sender.set_checked(checked)
+        self.property_entry_selected.emit(widget)
 #----------------------------------------------------------------------

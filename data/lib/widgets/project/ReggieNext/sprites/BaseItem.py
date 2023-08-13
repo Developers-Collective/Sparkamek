@@ -9,6 +9,8 @@ from .NybbleRange import NybbleRange
 
     # Class
 class BaseItem(BaseSprite):
+    name: str = 'BaseItem'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -32,7 +34,7 @@ class BaseItem(BaseSprite):
 
         self.comment = data.get_attribute('comment', '')
         self.comment2 = data.get_attribute('comment2', '')
-        self.advanced = data.get_attribute('advanced', False)
+        self.advanced = bool(data.get_attribute('advanced', False))
         self.advancedcomment = data.get_attribute('advancedcomment', '')
 
     def export(self) -> XMLNode:
@@ -47,7 +49,7 @@ class BaseItem(BaseSprite):
                 reqvals.append(f'{r[0]}-{r[1]}')
 
         return XMLNode(
-            'baseitem',
+            self.name,
             (
                 ({'requirednybble': ','.join([nybble.export() for nybble in self.requirednybbles])} if self.requirednybbles else {}) |
                 ({'requiredval': ','.join(reqvals)} if reqvals else {}) |

@@ -9,6 +9,8 @@ from .Required import Required
 
     # Class
 class Dependency(BaseSprite):
+    name: str = 'dependency'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -21,7 +23,7 @@ class Dependency(BaseSprite):
         sup = super().export()
 
         return XMLNode(
-            'dependency',
+            self.name,
             (
                 ({'notes': self.notes} if self.notes else {})
             ) | sup.attributes,

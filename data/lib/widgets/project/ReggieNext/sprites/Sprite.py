@@ -14,6 +14,8 @@ from .External import External
 
     # Class
 class Sprite(BaseSprite):
+    name: str = 'sprite'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -45,7 +47,7 @@ class Sprite(BaseSprite):
         sup = super().export()
 
         return XMLNode(
-            'sprite',
+            self.name,
             (
                 ({'id': self.id} if self.id is not None else {}) |
                 ({'name': self.name} if self.name else {}) |

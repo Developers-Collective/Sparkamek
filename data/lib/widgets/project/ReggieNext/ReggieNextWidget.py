@@ -108,6 +108,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._sprite_widget = SpriteWidget()
         self._sprite_widget.sprite_edited.connect(self._sprite_edited)
         self._sprite_widget.current_sprite_changed.connect(self._item_data_property_dock_widget.update_title)
+        self._sprite_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
         self._root.scroll_layout.addWidget(self._sprite_widget, 2, 0)
 
 

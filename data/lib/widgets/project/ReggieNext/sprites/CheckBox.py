@@ -7,6 +7,8 @@ from .BaseItem import BaseItem
 
     # Class
 class CheckBox(BaseItem):
+    name: str = 'checkbox'
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
@@ -16,7 +18,7 @@ class CheckBox(BaseItem):
         sup = super().export()
 
         return XMLNode(
-            'checkbox',
+            self.name,
             (
                 ({'title': self.title} if self.title else {})
             ) | sup.attributes,

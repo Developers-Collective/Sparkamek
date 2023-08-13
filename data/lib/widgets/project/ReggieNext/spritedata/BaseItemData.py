@@ -4,7 +4,7 @@
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData
+from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton
 from data.lib.storage.xml import XMLNode
 from ..sprites.BaseItem import BaseItem
 #----------------------------------------------------------------------
@@ -13,8 +13,9 @@ from ..sprites.BaseItem import BaseItem
 class BaseItemData(QDragListItem):
     type: str = 'BaseItem'
 
-    delete = Signal()
-    selected = Signal(QGridWidget or None)
+    deleted = Signal(QDragListItem)
+    selected = Signal(QDragListItem, QGridWidget or None)
+    data_changed = Signal()
 
     _lang = {}
 
@@ -34,7 +35,7 @@ class BaseItemData(QDragListItem):
         self.setProperty('bottom-border-only', True)
         self.setProperty('border-radius', 8)
 
-        self._data = data.copy()
+        self._data = data
 
         self.grid_layout.setContentsMargins(10, 10, 10, 10)
         self.grid_layout.setSpacing(8)
@@ -82,14 +83,76 @@ class BaseItemData(QDragListItem):
         self.grid_layout.addWidget(bottom_frame, 1, 0)
 
         self._nybbles_label = QLabel()
-        self._nybbles_label.setProperty('brighttitle', True)
+        self._nybbles_label.setProperty('title', True)
         bottom_frame.grid_layout.addWidget(self._nybbles_label, 0, 0, Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft)
 
         self._settings_label = QLabel()
-        self._settings_label.setProperty('brighttitle', True)
+        self._settings_label.setProperty('title', True)
         bottom_frame.grid_layout.addWidget(self._settings_label, 0, 1, Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight)
 
         self._update_nybbles_settings_text()
+
+
+        self._property_frame = QGridWidget()
+        self._property_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        self._property_frame.grid_layout.setSpacing(8)
+
+
+        nybble_frame = QGridWidget()
+        nybble_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        nybble_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.addWidget(nybble_frame, self._property_frame.grid_layout.rowCount(), 0)
+
+        # todo: add nybble frame content
+
+
+        required_nybbleval_frame = QGridWidget()
+        required_nybbleval_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        required_nybbleval_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.addWidget(required_nybbleval_frame, self._property_frame.grid_layout.rowCount(), 0)
+
+        # todo: add required nybbleval frame content
+
+
+        comment_frame = QGridWidget()
+        comment_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        comment_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.addWidget(comment_frame, self._property_frame.grid_layout.rowCount(), 0)
+
+        self._property_frame._comment_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.comment'))
+        self._property_frame._comment_textedit.setText(self._data.comment)
+        self._property_frame._comment_textedit.text_edit.textChanged.connect(self._comment_changed)
+        comment_frame.grid_layout.addWidget(self._property_frame._comment_textedit, 0, 0)
+
+        self._property_frame._comment2_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.comment2'))
+        self._property_frame._comment2_textedit.setText(self._data.comment2)
+        self._property_frame._comment2_textedit.text_edit.textChanged.connect(self._comment2_changed)
+        comment_frame.grid_layout.addWidget(self._property_frame._comment2_textedit, 0, 1)
+
+
+        advanced_frame = QGridWidget()
+        advanced_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        advanced_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.addWidget(advanced_frame, self._property_frame.grid_layout.rowCount(), 0)
+
+
+        self._property_frame.advanced_togglebutton = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.advanced'))
+        self._property_frame.advanced_togglebutton.setChecked(self._data.advanced)
+        self._property_frame.advanced_togglebutton.toggle_button.stateChanged.connect(self._advanced_changed)
+        advanced_frame.grid_layout.addWidget(self._property_frame.advanced_togglebutton, 0, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self._property_frame.advancedcomment_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.advancedcomment'))
+        if not data.advanced: self._property_frame.advancedcomment_textedit.hide()
+        self._property_frame.advancedcomment_textedit.setText(self._data.advancedcomment)
+        self._property_frame.advancedcomment_textedit.text_edit.textChanged.connect(self._advancedcomment_changed)
+        advanced_frame.grid_layout.addWidget(self._property_frame.advancedcomment_textedit, 0, 1)
+
+
+        self._property_last_frame = QGridWidget()
+        self._property_last_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        self._property_last_frame.grid_layout.setSpacing(8)
+        self._property_frame.grid_layout.addWidget(self._property_last_frame, self._property_frame.grid_layout.rowCount(), 0)
+
 
     def _update_title_text(self) -> None:
         self._type_label.setText(self.type)
@@ -97,18 +160,18 @@ class BaseItemData(QDragListItem):
     def _update_nybbles_settings_text(self) -> None:
         l = self._data.nybble.export().split('-')
         if len(l) == 1: l = l[0]
-        else: l = self._lang.get_data('nybbleRange').replace('%s', l[0], 1).replace('%s', l[1], 1)
+        else: l = self._lang.get_data('QLabel.nybbleRange').replace('%s', l[0], 1).replace('%s', l[1], 1)
 
-        self._nybbles_label.setText(self._lang.get_data('nybbles').replace('%s', l))
-        self._settings_label.setText(self._lang.get_data('settings').replace('%s', self._data.nybble.convert2hex_formatted()))
+        self._nybbles_label.setText(self._lang.get_data('QLabel.nybbles').replace('%s', l))
+        self._settings_label.setText(self._lang.get_data('QLabel.settings').replace('%s', self._data.nybble.convert2hex_formatted()))
 
     def _delete(self) -> None:
-        self.delete.emit()
-        self.deleteLater()
+        self.deleted.emit(self)
+        # self.deleteLater()
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         self.set_checked(not self.property('checked'))
-        self.selected.emit(QGridWidget() if self.property('checked') else None)
+        self.selected.emit(self, self._property_frame if self.property('checked') else None)
         return super().mousePressEvent(event)
 
     def is_checked(self) -> bool:
@@ -119,6 +182,25 @@ class BaseItemData(QDragListItem):
         self.style().unpolish(self)
         self.style().polish(self)
 
-    # def export(self) -> BaseItem:
-    #     return BaseItem(XMLNode('template', {}, [], None))
+
+    def _comment_changed(self) -> None:
+        self._data.comment = self._property_frame._comment_textedit.text()
+        self.data_changed.emit()
+
+    def _comment2_changed(self) -> None:
+        self._data.comment2 = self._property_frame._comment2_textedit.text()
+        self.data_changed.emit()
+
+    def _advanced_changed(self, advanced: bool) -> None:
+        self._data.advanced = advanced
+        self._property_frame.advancedcomment_textedit.setVisible(advanced)
+        self.data_changed.emit()
+
+    def _advancedcomment_changed(self) -> None:
+        self._data.advancedcomment = self._property_frame.advancedcomment_textedit.text()
+        self.data_changed.emit()
+
+
+    def export(self) -> BaseItem:
+        return self._data
 #----------------------------------------------------------------------

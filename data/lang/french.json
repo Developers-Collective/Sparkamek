@@ -148,13 +148,29 @@
                                     "name": "Nom"
                                 },
                                 "BaseItemData": {
-                                    "nybbleRange": "%s à %s",
-                                    "nybbles": "Nybble(s): %s",
-                                    "settings": "Paramètres: %s"
+                                    "QLabel": {
+                                        "nybbleRange": "%s à %s",
+                                        "nybbles": "Nybble(s): %s",
+                                        "settings": "Paramètres: %s"
+                                    },
+                                    "QNamedTextEdit": {
+                                        "comment": "Commentaire",
+                                        "comment2": "Commentaire 2",
+                                        "advancedcomment": "Commentaire Avancé"
+                                    },
+                                    "QNamedToggleButton": {
+                                        "advanced": "Avancé"
+                                    }
                                 },
-                                "ItemDataPropertyDockWidget": {
-                                    "title": "Propriétés de %s"
+                                "DualBoxData": {
+                                    "QNamedLineEdit": {
+                                        "title1": "Titre 1 (Valeur = 0)",
+                                        "title2": "Titre 2 (Valeur = 1)"
+                                    }
                                 }
+                            },
+                            "ItemDataPropertyDockWidget": {
+                                "title": "Propriétés de %s"
                             }
                         },
                         "RiivolutionWidget": {}
