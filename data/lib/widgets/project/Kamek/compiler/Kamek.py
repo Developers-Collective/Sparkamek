@@ -251,7 +251,7 @@ class KamekBuilder:
 
 
     def _create_hooks(self) -> None:
-        self._controller.log_info_all('&nbsp;', True)
+        self._controller.log_info('&nbsp;', True)
         self._controller.log_info('Creating hooks')
 
         for m in self.project.modules:
@@ -556,19 +556,17 @@ class KamekBuilder:
             self._module_files.append(objfile)
 
         self._controller.log_success('Compilation complete')
+        self._controller.log_success('&nbsp;', True)
 
 
     def _link(self, short_name, script_file) -> None:
-        self._controller.log_info('&nbsp;', True)
-        self._controller.log_info_all('Linking %s (%s)...' % (short_name, script_file))
+        self._controller.log_info('Linking %s (%s)...' % (short_name, script_file))
 
         try:
             nice_name = '%s_%s' % (self._config['short_name'], short_name)
 
         except Exception:
                 raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
-
-        self._controller.log_info('&nbsp;', True)
 
         self._current_map_file = '%s/%s_linkmap.map' % (self._out_dir, nice_name)
         outname = 'object.plf' if self.dynamic_link_base else 'object.bin'
@@ -604,11 +602,10 @@ class KamekBuilder:
         if error_val != 0:
             raise ProjectException('ld returned %d' % error_val, LogType.Error)
 
-        self._controller.log_success('Successfully linked %s' % short_name)
+        self._controller.log_success_all('Successfully linked %s' % short_name)
 
 
     def _read_symbol_map(self) -> None:
-        self._controller.log_info('&nbsp;', True)
         self._controller.log_info('Reading symbol map')
 
         self._symbols = []
@@ -701,8 +698,7 @@ class KamekBuilder:
 
 
     def _create_patch(self, short_name: str) -> None:
-        self._controller.log_info_all('&nbsp;', True)
-        self._controller.log_info_all('Creating patch')
+        self._controller.log_info('Creating patch')
 
         try:
             nice_name = '%s_%s' % (self._config['short_name'], short_name)
@@ -868,6 +864,11 @@ class KamekController(QObject):
         self.log_simple.emit(msg, LogType.Error, invisible)
 
     def log_success(self, msg: str, invisible: bool = False) -> None:
+        msg = msg.strip()
+        if not msg: return
+        self.log_complete.emit(msg, LogType.Success, invisible)
+
+    def log_success_all(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()
         if not msg: return
         self.log_complete.emit(msg, LogType.Success, invisible)

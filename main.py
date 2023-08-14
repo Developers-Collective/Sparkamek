@@ -17,7 +17,7 @@ from data.lib import *
     # Class
 class ApplicationError(QApplication):
     def __init__(self, err: str = ''):
-        super().__init__(argv)
+        super().__init__(sys.argv)
         self.window = QMainWindow()
         self.window.setWindowTitle('Sparkamek - Error')
         QMessageBoxWithWidget(
@@ -60,7 +60,7 @@ def main() -> None:
             sys.exit(0)
 
         app = Application(platf)
-        app.window.showNormal()
+        app.window.showMaximized()
         exit_code = app.exec()
         if exit_code == 0:
             if app.must_update and (not app.must_restart):

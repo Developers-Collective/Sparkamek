@@ -75,7 +75,7 @@ class Application(QBaseApplication):
                 case 3:
                     if deltatime > timedelta(weeks = 4): self.check_updates()
 
-        self.window.setMinimumSize(int(self.primaryScreen().size().width() * (8 / 15)), int(self.primaryScreen().size().height() * (14 / 27))) # 128x71 -> 1022x568
+        # self.window.setMinimumSize(int(self.primaryScreen().size().width() * (8 / 15)), int(self.primaryScreen().size().height() * (14 / 27))) # 128x71 -> 1022x568
 
 
 
@@ -445,6 +445,6 @@ class Application(QBaseApplication):
     # Main
 if __name__ == '__main__':
     app = Application(QPlatform.Windows)
-    app.window.showNormal()
+    app.window.showMaximized()
     sys.exit(app.exec())
 #----------------------------------------------------------------------

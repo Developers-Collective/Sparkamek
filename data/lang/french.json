@@ -145,6 +145,11 @@
                                 }
                             },
                             "SpriteWidget": {
+                                "QLabel": {
+                                    "generalInfo": "Informations Générales",
+                                    "dependencies": "Dépendances",
+                                    "settings": "Paramètres"
+                                },
                                 "QPushButton": {
                                     "addEntry": "Ajouter une Entrée"
                                 },
