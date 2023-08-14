@@ -67,6 +67,89 @@ Sparkamek is an app for Windows, Linux and MacOS. Kamek is a tool that allows yo
   *See [this file](https://github.com/Synell/Sparkamek/blob/main/data/themes/neutron.json) and [this folder](https://github.com/Synell/Sparkamek/tree/main/data/themes/neutron) for an example.*
 
 
+## Why Sparkamek?
+
+### Kamek is a great tool, but...
+
+Doing a lot of NSMBW modding, I found myself using Kamek a lot as it is used to compile the code. However, I found it very annoying to use as it for debugging for multiple reasons:
+- No colors, so it's hard to read
+- When using the fasthack option, it doesn't show the correct line number of the errors / warnings (it shows the line number of the fasthack instead, which is about 50 000 lines so good luck finding scrolling to the correct line, even with the search function)
+- It doesn't show the file name of the errors / warnings
+- No spacing, everything is cramped together
+- When you have an error, it generates so much garbage that it's hard to find the error itself, because it's at the very top of the log
+
+Okay, so if this didn't convince you, let me tell you a short story.
+
+So one day I just wanted to test how much garbage the compiler gives, so I just remove the `;` from a file called `boss.h`, and the rest of the code had no error. Now, if I compile this, we should in theory have a single error.
+
+You know what, it threw me **1041 errors, in 24 different files**.
+Like wtf, just for a single missing `;` ? And the worst part is that represents 4 243 lines of garbage, and the correct error is at the very top of the log, under a lot of warnings, so good luck finding it on the command line with no color.
+
+By the way, if you want to check the output for yourself, here it is, with all the warnings and the top of the log removed for your mental health: [error.log](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/files/error.log).
+
+And here is the output of Sparkamek for the same error:
+![Small output from Sparkamek](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/error-very-small.png)
+
+Much better, right?
+
+
+### So, what does Sparkamek do?
+
+Sparkamek is a GUI for Kamek, so it does the same thing as Kamek, but with a lot of improvements. It also allows you to compile a custom loader for your game with improved features, like with the Kamek one.
+
+You can also create and edit the Reggie Next (the level editor app) spritedata file with ease, which is use to create patches for the it.
+
+And finally, you can also create and edit the Riivolution file with ease, which is used to create patches for the game.
+
+
 ## Usage
 
-<!-- todo -->
+### First Start
+
+When you start the app for the first time, you'll see this screen:
+![No project opened screen](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/first-time.png)
+
+Click on the `Open Project` button and follow the instructions to create a new project.
+
+Once you have created a project, you'll have 1 to 4 tabs.
+
+### Loader Tab
+
+todo
+
+
+### Kamek Tab
+
+#### Sprites and actors
+
+Here you can check the sprites and actors that are in the game.
+
+*Note that the the sprites of this list are to take with a grain of salt, as they are not 100% accurate (because it requires putting the sprites replacement comment and using good profile names).*
+
+![Sprites and actors](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/kamek-sprites-and-actors.png)
+
+#### Compilers
+
+Here you can compile the code for the game. The compiler has 2 modes: simple and complete.
+
+The complete mode is the same as the Kamek one, but with colors, spacing and the correct line number for the errors / warnings whereas the simple mode is a lot more compact and only shows essential information.
+
+![Simple compiler](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/kamek-compiler-simple.png)
+
+![Complete compiler](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/kamek-compiler-complete.png)
+
+#### Symbols
+
+Here you can check the symbols that are compiled, for debugging purposes.
+
+![Sprites and actors](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/kamek-symbols.png)
+
+
+### Reggie Next Tab
+
+todo
+
+
+### Riivolution / Game Tab
+
+todo
