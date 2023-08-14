@@ -19,12 +19,12 @@ class OpenProjectDialog(QDialog):
 
     _icon_path = os.path.abspath('./data/icons/sample/')
 
-    _forbidden_paths = [
+    _forbidden_paths = (
         None,
         '',
         '.',
         './'
-    ]
+    )
 
     icon_size = 64
 

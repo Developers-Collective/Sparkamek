@@ -25,6 +25,8 @@ class ListData(BaseItemData):
         ListData._list_icon = app.get_icon('baseitemdata/list.png', True, QSaveData.IconMode.Local)
         ListData._add_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
+        ListData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{List.name}')
+
         EntryListItem.init(app)
 
     def __init__(self, data: List) -> None:

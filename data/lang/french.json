@@ -117,6 +117,13 @@
                             }
                         },
                         "ReggieNextWidget": {
+                            "type": {
+                                "dualbox": "Choix Unique / Boutons Radio",
+                                "checkbox": "Case à Cocher",
+                                "value": "Valeur Saisie",
+                                "list": "Liste Déroulante",
+                                "external": "Sélecteur de Données d'un Fichier (External)"
+                            },
                             "QPushButton": {
                                 "clear": "Effacer",
                                 "reset": "Réinitialiser",

@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QPushButton
 from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedComboBox, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
-from .sprites.Sprite import Sprite
+from .sprites.Sprite import Sprite, DualBox, CheckBox, Value, List, External
 from .spritedata import *
 #----------------------------------------------------------------------
 
@@ -103,19 +103,19 @@ class SpriteWidget(QGridWidget):
 
             for child in sprite.children:
                 match child.name:
-                    case 'dualbox':
+                    case DualBox.name:
                         item = DualBoxData(child)
 
-                    case 'value':
+                    case Value.name:
                         item = ValueData(child)
 
-                    case 'checkbox':
+                    case CheckBox.name:
                         item = CheckBoxData(child)
 
-                    case 'list':
+                    case List.name:
                         item = ListData(child)
 
-                    case 'external':
+                    case External.name:
                         item = ExternalData(child, self._path)
 
                     case _:

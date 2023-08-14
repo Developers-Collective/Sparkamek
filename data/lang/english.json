@@ -117,6 +117,13 @@
                             }
                         },
                         "ReggieNextWidget": {
+                            "type": {
+                                "dualbox": "Dual Box / Radio Buttons",
+                                "checkbox": "Checkbox",
+                                "value": "Entry Value",
+                                "list": "Drop Down List",
+                                "external": "Value Selector from a File (External)"
+                            },
                             "QPushButton": {
                                 "clear": "Clear",
                                 "reset": "Reset",

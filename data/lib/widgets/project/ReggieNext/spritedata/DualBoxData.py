@@ -23,6 +23,8 @@ class DualBoxData(BaseItemData):
         DualBoxData._dualbox_icon = app.get_icon('baseitemdata/dualbox.png', True, QSaveData.IconMode.Local)
         DualBoxData._dualbox_selected_icon = app.get_icon('baseitemdata/dualboxSelected.png', True, QSaveData.IconMode.Local)
 
+        DualBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{DualBox.name}')
+
     def __init__(self, data: DualBox) -> None:
         super().__init__(data)
 
