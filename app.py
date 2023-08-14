@@ -150,15 +150,6 @@ class Application(QBaseApplication):
         open_project_button.clicked.connect(self.open_project_clicked)
         left_frame.grid_layout.addWidget(open_project_button, 0, 0)
 
-        # edit_project_button = QPushButton(lang['QPushButton']['editProject'])
-        # edit_project_button.setProperty('icon-padding', True)
-        # edit_project_button.setProperty('color', 'main')
-        # edit_project_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        # edit_project_button.setIcon(self.save_data.get_icon('pushbutton/edit.png', mode = QSaveData.IconMode.Local))
-        # edit_project_button.clicked.connect(self.not_implemented)
-        # edit_project_button.setDisabled(True)
-        # left_frame.grid_layout.addWidget(edit_project_button, 0, 1)
-
 
         right_frame = QGridFrame()
         right_frame.grid_layout.setSpacing(10)
