@@ -265,7 +265,7 @@ class Application(QBaseApplication):
             project.remove_clicked.connect(send_param_remove(index))
 
     def add_project(self, project: dict) -> None:
-        self.projects.append(Project(project = project['data']))
+        self.projects.append(Project(project = project['data'], name = project['name'], icon = project['icon']))
         self.sidepanelwidget.add_widget(self.projects[-1], project['name'], project['icon'])
 
         if self.main_menu.current_index == 0: self.main_menu.slide_in_index(1)

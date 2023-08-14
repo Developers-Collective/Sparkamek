@@ -5,6 +5,7 @@ from data.lib.storage import XMLNode
 from data.lib.widgets.project.ReggieNext.sprites.BaseSprite import BaseSprite
 from .BaseSprite import BaseSprite
 from .NybbleRange import NybbleRange
+from .ReqNybble import ReqNybble
 #----------------------------------------------------------------------
 
     # Class
@@ -15,22 +16,27 @@ class BaseItem(BaseSprite):
         super().__init__(data)
 
         reqnybs = str(data.get_attribute('requirednybble', ''))
-        self.requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
+        requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
 
         reqvals = str(data.get_attribute('requiredval', '')).split(',')
-        self.requiredvals = []
+        requiredvals: list[list[int], list[int, int]] = []
         if reqvals == ['']: reqvals = []
         for r in reqvals:
             r = r.strip()
             if not r: continue
 
             if '-' in r:
-                self.requiredvals.append(tuple(int(subr.strip()) for subr in r.split('-')))
+                requiredvals.append([int(subr.strip()) for subr in r.split('-')])
 
             else:
-                self.requiredvals.append(int(r))
+                requiredvals.append([int(r)])
 
-        self.nybble = NybbleRange(data.get_attribute('nybble', ''))
+        self.requirednybblevals: list[ReqNybble] = []
+        for i in range(len(requirednybbles)):
+            val = requiredvals[i] if i < len(requiredvals) else [1]
+            self.requirednybblevals.append(ReqNybble(requirednybbles[i], val))
+
+        self.nybbles = NybbleRange(data.get_attribute('nybble', ''))
 
         self.comment = data.get_attribute('comment', '')
         self.comment2 = data.get_attribute('comment2', '')
@@ -40,20 +46,12 @@ class BaseItem(BaseSprite):
     def export(self) -> XMLNode:
         sup = super().export()
 
-        reqvals = []
-        for r in self.requiredvals:
-            if isinstance(r, int):
-                reqvals.append(str(r))
-
-            else:
-                reqvals.append(f'{r[0]}-{r[1]}')
-
         return XMLNode(
             self.name,
             (
-                ({'requirednybble': ','.join([nybble.export() for nybble in self.requirednybbles])} if self.requirednybbles else {}) |
-                ({'requiredval': ','.join(reqvals)} if reqvals else {}) |
-                ({'nybble': self.nybble.export()} if self.nybble.export() else {}) |
+                ({'requirednybble': ','.join([nybble.nybbles.export() for nybble in self.requirednybblevals])} if self.requirednybblevals else {}) |
+                ({'requiredval': ','.join([r.values.export() for r in self.requirednybblevals])} if self.requirednybblevals else {}) |
+                ({'nybble': self.nybbles.export()} if self.nybbles.export() else {}) |
                 ({'comment': self.comment} if self.comment else {}) |
                 ({'comment2': self.comment2} if self.comment2 else {}) |
                 ({'advanced': self.advanced} if self.advanced else {}) |

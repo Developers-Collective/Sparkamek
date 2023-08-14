@@ -20,6 +20,7 @@ class OpenProjectDialog(QDialog):
     _icon_path = os.path.abspath('./data/icons/sample/')
 
     _forbidden_paths = [
+        None,
         '',
         '.',
         './'
@@ -574,7 +575,7 @@ class OpenProjectDialog(QDialog):
 
     def exec(self) -> dict | None:
         if super().exec():
-            return {
+            data = {
                 'name': self.name_entry.text() if self.name_entry.text() else 'Project',
                 'icon': self.icon_button.path() if self.icon_button.path() not in self._forbidden_paths else None,
                 'data': {
@@ -584,5 +585,7 @@ class OpenProjectDialog(QDialog):
                     ProjectKeys.Riivolution.value: self._get_riivolution()
                 }
             }
+            print(data)
+            return data if any(data['data'].values()) else None
         return None
 #----------------------------------------------------------------------

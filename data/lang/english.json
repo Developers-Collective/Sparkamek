@@ -151,7 +151,11 @@
                                     "QLabel": {
                                         "nybbleRange": "%s to %s",
                                         "nybbles": "Nybble(s): %s",
-                                        "settings": "Settings: %s"
+                                        "settings": "Settings: %s",
+                                        "nybbleTitle": "Nybbles",
+                                        "propertyTitle": "Other Properties",
+                                        "requiredNybbles": "Required Nybble(s): %s",
+                                        "requiredNybbleValue": "%s → %s"
                                     },
                                     "QNamedTextEdit": {
                                         "comment": "Comment",
@@ -160,12 +164,25 @@
                                     },
                                     "QNamedToggleButton": {
                                         "advanced": "Advanced"
-                                    },
+                                    }
+                                },
+                                "NybbleData": {
                                     "QNamedComboBox": {
                                         "firstNybble": "First Nybble",
                                         "firstNybbleBit": "First Nybble Bit",
                                         "lastNybble": "Last Nybble",
                                         "lastNybbleBit": "Last Nybble Bit"
+                                    }
+                                },
+                                "ReqNybbleData": {
+                                    "QLabel": {
+                                        "title": "Required Nybble(s) / Required Value(s)"
+                                    },
+                                    "ReqNybbleDataItem": {
+                                        "QNamedSpinBox": {
+                                            "fromValue": "From Value",
+                                            "toValue": "To Value"
+                                        }
                                     }
                                 },
                                 "DualBoxData": {

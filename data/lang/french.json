@@ -151,7 +151,11 @@
                                     "QLabel": {
                                         "nybbleRange": "%s à %s",
                                         "nybbles": "Nybble(s): %s",
-                                        "settings": "Paramètres: %s"
+                                        "settings": "Paramètres: %s",
+                                        "nybbleTitle": "Nybbles",
+                                        "propertyTitle": "Autres Propriétés",
+                                        "requiredNybbles": "Nybble(s) Requis: %s",
+                                        "requiredNybbleValue": "%s → %s"
                                     },
                                     "QNamedTextEdit": {
                                         "comment": "Commentaire",
@@ -160,12 +164,25 @@
                                     },
                                     "QNamedToggleButton": {
                                         "advanced": "Avancé"
-                                    },
+                                    }
+                                },
+                                "NybbleData": {
                                     "QNamedComboBox": {
                                         "firstNybble": "Premier Nybble",
                                         "firstNybbleBit": "Premier Nybble Bit",
                                         "lastNybble": "Dernier Nybble",
                                         "lastNybbleBit": "Dernier Nybble Bit"
+                                    }
+                                },
+                                "ReqNybbleData": {
+                                    "QLabel": {
+                                        "title": "Nybble(s) Requis / Valeur(s) Requise(s)"
+                                    },
+                                    "ReqNybbleDataItem": {
+                                        "QNamedSpinBox": {
+                                            "fromValue": "De la Valeur",
+                                            "toValue": "À la Valeur"
+                                        }
                                     }
                                 },
                                 "DualBoxData": {
