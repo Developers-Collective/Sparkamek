@@ -285,6 +285,7 @@ class KamekBuilder:
         digits = '0123456789'
 
         file = ''
+        isfasthack = ''
         waves = ''
         fasthack_line: int = 0
         code = ''
@@ -295,8 +296,9 @@ class KamekBuilder:
             if line.startswith('###'): continue
 
 
-            if line.startswith('#    File: '):
+            if line.startswith('#    File: ') or line.startswith('#      In: '):
                 file = line[11:]
+                isfasthack = (file.replace('\\', '/').split('/')[-1].strip() == 'fasthack.cpp')
                 continue
 
 
@@ -308,7 +310,7 @@ class KamekBuilder:
                     line = lines.pop(0)[1:].strip()
                     details.append(line)
 
-                if self._controller.config.fast_hack and fasthack_content is not None:
+                if self._controller.config.fast_hack and fasthack_content is not None and isfasthack:
                     index = fasthack_line
                     while ((not fasthack_content[index].startswith('// [Fasthack File Info] ')) or (not fasthack_content[index - 1].startswith('//')) or (not fasthack_content[index + 1].startswith('//'))) and index > 1:
                         index -= 1
@@ -333,7 +335,7 @@ class KamekBuilder:
                     line = lines.pop(0)[1:].strip()
                     details.append(line)
 
-                if self._controller.config.fast_hack and fasthack_content is not None:
+                if self._controller.config.fast_hack and fasthack_content is not None and isfasthack:
                     index = fasthack_line
                     while ((not fasthack_content[index].startswith('// [Fasthack File Info] ')) or (not fasthack_content[index - 1].startswith('//')) or (not fasthack_content[index + 1].startswith('//'))) and index > 1:
                         index -= 1

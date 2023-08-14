@@ -585,7 +585,6 @@ class OpenProjectDialog(QDialog):
                     ProjectKeys.Riivolution.value: self._get_riivolution()
                 }
             }
-            print(data)
             return data if any(data['data'].values()) else None
         return None
 #----------------------------------------------------------------------
