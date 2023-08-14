@@ -148,6 +148,8 @@
                                 "QLabel": {
                                     "generalInfo": "Informations Générales",
                                     "dependencies": "Dépendances",
+                                    "required": "Requis",
+                                    "suggested": "Suggérés",
                                     "settings": "Paramètres"
                                 },
                                 "QPushButton": {
@@ -158,6 +160,11 @@
                                 },
                                 "QNamedLineEdit": {
                                     "name": "Nom"
+                                },
+                                "DependencyDataItem": {
+                                    "QNamedSpinBox": {
+                                        "spriteID": "ID du Sprite"
+                                    }
                                 },
                                 "BaseItemData": {
                                     "QLabel": {

@@ -7,4 +7,5 @@ from .ValueData import ValueData
 from .CheckBoxData import CheckBoxData
 from .ListData import ListData
 from .ExternalData import ExternalData
+from .DependencyDataItem import DependencyDataItem
 #----------------------------------------------------------------------

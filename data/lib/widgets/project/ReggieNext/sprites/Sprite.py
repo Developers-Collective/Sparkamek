@@ -30,7 +30,7 @@ class Sprite(BaseSprite):
         self.phonebook = data.get_attribute('phonebook', '')
 
         dependency = data.get_first_child('dependency')
-        self.dependency = Dependency(dependency) if dependency else None
+        self.dependency = Dependency(dependency) if dependency else Dependency(XMLNode('dependency', {}, [], None))
         self.children: list[BaseItem] = []
 
         for child in data.children:
