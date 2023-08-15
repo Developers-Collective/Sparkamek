@@ -162,6 +162,16 @@
                                 "QNamedLineEdit": {
                                     "name": "Name"
                                 },
+                                "QNamedTextEdit": {
+                                    "notes": "Notes",
+                                    "yoshinotes": "Yoshi Notes",
+                                    "advancednotes": "Advanced Notes"
+                                },
+                                "QNamedToggleButton": {
+                                    "asmhacks": "ASM Hacks Support",
+                                    "sizehacks": "Size Hacks Support",
+                                    "noyoshi": "No Yoshi Support"
+                                },
                                 "DependencyDataItem": {
                                     "QNamedSpinBox": {
                                         "spriteID": "Sprite ID"

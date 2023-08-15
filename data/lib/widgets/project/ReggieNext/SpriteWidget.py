@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedComboBox, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .sprites.Sprite import Sprite, DualBox, CheckBox, Value, List, External
 from .sprites.Dependency import Required, Suggested
@@ -73,10 +73,47 @@ class SpriteWidget(QGridWidget):
         self._top_info_widget.grid_layout.addWidget(self._used_settings_label, 2, 0, 1, 2, Qt.AlignmentFlag.AlignRight)
 
 
-        # toggle_frame = QGridWidget()
-        # toggle_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        # toggle_frame.grid_layout.setSpacing(8)
-        # self._top_info_widget.grid_layout.addWidget(toggle_frame, 3, 0, 1, 2)
+        toggle_and_comment_frame = QGridWidget()
+        toggle_and_comment_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        toggle_and_comment_frame.grid_layout.setSpacing(8)
+        self._top_info_widget.grid_layout.addWidget(toggle_and_comment_frame, 3, 0, 1, 2)
+
+
+        toggle_topframe = QGridWidget()
+        toggle_topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        toggle_topframe.grid_layout.setSpacing(8)
+        toggle_and_comment_frame.grid_layout.addWidget(toggle_topframe, 0, 0)
+
+        self._asmhacks_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.asmhacks'), False, True)
+        self._asmhacks_toggle.toggle_button.toggled.connect(self._asmhacks_changed)
+        toggle_topframe.grid_layout.addWidget(self._asmhacks_toggle, 0, 0)
+
+        self._sizehacks_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.sizehacks'), False, True)
+        self._sizehacks_toggle.toggle_button.toggled.connect(self._sizehacks_changed)
+        toggle_topframe.grid_layout.addWidget(self._sizehacks_toggle, 0, 1)
+
+        self._noyoshi_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.noyoshi'), False, True)
+        self._noyoshi_toggle.toggle_button.toggled.connect(self._noyoshi_changed)
+        toggle_topframe.grid_layout.addWidget(self._noyoshi_toggle, 0, 2)
+
+
+        comment_middleframe = QGridWidget()
+        comment_middleframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        comment_middleframe.grid_layout.setSpacing(8)
+        toggle_and_comment_frame.grid_layout.addWidget(comment_middleframe, 1, 0)
+
+        self._notes_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.notes'))
+        self._notes_textedit.text_edit.textChanged.connect(self._notes_changed)
+        comment_middleframe.grid_layout.addWidget(self._notes_textedit, 0, 0)
+
+        self._yoshinotes_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.yoshinotes'))
+        self._yoshinotes_textedit.text_edit.textChanged.connect(self._yoshinotes_changed)
+        comment_middleframe.grid_layout.addWidget(self._yoshinotes_textedit, 0, 1)
+
+
+        self._advancednotes_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.advancednotes'))
+        self._advancednotes_textedit.text_edit.textChanged.connect(self._advancednotes_changed)
+        comment_middleframe.grid_layout.addWidget(self._advancednotes_textedit, 0, 2)
 
 
         self._dependencies_widget = QGridWidget()
@@ -189,9 +226,25 @@ class SpriteWidget(QGridWidget):
             self._name_lineedit.setText('')
             self._id_spinbox.setValue(0)
 
+            self._asmhacks_toggle.setChecked(False)
+            self._sizehacks_toggle.setChecked(False)
+            self._noyoshi_toggle.setChecked(False)
+
+            self._notes_textedit.setText('')
+            self._yoshinotes_textedit.setText('')
+            self._advancednotes_textedit.setText('')
+
         else:
             self._name_lineedit.setText(sprite.sprite_name)
             self._id_spinbox.setValue(sprite.id)
+
+            self._asmhacks_toggle.setChecked(sprite.asmhacks)
+            self._sizehacks_toggle.setChecked(sprite.sizehacks)
+            self._noyoshi_toggle.setChecked(sprite.noyoshi)
+
+            self._notes_textedit.setText(sprite.notes)
+            self._yoshinotes_textedit.setText(sprite.yoshinotes)
+            self._advancednotes_textedit.setText(sprite.advancednotes)
 
             self._required_draglist.clear()
             for required in self._sprite.dependency.required:
@@ -260,6 +313,7 @@ class SpriteWidget(QGridWidget):
 
     def _send_data(self, *args) -> None:
         if self._disable_send: return
+        self._update_used_settings()
         self.sprite_edited.emit()
 
 
@@ -324,4 +378,34 @@ class SpriteWidget(QGridWidget):
 
         sender.set_checked(checked)
         self.property_entry_selected.emit(widget)
+
+    def _asmhacks_changed(self, state: bool) -> None:
+        if self._sprite is None: return
+        self._sprite.asmhacks = state
+        self._send_data()
+
+    def _sizehacks_changed(self, state: bool) -> None:
+        if self._sprite is None: return
+        self._sprite.sizehacks = state
+        self._send_data()
+
+    def _noyoshi_changed(self, state: bool) -> None:
+        if self._sprite is None: return
+        self._sprite.noyoshi = state
+        self._send_data()
+
+    def _notes_changed(self) -> None:
+        if self._sprite is None: return
+        self._sprite.notes = self._notes_textedit.text()
+        self._send_data()
+
+    def _yoshinotes_changed(self) -> None:
+        if self._sprite is None: return
+        self._sprite.yoshinotes = self._yoshinotes_textedit.text()
+        self._send_data()
+
+    def _advancednotes_changed(self) -> None:
+        if self._sprite is None: return
+        self._sprite.advancednotes = self._advancednotes_textedit.text()
+        self._send_data()
 #----------------------------------------------------------------------

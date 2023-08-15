@@ -21,9 +21,9 @@ class Sprite(BaseSprite):
 
         self.id = data.get_attribute('id', None)
         self.sprite_name = data.get_attribute('name', '')
-        self.asmhacks = data.get_attribute('asmhacks', False)
-        self.sizehacks = data.get_attribute('sizehacks', False)
-        self.noyoshi = data.get_attribute('noyoshi', False)
+        self.asmhacks = self._bool_filter(data.get_attribute('asmhacks', False))
+        self.sizehacks = self._bool_filter(data.get_attribute('sizehacks', False))
+        self.noyoshi = self._bool_filter(data.get_attribute('noyoshi', False))
         self.yoshinotes = data.get_attribute('yoshinotes', '')
         self.notes = data.get_attribute('notes', '')
         self.advancednotes = data.get_attribute('advancednotes', '')
@@ -42,6 +42,9 @@ class Sprite(BaseSprite):
                 case 'list': self.children.append(List(child))
                 case 'external': self.children.append(External(child))
                 case _: raise ValueError(f'Unknown sprite child: {child}')
+
+    def _bool_filter(self, value: bool) -> bool:
+        return True if value == 'True' else False if value == 'False' else bool(value)
 
     def export(self) -> XMLNode:
         sup = super().export()
