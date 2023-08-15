@@ -154,7 +154,7 @@ class SpriteWidget(QGridWidget):
 
     @property
     def sprite(self) -> Sprite or None:
-        self._sprite.name = self._name_lineedit.text()
+        self._sprite.sprite_name = self._name_lineedit.text()
         self._sprite.id = self._id_spinbox.value()
 
         return self._sprite
@@ -167,6 +167,9 @@ class SpriteWidget(QGridWidget):
         self._disable_send = True
 
         self._settings_draglist.clear()
+        self._required_draglist.clear()
+        self._suggested_draglist.clear()
+
         self.setEnabled(sprite is not None)
         self.property_entry_selected.emit(None)
 
@@ -175,7 +178,7 @@ class SpriteWidget(QGridWidget):
             self._id_spinbox.setValue(0)
 
         else:
-            self._name_lineedit.setText(sprite.name)
+            self._name_lineedit.setText(sprite.sprite_name)
             self._id_spinbox.setValue(sprite.id)
 
             self._required_draglist.clear()

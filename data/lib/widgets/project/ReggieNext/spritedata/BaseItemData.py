@@ -4,9 +4,8 @@
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QNamedComboBox
+from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QssSelector
 from ..sprites.BaseItem import BaseItem
-from ..sprites.NybbleRange import NybbleRange
 from .NybbleData import NybbleData
 from .ReqNybbleData import ReqNybbleData
 #----------------------------------------------------------------------
@@ -14,6 +13,9 @@ from .ReqNybbleData import ReqNybbleData
     # Class
 class BaseItemData(QDragListItem):
     type: str = 'BaseItem'
+
+    _normal_color = '#FFFFFF'
+    _checked_color = '#FFFFFF'
 
     deleted = Signal(QDragListItem)
     selected = Signal(QDragListItem, QGridWidget or None)
@@ -26,6 +28,16 @@ class BaseItemData(QDragListItem):
     def init(app: QBaseApplication) -> None:
         BaseItemData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.BaseItemData')
         BaseItemData._delete_icon = app.get_icon('pushbutton/deleteBig.png', True, QSaveData.IconMode.Local)
+
+        BaseItemData._normal_color = app.qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'BaseItemData': True}),
+            QssSelector(widget = 'QLabel')
+        )
+        BaseItemData._checked_color = app.qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'color': app.window.property('color')}),
+            QssSelector(widget = 'QWidget', attributes = {'BaseItemData': True, 'color': 'main'}),
+            QssSelector(widget = 'QLabel', attributes = {'checked': True})
+        )['color']
 
         NybbleData.init(app)
         ReqNybbleData.init(app)
@@ -203,6 +215,7 @@ class BaseItemData(QDragListItem):
 
     def set_checked(self, checked: bool) -> None:
         self.setProperty('checked', checked)
+        self._type_label.setStyleSheet(f'color: {self._checked_color if checked else self._normal_color}')
         self.style().unpolish(self)
         self.style().polish(self)
 

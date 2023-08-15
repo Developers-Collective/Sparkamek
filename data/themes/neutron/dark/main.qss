@@ -1,0 +1,8 @@
+
+QWidget[BaseItemData=true] QLabel {
+	color: #909090;
+}
+
+QWidget[color='blue'] QWidget[BaseItemData=true][color='main'] QLabel[checked=true], QWidget[BaseItemData=true][color='blue'] QLabel[checked=true] {
+	color: #1B80FC;
+}

@@ -20,7 +20,7 @@ class Sprite(BaseSprite):
         super().__init__(data)
 
         self.id = data.get_attribute('id', None)
-        self.name = data.get_attribute('name', '')
+        self.sprite_name = data.get_attribute('name', '')
         self.asmhacks = data.get_attribute('asmhacks', False)
         self.sizehacks = data.get_attribute('sizehacks', False)
         self.noyoshi = data.get_attribute('noyoshi', False)
@@ -47,10 +47,10 @@ class Sprite(BaseSprite):
         sup = super().export()
 
         return XMLNode(
-            self.name,
+            'sprite',
             (
                 ({'id': self.id} if self.id is not None else {}) |
-                ({'name': self.name} if self.name else {}) |
+                ({'name': self.sprite_name} if self.sprite_name else {}) |
                 ({'asmhacks': self.asmhacks} if self.asmhacks else {}) |
                 ({'sizehacks': self.sizehacks} if self.sizehacks else {}) |
                 ({'noyoshi': self.noyoshi} if self.noyoshi else {}) |

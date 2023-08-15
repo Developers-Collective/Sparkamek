@@ -89,7 +89,7 @@ class Application(QBaseApplication):
         self.window.setWindowTitle(self.get_lang_data('QMainWindow.title') + f' | Version: {self.VERSION} | Build: {self.BUILD}')
 
     def load_colors(self) -> None:
-        qss = super().load_colors()
+        super().load_colors()
 
         SaveData.COLOR_LINK = self.COLOR_LINK
 

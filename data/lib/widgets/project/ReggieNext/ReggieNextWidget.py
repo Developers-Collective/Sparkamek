@@ -10,7 +10,8 @@ from .SpriteListDockWidget import SpriteListDockWidget
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 from .SpriteWidget import SpriteWidget
 from .sprites.Sprite import Sprite
-from data.lib.storage.xml import XMLNode
+from data.lib.storage.xml import XML, XMLNode
+import os, shutil
 #----------------------------------------------------------------------
 
     # Class
@@ -44,6 +45,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         self._sprite_list_dock_widget = SpriteListDockWidget(app, name, icon, data)
         self._sprite_list_dock_widget.selected_sprite_changed.connect(self._sprite_selection_changed)
+        self._sprite_list_dock_widget.save_clicked.connect(self._save_clicked)
 
         self._item_data_property_dock_widget = ItemDataPropertyDockWidget(app, name, icon, data)
 
@@ -208,4 +210,16 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
     def _sprite_edited(self) -> None:
         self._sprite_modified = True
+
+
+    def _save_clicked(self) -> None:
+        self._save_current_sprite()
+        if not self._sprite_list_dock_widget.sprites.children: return
+
+        path = f'{self.path}/spritedata.xml'
+        if os.path.exists(f'{path}.bak'): os.remove(f'{path}.bak')
+        os.rename(path, f'{path}.bak')
+
+        with open(path, 'w') as f:
+            f.write(str(self._sprite_list_dock_widget.sprites.export()))
 #----------------------------------------------------------------------

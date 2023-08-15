@@ -22,6 +22,7 @@ class SpriteListDockWidget(QSavableDockWidget):
     _list_alignment = [Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignLeft]
 
     selected_sprite_changed = Signal(Sprite or None, Sprite or None)
+    save_clicked = Signal()
     _fix_selected_sprite_changed = Signal()
 
     def init(app: QBaseApplication) -> None:
@@ -114,6 +115,11 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
     @property
+    def sprites(self) -> Sprites:
+        return self._sprites
+
+
+    @property
     def task_is_running(self) -> bool:
         return self._sprite_list_loader_worker is not None
 
@@ -147,7 +153,7 @@ class SpriteListDockWidget(QSavableDockWidget):
     def _load_item(self, item: Sprite) -> None:
         try:
             self._sprites.add(item)
-            self._list.add_item([str(item.id), item.name], None, self._list_alignment)
+            self._list.add_item([str(item.id), item.sprite_name], None, self._list_alignment)
 
         except Exception as e: print(e)
 
@@ -169,27 +175,27 @@ class SpriteListDockWidget(QSavableDockWidget):
                 self._sprites.replace_by_id(prev_info[0], sprite)
 
                 index = self._list.index((str(prev_info[0]), prev_info[1]))
-                self._list.replace_item(index, [str(sprite.id), sprite.name], None, self._list_alignment)
+                self._list.replace_item(index, [str(sprite.id), sprite.sprite_name], None, self._list_alignment)
 
             else:
                 self._sprites.add(sprite)
-                self._list.add_item([str(sprite.id), sprite.name], None, self._list_alignment)
+                self._list.add_item([str(sprite.id), sprite.sprite_name], None, self._list_alignment)
 
         else:
             if prev_sprite := self._sprites.get_by_id(prev_info[0]):
                 self._sprites.remove_by_id(prev_sprite.id)
 
-                index = self._list.index((str(prev_sprite.id), prev_sprite.name))
+                index = self._list.index((str(prev_sprite.id), prev_sprite.sprite_name))
                 self._list.remove_item(index)
 
             if existing_sprite := self._sprites.get_by_id(sprite.id):
                 self._sprites.replace_by_id(existing_sprite.id, sprite)
 
-                index = self._list.index((str(existing_sprite.id), existing_sprite.name))
+                index = self._list.index((str(existing_sprite.id), existing_sprite.sprite_name))
 
                 load_next_sprite = False
                 if self._list.get_selected_row() == index and index != -1: load_next_sprite = True
-                self._list.replace_item(index, [str(sprite.id), sprite.name], None, self._list_alignment)
+                self._list.replace_item(index, [str(sprite.id), sprite.sprite_name], None, self._list_alignment)
 
                 if load_next_sprite:
                     self._list.select(index)
@@ -199,7 +205,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
             else:
                 self._sprites.add(sprite)
-                self._list.add_item([str(sprite.id), sprite.name], None, self._list_alignment)
+                self._list.add_item([str(sprite.id), sprite.sprite_name], None, self._list_alignment)
 
 
     def delete_sprite(self, data: tuple[int, str]) -> None:
@@ -215,7 +221,8 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
     def _save(self) -> None:
-        pass
+        self.deselect_sprite()
+        self.save_clicked.emit()
 
 
     def _sprite_selection_changed(self, selected: tuple[str, str], deselected: tuple[str, str]) -> None:
