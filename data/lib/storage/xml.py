@@ -46,7 +46,7 @@ class XMLNode:
 
 
         def _convert_attribute(self, attr: str) -> str:
-            return attr.replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace('\'', '&apos;').replace('&', '&amp;')
+            return attr.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')#.replace('\'', '&apos;')
 
 
         def __repr__(self) -> str:
@@ -75,6 +75,10 @@ class XMLNode:
             return self.__repr__()
 
 
+        def export(self) -> str:
+            return self.__repr__()
+
+
 
 class XML:
     def __init__(self, root_name: str, children: list[XMLNode]) -> None:
@@ -92,8 +96,7 @@ class XML:
 
 
     def __repr__(self) -> str:
-        s = '<?xml version="1.0" encoding="UTF-8"?>\n'
-        s += f'<{self.root_name}>'
+        s = f'<{self.root_name}>'
 
         for child in self.children:
             s += '\n\t' + str(child)
@@ -105,8 +108,8 @@ class XML:
 
 
     @staticmethod
-    def parse_file(file_path: str) -> 'XML':
-        with open(file_path, 'r') as file:
+    def parse_file(file_path: str, encoding: str = 'utf-8') -> 'XML':
+        with open(file_path, 'r', encoding = encoding) as file:
             return XML.parse(file.read())
 
     @staticmethod
@@ -153,4 +156,8 @@ class XML:
 
             except ValueError:
                 pass
+
+
+    def export(self, encoding: str = 'utf-8') -> str:
+        return f'<?xml version="1.0" encoding="{encoding.upper()}"?>\n{self.__repr__()}'
 #----------------------------------------------------------------------

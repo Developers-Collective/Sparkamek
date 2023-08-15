@@ -68,6 +68,16 @@ class SpriteWidget(QGridWidget):
         self._name_lineedit.line_edit.textChanged.connect(self._send_data)
         self._top_info_widget.grid_layout.addWidget(self._name_lineedit, 1, 1)
 
+        self._used_settings_label = QLabel()
+        self._used_settings_label.setProperty('title', True)
+        self._top_info_widget.grid_layout.addWidget(self._used_settings_label, 2, 0, 1, 2, Qt.AlignmentFlag.AlignRight)
+
+
+        # toggle_frame = QGridWidget()
+        # toggle_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        # toggle_frame.grid_layout.setSpacing(8)
+        # self._top_info_widget.grid_layout.addWidget(toggle_frame, 3, 0, 1, 2)
+
 
         self._dependencies_widget = QGridWidget()
         self._dependencies_widget.grid_layout.setContentsMargins(0, 0, 0, 0)
@@ -173,6 +183,8 @@ class SpriteWidget(QGridWidget):
         self.setEnabled(sprite is not None)
         self.property_entry_selected.emit(None)
 
+        self._update_used_settings()
+
         if sprite is None:
             self._name_lineedit.setText('')
             self._id_spinbox.setValue(0)
@@ -219,6 +231,16 @@ class SpriteWidget(QGridWidget):
                 item.data_changed.connect(self._send_data)
 
         self._disable_send = False
+
+
+    def _update_used_settings(self) -> None:
+        used_settings = 0
+        if self._sprite is not None:
+            for child in self._sprite.children:
+                used_settings |= child.nybbles.convert2int()
+
+        s = f'{used_settings:016X}'
+        self._used_settings_label.setText(self._lang.get_data('QLabel.usedSettings').replace('%s', f'{s[:4]} {s[4:8]} {s[8:12]} {s[12:16]}'))
 
 
     def _settings_entry_moved(self, from_: int, to_: int) -> None:

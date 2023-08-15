@@ -220,6 +220,6 @@ class ReggieNextWidget(SubProjectWidgetBase):
         if os.path.exists(f'{path}.bak'): os.remove(f'{path}.bak')
         os.rename(path, f'{path}.bak')
 
-        with open(path, 'w') as f:
-            f.write(str(self._sprite_list_dock_widget.sprites.export()))
+        with open(path, 'w', encoding = 'utf-8') as f:
+            f.write(str(self._sprite_list_dock_widget.sprites.export().export()))
 #----------------------------------------------------------------------

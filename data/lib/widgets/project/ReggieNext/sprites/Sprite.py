@@ -27,7 +27,7 @@ class Sprite(BaseSprite):
         self.yoshinotes = data.get_attribute('yoshinotes', '')
         self.notes = data.get_attribute('notes', '')
         self.advancednotes = data.get_attribute('advancednotes', '')
-        self.phonebook = data.get_attribute('phonebook', '')
+        self.phonebook = data.get_attribute('phonebook', '') # TF is this?
 
         dependency = data.get_first_child('dependency')
         self.dependency = Dependency(dependency) if dependency else Dependency(XMLNode('dependency', {}, [], None))

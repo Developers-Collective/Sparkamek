@@ -57,7 +57,7 @@ class NybbleRange:
         if self.end == None: return NybbleRange.nybblebit2int(settings, self.start.n, self.start.b, self.start.n, self.start.b)
         return NybbleRange.nybblebit2int(settings, self.start.n, self.start.b, self.end.n, self.end.b)
 
-    def convert2hex_formatted(self) -> int:
+    def convert2hex_formatted(self) -> str:
         s = f'{self.convert2int():016X}'
         return f'{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}'
 #----------------------------------------------------------------------

@@ -150,7 +150,8 @@
                                     "dependencies": "Dependencies",
                                     "required": "Required",
                                     "suggested": "Suggested",
-                                    "settings": "Settings"
+                                    "settings": "Settings",
+                                    "usedSettings": "Used Settings: %s"
                                 },
                                 "QPushButton": {
                                     "addEntry": "Add Entry"

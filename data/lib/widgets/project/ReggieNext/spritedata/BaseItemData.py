@@ -69,7 +69,6 @@ class BaseItemData(QDragListItem):
         top_frame.grid_layout.addWidget(topleft_frame, 0, 0)
 
         self._type_label = QLabel()
-        # self._type_label.setProperty('bigbrighttitle', True)
         self._type_label.setProperty('brightsubtitle', True)
         topleft_frame.grid_layout.addWidget(self._type_label, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         self._update_title_text()

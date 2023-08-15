@@ -21,7 +21,7 @@ class Entry(BaseItem):
         return XMLNode(
             self.name,
             (
-                ({'value': self.value} if self.value else {})
+                ({'value': self.value} if self.value is not None else {})
             ) | sup.attributes,
             sup.children,
             self.item

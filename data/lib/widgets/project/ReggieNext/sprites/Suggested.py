@@ -21,7 +21,7 @@ class Suggested(BaseSprite):
         return XMLNode(
             self.name,
             (
-                ({'sprite': self.sprite} if self.sprite else {})
+                ({'sprite': self.sprite} if self.sprite is not None else {})
             ) | sup.attributes,
             sup.children,
             sup.value
