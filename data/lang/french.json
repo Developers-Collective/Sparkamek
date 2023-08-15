@@ -354,7 +354,7 @@
                     "QNamedLineEdit": {
                         "buildFolder": "Dossier de Compilation Kamek"
                     },
-                    "QToggleButton": {
+                    "QNamedToggleButton": {
                         "generatePAL": "Générer la Version PAL (Requis)",
                         "generateNTSC": "Générer la Version NTSC",
                         "generateJP": "Générer la Version JP",
@@ -468,7 +468,7 @@
                             }
                         }
                     },
-                    "QToggleButton": {
+                    "QNamedToggleButton": {
                         "startAtLaunch": "Démarrer au Lancement",
                         "minimizeToTray": "Minimiser dans la Barre des Tâches"
                     }
@@ -481,7 +481,7 @@
                             "description": "Détermine si Sparkamek affiche une notification lorsqu'il est minimisé dans la barre des tâches."
                         }
                     },
-                    "QToggleButton": {
+                    "QNamedToggleButton": {
                         "goesToTray": "Minimiser dans la Barre des Tâches"
                     },
                     "QPushButton": {

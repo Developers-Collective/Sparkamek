@@ -362,7 +362,7 @@
                     "QNamedLineEdit": {
                         "buildFolder": "Kamek Build Folder"
                     },
-                    "QToggleButton": {
+                    "QNamedToggleButton": {
                         "generatePAL": "Generate PAL Version (Required)",
                         "generateNTSC": "Generate NTSC Version",
                         "generateJP": "Generate JP Version",
@@ -476,7 +476,7 @@
                             }
                         }
                     },
-                    "QToggleButton": {
+                    "QNamedToggleButton": {
                         "startAtLaunch": "Start at Launch",
                         "minimizeToTray": "Minimize to Tray"
                     }
@@ -489,7 +489,7 @@
                             "description": "Determines if a notification will be sent when the app goes to the tray."
                         }
                     },
-                    "QToggleButton": {
+                    "QNamedToggleButton": {
                         "goesToTray": "Goes to Tray"
                     },
                     "QPushButton": {

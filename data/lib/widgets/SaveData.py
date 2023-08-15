@@ -96,7 +96,7 @@ class SaveData(QSaveData):
         # root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.start_at_launch_checkbox = QNamedToggleButton()
-        widget.start_at_launch_checkbox.setText(lang.get_data('QToggleButton.startAtLaunch'))
+        widget.start_at_launch_checkbox.setText(lang.get_data('QNamedToggleButton.startAtLaunch'))
         widget.start_at_launch_checkbox.setChecked(self.start_at_launch)
         # root_frame.grid_layout.addWidget(widget.start_at_launch_checkbox, root_frame.grid_layout.count(), 0)
         # root_frame.grid_layout.setAlignment(widget.start_at_launch_checkbox, Qt.AlignmentFlag.AlignLeft)
@@ -112,7 +112,7 @@ class SaveData(QSaveData):
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.minimize_to_tray_checkbox = QNamedToggleButton()
-        widget.minimize_to_tray_checkbox.setText(lang.get_data('QToggleButton.minimizeToTray'))
+        widget.minimize_to_tray_checkbox.setText(lang.get_data('QNamedToggleButton.minimizeToTray'))
         widget.minimize_to_tray_checkbox.setChecked(self.minimize_to_tray)
         root_frame.grid_layout.addWidget(widget.minimize_to_tray_checkbox, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(widget.minimize_to_tray_checkbox, Qt.AlignmentFlag.AlignLeft)
@@ -207,7 +207,7 @@ class SaveData(QSaveData):
             subframe.grid_layout.addWidget(label, subframe.grid_layout.count(), 0)
 
             w = QNamedToggleButton()
-            w.setText(lang.get_data(f'QToggleButton.{key}'))
+            w.setText(lang.get_data(f'QNamedToggleButton.{key}'))
             w.setChecked(checked)
             subframe.grid_layout.addWidget(w, subframe.grid_layout.count(), 0)
             subframe.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)

@@ -327,7 +327,7 @@ class OpenProjectDialog(QDialog):
             root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
             w = QNamedToggleButton()
-            w.setText(lang.get_data(f'QToggleButton.{key}'))
+            w.setText(lang.get_data(f'QNamedToggleButton.{key}'))
             w.setChecked(checked)
             root_frame.grid_layout.addWidget(w, root_frame.grid_layout.count(), 0)
             root_frame.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
