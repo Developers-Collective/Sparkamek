@@ -225,8 +225,8 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         try:
             path = f'{self.path}/spritedata.xml'
-            if os.path.exists(f'{path}.bak'): os.remove(f'{path}.bak')
-            os.rename(path, f'{path}.bak')
+            if not os.path.exists(f'{path}.bak'):
+                os.rename(path, f'{path}.bak')
 
             with open(path, 'w', encoding = 'utf-8') as f:
                 f.write(str(self._sprite_list_dock_widget.sprites.export().export(indent = 2)))
