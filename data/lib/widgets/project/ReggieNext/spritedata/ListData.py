@@ -7,12 +7,12 @@ from data.lib.qtUtils import QGridWidget, QBaseApplication, QSaveData, QNamedLin
 from .BaseItemData import BaseItemData
 from .EntryListItem import EntryListItem
 from ..sprites.List import List, Entry
-from data.lib.storage.xml import XMLNode
 #----------------------------------------------------------------------
 
     # Class
 class ListData(BaseItemData):
     type: str = 'List'
+    child_cls = List
 
     _sublang = {}
 
@@ -29,8 +29,8 @@ class ListData(BaseItemData):
 
         EntryListItem.init(app)
 
-    def __init__(self, data: List) -> None:
-        super().__init__(data)
+    def __init__(self, data: List, path: str) -> None:
+        super().__init__(data, path)
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)

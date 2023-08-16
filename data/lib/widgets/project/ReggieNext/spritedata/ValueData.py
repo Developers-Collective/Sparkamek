@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import QSize
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget
+from data.lib.qtUtils import QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget
 from .BaseItemData import BaseItemData
 from ..sprites.Value import Value
 #----------------------------------------------------------------------
@@ -11,6 +11,7 @@ from ..sprites.Value import Value
     # Class
 class ValueData(BaseItemData):
     type: str = 'Value'
+    child_cls = Value
 
     _sublang = {}
 
@@ -23,8 +24,8 @@ class ValueData(BaseItemData):
 
         ValueData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{Value.name}')
 
-    def __init__(self, data: Value) -> None:
-        super().__init__(data)
+    def __init__(self, data: Value, path: str) -> None:
+        super().__init__(data, path)
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)

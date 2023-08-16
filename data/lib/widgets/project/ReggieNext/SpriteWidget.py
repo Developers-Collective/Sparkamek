@@ -8,7 +8,7 @@ from data.lib.widgets.ProjectKeys import ProjectKeys
 from .sprites.Sprite import Sprite, DualBox, CheckBox, Value, List, External
 from .sprites.Dependency import Required, Suggested
 from .spritedata import *
-from data.lib.storage.xml import XMLNode
+from .spritedata.ItemDataFactory import ItemDataFactory
 #----------------------------------------------------------------------
 
     # Class
@@ -28,13 +28,7 @@ class SpriteWidget(QGridWidget):
         SpriteWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
         DependencyDataItem.init(app)
-
-        BaseItemData.init(app)
-        DualBoxData.init(app)
-        ValueData.init(app)
-        CheckBoxData.init(app)
-        ListData.init(app)
-        ExternalData.init(app)
+        ItemDataFactory.init(app)
 
     def __init__(self, path: str) -> None:
         super().__init__()
@@ -259,24 +253,7 @@ class SpriteWidget(QGridWidget):
                 self._suggested_draglist.add_item(item)
 
             for child in sprite.children:
-                match child.name:
-                    case DualBox.name:
-                        item = DualBoxData(child)
-
-                    case Value.name:
-                        item = ValueData(child)
-
-                    case CheckBox.name:
-                        item = CheckBoxData(child)
-
-                    case List.name:
-                        item = ListData(child)
-
-                    case External.name:
-                        item = ExternalData(child, self._path)
-
-                    case _:
-                        item = BaseItemData(child)
+                item = ItemDataFactory.get_data(child.name)(child, self._path)
 
                 self._settings_draglist.add_item(item)
                 item.selected.connect(self._entry_selected)

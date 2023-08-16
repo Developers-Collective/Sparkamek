@@ -13,6 +13,7 @@ from .ReqNybbleData import ReqNybbleData
     # Class
 class BaseItemData(QDragListItem):
     type: str = 'BaseItem'
+    child_cls: BaseItem = BaseItem
 
     _normal_color = '#FFFFFF'
     _checked_color = '#FFFFFF'
@@ -42,7 +43,7 @@ class BaseItemData(QDragListItem):
         NybbleData.init(app)
         ReqNybbleData.init(app)
 
-    def __init__(self, data: BaseItem) -> None:
+    def __init__(self, data: BaseItem, path: str) -> None:
         super().__init__()
 
         self.setProperty('color', 'main')

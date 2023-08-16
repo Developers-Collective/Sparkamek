@@ -11,6 +11,7 @@ from ..sprites.CheckBox import CheckBox
     # Class
 class CheckBoxData(BaseItemData):
     type: str = 'Check Box'
+    child_cls = CheckBox
 
     _sublang = {}
 
@@ -23,8 +24,8 @@ class CheckBoxData(BaseItemData):
 
         CheckBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{CheckBox.name}')
 
-    def __init__(self, data: CheckBox) -> None:
-        super().__init__(data)
+    def __init__(self, data: CheckBox, path: str) -> None:
+        super().__init__(data, path)
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)

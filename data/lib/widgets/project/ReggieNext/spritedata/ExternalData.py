@@ -12,6 +12,7 @@ import os
     # Class
 class ExternalData(BaseItemData):
     type: str = 'External'
+    child_cls = External
 
     _sublang = {}
 
@@ -25,7 +26,7 @@ class ExternalData(BaseItemData):
         ExternalData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{External.name}')
 
     def __init__(self, data: External, path: str) -> None:
-        super().__init__(data)
+        super().__init__(data, path)
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)

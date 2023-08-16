@@ -11,7 +11,7 @@ class ProjectType:
         return None
 
     @staticmethod
-    def get_all() -> list[SubProjectWidgetBase]:
+    def get_all() -> list[type[SubProjectWidgetBase]]:
         return [
             LoaderWidget,
             KamekWidget,
@@ -24,7 +24,7 @@ class ProjectType:
         return [project.type for project in ProjectType.get_all()]
 
     @staticmethod
-    def get_by_type(type: ProjectKeys) -> SubProjectWidgetBase:
+    def get_by_type(type: ProjectKeys) -> type[SubProjectWidgetBase] | None:
         for project in ProjectType.get_all():
             if project.type == type:
                 return project

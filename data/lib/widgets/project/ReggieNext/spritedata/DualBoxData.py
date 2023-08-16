@@ -11,6 +11,7 @@ from ..sprites.DualBox import DualBox
     # Class
 class DualBoxData(BaseItemData):
     type: str = 'Dual Box'
+    child_cls = DualBox
 
     _sublang = {}
 
@@ -25,8 +26,8 @@ class DualBoxData(BaseItemData):
 
         DualBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{DualBox.name}')
 
-    def __init__(self, data: DualBox) -> None:
-        super().__init__(data)
+    def __init__(self, data: DualBox, path: str) -> None:
+        super().__init__(data, path)
 
         self._title1_label = QLabel(self._data.title1)
         self._title1_label.setProperty('brighttitle', True)
