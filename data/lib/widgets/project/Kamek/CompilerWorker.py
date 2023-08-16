@@ -145,14 +145,14 @@ class CompilerWorker(QThread):
                 return f'<span style="background-color: #55{log_type.value.hex[1:]}">{s}</span>'
 
             if len(e.func_symbols) == 1:
-                self.log_error(f'&nbsp;&nbsp;Did you mean "{make_diff(e.not_found_func, e.func_symbols[0].raw)}"?', True)
+                self.log_error(f'&nbsp;&nbsp;Did you mean "{make_diff(e.not_found_func, e.func_symbols[0].name)}"?', True)
                 # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;→ {e.func_symbols[0].raw}', True)
 
             elif len(e.func_symbols) > 1:
                 self.log_error(f'&nbsp;&nbsp;Did you mean one of these?', True)
 
                 for func in e.func_symbols:
-                    self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;• {make_diff(e.not_found_func, func.raw)}', True)
+                    self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;• {make_diff(e.not_found_func, func.name)}', True)
                     # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ {func.raw}', True)
 
                     # if func != e.func_symbols[-1]: self.log_error('&nbsp;', True)

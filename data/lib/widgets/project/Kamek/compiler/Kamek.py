@@ -3,10 +3,11 @@
     # Libraries
 from PySide6.QtCore import Signal, QObject
 from typing import Any
-import binascii, os, os.path, shutil, struct, subprocess, sys, tempfile, yaml, elftools.elf.elffile, dataclasses, difflib
+import binascii, os, os.path, shutil, struct, subprocess, sys, yaml, elftools.elf.elffile, dataclasses, difflib
 from .Hooks import Hooks as hooks
 from .MissingSymbol import MissingSymbol
 from .CannotFindFunctionException import CannotFindFunctionException
+from .MatchingFuncSymbol import MatchingFuncSymbol
 from .FuncSymbol import FuncSymbol
 
 from ...LogType import LogType
@@ -675,7 +676,7 @@ class KamekBuilder:
         self._controller.log_success('Generated code is at 0x%08X .. 0x%08X' % (self._code_start, self._code_end - 4))
 
 
-    def find_func_by_symbol(self, find_symbol) -> int:
+    def find_func_by_symbol(self, find_symbol: str) -> int:
         for sym in self._symbols:
             #if show_cmd:
             #   out = "0x%08x - %s - %s" % (sym[0], sym[1], sym[2])
@@ -684,11 +685,20 @@ class KamekBuilder:
                 return sym[0]
 
         def similar(a: str, b: str) -> float:
+            b_fn = b.split('(')
+            if len(b_fn) > 1:
+                b_fn = b_fn[0]
+                a_fn = a.split('(')[0]
+                if a_fn == b_fn:
+                    return 1.0
+
+                return (difflib.SequenceMatcher(None, a, b).ratio() + difflib.SequenceMatcher(None, a.split('(')[0], b.split('(')[0]).ratio()) / 2
+
             return difflib.SequenceMatcher(None, a, b).ratio()
 
         raise CannotFindFunctionException(
             str(find_symbol),
-            sorted([FuncSymbol(*sym) for sym in self._symbols if similar(sym[2], find_symbol) > 0.6], key = lambda x: similar(x.name, find_symbol), reverse=True)
+            sorted([MatchingFuncSymbol(sym[0], sym[2]) for sym in self._symbols if similar(sym[2], find_symbol) > 0.6], key = lambda x: similar(x.name, find_symbol), reverse=True)
         )
 
 

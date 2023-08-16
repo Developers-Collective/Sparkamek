@@ -1,12 +1,12 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .FuncSymbol import FuncSymbol
+from .MatchingFuncSymbol import MatchingFuncSymbol
 #----------------------------------------------------------------------
 
     # Class
 class CannotFindFunctionException(Exception):
-    def __init__(self, not_found_func: str, func_symbols: list[FuncSymbol]) -> None:
+    def __init__(self, not_found_func: str, func_symbols: list[MatchingFuncSymbol]) -> None:
         m = f'Cannot find function: {not_found_func}'
         super().__init__(m)
 
@@ -23,6 +23,6 @@ class CannotFindFunctionException(Exception):
         return self._not_found_func
 
     @property
-    def func_symbols(self) -> tuple[FuncSymbol]:
+    def func_symbols(self) -> tuple[MatchingFuncSymbol]:
         return self._func_symbols
 #----------------------------------------------------------------------

@@ -41,7 +41,9 @@ class Sprite(BaseSprite):
                 case 'value': self.children.append(Value(child))
                 case 'list': self.children.append(List(child))
                 case 'external': self.children.append(External(child))
-                case _: raise ValueError(f'Unknown sprite child: {child}')
+                case _:
+                    print(f'Unknown sprite child: {child}')
+                    # raise ValueError(f'Unknown sprite child: {child}')
 
     def _bool_filter(self, value: bool) -> bool:
         return True if value == 'True' else False if value == 'False' else bool(value)
