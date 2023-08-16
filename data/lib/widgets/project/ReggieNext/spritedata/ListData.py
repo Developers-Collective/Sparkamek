@@ -75,7 +75,7 @@ class ListData(BaseItemData):
         self.data_changed.emit()
 
     def _add_item(self, item: EntryListItem) -> None:
-        entry = Entry(XMLNode('entry', {'value': 0}, [], 'New Item'))
+        entry = Entry.create()
         self._data.children.append(entry)
         entry_list_item = EntryListItem(entry)
         entry_list_item.data_changed.connect(self.data_changed.emit)

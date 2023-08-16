@@ -33,4 +33,8 @@ class Dependency(BaseSprite):
 
     def copy(self) -> 'Dependency':
         return Dependency(self.export())
+
+    @staticmethod
+    def create() -> 'Dependency':
+        return Dependency(XMLNode('dependency'))
 #----------------------------------------------------------------------

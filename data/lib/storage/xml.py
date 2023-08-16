@@ -7,7 +7,7 @@ from typing import Union
 
     # Class
 class XMLNode:
-        def __init__(self, name: str, attributes: dict, children: list, value: int | float | str | None) -> None:
+        def __init__(self, name: str, attributes: dict = {}, children: list = [], value: int | float | str | None = None) -> None:
             self._name = name
             self._attributes = attributes
             self._children = children

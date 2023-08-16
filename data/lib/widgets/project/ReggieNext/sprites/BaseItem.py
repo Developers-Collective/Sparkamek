@@ -63,4 +63,8 @@ class BaseItem(BaseSprite):
 
     def copy(self) -> 'BaseItem':
         return BaseItem(self.export())
+
+    @staticmethod
+    def create() -> 'BaseItem':
+        return BaseItem(XMLNode('BaseItem', attributes = {'nybble': 1}))
 #----------------------------------------------------------------------

@@ -10,8 +10,12 @@ class BaseSprite:
         pass
 
     def export(self) -> XMLNode:
-        return XMLNode('sprite', {}, [], None)
+        return XMLNode('sprite')
 
     def copy(self) -> 'BaseSprite':
         return BaseSprite(self.export())
+
+    @staticmethod
+    def create() -> 'BaseSprite':
+        return BaseSprite(XMLNode('sprite'))
 #----------------------------------------------------------------------

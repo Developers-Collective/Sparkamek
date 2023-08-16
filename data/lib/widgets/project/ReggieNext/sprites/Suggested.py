@@ -29,4 +29,8 @@ class Suggested(BaseSprite):
 
     def copy(self) -> 'Suggested':
         return Suggested(self.export())
+
+    @staticmethod
+    def create() -> 'Suggested':
+        return Suggested(XMLNode('suggested', attributes = {'sprite': 0}))
 #----------------------------------------------------------------------

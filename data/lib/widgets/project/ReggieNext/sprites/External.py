@@ -30,4 +30,8 @@ class External(BaseItem):
 
     def copy(self) -> 'External':
         return External(self.export())
+
+    @staticmethod
+    def create() -> 'External':
+        return External(XMLNode('external', attributes = {'nybble': 1, 'title': 'New External', 'type': 'actors'}))
 #----------------------------------------------------------------------

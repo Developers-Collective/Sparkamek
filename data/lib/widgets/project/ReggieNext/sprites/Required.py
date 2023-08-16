@@ -29,4 +29,8 @@ class Required(BaseSprite):
 
     def copy(self) -> 'Required':
         return Required(self.export())
+
+    @staticmethod
+    def create() -> 'Required':
+        return Required(XMLNode('required', attributes = {'sprite': 0}))
 #----------------------------------------------------------------------

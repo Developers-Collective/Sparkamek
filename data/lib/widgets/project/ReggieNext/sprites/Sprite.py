@@ -68,4 +68,8 @@ class Sprite(BaseSprite):
 
     def copy(self) -> 'Sprite':
         return Sprite(self.export())
+
+    @staticmethod
+    def create() -> 'Sprite':
+        return Sprite(XMLNode('sprite', attributes = {'id': '0', 'name': 'New Sprite'}))
 #----------------------------------------------------------------------

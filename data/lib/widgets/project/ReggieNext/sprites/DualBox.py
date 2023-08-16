@@ -2,6 +2,7 @@
 
     # Libraries
 from data.lib.storage import XMLNode
+from data.lib.widgets.project.ReggieNext.sprites.BaseItem import BaseItem
 from .BaseItem import BaseItem
 #----------------------------------------------------------------------
 
@@ -30,4 +31,8 @@ class DualBox(BaseItem):
 
     def copy(self) -> 'DualBox':
         return DualBox(self.export())
+
+    @staticmethod
+    def create() -> 'DualBox':
+        return DualBox(XMLNode('dualbox', attributes = {'nybble': 1, 'title1': 'New DualBox', 'title2': 'New DualBox'}))
 #----------------------------------------------------------------------

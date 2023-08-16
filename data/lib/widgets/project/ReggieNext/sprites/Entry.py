@@ -29,4 +29,8 @@ class Entry(BaseItem):
 
     def copy(self) -> 'Entry':
         return Entry(self.export())
+
+    @staticmethod
+    def create() -> 'Entry':
+        return Entry(XMLNode('entry', attributes = {'nybble': 1, 'value': 0}, value = 'New Entry'))
 #----------------------------------------------------------------------

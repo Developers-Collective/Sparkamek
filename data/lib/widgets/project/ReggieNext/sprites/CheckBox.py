@@ -2,6 +2,7 @@
 
     # Libraries
 from data.lib.storage import XMLNode
+from data.lib.widgets.project.ReggieNext.sprites.BaseItem import BaseItem
 from .BaseItem import BaseItem
 #----------------------------------------------------------------------
 
@@ -28,4 +29,8 @@ class CheckBox(BaseItem):
 
     def copy(self) -> 'CheckBox':
         return CheckBox(self.export())
+
+    @staticmethod
+    def create() -> 'CheckBox':
+        return CheckBox(XMLNode('checkbox', attributes = {'nybble': 1, 'title': 'New Checkbox'}))
 #----------------------------------------------------------------------

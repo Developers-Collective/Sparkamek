@@ -30,4 +30,8 @@ class List(BaseItem):
 
     def copy(self) -> 'List':
         return List(self.export())
+
+    @staticmethod
+    def create() -> 'List':
+        return List(XMLNode('list', attributes = {'nybble': 1, 'title': 'New List'}))
 #----------------------------------------------------------------------

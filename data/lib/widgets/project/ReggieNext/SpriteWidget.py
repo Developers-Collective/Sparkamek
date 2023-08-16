@@ -325,7 +325,7 @@ class SpriteWidget(QGridWidget):
     def _add_required_entry(self) -> None:
         if self._sprite is None: return
 
-        req = Required(XMLNode('required', {'sprite': 0}, [], None))
+        req = Required.create()
         item = DependencyDataItem(req)
         item.deleted.connect(self._delete_required_entry)
         self._required_draglist.add_item(item)
@@ -336,7 +336,7 @@ class SpriteWidget(QGridWidget):
     def _add_suggested_entry(self) -> None:
         if self._sprite is None: return
 
-        sug = Suggested(XMLNode('suggested', {'sprite': 0}, [], None))
+        sug = Suggested.create()
         item = DependencyDataItem(sug)
         item.deleted.connect(self._delete_suggested_entry)
         self._suggested_draglist.add_item(item)
