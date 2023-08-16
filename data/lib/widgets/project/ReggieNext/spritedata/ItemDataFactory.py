@@ -12,11 +12,11 @@ class ItemDataFactory:
     _data: dict[str, BaseItemData] = {}
 
     _spritedatas: list[type[BaseItemData]] = [ # Too lazy to make it dynamic
-        CheckBoxData,
         DualBoxData,
-        ExternalData,
+        ValueData,
+        CheckBoxData,
         ListData,
-        ValueData
+        ExternalData,
     ]
 
     def __new__(cls) -> None:
@@ -36,4 +36,8 @@ class ItemDataFactory:
     @staticmethod
     def get_data(name: str) -> type[BaseItemData]:
         return ItemDataFactory._data.get(name, BaseItemData)
+
+    @staticmethod
+    def get_all() -> list[type[BaseItemData]]:
+        return ItemDataFactory._data.values()
 #----------------------------------------------------------------------

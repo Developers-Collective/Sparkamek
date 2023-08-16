@@ -1,11 +1,10 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu, QMainWindow
+from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QIcon, QAction
-from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QBaseApplication
-from .ProjectKeys import ProjectKeys
+from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication
 from .ProjectType import ProjectType
 from .project import *
 

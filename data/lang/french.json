@@ -177,6 +177,17 @@
                                         "spriteID": "ID du Sprite"
                                     }
                                 },
+                                "QMenu": {
+                                    "addEntry": {
+                                        "QAction": {
+                                            "addDualBox": "Ajouter un Choix Unique / Boutons Radio",
+                                            "addCheckbox": "Ajouter une Case à Cocher",
+                                            "addValue": "Ajouter une Valeur Saisie",
+                                            "addList": "Ajouter une Liste Déroulante",
+                                            "addExternal": "Ajouter un Sélecteur de Données d'un Fichier (External)"
+                                        }
+                                    }
+                                },
                                 "BaseItemData": {
                                     "QLabel": {
                                         "nybbleRange": "%s à %s",
@@ -578,6 +589,28 @@
                 "goesToTray": {
                     "title": "Minimisé dans la Barre des Tâches",
                     "message": "Sparkamek est maintenant minimisé dans la barre des tâches."
+                },
+                "ReggieNextWidget": {
+                    "successfullySaved": {
+                        "title": "Reggie Next",
+                        "message": "Reggie Next • Données enregistrées avec succès !"
+                    },
+                    "errorWhileSaving": {
+                        "title": "Erreur Reggie Next",
+                        "message": "Reggie Next • Une erreur est survenue lors de l'enregistrement des données !\nErreur: %s"
+                    },
+                    "cantSaveEmptyData": {
+                        "title": "Erreur Reggie Next",
+                        "message": "Reggie Next • Une erreur est survenue lors de l'enregistrement des données !\nErreur: Les données sont vides !"
+                    },
+                    "errorWhileLoading": {
+                        "title": "Erreur Reggie Next",
+                        "message": "Reggie Next • Une erreur est survenue lors du chargement des données !\nErreur: %s"
+                    },
+                    "warningWhileLoadingSprite": {
+                        "title": "Avertissement Reggie Next",
+                        "message": "Reggie Next • Un avertissement est survenu lors du chargement des données !\nAvertissement: %s"
+                    }
                 }
             }
         },

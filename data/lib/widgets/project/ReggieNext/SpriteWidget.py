@@ -1,11 +1,12 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton, QLabel
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QPushButton, QLabel, QMenu
+from PySide6.QtCore import Qt, Signal, QPoint
+from PySide6.QtGui import QAction
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
-from .sprites.Sprite import Sprite, DualBox, CheckBox, Value, List, External
+from .sprites.Sprite import Sprite
 from .sprites.Dependency import Required, Suggested
 from .spritedata import *
 from .spritedata.ItemDataFactory import ItemDataFactory
@@ -15,7 +16,10 @@ from .spritedata.ItemDataFactory import ItemDataFactory
 class SpriteWidget(QGridWidget):
     type: ProjectKeys = ProjectKeys.ReggieNext
 
+    _app: QBaseApplication = None
+
     _add_entry_icon = None
+    _add_item_entry_icon = None
 
     _lang = {}
 
@@ -24,8 +28,11 @@ class SpriteWidget(QGridWidget):
     property_entry_selected = Signal(QGridWidget or None)
 
     def init(app: QBaseApplication) -> None:
+        SpriteWidget._app = app
+
         SpriteWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget')
         SpriteWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
+        SpriteWidget._add_item_entry_icon = app.get_icon('popup/addItem.png', True, QSaveData.IconMode.Local)
 
         DependencyDataItem.init(app)
         ItemDataFactory.init(app)
@@ -86,9 +93,9 @@ class SpriteWidget(QGridWidget):
         self._sizehacks_toggle.toggle_button.toggled.connect(self._sizehacks_changed)
         toggle_topframe.grid_layout.addWidget(self._sizehacks_toggle, 0, 1)
 
-        self._noyoshi_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.noyoshi'), False, True)
-        self._noyoshi_toggle.toggle_button.toggled.connect(self._noyoshi_changed)
-        toggle_topframe.grid_layout.addWidget(self._noyoshi_toggle, 0, 2)
+        self._yoshi_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.yoshi'), False, True)
+        self._yoshi_toggle.toggle_button.toggled.connect(self._yoshi_changed)
+        toggle_topframe.grid_layout.addWidget(self._yoshi_toggle, 0, 2)
 
 
         comment_middleframe = QGridWidget()
@@ -222,7 +229,7 @@ class SpriteWidget(QGridWidget):
 
             self._asmhacks_toggle.setChecked(False)
             self._sizehacks_toggle.setChecked(False)
-            self._noyoshi_toggle.setChecked(False)
+            self._yoshi_toggle.setChecked(True)
 
             self._notes_textedit.setText('')
             self._yoshinotes_textedit.setText('')
@@ -234,7 +241,7 @@ class SpriteWidget(QGridWidget):
 
             self._asmhacks_toggle.setChecked(sprite.asmhacks)
             self._sizehacks_toggle.setChecked(sprite.sizehacks)
-            self._noyoshi_toggle.setChecked(sprite.noyoshi)
+            self._yoshi_toggle.setChecked(not sprite.noyoshi)
 
             self._notes_textedit.setText(sprite.notes)
             self._yoshinotes_textedit.setText(sprite.yoshinotes)
@@ -296,8 +303,39 @@ class SpriteWidget(QGridWidget):
 
     def _add_settings_entry(self) -> None:
         if self._sprite is None: return
+
+        lang = self._lang['QMenu']['addEntry']
+        send_param = lambda k: lambda: self._add_settings_entry_clicked(k)
+
+        menu = QMenu(self)
+        menu.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        actions_addEntry = []
+
+        for item_t in ItemDataFactory.get_all():
+            action_addEntry = QAction(lang['QAction'][f'add{item_t.child_cls.name.title()}'])
+            action_addEntry.setIcon(self._add_item_entry_icon)
+            action_addEntry.triggered.connect(send_param(item_t.child_cls.name))
+            actions_addEntry.append(action_addEntry)
+
+        for a in actions_addEntry: menu.addAction(a) # Doesn't work if I do it in the loop above for some reason
+
+        menu.exec(self._add_settings_entry_button.mapToGlobal(QPoint(0, 0)))
+
         self._send_data()
-        # todo: add entry
+
+
+    def _add_settings_entry_clicked(self, key: str) -> None:
+        cls_ = ItemDataFactory.get_data(key)
+        if cls_ is None: return
+
+        item = cls_(cls_.child_cls.create(), self._path)
+        item.selected.connect(self._entry_selected)
+        item.deleted.connect(self._delete_settings_entry)
+        item.data_changed.connect(self._send_data)
+        self._settings_draglist.add_item(item)
+        self._sprite.children.append(item.data)
+
 
     def _add_required_entry(self) -> None:
         if self._sprite is None: return
@@ -366,9 +404,9 @@ class SpriteWidget(QGridWidget):
         self._sprite.sizehacks = state
         self._send_data()
 
-    def _noyoshi_changed(self, state: bool) -> None:
+    def _yoshi_changed(self, state: bool) -> None:
         if self._sprite is None: return
-        self._sprite.noyoshi = state
+        self._sprite.noyoshi = not state
         self._send_data()
 
     def _notes_changed(self) -> None:

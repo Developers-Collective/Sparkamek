@@ -214,12 +214,37 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
     def _save_clicked(self) -> None:
         self._save_current_sprite()
-        if not self._sprite_list_dock_widget.sprites.children: return
+        if not self._sprite_list_dock_widget.sprites.children:
+            return self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.cantSaveEmptyData.message'),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
 
-        path = f'{self.path}/spritedata.xml'
-        if os.path.exists(f'{path}.bak'): os.remove(f'{path}.bak')
-        os.rename(path, f'{path}.bak')
+        try:
+            path = f'{self.path}/spritedata.xml'
+            if os.path.exists(f'{path}.bak'): os.remove(f'{path}.bak')
+            os.rename(path, f'{path}.bak')
 
-        with open(path, 'w', encoding = 'utf-8') as f:
-            f.write(str(self._sprite_list_dock_widget.sprites.export().export()))
+            with open(path, 'w', encoding = 'utf-8') as f:
+                f.write(str(self._sprite_list_dock_widget.sprites.export().export(indent = 2)))
+
+            self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.successfullySaved.message'),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
+
+        except Exception as e:
+            self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileSaving.message').replace('%s', str(e)),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
 #----------------------------------------------------------------------

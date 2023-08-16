@@ -39,7 +39,7 @@ class EntryListItem(QDragListItem):
         self.grid_layout.addWidget(self._value_spinbox, 0, 0)
 
         self._item_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.item'))
-        self._item_lineedit.setText(self._data.item)
+        self._item_lineedit.setText(str(self._data.item))
         self._item_lineedit.line_edit.textChanged.connect(self._item_changed)
         self.grid_layout.addWidget(self._item_lineedit, 0, 1)
 

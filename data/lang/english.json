@@ -170,11 +170,22 @@
                                 "QNamedToggleButton": {
                                     "asmhacks": "ASM Hacks Support",
                                     "sizehacks": "Size Hacks Support",
-                                    "noyoshi": "No Yoshi Support"
+                                    "yoshi": "Yoshi Support"
                                 },
                                 "DependencyDataItem": {
                                     "QNamedSpinBox": {
                                         "spriteID": "Sprite ID"
+                                    }
+                                },
+                                "QMenu": {
+                                    "addEntry": {
+                                        "QAction": {
+                                            "addDualbox": "Add Dual Box / Radio Buttons",
+                                            "addCheckbox": "Add Checkbox",
+                                            "addValue": "Add Entry Value",
+                                            "addList": "Add Drop Down List",
+                                            "addExternal": "Add Value Selector from a File (External)"
+                                        }
                                     }
                                 },
                                 "BaseItemData": {
@@ -586,6 +597,28 @@
                 "goesToTray": {
                     "title": "Goes to Tray",
                     "message": "Sparkamek is still running in the background."
+                },
+                "ReggieNextWidget": {
+                    "successfullySaved": {
+                        "title": "Reggie Next Info",
+                        "message": "Reggie Next • Successfully saved !"
+                    },
+                    "errorWhileSaving": {
+                        "title": "Reggie Next Error",
+                        "message": "Reggie Next • An error occurred while saving !\nError: %s"
+                    },
+                    "cantSaveEmptyData": {
+                        "title": "Reggie Next Error",
+                        "message": "Reggie Next • An error occurred while saving !\nError: Can't save empty data !"
+                    },
+                    "errorWhileLoading": {
+                        "title": "Reggie Next Error",
+                        "message": "Reggie Next • An error occurred while loading !\nError: %s"
+                    },
+                    "warningWhileLoadingSprite": {
+                        "title": "Reggie Next Warning",
+                        "message": "Reggie Next • A warning occurred while loading a sprite !\nWarning: %s"
+                    }
                 }
             }
         },

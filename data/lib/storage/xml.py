@@ -69,7 +69,7 @@ class XMLNode:
             else:
                 s += '/>'
 
-            return s.replace('\n', '\n\t').replace('\t', '    ')
+            return s.replace('\n', '\n\t')
 
         def __str__(self) -> str:
             return self.__repr__()
@@ -101,7 +101,7 @@ class XML:
         for child in self.children:
             s += '\n\t' + str(child)
 
-        return (s + f'\n</{self.root_name}>').replace('\t', '    ')
+        return (s + f'\n</{self.root_name}>')
 
     def __str__(self) -> str:
         return self.__repr__()
@@ -158,6 +158,8 @@ class XML:
                 pass
 
 
-    def export(self, encoding: str = 'utf-8') -> str:
-        return f'<?xml version="1.0" encoding="{encoding.upper()}"?>\n{self.__repr__()}'
+    def export(self, encoding: str = 'utf-8', indent: int = 4) -> str:
+        s = self.__repr__()
+        s = s.replace('\t', ' ' * indent)
+        return f'<?xml version="1.0" encoding="{encoding.upper()}"?>\n{s}'
 #----------------------------------------------------------------------

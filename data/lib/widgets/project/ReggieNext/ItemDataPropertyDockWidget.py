@@ -30,7 +30,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
         self.setWidget(self._root)
 
     def update_title(self, sprite: Sprite) -> None:
-        self.setWindowTitle(self._lang.get_data('title').replace('%s', f'[{sprite.id}] {sprite.name}') if sprite else self._lang.get_data('title').replace('%s', str(None)))
+        self.setWindowTitle(self._lang.get_data('title').replace('%s', f'[{sprite.id}] {sprite.sprite_name}') if sprite else self._lang.get_data('title').replace('%s', str(None)))
 
     def set_widget(self, widget: QGridWidget | None) -> None:
         while self._root.scroll_widget.layout().count():

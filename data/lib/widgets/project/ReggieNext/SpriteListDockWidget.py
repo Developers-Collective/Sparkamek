@@ -10,6 +10,8 @@ from .sprites import *
 
     # Class
 class SpriteListDockWidget(QSavableDockWidget):
+    _app: QBaseApplication = None
+
     _search_icon = None
     _load_icon = None
     _save_icon = None
@@ -26,6 +28,7 @@ class SpriteListDockWidget(QSavableDockWidget):
     _fix_selected_sprite_changed = Signal()
 
     def init(app: QBaseApplication) -> None:
+        SpriteListDockWidget._app = app
         SpriteListDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteListDockWidget')
 
         SpriteListDockWidget._search_icon = app.get_icon('lineedit/search.png', True, QSaveData.IconMode.Local)
@@ -155,7 +158,14 @@ class SpriteListDockWidget(QSavableDockWidget):
             self._sprites.add(item)
             self._list.add_item([str(item.id), item.sprite_name], None, self._list_alignment)
 
-        except Exception as e: print(e)
+        except Exception as e:
+            self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.warningWhileLoadingSprite.message').replace('%s', str(e)),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
 
     def _load_done(self) -> None:
         if self._sprite_list_loader_worker.isRunning():
@@ -166,6 +176,13 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._update_buttons()
 
     def _load_error(self, error: str) -> None:
+        self._app.show_alert(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileLoading.message').replace('%s', str(error)),
+            raise_duration = self._app.ALERT_RAISE_DURATION,
+            pause_duration = self._app.ALERT_PAUSE_DURATION,
+            fade_duration = self._app.ALERT_FADE_DURATION,
+            color = 'main'
+        )
         self._load_done()
 
 

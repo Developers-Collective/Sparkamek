@@ -30,4 +30,8 @@ class Value(BaseItem):
 
     def copy(self) -> 'Value':
         return Value(self.export())
+
+    @staticmethod
+    def create() -> 'Value':
+        return Value(XMLNode('value', attributes = {'nybble': 1, 'title': 'New Value'}))
 #----------------------------------------------------------------------
