@@ -50,7 +50,7 @@ class OpenProjectDialog(QDialog):
 
         self._cancel_button = QPushButton(self._lang.get_data('QPushButton.cancel'))
         self._cancel_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._cancel_button.clicked.connect(self.reject)
+        self._cancel_button.clicked.connect(self.new_reject)
         self._cancel_button.setProperty('color', 'white')
         self._cancel_button.setProperty('transparent', True)
         right_buttons.grid_layout.addWidget(self._cancel_button, 0, 0)
@@ -111,14 +111,30 @@ class OpenProjectDialog(QDialog):
 
     def _menu_general(self) -> QWidget:
         lang = self._lang.get_data('QSlidingStackedWidget.general')
+
         widget = QScrollableGridWidget()
-        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setSpacing(30)
         widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        topframe = QGridFrame()
+        topframe.grid_layout.setSpacing(8)
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
+
+        label = QLabel(lang.get_data('QLabel.title'))
+        label.setProperty('h', 1)
+        label.setProperty('margin-left', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
         root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, widget.scroll_layout.count(), 0)
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
@@ -139,15 +155,30 @@ class OpenProjectDialog(QDialog):
 
         self.raw_icon = self._data['icon'] if self._data else os.path.abspath('./data/icons/questionMark.svg')
 
-        widget = QGridFrame()
-        widget.grid_layout.setSpacing(16)
-        widget.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget = QScrollableGridWidget()
+        widget.scroll_layout.setSpacing(30)
+        widget.scroll_layout.setContentsMargins(0, 0, 0, 0)
+
+        topframe = QGridFrame()
+        topframe.grid_layout.setSpacing(8)
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
+
+        label = QLabel(lang.get_data('QLabel.title'))
+        label.setProperty('h', 1)
+        label.setProperty('margin-left', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
-        root_frame.grid_layout.setContentsMargins(0, 0, 16, 0)
-        widget.grid_layout.addWidget(root_frame, 0, 0)
-        widget.grid_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, widget.scroll_layout.count(), 0)
+        widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
         widget.top = QGridFrame()
         widget.top.grid_layout.setSpacing(16)
@@ -203,14 +234,30 @@ class OpenProjectDialog(QDialog):
         loader_data: dict = self._data['data'].get(ProjectKeys.Loader.value, None) if self._data else None
 
         lang = self._lang.get_data('QSlidingStackedWidget.loader')
+
         widget = QScrollableGridWidget()
-        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setSpacing(30)
         widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        topframe = QGridFrame()
+        topframe.grid_layout.setSpacing(8)
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
+
+        label = QLabel(lang.get_data('QLabel.title'))
+        label.setProperty('h', 1)
+        label.setProperty('margin-left', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
         root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, widget.scroll_layout.count(), 0)
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
@@ -244,14 +291,30 @@ class OpenProjectDialog(QDialog):
         kamek_data: dict = self._data['data'].get(ProjectKeys.Kamek.value, None) if self._data else None
 
         lang = self._lang.get_data('QSlidingStackedWidget.kamek')
+
         widget = QScrollableGridWidget()
-        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setSpacing(30)
         widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        topframe = QGridFrame()
+        topframe.grid_layout.setSpacing(8)
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
+
+        label = QLabel(lang.get_data('QLabel.title'))
+        label.setProperty('h', 1)
+        label.setProperty('margin-left', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
         root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, widget.scroll_layout.count(), 0)
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
@@ -352,14 +415,30 @@ class OpenProjectDialog(QDialog):
         reggienext_data: dict = self._data['data'].get(ProjectKeys.ReggieNext.value, None) if self._data else None
 
         lang = self._lang.get_data('QSlidingStackedWidget.reggieNext')
+
         widget = QScrollableGridWidget()
-        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setSpacing(30)
         widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        topframe = QGridFrame()
+        topframe.grid_layout.setSpacing(8)
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
+
+        label = QLabel(lang.get_data('QLabel.title'))
+        label.setProperty('h', 1)
+        label.setProperty('margin-left', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
         root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, widget.scroll_layout.count(), 0)
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
@@ -392,14 +471,30 @@ class OpenProjectDialog(QDialog):
         riivolution_data: dict = self._data['data'].get(ProjectKeys.Riivolution.value, None) if self._data else None
 
         lang = self._lang.get_data('QSlidingStackedWidget.riivolution')
+
         widget = QScrollableGridWidget()
-        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setSpacing(30)
         widget.scroll_layout.setContentsMargins(0, 0, 16, 0)
+
+        topframe = QGridFrame()
+        topframe.grid_layout.setSpacing(8)
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
+
+        label = QLabel(lang.get_data('QLabel.title'))
+        label.setProperty('h', 1)
+        label.setProperty('margin-left', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
         root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.addWidget(root_frame, widget.scroll_layout.count(), 0)
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
@@ -504,11 +599,14 @@ class OpenProjectDialog(QDialog):
         self._root.slide_in_next()
         self._update_keywords()
 
-    def reject(self) -> None:
+    def new_reject(self) -> None:
         if self._root.current_index == 0:
-            return super().reject()
+            return self.reject()
         self._root.slide_in_previous()
         self._update_keywords()
+
+    def reject(self) -> None:
+        return super().reject()
 
     def _update_keywords(self) -> None:
         if self._root.current_index < self._root.count() - 1:

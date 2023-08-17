@@ -283,6 +283,7 @@
             "QSlidingStackedWidget": {
                 "general": {
                     "QLabel": {
+                        "title": "Général",
                         "name": {
                             "title": "Nom",
                             "description": "Le nom du projet."
@@ -294,6 +295,7 @@
                 },
                 "icon": {
                     "QLabel": {
+                        "title": "Icône",
                         "icon": {
                             "title": "Icône",
                             "description": "L'icône du projet."
@@ -313,6 +315,7 @@
                 },
                 "loader": {
                     "QLabel": {
+                        "title": "Loader",
                         "loaderFile": {
                             "title": "Fichier Loader",
                             "description": "Le fichier assembleur du projet (généralement nommé \"Loader.S\")."
@@ -331,6 +334,7 @@
                 },
                 "kamek": {
                     "QLabel": {
+                        "title": "Kamek",
                         "kamekFile": {
                             "title": "Fichier Kamek",
                             "description": "Le fichier contenant la liste des patchs du projet (généralement nommé \"NewerProject.yaml\")."
@@ -385,6 +389,7 @@
                 },
                 "reggieNext": {
                     "QLabel": {
+                        "title": "Reggie Next",
                         "reggieNextFolder": {
                             "title": "Dossier Reggie Next",
                             "description": "Le dossier contenant les patchs de Reggie Next du projet (comme \"spritedata.xml\", \"sprites.py\", etc.)."
@@ -403,6 +408,7 @@
                 },
                 "riivolution": {
                     "QLabel": {
+                        "title": "Riivolution",
                         "riivolutionFile": {
                             "title": "Fichier Riivolution",
                             "description": "Le fichier Riivolution du projet (généralement nommé \"NewerSMBW.xml\")."

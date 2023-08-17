@@ -2,16 +2,33 @@
 
     # Libraries
 from PySide6.QtWidgets import QLabel, QTextBrowser
-from PySide6.QtGui import QTextBlockFormat, QTextCursor
 from PySide6.QtCore import Qt, QEvent
 from .QGridWidget import QGridWidget
+from . import QBaseApplication
+from .QssSelector import QssSelector
 #----------------------------------------------------------------------
 
     # Class
 class QNamedTextBrowser(QGridWidget):
-    normal_color = '#FFFFFF'
-    hover_color = '#FFFFFF'
-    focus_color = '#FFFFFF'
+    _normal_color = '#FFFFFF'
+    _hover_color = '#FFFFFF'
+    _focus_color = '#FFFFFF'
+
+    @staticmethod
+    def init(app: QBaseApplication) -> None:
+        QNamedTextBrowser._normal_color = app.qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'QNamedTextBrowser': True}),
+            QssSelector(widget = 'QLabel')
+        )['color']
+        QNamedTextBrowser._hover_color = app.qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'QNamedTextBrowser': True}),
+            QssSelector(widget = 'QLabel', attributes = {'hover': True})
+        )['color']
+        QNamedTextBrowser._focus_color = app.qss.search(
+            QssSelector(widget = 'QWidget', attributes = {'color': app.window.property('color')}),
+            QssSelector(widget = 'QWidget', attributes = {'QNamedTextBrowser': True, 'color': 'main'}),
+            QssSelector(widget = 'QLabel', attributes = {'focus': True})
+        )['color']
 
     def __init__(self, parent = None, placeholder: str = '', name: str = '') -> None:
         super().__init__(parent)
@@ -40,22 +57,22 @@ class QNamedTextBrowser(QGridWidget):
 
     def enterEvent(self, event: QEvent = None) -> None:
         self.label.setProperty('inputhover', True)
-        if not self.label.property('inputfocus'): self.label.setStyleSheet(f'color: {self.hover_color}')
+        if not self.label.property('inputfocus'): self.label.setStyleSheet(f'color: {self._hover_color}')
 
     def leaveEvent(self, event: QEvent = None) -> None:
         self.label.setProperty('inputhover', False)
-        if not self.label.property('inputfocus'): self.label.setStyleSheet(f'color: {self.normal_color}')
+        if not self.label.property('inputfocus'): self.label.setStyleSheet(f'color: {self._normal_color}')
 
     def focusInEvent(self, event: QEvent = None) -> None:
         self.label.setProperty('inputfocus', True)
         self.text_browser.base_focusInEvent(event)
-        self.label.setStyleSheet(f'color: {self.focus_color}')
+        self.label.setStyleSheet(f'color: {self._focus_color}')
 
     def focusOutEvent(self, event: QEvent = None) -> None:
         self.label.setProperty('inputfocus', False)
         self.text_browser.base_focusOutEvent(event)
-        if self.label.property('inputhover'): self.label.setStyleSheet(f'color: {self.hover_color}')
-        else: self.label.setStyleSheet(f'color: {self.normal_color}')
+        if self.label.property('inputhover'): self.label.setStyleSheet(f'color: {self._hover_color}')
+        else: self.label.setStyleSheet(f'color: {self._normal_color}')
 
     def text(self) -> str:
         return self.text_browser.toPlainText()

@@ -17,12 +17,32 @@ QWidget[QToggleButton=true] QCheckBox:checked::handle {
 	color: #FBFEFB;
 }
 
+QWidget[QToggleButton=true] QCheckBox:disabled {
+	color: #44343434;
+}
+
+QWidget[QToggleButton=true] QCheckBox:disabled::handle {
+	color: #8F8F8F;
+}
+
+QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #044466;
+}
+
+QWidget[QToggleButton=true] QCheckBox:checked:disabled::handle {
+	color: #8F8F8F;
+}
+
 
 
 /* QToggleButton - Blue */
 
 QWidget[color='blue'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #1B80FC;
+}
+
+QWidget[color='blue'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #375782;
 }
 
 
@@ -33,12 +53,20 @@ QWidget[color='red'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #FC271B;
 }
 
+QWidget[color='red'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #A5413C;
+}
+
 
 
 /* QToggleButton - Green */
 
 QWidget[color='green'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #07E813;
+}
+
+QWidget[color='green'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #236E29;
 }
 
 
@@ -49,12 +77,20 @@ QWidget[color='yellow'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #E8BC07;
 }
 
+QWidget[color='yellow'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #6E6123;
+}
+
 
 
 /* QToggleButton - Magenta */
 
 QWidget[color='magenta'] QWidget[QToggleButton=true] QCheckBox:checked {
-	color: #FC1BF1;
+	color: #A53CA1;
+}
+
+QWidget[color='magenta'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #375782;
 }
 
 
@@ -65,12 +101,20 @@ QWidget[color='cyan'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #00C8D4;
 }
 
+QWidget[color='cyan'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #0F545A;
+}
+
 
 
 /* QToggleButton - Orange */
 
 QWidget[color='orange'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #E88307;
+}
+
+QWidget[color='orange'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #6E4E23;
 }
 
 
@@ -81,12 +125,20 @@ QWidget[color='pink'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #E8076C;
 }
 
+QWidget[color='pink'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #6E2343;
+}
+
 
 
 /* QToggleButton - Lime */
 
 QWidget[color='lime'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #6CE807;
+}
+
+QWidget[color='lime'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #436E23;
 }
 
 
@@ -97,10 +149,18 @@ QWidget[color='turquoise'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #07E8BC;
 }
 
+QWidget[color='turquoise'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #236E61;
+}
+
 
 
 /* QToggleButton - White */
 
 QWidget[color='white'] QWidget[QToggleButton=true] QCheckBox:checked {
 	color: #EFEFEF;
+}
+
+QWidget[color='white'] QWidget[QToggleButton=true] QCheckBox:checked:disabled {
+	color: #CACACA;
 }
