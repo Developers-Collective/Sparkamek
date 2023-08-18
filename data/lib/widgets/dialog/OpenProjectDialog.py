@@ -300,6 +300,34 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.setAlignment(self.loader_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
+        frame = QFrame()
+        frame.setProperty('border-top', True)
+        frame.setFixedHeight(1)
+        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+
+
+        label = OpenProjectDialog._text_group(lang.get_data('QLabel.outputFile.title'), lang.get_data('QLabel.outputFile.description'))
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        kw = ('edit' if loader_data else 'open') + 'OutputFile'
+        l = {
+            "title": lang.get_data(f'QFileButton.{kw}.title'),
+            "dialog": lang.get_data(f'QFileButton.{kw}.dialog')
+        }
+
+        self.loader_output_file_button = QFileButton(
+            None,
+            l,
+            loader_data.get('outputFile', None) if loader_data else None,
+            self._open_file_icon,
+            QFiles.Dialog.OpenFileName,
+            'All supported files (*.bin);;Binary (*.bin)'
+        )
+        self.loader_output_file_button.setFixedWidth(350)
+        root_frame.grid_layout.addWidget(self.loader_output_file_button, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(self.loader_output_file_button, Qt.AlignmentFlag.AlignLeft)
+
+
         return widget
 
 
@@ -651,7 +679,8 @@ class OpenProjectDialog(QDialog):
         if self.loader_file_button.path() in self._forbidden_paths: return None
 
         return {
-            'path': self.loader_file_button.path()
+            'path': self.loader_file_button.path(),
+            'outputFile': self.loader_output_file_button.path() if self.loader_output_file_button.path() not in self._forbidden_paths else None,
         }
     
     def _get_kamek(self) -> dict | None:

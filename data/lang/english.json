@@ -43,7 +43,23 @@
                                 }
                             }
                         },
-                        "LoaderWidget": {},
+                        "LoaderWidget": {
+                            "QPushButton": {
+                                "compile": "Compile",
+                                "stop": "Stop Compilation"
+                            },
+                            "QNamedToggleButton": {
+                                "showCompleteLogs": "Show Complete Logs"
+                            },
+                            "QNamedTextBrowser": {
+                                "simpleLogs": "Simple Logs",
+                                "completeLogs": "Complete Logs",
+                                "error": "Error",
+                                "warning": "Warning",
+                                "info": "Info",
+                                "success": "Success"
+                            }
+                        },
                         "KamekWidget": {
                             "QLabel": {
                                 "spritesAndActors": "Sprites and Actors"
@@ -327,6 +343,10 @@
                         "loaderFile": {
                             "title": "Loader File",
                             "description": "The loader assembly file of the project (usually named \"Loader.S\")."
+                        },
+                        "outputFile": {
+                            "title": "Output File",
+                            "description": "The output file of the loader (usually named \"Loader.bin\")."
                         }
                     },
                     "QFileButton": {
@@ -337,6 +357,14 @@
                         "editLoaderFile": {
                             "title": "Loader File",
                             "dialog": "Sparkamek > Edit Project > Loader File"
+                        },
+                        "openOutputFile": {
+                            "title": "Output File",
+                            "dialog": "Sparkamek > Open Project > Output File"
+                        },
+                        "editOutputFile": {
+                            "title": "Output File",
+                            "dialog": "Sparkamek > Edit Project > Output File"
                         }
                     }
                 },
