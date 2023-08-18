@@ -343,6 +343,7 @@
                 "kamek": {
                     "QLabel": {
                         "title": "Kamek",
+                        "resources": "Don't know how to setup Kamek ? Check out the %s for more information.",
                         "kamekFile": {
                             "title": "Kamek File",
                             "description": "The file containing the list of patches of the project (usually named \"NewerProject.yaml\")."

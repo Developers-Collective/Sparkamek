@@ -17,10 +17,6 @@ QLabel[h='1'] {
 	font-weight: bold;
 }
 
-QLabel[h='1'][margin-left=true] {
-	margin-left: 16px;
-}
-
 QLabel[h='2'] {
 	font-size: 24px;
 	font-weight: bold;
@@ -167,4 +163,20 @@ QLabel[indice=true] {
 	padding-top: 6px;
 	padding-bottom: 0px;
 	font-size: 10px;
+}
+
+QLabel[margin-left='8'] {
+	margin-left: 8px;
+}
+
+QLabel[margin-left='16'] {
+	margin-left: 16px;
+}
+
+QLabel[margin-left='24'] {
+	margin-left: 24px;
+}
+
+QLabel[margin-left='32'] {
+	margin-left: 32px;
 }

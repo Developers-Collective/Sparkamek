@@ -3,8 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QDialog, QFrame, QLabel, QGridLayout, QWidget, QPushButton
 from PySide6.QtCore import Qt, QSize
-from collections import namedtuple
-from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget
+from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform
 from data.lib.widgets.ProjectKeys import ProjectKeys
 
 import os
@@ -27,13 +26,31 @@ class OpenProjectDialog(QDialog):
     )
 
     icon_size = 64
+    _color_link = QUtilsColor('#00aaff')
+
+    _kamek_resouces_link = ''
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
         OpenProjectDialog._lang = app.get_lang_data('OpenProjectDialog')
+        OpenProjectDialog._color_link = app.COLOR_LINK
         OpenProjectDialog._open_image_icon = f'{app.save_data.get_icon_dir()}filebutton/image.png'
         OpenProjectDialog._open_file_icon = f'{app.save_data.get_icon_dir()}filebutton/file.png'
         OpenProjectDialog._open_folder_icon = f'{app.save_data.get_icon_dir()}filebutton/folder.png'
+
+        match app.platform:
+            case QPlatform.Windows:
+                OpenProjectDialog._kamek_resouces_link = 'https://horizon.miraheze.org/wiki/Setting_Up_and_Compiling_the_Newer_Sources#Windows'
+
+            case QPlatform.Linux:
+                OpenProjectDialog._kamek_resouces_link = 'https://horizon.miraheze.org/wiki/Setting_Up_and_Compiling_the_Newer_Sources#Debian/Ubuntu_Linux'
+
+            case QPlatform.MacOS:
+                OpenProjectDialog._kamek_resouces_link = 'https://horizon.miraheze.org/wiki/Setting_Up_and_Compiling_the_Newer_Sources#macOS'
+
+            case _:
+                OpenProjectDialog._kamek_resouces_link = 'https://horizon.miraheze.org/wiki/Setting_Up_and_Compiling_the_Newer_Sources'
+
 
     def __init__(self, parent = None, data: dict = None) -> None:
         super().__init__(parent)
@@ -303,13 +320,24 @@ class OpenProjectDialog(QDialog):
 
         label = QLabel(lang.get_data('QLabel.title'))
         label.setProperty('h', 1)
-        label.setProperty('margin-left', True)
+        label.setProperty('margin-left', 16)
         topframe.grid_layout.addWidget(label, 0, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
         topframe.grid_layout.addWidget(frame, 1, 0)
+
+        label = QLabel(lang.get_data('QLabel.resources').replace('%s', f'<a href="{self._kamek_resouces_link}" style=\"color: {self._color_link.hex}; text-decoration: none;\">Horizon Wiki</a>'))
+        label.setProperty('brighttitle', True)
+        label.setOpenExternalLinks(True)
+        label.setProperty('margin-left', 16)
+        topframe.grid_layout.addWidget(label, 2, 0)
+
+        frame = QFrame()
+        frame.setProperty('separator', True)
+        frame.setFixedHeight(4)
+        topframe.grid_layout.addWidget(frame, 3, 0)
 
         root_frame = QGridFrame()
         root_frame.grid_layout.setSpacing(16)
