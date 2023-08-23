@@ -44,7 +44,7 @@ class KamekWidget(SubProjectWidgetBase):
         self._generate_tw = data.get('generateTW', True)
         # self._generate_ch = data.get('generateCH', True)
 
-        self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data)
+        self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data, app.save_data.devkitppc_path)
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
 
         if 'compiler' in dockwidgets: self._compiler_dock_widget.load_dict(self, dockwidgets['compiler'])
@@ -207,4 +207,8 @@ class KamekWidget(SubProjectWidgetBase):
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
 
         if self._compiler_dock_widget not in self.tabifiedDockWidgets(self._symbols_dock_widget): self.tabifyDockWidget(self._symbols_dock_widget, self._compiler_dock_widget)
+
+    def settings_updated(self, settings: QSaveData) -> None:
+        self._compiler_dock_widget.set_devkitppc_path(settings.devkitppc_path)
+        return super().settings_updated(settings)
 #----------------------------------------------------------------------

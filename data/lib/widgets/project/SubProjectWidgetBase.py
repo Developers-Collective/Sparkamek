@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QSubScrollableGridMainWindow, QBaseApplication
+from data.lib.qtUtils import QSubScrollableGridMainWindow, QBaseApplication, QSaveData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------
 
@@ -40,5 +40,8 @@ class SubProjectWidgetBase(QSubScrollableGridMainWindow):
         return {}
 
     def reset_dock_widgets(self) -> None:
+        pass
+
+    def settings_updated(self, settings: QSaveData) -> None:
         pass
 #----------------------------------------------------------------------

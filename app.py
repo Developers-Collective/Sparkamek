@@ -99,6 +99,9 @@ class Application(QBaseApplication):
         if self.save_data.settings_menu(self):
             self.load_colors()
 
+            for project in self.projects:
+                project.settings_updated(self.save_data)
+
 
 
     def not_implemented(self, text = '') -> None:

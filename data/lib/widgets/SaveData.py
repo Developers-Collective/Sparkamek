@@ -33,6 +33,16 @@ class SaveData(QSaveData):
 
         self.projects = []
 
+        match self.platform:
+            case PlatformType.Windows:
+                self.devkitppc_path = 'C:/devkitPro/devkitPPC/bin/'
+
+            case PlatformType.Linux:
+                self.devkitppc_path = '/opt/devkitpro/devkitPPC/bin/'
+
+            case PlatformType.MacOS:
+                self.devkitppc_path = '/opt/devkitpro/devkitPPC/bin/'
+
         super().__init__(save_path, main_color_set = main_color_set, neutral_color_set = neutral_color_set)
 
 
@@ -41,6 +51,7 @@ class SaveData(QSaveData):
             self.get_lang_data('QSettingsDialog.QSidePanel.updates.title'): (self.settings_menu_updates(), f'{self.get_icon_dir()}/sidepanel/updates.png'),
             self.get_lang_data('QSettingsDialog.QSidePanel.interface.title'): (self.settings_menu_interface(), f'{self.get_icon_dir()}/sidepanel/interface.png'),
             self.get_lang_data('QSettingsDialog.QSidePanel.notification.title'): (self.settings_menu_notification(), f'{self.get_icon_dir()}/sidepanel/notification.png'),
+            self.get_lang_data('QSettingsDialog.QSidePanel.paths.title'): (self.settings_menu_paths(), f'{self.get_icon_dir()}/sidepanel/paths.png'),
         }, self.get_extra
 
 
@@ -223,6 +234,39 @@ class SaveData(QSaveData):
 
 
 
+    def settings_menu_paths(self) -> QScrollableGridWidget:
+        lang = self.get_lang_data('QSettingsDialog.QSidePanel.paths')
+        widget = QScrollableGridWidget()
+        widget.scroll_layout.setSpacing(0)
+        widget.scroll_layout.setContentsMargins(0, 0, 0, 0)
+
+
+        root_frame = QGridFrame()
+        root_frame.grid_layout.setSpacing(16)
+        root_frame.grid_layout.setContentsMargins(0, 0, 16, 0)
+        widget.scroll_layout.addWidget(root_frame, 0, 0)
+        widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+
+
+        label = QSettingsDialog._text_group(lang.get_data('QLabel.devkitPPCPath.title'), lang.get_data('QLabel.devkitPPCPath.description'))
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        widget.devkitppc_folder_button = QFileButton(
+            None,
+            lang.get_data('QFileButton.devkitPPCPath'),
+            self.devkitppc_path,
+            f'{self.get_icon_dir()}filebutton/folder.png',
+            QFiles.Dialog.ExistingDirectory
+        )
+        widget.devkitppc_folder_button.setFixedWidth(350)
+        root_frame.grid_layout.addWidget(widget.devkitppc_folder_button, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(widget.devkitppc_folder_button, Qt.AlignmentFlag.AlignLeft)
+
+
+        return widget
+
+
+
     def get_extra(self, extra_tabs: dict = {}) -> None:
         self.check_for_updates = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.updates.title')].check_for_updates_combobox.combo_box.currentIndex()
 
@@ -232,6 +276,8 @@ class SaveData(QSaveData):
         self.compact_paths = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].compact_paths_combobox.combo_box.currentIndex()
 
         self.goes_to_tray_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].goes_to_tray_notif_checkbox.isChecked()
+
+        self.devkitppc_path = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.paths.title')].devkitppc_folder_button.path()
 
 
 
@@ -260,6 +306,8 @@ class SaveData(QSaveData):
             'goesToTrayNotif': self.goes_to_tray_notif,
 
             'projects': self.projects,
+
+            'devkitPPCPath': self.devkitppc_path
         }
 
     def _load_extra_data(self, extra_data: dict = ..., reload: list = []) -> bool:
@@ -278,6 +326,8 @@ class SaveData(QSaveData):
         with exc: self.goes_to_tray_notif = extra_data['goesToTrayNotif']
 
         with exc: self.projects = extra_data['projects']
+
+        with exc: self.devkitppc_path = extra_data['devkitPPCPath']
 
         return res
 

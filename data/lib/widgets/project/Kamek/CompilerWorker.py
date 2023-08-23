@@ -13,7 +13,6 @@ from .compiler import *
 
     # Class
 class CompilerWorker(QThread):
-    _devkitppc_path: str = None
     _color_link = QUtilsColor('#0000FF')
 
     done = Signal()
@@ -24,13 +23,13 @@ class CompilerWorker(QThread):
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        CompilerWorker._devkitppc_path = 'D:/Programmes/devkitPro/devkitPPC/bin/' # todo: get from settings
         CompilerWorker._color_link = app.COLOR_LINK
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, data: dict, devkitppc_path: str) -> None:
         super(CompilerWorker, self).__init__()
 
         self._data = data
+        self._devkitppc_path = f'{devkitppc_path}/'
 
         path = os.path.abspath(data['path']).replace('\\', '/')
 
@@ -83,7 +82,10 @@ class CompilerWorker(QThread):
         self._asm_folder = Path(project_data['output_dir'])
 
 
-        gccpath = Path(self._devkitppc_path)
+        if not os.path.isdir(self._devkitppc_path):
+            self.log_error(f'Cannot find devkitPPC at "{self._devkitppc_path}"', False)
+            self.log_error(f'You can change this path in the global settings.', True)
+            return self.error.emit(f'Cannot find devkitPPC at "{self._devkitppc_path}"')
 
         if sys.platform == 'win32':
             # Running on Windows

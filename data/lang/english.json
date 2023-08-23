@@ -554,6 +554,21 @@
                         "invertAll": "Invert All"
                     }
                 },
+                "paths": {
+                    "title": "Paths",
+                    "QLabel": {
+                        "devkitPPCPath": {
+                            "title": "DevkitPPC Path",
+                            "description": "The path to the devkitPPC <span style=\"font-weight: bold\">bin</span> folder."
+                        }
+                    },
+                    "QFileButton": {
+                        "devkitPPCPath": {
+                            "title": "DevkitPPC Path",
+                            "dialog": "Sparkamek > Settings > Paths > DevkitPPC Path"
+                        }
+                    }
+                },
                 "data": {
                     "title": "Data",
                     "QLabel": {

@@ -546,6 +546,21 @@
                         "invertAll": "Inverser la Sélection"
                     }
                 },
+                "paths": {
+                    "title": "Chemins",
+                    "QLabel": {
+                        "devkitPPCPath": {
+                            "title": "Chemin DevkitPPC",
+                            "description": "Le chemin du dossier <span style=\"font-weight: bold\">bin</span> de devkitPPC."
+                        }
+                    },
+                    "QFileButton": {
+                        "devkitPPCPath": {
+                            "title": "Chemin DevkitPPC",
+                            "dialog": "Sparkamek > Paramètres > Chemins > Chemin DevkitPPC"
+                        }
+                    }
+                },
                 "data": {
                     "title": "Données",
                     "QLabel": {

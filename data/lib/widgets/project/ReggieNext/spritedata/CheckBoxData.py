@@ -16,7 +16,7 @@ class CheckBoxData(BaseItemData):
     _sublang = {}
 
     _checkbox_icon = None
-    _icon_size = QSize(16, 16)
+    _icon_size = QSize(24, 24)
 
     def init(app: QBaseApplication) -> None:
         CheckBoxData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.CheckBoxData')

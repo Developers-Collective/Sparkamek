@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QIcon, QAction
-from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication
+from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication, QSaveData
 from .ProjectType import ProjectType
 from .project import *
 
@@ -206,4 +206,8 @@ class Project(QGridWidget):
         for p in self._projects:
             if p.task_is_running: return True
         return False
+
+    def settings_updated(self, settings: QSaveData) -> None:
+        for p in self._projects:
+            p.settings_updated(settings)
 #----------------------------------------------------------------------

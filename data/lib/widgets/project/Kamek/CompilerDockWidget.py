@@ -28,12 +28,13 @@ class CompilerDockWidget(QSavableDockWidget):
 
         CompilerWorker.init(app)
 
-    def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
+    def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict, devkitppc_path: str) -> None:
         super().__init__(self._lang.get_data('title').replace('%s', name))
 
         self._name = name
         self._icon = icon
         self._data = data
+        self._devkitppc_path: str = devkitppc_path
 
         self._root = QScrollableGridWidget()
         self._root.setProperty('wide', True)
@@ -92,7 +93,7 @@ class CompilerDockWidget(QSavableDockWidget):
             self._simple_logs_textbrowser.clear()
             self._complete_logs_textbrowser.clear()
 
-            self._compile_thread = CompilerWorker(self._data)
+            self._compile_thread = CompilerWorker(self._data, self._devkitppc_path)
             self._compile_thread.done.connect(self._compile_done)
             self._compile_thread.error.connect(self._compile_error)
             self._compile_thread.log_simple.connect(self._log_simple)
@@ -150,4 +151,7 @@ class CompilerDockWidget(QSavableDockWidget):
         if self._compile_thread is not None:
             self._compile_thread.terminate()
             self._compile_thread = None
+
+    def set_devkitppc_path(self, devkitppc_path: str) -> None:
+        self._devkitppc_path = devkitppc_path
 #----------------------------------------------------------------------
