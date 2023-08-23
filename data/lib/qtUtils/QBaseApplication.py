@@ -147,10 +147,7 @@ class QBaseApplication(QApplication):
         return super().eventFilter(obj, event)
 
     def load_colors(self) -> QssParser:
-        self._qss = QssParser(
-            self.save_data.get_stylesheet(app = self, mode = self.save_data.StyleSheetMode.Local) + '\n' +
-            self.save_data.get_stylesheet(app = self, mode = self.save_data.StyleSheetMode.Global)
-        )
+        self._qss = QssParser(self.save_data.get_stylesheet(app = self, mode = self.save_data.StyleSheetMode.All))
 
         self.COLOR_LINK = QUtilsColor(
             self._qss.search(

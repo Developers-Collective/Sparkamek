@@ -15,10 +15,7 @@ from data.lib import *
 
     # Class
 class Application(QBaseApplication):
-    BUILD = '07e79429'
-    VERSION = 'Experimental'
-
-    SERVER_NAME = 'Sparkamek'
+    SERVER_NAME = Info.application_name
 
     TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
     MESSAGE_DURATION = 5000
@@ -37,18 +34,21 @@ class Application(QBaseApplication):
         self.must_restart = False
 
         self.setOrganizationName('Synel')
-        # self.setApplicationDisplayName('Sparkamek')
-        self.setApplicationName('Sparkamek')
-        self.setApplicationVersion(self.VERSION)
+        # self.setApplicationDisplayName(Info.application_name)
+        self.setApplicationName(Info.application_name)
+        self.setApplicationVersion(Info.version)
 
         self.another_instance_opened.connect(self.on_another_instance)
 
-        self.save_data = SaveData(save_path = os.path.abspath('./data/save.dat').replace('\\', '/'))
+        self.save_data = SaveData(
+            save_path = Info.save_path,
+            main_color_set = Info.main_color_set,
+            neutral_color_set = Info.neutral_color_set
+        )
 
         self.save_data.set_stylesheet(self)
-        self.window.setProperty('color', 'blue')
 
-        self.setWindowIcon(QIcon('./data/icons/Sparkamek.svg'))
+        self.setWindowIcon(QIcon(Info.icon_path))
 
         self.projects: list[Project] = []
 
@@ -86,7 +86,7 @@ class Application(QBaseApplication):
 
 
     def update_title(self) -> None:
-        self.window.setWindowTitle(self.get_lang_data('QMainWindow.title') + f' | Version: {self.VERSION} | Build: {self.BUILD}')
+        self.window.setWindowTitle(self.get_lang_data('QMainWindow.title') + f' | Version: {Info.version} | Build: {Info.build}')
 
     def load_colors(self) -> None:
         super().load_colors()
@@ -311,7 +311,7 @@ class Application(QBaseApplication):
     def check_updates_release(self, rel: dict, app: str) -> None:
         self.update_request.exit()
         self.must_update_link = RequestWorker.get_release(rel, None).link
-        if rel['tag_name'] > self.BUILD: self.set_update(True)
+        if rel['tag_name'] > Info.build: self.set_update(True)
         else: self.save_data.last_check_for_updates = datetime.now()
 
     def check_updates_failed(self, error: str) -> None:
@@ -335,7 +335,7 @@ class Application(QBaseApplication):
         act = self.about_menu.addAction(self.save_data.get_icon('menubar/qt.png', mode = QSaveData.IconMode.Global), self.get_lang_data('QMenu.about.PySide'))
         act.triggered.connect(self.aboutQt)
 
-        act = self.about_menu.addAction(QIcon('./data/icons/Sparkamek.svg'), self.get_lang_data('QMenu.about.Sparkamek'))
+        act = self.about_menu.addAction(QIcon(Info.icon_path), self.get_lang_data('QMenu.about.Sparkamek'))
         act.triggered.connect(self.about_clicked)
 
         self.about_menu.addSeparator()
@@ -373,7 +373,7 @@ class Application(QBaseApplication):
         QAboutBox(
             app = self,
             title = lang['title'],
-            logo = './data/icons/Sparkamek.svg',
+            logo = Info.icon_path,
             texts = [
                 lang['texts'][0],
                 lang['texts'][1].replace('%s', f'<a href=\"https://github.com/Synell\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Synel</a>'),
@@ -387,8 +387,8 @@ class Application(QBaseApplication):
         self.window.closeEvent = self.close_event
 
         self.sys_tray = QSystemTrayIcon(self)
-        self.sys_tray.setToolTip('Sparkamek')
-        self.sys_tray.setIcon(QIcon('./data/icons/Sparkamek.svg'))
+        self.sys_tray.setToolTip(Info.application_name)
+        self.sys_tray.setIcon(QIcon(Info.icon_path))
         self.sys_tray.setVisible(True)
         self.sys_tray.activated.connect(self.on_sys_tray_activated)
 

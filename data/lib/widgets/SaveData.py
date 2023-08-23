@@ -18,7 +18,7 @@ class SaveData(QSaveData):
     dateformat = '%Y-%m-%dT%H:%M:%SZ'
     COLOR_LINK = QUtilsColor()
 
-    def __init__(self, save_path: str = './data/save.dat') -> None:
+    def __init__(self, save_path: str = './data/save.dat', main_color_set: QSaveData.ColorSet = None, neutral_color_set: QSaveData.ColorSet = None) -> None:
         self.platform = PlatformType.Windows
         self.check_for_updates = 4
 
@@ -33,7 +33,7 @@ class SaveData(QSaveData):
 
         self.projects = []
 
-        super().__init__(save_path)
+        super().__init__(save_path, main_color_set = main_color_set, neutral_color_set = neutral_color_set)
 
 
     def _settings_menu_extra(self) -> tuple[dict, callable]:
