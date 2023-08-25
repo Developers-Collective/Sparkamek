@@ -53,13 +53,13 @@ class ReqNybbleDataItem(QDragListItem):
         self._from_value_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.fromValue'))
         self._from_value_spinbox.setRange(0, 2147483647) # 2^32 - 1 but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will require a value of 2^31 lmao
         self._from_value_spinbox.setValue(data.values.start)
-        self._from_value_spinbox.spin_box.valueChanged.connect(lambda _: self.data_changed.emit())
+        self._from_value_spinbox.spin_box.valueChanged.connect(self._from_value_changed)
         right_frame.grid_layout.addWidget(self._from_value_spinbox, 0, 1)
 
         self._to_value_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.toValue'))
         self._to_value_spinbox.setRange(0, 2147483647) # 2^32 - 1 but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will require a value of 2^31 lmao
         self._to_value_spinbox.setValue(data.values.end)
-        self._to_value_spinbox.spin_box.valueChanged.connect(lambda _: self.data_changed.emit())
+        self._to_value_spinbox.spin_box.valueChanged.connect(self._to_value_changed)
         right_frame.grid_layout.addWidget(self._to_value_spinbox, 0, 2)
 
 
