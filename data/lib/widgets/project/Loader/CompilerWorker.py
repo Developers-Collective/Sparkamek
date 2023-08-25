@@ -49,17 +49,43 @@ class CompilerWorker(QThread):
         try:
             self.log_info_all('Assembling...', False)
             self.log_info(f'Executing command: {command}', False)
-            p = subprocess.Popen(command, stdout = subprocess.PIPE)
-            output = p.communicate()[0].decode('utf-8')
+            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True)
+            output = p.communicate()[1].decode('utf-8')
             error_val = p.poll()
 
         except Exception as e:
             self.log_error(f'Error while compiling: {e}')
             self.error.emit(str(e))
             return
-        
+
         if error_val != 0:
-            self.log_error(f'Error while compiling: {output}')
+            output_lines = output.replace('\r', '').split('\n')
+            self.log_error(f'Error while compiling:')
+
+            for line in output_lines:
+                if not line:
+                    self.log_error('&nbsp;', True)
+                    continue
+
+                if line.endswith('Assembler messages:'): continue
+
+                try:
+                    new_line = line.replace('`', '\'').replace(f'{self._project_full_path}:', '').strip()
+                    args = new_line.split(':')
+                    args.pop(1)
+                    args = [arg.strip() for arg in args]
+                    line_nb = int(args.pop(0))
+                    new_line = ': '.join(args)
+
+                    func_name = new_line.split('\'')[1]
+                    new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{func_name}</span>')
+
+                    self.log_error(f'<span style="font-style: italic">Line {line_nb}</span>', True)
+                    self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;{new_line}', True)
+
+                except Exception as e:
+                    self.log_error(line, True)
+
             self.error.emit(output)
             return
 
@@ -69,17 +95,46 @@ class CompilerWorker(QThread):
         try:
             self.log_info_all('Linking...', False)
             self.log_info(f'Executing command: {command}', False)
-            p = subprocess.Popen(command, stdout = subprocess.PIPE)
-            output = p.communicate()[0].decode('utf-8')
+            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True)
+            output = p.communicate()[1].decode('utf-8')
             error_val = p.poll()
 
         except Exception as e:
             self.log_error(f'Error while linking: {e}')
             self.error.emit(str(e))
             return
-        
+
         if error_val != 0:
-            self.log_error(f'Error while linking: {output}')
+            output_lines = output.replace('\r', '').split('\n')
+            self.log_error(f'Error while linking:')
+
+            for line in output_lines:
+                if not line:
+                    self.log_error('&nbsp;', True)
+                    continue
+
+                if line.startswith(command[0]):
+                    try:
+                        new_line = line.split(':')[-2].replace('`', '\'').strip()
+                        new_line = new_line[0].upper() + new_line[1:]
+
+                        func_name = new_line.split('\'')[1]
+                        new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{func_name}</span>')
+
+                        self.log_error(f'{new_line}:', True)
+
+                    except Exception as e:
+                        self.log_error(line, True)
+
+                    continue
+
+                new_line = line.replace('`', '\'').strip()
+
+                func_name = new_line.split('\'')[1]
+                new_line = new_line.replace(func_name, f'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{func_name}</span>')
+
+                self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;{new_line}', True)
+
             self.error.emit(output)
             return
 
