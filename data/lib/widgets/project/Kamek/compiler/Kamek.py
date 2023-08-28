@@ -134,7 +134,7 @@ class KamekModule:
         #self.module_dir = os.path.dirname(self.module_path)
         self.module_dir = 'processed'
 
-        with open(f'{controller.cwd}/{self.module_path}', 'r') as f:
+        with open(f'{controller.cwd}/{self.module_path}', 'r', encoding = 'utf8') as f:
             self.raw_data = f.read()
 
         self.data = yaml.safe_load(self.raw_data)
@@ -473,7 +473,7 @@ class KamekBuilder:
 
         if self._controller.config.fast_hack:
             self._fast_cpp_path = os.path.join(self._config_temp_dir, 'fasthack.cpp')
-            fast_cpp = open(f'{self._controller.cwd}/{self._fast_cpp_path}', 'w')
+            fast_cpp = open(f'{self._controller.cwd}/{self._fast_cpp_path}', 'w', encoding = 'utf8')
 
         for m in self.project.modules:
             for normal_sourcefile in m.data['source_files']:
@@ -496,7 +496,7 @@ class KamekBuilder:
 
                     elif sourcefile.endswith('.cpp') and self._controller.config.fast_hack:
                         fast_cpp.write('//\n// [Fasthack File Info] %s\n//\n\n' % sourcefile)
-                        with open(f'{self._controller.cwd}/{sourcefile}', 'r') as sf:
+                        with open(f'{self._controller.cwd}/{sourcefile}', 'r', encoding = 'utf8') as sf:
                             fast_cpp.write(sf.read())
                         fast_cpp.write('\n')
                         continue
@@ -768,7 +768,7 @@ class KamekProject:
         self.project_dir = '' #os.path.dirname(self.project_path)
         self.configs = configs
 
-        with open(self.project_path, 'r') as f:
+        with open(self.project_path, 'r', encoding = 'utf8') as f:
             self.raw_data = f.read()
 
         self.data = yaml.safe_load(self.raw_data)
