@@ -1,0 +1,137 @@
+{
+    "title": "Sparkamek > Settings",
+    "QSidePanel": {
+        "appearance": {
+            "title": "Appearance",
+            "QLabel": {
+                "language": {
+                    "title": "Language",
+                    "description": "Select a display language for Sparkamek."
+                },
+                "theme": {
+                    "title": "Theme",
+                    "description": "Select a display theme for Sparkamek."
+                }
+            },
+            "QNamedComboBox": {
+                "language": "Language",
+                "theme": "Theme",
+                "themeVariant": "Theme Variant"
+            }
+        },
+        "updates": {
+            "title": "Updates",
+            "QLabel": {
+                "checkForUpdates": {
+                    "title": "Check for Updates",
+                    "description": "Determines how often Sparkamek checks for updates."
+                }
+            },
+            "QNamedComboBox": {
+                "checkForUpdates": {
+                    "title": "Check for Updates",
+                    "values": {
+                        "never": "Never",
+                        "daily": "Daily",
+                        "weekly": "Weekly",
+                        "monthly": "Monthly",
+                        "atLaunch": "At Launch"
+                    }
+                }
+            }
+        },
+        "interface": {
+            "title": "Interface",
+            "QLabel": {
+                "startAtLaunch": {
+                    "title": "Start at Launch",
+                    "description": "Determines whether Sparkamek starts at launch."
+                },
+                "minimizeToTray": {
+                    "title": "Minimize to Tray",
+                    "description": "Determines whether Sparkamek minimizes to the tray when closed."
+                },
+                "compactPaths": {
+                    "title": "Compact Paths",
+                    "description": "Determines whether Sparkamek compacts paths in the interface."
+                }
+            },
+            "QNamedComboBox": {
+                "compactPaths": {
+                    "title": "Compact Paths",
+                    "values": {
+                        "auto": "Auto",
+                        "disabled": "Disabled",
+                        "enabled": "Enabled"
+                    }
+                }
+            },
+            "QNamedToggleButton": {
+                "startAtLaunch": "Start at Launch",
+                "minimizeToTray": "Minimize to Tray"
+            }
+        },
+        "notification": {
+            "title": "Notification",
+            "QLabel": {
+                "goesToTray": {
+                    "title": "Goes to Tray Notification",
+                    "description": "Determines if a notification will be sent when the app goes to the tray."
+                }
+            },
+            "QNamedToggleButton": {
+                "goesToTray": "Goes to Tray"
+            },
+            "QPushButton": {
+                "checkAll": "Check All",
+                "uncheckAll": "Uncheck All",
+                "invertAll": "Invert All"
+            }
+        },
+        "paths": {
+            "title": "Paths",
+            "QLabel": {
+                "devkitPPCPath": {
+                    "title": "DevkitPPC Path",
+                    "description": "The path to the devkitPPC <span style=\"font-weight: bold\">bin</span> folder."
+                }
+            },
+            "QFileButton": {
+                "devkitPPCPath": {
+                    "title": "DevkitPPC Path",
+                    "dialog": "Sparkamek > Settings > Paths > DevkitPPC Path"
+                }
+            }
+        },
+        "data": {
+            "title": "Data",
+            "QLabel": {
+                "clearData": {
+                    "title": "Clear Data",
+                    "description": "Clears all data stored by Sparkamek and restarts the app."
+                },
+                "importData": {
+                    "title": "Import Data",
+                    "description": "Imports data from a file and restarts the app. This will overwrite all data."
+                },
+                "exportData": {
+                    "title": "Export Data",
+                    "description": "Exports data to a file."
+                }
+            },
+            "QPushButton": {
+                "clearData": "Clear Data",
+                "importData": "Import Data",
+                "exportData": "Export Data"
+            },
+            "QFileDialog": {
+                "importData": "Sparkamek > Settings > Data > Import Data",
+                "exportData": "Sparkamek > Settings > Data > Export Data"
+            }
+        }
+    },
+    "QPushButton": {
+        "cancel": "Cancel",
+        "apply": "Apply"
+    }
+}

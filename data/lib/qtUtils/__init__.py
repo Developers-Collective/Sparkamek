@@ -2,6 +2,7 @@
 
     # Libraries
 from .QBaseApplication import QBaseApplication
+from .QAppType import QAppType
 from .QssParser import QssParser, QssSelector
 from .QSaveData import QSaveData
 from .QBetterListWidget import QBetterListWidget

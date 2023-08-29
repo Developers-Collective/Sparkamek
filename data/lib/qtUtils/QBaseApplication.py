@@ -22,6 +22,7 @@ from .QNamedDoubleSpinBox import QNamedDoubleSpinBox
 from .QToggleButton import QToggleButton
 from .QFileButton import QFileButton
 from .QLinkLabel import QLinkLabel
+from .QAppType import QAppType
 #----------------------------------------------------------------------
 
     # Class
@@ -32,12 +33,13 @@ class QBaseApplication(QApplication):
 
     COLOR_LINK = QUtilsColor.from_hex('#cccccc')
 
-    def __init__(self, platform: QPlatform, single_instance: bool = False) -> None:
+    def __init__(self, platform: QPlatform, app_type: QAppType, single_instance: bool = False) -> None:
         super().__init__([argv[0]])
         self.window = QMainWindow()
         self.window.setWindowTitle('Base Qt Window')
 
         self.platform = platform
+        self.app_type = app_type
 
         self.must_update = None
         self.must_update_link = None

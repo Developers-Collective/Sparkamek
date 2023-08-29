@@ -1,0 +1,10 @@
+{
+    "Sparkamek": {
+        "title": "About Sparkamek",
+        "texts": [
+            "Sparkamek is an open-source software that allows you manage Kamek 1.3.X projects, which are C++ projects that have for goal to add code to NSMBW.",
+            "Sparkamek was programmed by %s, is written in Python, uses PySide 6 for the interface and is available for Windows, MacOS and Linux.",
+            "Go to the %s for more information."
+        ]
+    }
+}

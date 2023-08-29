@@ -73,17 +73,17 @@ Sparkamek is an app for Windows, Linux and MacOS. Kamek is a tool that allows yo
 
 Doing a lot of NSMBW modding, I found myself using Kamek a lot as it is used to compile the code. However, I found it very annoying to use as it for debugging for multiple reasons:
 - No colors, so it's hard to read
-- When using the fasthack option, it doesn't show the correct line number of the errors / warnings (it shows the line number of the fasthack instead, which is about 50 000 lines so good luck finding scrolling to the correct line, even with the search function)
+- When using the fasthack option, it doesn't show the correct line number of the errors / warnings (it shows the line number of the fasthack instead, which is about 50 000 lines so good luck scrolling to the correct line, even with the search function)
 - It doesn't show the file name of the errors / warnings
 - No spacing, everything is cramped together
 - When you have an error, it generates so much garbage that it's hard to find the error itself, because it's at the very top of the log
 
 Okay, so if this didn't convince you, let me tell you a short story.
 
-So one day I just wanted to test how much garbage the compiler gives, so I just remove the `;` from a file called `boss.h`, and the rest of the code had no error. Now, if I compile this, we should in theory have a single error.
+So one day I just wanted to test how much garbage the compiler gives, so I just remove a single `;` from a file called `boss.h`, and the rest of the code had no error. Now, if I compile this, we should in theory have a single error.
 
 You know what, it threw me **1041 errors, in 24 different files**.
-Like wtf, just for a single missing `;` ? And the worst part is that represents 4 243 lines of garbage, and the correct error is at the very top of the log, under a lot of warnings, so good luck finding it on the command line with no color.
+Like wtf, just for a single missing `;` ? And the worst part is that this represents 4 243 lines of garbage, and the correct error is at the very top of the log, under a lot of warnings, so good luck finding it on the command line with no color.
 
 By the way, if you want to check the output for yourself, here it is, with all the warnings and the top of the log removed for your mental health: [error.log](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/files/error.log).
 

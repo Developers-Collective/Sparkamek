@@ -1,0 +1,20 @@
+{
+    "QMainWindow": {
+        "title": "Sparkamek",
+        "topBar": {
+            "QPushButton": {
+                "update": "Mettre à Jour",
+                "settings": "Paramètres",
+                "openProject": "Ouvrir un Projet...",
+                "editProject": "Éditer le Projet..."
+            }
+        },
+        "QSlidingStackedWidget": "#ref: app/QSlidingStackedWidget"
+    },
+    "OpenProjectDialog": "#ref: app/OpenProjectDialog",
+    "QSettingsDialog": "#ref: app/QSettingsDialog",
+    "QMessageBox": "#ref: app/QMessageBox",
+    "QAbout": "#ref: app/QAbout",
+    "QMenu": "#ref: app/QMenu",
+    "QSystemTrayIcon": "#ref: app/QSystemTrayIcon"
+}

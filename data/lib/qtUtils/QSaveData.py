@@ -12,6 +12,7 @@ from .QMessageBoxWithWidget import QMessageBoxWithWidget
 from . import QBaseApplication
 from .QSettingsDialog import QSettingsDialog
 from .QUtilsColor import QUtilsColor
+from .QAppType import QAppType
 #----------------------------------------------------------------------
 
     # Class
@@ -62,12 +63,24 @@ class QSaveData:
 
 
     class LangData(dict):
-        def __init__(self, data: dict = {}) -> None:
+        def __init__(self, data: dict = {}, cwd: str = './') -> None:
             d = {}
 
             for key, value in data.items():
-                if isinstance(value, dict): d[key] = QSaveData.LangData(value)
-                else: d[key] = value
+                if isinstance(value, dict):
+                    d[key] = QSaveData.LangData(value, cwd)
+                    continue
+
+                if isinstance(value, str):
+                    if value.startswith('#ref:'):
+                        file = value.replace('#ref:', '').replace(' ', '').replace('\\', '/')
+
+                        with open(f'{cwd}{file}.json', 'r', encoding = 'utf-8') as infile:
+                            d[key] = QSaveData.LangData(json.load(infile), cwd)
+
+                        continue
+
+                d[key] = value
 
             super().__init__(d)
 
@@ -82,6 +95,7 @@ class QSaveData:
 
 
     def __init__(self,
+        app: QBaseApplication,
         save_path = './data/save.dat',
         lang_folder = './data/lang/',
         themes_folder = './data/themes/',
@@ -103,17 +117,18 @@ class QSaveData:
             QUtilsColor('#000000')
         )
     ) -> None:
-        self._language = default_language
-        self._theme = default_theme
-        self._theme_variant = default_theme_variant
-        self._path = save_path
-        self._lang_folder = lang_folder
-        self._themes_folder = themes_folder
-        self._first_time = False
-        self._main_color_set = main_color_set
-        self._neutral_color_set = neutral_color_set
+        self._app_type: QAppType = app.app_type
+        self._language: str = default_language
+        self._theme: str = default_theme
+        self._theme_variant: str = default_theme_variant
+        self._path: str = save_path
+        self._lang_folder: str = lang_folder
+        self._themes_folder: str = themes_folder
+        self._first_time: bool = False
+        self._main_color_set: 'QSaveData.ColorSet' = main_color_set
+        self._neutral_color_set: 'QSaveData.ColorSet' = neutral_color_set
 
-        self._load()
+        self._load(reload_all = True)
 
     def get_lang_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
         keys = path.split('.')
@@ -131,7 +146,7 @@ class QSaveData:
 
     def _save_extra_data(self) -> dict: return {}
 
-    def _load(self, safe_mode: bool = False, reload: list = []) -> bool:
+    def _load(self, safe_mode: bool = False, reload: list = [], reload_all: bool = False) -> bool:
         res = False
 
         if not os.path.exists(self._path):
@@ -145,27 +160,32 @@ class QSaveData:
             exc = suppress(Exception)
 
             with exc:
-                if (not reload) or ('language' in reload):
+                if 'language' in reload or reload_all:
                     self._language = data['language']
                     self._load_language_data()
                     res |= True
 
             with exc:
-                if (not reload) or ('theme' in reload):
+                if 'theme' in reload or reload_all:
                     self._theme = data['theme']
                     self._theme_variant = data['themeVariant']
                     self._load_theme_data()
                     res |= True
 
-            with exc: res |= self._load_extra_data(data, reload)
+            with exc: res |= self._load_extra_data(data, reload, reload_all)
 
         except Exception as e:
             self.save()
-            if not safe_mode: self._load()
+            if not safe_mode: return self._load()
+
+        return res
 
     def _load_language_data(self) -> None:
         with open(f'{self._lang_folder}{self._language}.json', 'r', encoding = 'utf-8') as infile:
-            self._language_data = QSaveData.LangData(json.load(infile)['data'])
+            filename = json.load(infile)['root'][self._app_type.value]
+        
+        with open(f'{self._lang_folder}{self._language}/{filename}.json', 'r', encoding = 'utf-8') as infile:
+            self._language_data = QSaveData.LangData(json.load(infile), f'{self._lang_folder}{self._language}/')
 
     def _load_theme_data(self) -> None:
         self._theme_data = ''
@@ -194,7 +214,7 @@ class QSaveData:
             for key, value in self._neutral_color_set.items:
                 self._theme_data = self._theme_data.replace(f'{{neutral-{key}}}', value.hex[1:])
 
-    def _load_extra_data(self, extra_data: dict = {}, reload: list = []) -> bool: pass
+    def _load_extra_data(self, extra_data: dict = {}, reload: list = [], reload_all: bool = False) -> bool: return False
 
     def set_stylesheet(self, app: QBaseApplication = None) -> None:
         if not app: return
@@ -290,15 +310,16 @@ class QSaveData:
 
 
             self.save()
-            res = self._load(False, (reload_list if reload_list else [None]))
+            res = self._load(False, (reload_list))
             if 'theme' in reload_list: self.set_stylesheet(app)
-            QMessageBoxWithWidget(app,
-                self._language_data['QMessageBox']['information']['settingsReload']['title'],
-                self._language_data['QMessageBox']['information']['settingsReload']['text'],
-                None,
-                QMessageBoxWithWidget.Icon.Information,
-                None
-            ).exec()
+            if res:
+                QMessageBoxWithWidget(app,
+                    self._language_data['QMessageBox']['information']['settingsReload']['title'],
+                    self._language_data['QMessageBox']['information']['settingsReload']['text'],
+                    None,
+                    QMessageBoxWithWidget.Icon.Information,
+                    None
+                ).exec()
 
             return True
         return False

@@ -1,0 +1,277 @@
+{
+    "emptyMenu": {
+        "QLabel": {
+            "title": "Seems like you don't have any project opened.",
+            "text": "You can open a project by clicking on the \"Open Project...\" button."
+        }
+    },
+    "mainMenu": {
+        "projects": {
+            "QTabWidget": {
+                "loader": "Loader",
+                "kamek": "Kamek",
+                "reggieNext": "Reggie Next",
+                "riivolution": "Riivolution / Game"
+            },
+            "QMenu": {
+                "more": {
+                    "QAction": {
+                        "showLoaderInExplorer": "Show Loader in File Explorer",
+                        "showKamekInExplorer": "Show Kamek in File Explorer",
+                        "showReggieNextInExplorer": "Show Reggie Next in File Explorer",
+                        "showRiivolutionInExplorer": "Show Riivolution in File Explorer",
+                        "resetDockWidgets": "Reset Dock Widgets",
+                        "edit": "Edit...",
+                        "remove": "Remove"
+                    }
+                }
+            },
+            "LoaderWidget": {
+                "QPushButton": {
+                    "compile": "Compile",
+                    "stop": "Stop Compilation"
+                },
+                "QNamedToggleButton": {
+                    "showCompleteLogs": "Show Complete Logs"
+                },
+                "QNamedTextBrowser": {
+                    "simpleLogs": "Simple Logs",
+                    "completeLogs": "Complete Logs",
+                    "error": "Error",
+                    "warning": "Warning",
+                    "info": "Info",
+                    "success": "Success"
+                }
+            },
+            "KamekWidget": {
+                "QLabel": {
+                    "spritesAndActors": "Sprites and Actors"
+                },
+                "QBetterListWidget": {
+                    "actorName": "Actor Name",
+                    "actorID": "Actor ID",
+                    "spriteID": "Sprite ID",
+                    "replaceOrNew": "Replace or New",
+                    "replace": "Replace",
+                    "new": "New"
+                },
+                "QNamedToggleButton": {
+                    "caseSensitive": "Case Sensitive"
+                },
+                "QIconLineEdit": {
+                    "search": "Search..."
+                },
+                "QNamedComboBox": {
+                    "searchBy": {
+                        "title": "Search By",
+                        "values": {
+                            "actorName": "Actor Name",
+                            "actorID": "Actor ID",
+                            "spriteID": "Sprite ID",
+                            "replaceOrNew": "Replace or New"
+                        }
+                    }
+                },
+                "CompilerDockWidget": {
+                    "title": "%s Kamek Compiler",
+                    "QPushButton": {
+                        "compile": "Compile",
+                        "stop": "Stop Compilation"
+                    },
+                    "QNamedToggleButton": {
+                        "showCompleteLogs": "Show Complete Logs"
+                    },
+                    "QNamedTextBrowser": {
+                        "simpleLogs": "Simple Logs",
+                        "completeLogs": "Complete Logs",
+                        "error": "Error",
+                        "warning": "Warning",
+                        "info": "Info",
+                        "success": "Success"
+                    }
+                },
+                "SymbolsDockWidget": {
+                    "title": "%s Symbols",
+                    "QIconLineEdit": {
+                        "search": "Search..."
+                    },
+                    "QBetterListWidget": {
+                        "address": "Address",
+                        "name": "Nice Name",
+                        "raw": "Raw Name"
+                    },
+                    "QNamedToggleButton": {
+                        "caseSensitive": "Case Sensitive"
+                    },
+                    "QNamedComboBox": {
+                        "searchBy": {
+                            "title": "Search By",
+                            "values": {
+                                "address": "Address",
+                                "name": "Nice Name",
+                                "raw": "Raw Name"
+                            }
+                        }
+                    }
+                }
+            },
+            "ReggieNextWidget": {
+                "type": {
+                    "dualbox": "Dual Box / Radio Buttons",
+                    "checkbox": "Checkbox",
+                    "value": "Entry Value",
+                    "list": "Drop Down List",
+                    "external": "Value Selector from a File (External)"
+                },
+                "QPushButton": {
+                    "clear": "Clear",
+                    "reset": "Reset",
+                    "create": "Create a New Sprite",
+                    "delete": "Delete Selected Sprite"
+                },
+                "SpriteListDockWidget": {
+                    "title": "%s Sprite List",
+                    "QBetterListWidget": {
+                        "spriteID": "Sprite ID",
+                        "name": "Name"
+                    },
+                    "QIconLineEdit": {
+                        "search": "Search..."
+                    },
+                    "QPushButton": {
+                        "load": "Load",
+                        "save": "Save"
+                    }
+                },
+                "SpriteWidget": {
+                    "QLabel": {
+                        "generalInfo": "General Info",
+                        "dependencies": "Dependencies",
+                        "required": "Required",
+                        "suggested": "Suggested",
+                        "settings": "Settings",
+                        "usedSettings": "Used Settings: %s"
+                    },
+                    "QPushButton": {
+                        "addEntry": "Add Entry"
+                    },
+                    "QNamedSpinBox": {
+                        "spriteID": "Sprite ID"
+                    },
+                    "QNamedLineEdit": {
+                        "name": "Name"
+                    },
+                    "QNamedTextEdit": {
+                        "notes": "Notes",
+                        "yoshinotes": "Yoshi Notes",
+                        "advancednotes": "Advanced Notes"
+                    },
+                    "QNamedToggleButton": {
+                        "asmhacks": "ASM Hacks Support",
+                        "sizehacks": "Size Hacks Support",
+                        "yoshi": "Yoshi Support"
+                    },
+                    "DependencyDataItem": {
+                        "QNamedSpinBox": {
+                            "spriteID": "Sprite ID"
+                        }
+                    },
+                    "QMenu": {
+                        "addEntry": {
+                            "QAction": {
+                                "addDualbox": "Add Dual Box / Radio Buttons",
+                                "addCheckbox": "Add Checkbox",
+                                "addValue": "Add Entry Value",
+                                "addList": "Add Drop Down List",
+                                "addExternal": "Add Value Selector from a File (External)"
+                            }
+                        }
+                    },
+                    "BaseItemData": {
+                        "QLabel": {
+                            "nybbleRange": "%s to %s",
+                            "nybbles": "Nybble(s): %s",
+                            "settings": "Settings: %s",
+                            "nybbleTitle": "Nybbles",
+                            "propertyTitle": "Other Properties",
+                            "requiredNybbles": "Required Nybble(s): %s",
+                            "requiredNybbleValue": "%s → %s"
+                        },
+                        "QNamedTextEdit": {
+                            "comment": "Comment",
+                            "comment2": "Comment 2",
+                            "advancedcomment": "Advanced Comment"
+                        },
+                        "QNamedToggleButton": {
+                            "advanced": "Advanced"
+                        }
+                    },
+                    "NybbleData": {
+                        "QNamedComboBox": {
+                            "firstNybble": "First Nybble",
+                            "firstNybbleBit": "First Nybble Bit",
+                            "lastNybble": "Last Nybble",
+                            "lastNybbleBit": "Last Nybble Bit"
+                        }
+                    },
+                    "ReqNybbleData": {
+                        "QLabel": {
+                            "title": "Required Nybble(s) / Required Value(s)"
+                        },
+                        "ReqNybbleDataItem": {
+                            "QNamedSpinBox": {
+                                "fromValue": "From Value",
+                                "toValue": "To Value"
+                            }
+                        }
+                    },
+                    "DualBoxData": {
+                        "QNamedLineEdit": {
+                            "title1": "Title 1 (Value = 0)",
+                            "title2": "Title 2 (Value = 1)"
+                        }
+                    },
+                    "ValueData": {
+                        "QNamedLineEdit": {
+                            "title": "Title",
+                            "idtype": "ID Collection"
+                        }
+                    },
+                    "CheckBoxData": {
+                        "QNamedLineEdit": {
+                            "title": "Title"
+                        }
+                    },
+                    "ListData": {
+                        "QNamedLineEdit": {
+                            "title": "Title"
+                        },
+                        "QPushButton": {
+                            "add": "Add Item"
+                        },
+                        "EntryListItem": {
+                            "QNamedSpinBox": {
+                                "value": "Value"
+                            },
+                            "QNamedLineEdit": {
+                                "item": "Item"
+                            }
+                        }
+                    },
+                    "ExternalData": {
+                        "QNamedLineEdit": {
+                            "title": "Title"
+                        },
+                        "QNamedComboBox": {
+                            "type": "Type"
+                        }
+                    }
+                },
+                "ItemDataPropertyDockWidget": {
+                    "title": "%s Properties"
+                }
+            },
+            "RiivolutionWidget": {}
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "about": {
+        "PySide": "A Propos de PySide...",
+        "Sparkamek": "A Propos de Sparkamek..."
+    },
+    "whatsNew": "Nouveautés...",
+    "changelog": "Journal des Modifications...",
+    "reportBug": "Signaler un Bug...",
+    "donate": {
+        "title": "Faire un Don"
+    }
+}

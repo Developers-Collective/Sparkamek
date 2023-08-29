@@ -1,0 +1,171 @@
+{
+    "title": {
+        "open": "Sparkamek > Ouvrir un Projet",
+        "edit": "Sparkamek > Éditer un Projet"
+    },
+    "QPushButton": {
+        "load": "Charger",
+        "cancel": "Annuler",
+        "next": "Suivant",
+        "back": "Retour"
+    },
+    "QSlidingStackedWidget": {
+        "general": {
+            "QLabel": {
+                "title": "Général",
+                "name": {
+                    "title": "Nom",
+                    "description": "Le nom du projet."
+                }
+            },
+            "QNamedLineEdit": {
+                "name": "Nom"
+            }
+        },
+        "icon": {
+            "QLabel": {
+                "title": "Icône",
+                "icon": {
+                    "title": "Icône",
+                    "description": "L'icône du projet."
+                },
+                "predefinedIcons": {
+                    "title": "Icônes Prédéfinies",
+                    "description": "Une liste d'icônes prédéfinies disponibles pour le projet."
+                },
+                "currentIcon": "Icône Actuelle"
+            },
+            "QFileButton": {
+                "icon": {
+                    "title": "Icône",
+                    "dialog": "Sparkamek > Ouvrir un Projet > Icône"
+                }
+            }
+        },
+        "loader": {
+            "QLabel": {
+                "title": "Loader",
+                "loaderFile": {
+                    "title": "Fichier Loader",
+                    "description": "Le fichier assembleur du projet (généralement nommé \"Loader.S\")."
+                },
+                "outputFile": {
+                    "title": "Fichier de Sortie",
+                    "description": "Le fichier de sortie du projet (généralement nommé \"Loader.bin\")."
+                }
+            },
+            "QFileButton": {
+                "openLoaderFile": {
+                    "title": "Fichier Loader",
+                    "dialog": "Sparkamek > Ouvrir un Projet > Fichier Loader"
+                },
+                "editLoaderFile": {
+                    "title": "Fichier Loader",
+                    "dialog": "Sparkamek > Éditer un Projet > Fichier Loader"
+                },
+                "openOutputFile": {
+                    "title": "Fichier de Sortie",
+                    "dialog": "Sparkamek > Ouvrir un Projet > Fichier de Sortie"
+                },
+                "editOutputFile": {
+                    "title": "Fichier de Sortie",
+                    "dialog": "Sparkamek > Éditer un Projet > Fichier de Sortie"
+                }
+            }
+        },
+        "kamek": {
+            "QLabel": {
+                "title": "Kamek",
+                "resources": "Aucune idée de comment installer Kamek ? Voici le %s pour plus d'informations.",
+                "kamekFile": {
+                    "title": "Fichier Kamek",
+                    "description": "Le fichier contenant la liste des patchs du projet (généralement nommé \"NewerProject.yaml\")."
+                },
+                "buildFolder": {
+                    "title": "Dossier de Compilation Kamek",
+                    "description": "Le dossier contenant les fichiers de compilation du projet (généralement nommé \"build\").\nATTENTION: Ce dossier sera supprimé avant chaque compilation !"
+                },
+                "outputFolder": {
+                    "title": "Dossier de Sortie Kamek",
+                    "description": "Le dossier où seront placés les fichiers une fois compilés (généralement nommé \"NewerRes\")."
+                },
+                "generatePAL": {
+                    "title": "Générer la Version PAL",
+                    "description": "Détermine si Sparkamek doit générer une version Européeene (EU) du projet."
+                },
+                "generateNTSC": {
+                    "title": "Générer la Version NTSC",
+                    "description": "Détermine si Sparkamek doit générer une version Américaine (US) du projet."
+                },
+                "generateJP": {
+                    "title": "Générer la Version JP",
+                    "description": "Détermine si Sparkamek doit générer une version Japonaise (JP) du projet."
+                },
+                "generateTW": {
+                    "title": "Générer la Version TW",
+                    "description": "Détermine si Sparkamek doit générer une version Taïwanaise (TW) du projet."
+                },
+                "generateKR": {
+                    "title": "Générer la Version KR",
+                    "description": "Détermine si Sparkamek doit générer une version Coréenne (KR) du projet."
+                }
+            },
+            "QFileButton": {
+                "pattern": {
+                    "open":"Sparkamek > Ouvrir un Projet > %s",
+                    "edit":"Sparkamek > Éditer un Projet > %s"
+                },
+                "kamekFile": "Fichier Kamek",
+                "outputFolder": "Dossier de Sortie Kamek"
+            },
+            "QNamedLineEdit": {
+                "buildFolder": "Dossier de Compilation Kamek"
+            },
+            "QNamedToggleButton": {
+                "generatePAL": "Générer la Version PAL (Requis)",
+                "generateNTSC": "Générer la Version NTSC",
+                "generateJP": "Générer la Version JP",
+                "generateTW": "Générer la Version TW",
+                "generateKR": "Générer la Version KR"
+            }
+        },
+        "reggieNext": {
+            "QLabel": {
+                "title": "Reggie Next",
+                "reggieNextFolder": {
+                    "title": "Dossier Reggie Next",
+                    "description": "Le dossier contenant les patchs de Reggie Next du projet (comme \"spritedata.xml\", \"sprites.py\", etc.)."
+                }
+            },
+            "QFileButton": {
+                "openReggieNextFolder": {
+                    "title": "Dossier Reggie Next",
+                    "dialog": "Sparkamek > Ouvrir un Projet > Dossier Reggie Next"
+                },
+                "editReggieNextFolder": {
+                    "title": "Dossier Reggie Next",
+                    "dialog": "Sparkamek > Éditer un Projet > Dossier Reggie Next"
+                }
+            }
+        },
+        "riivolution": {
+            "QLabel": {
+                "title": "Riivolution",
+                "riivolutionFile": {
+                    "title": "Fichier Riivolution",
+                    "description": "Le fichier Riivolution du projet (généralement nommé \"NewerSMBW.xml\")."
+                }
+            },
+            "QFileButton": {
+                "openRiivolutionFile": {
+                    "title": "Fichier Riivolution",
+                    "dialog": "Sparkamek > Ouvrir un Projet > Fichier Riivolution"
+                },
+                "editRiivolutionFile": {
+                    "title": "Fichier Riivolution",
+                    "dialog": "Sparkamek > Éditer un Projet > Fichier Riivolution"
+                }
+            }
+        }
+    }
+}

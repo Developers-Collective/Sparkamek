@@ -10,7 +10,7 @@ from datetime import datetime
 from contextlib import suppress
 import os
 
-from data.lib.qtUtils import QFiles, QNamedLineEdit, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QDragList
+from data.lib.qtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QBaseApplication
 #----------------------------------------------------------------------
 
     # Class
@@ -18,8 +18,8 @@ class SaveData(QSaveData):
     dateformat = '%Y-%m-%dT%H:%M:%SZ'
     COLOR_LINK = QUtilsColor()
 
-    def __init__(self, save_path: str = './data/save.dat', main_color_set: QSaveData.ColorSet = None, neutral_color_set: QSaveData.ColorSet = None) -> None:
-        self.platform = PlatformType.Windows
+    def __init__(self, app: QBaseApplication, save_path: str = './data/save.dat', main_color_set: QSaveData.ColorSet = None, neutral_color_set: QSaveData.ColorSet = None) -> None:
+        self.platform = PlatformType.from_qplatform(app.platform)
         self.check_for_updates = 4
 
         self.last_check_for_updates = datetime.now()
@@ -43,7 +43,7 @@ class SaveData(QSaveData):
             case PlatformType.MacOS:
                 self.devkitppc_path = '/opt/devkitpro/devkitPPC/bin/'
 
-        super().__init__(save_path, main_color_set = main_color_set, neutral_color_set = neutral_color_set)
+        super().__init__(app, save_path, main_color_set = main_color_set, neutral_color_set = neutral_color_set)
 
 
     def _settings_menu_extra(self) -> tuple[dict, callable]:
@@ -310,7 +310,7 @@ class SaveData(QSaveData):
             'devkitPPCPath': self.devkitppc_path
         }
 
-    def _load_extra_data(self, extra_data: dict = ..., reload: list = []) -> bool:
+    def _load_extra_data(self, extra_data: dict = ..., reload: list = [], reload_all: bool = False) -> bool:
         exc = suppress(Exception)
         res = False
 

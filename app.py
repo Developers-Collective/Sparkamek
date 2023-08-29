@@ -27,7 +27,7 @@ class Application(QBaseApplication):
     UPDATE_LINK = 'https://github.com/Synell/Sparkamek'
 
     def __init__(self, platform: QPlatform) -> None:
-        super().__init__(platform = platform, single_instance = True)
+        super().__init__(platform = platform, app_type = QAppType.Main, single_instance = True)
 
         self.update_request = None
         self.must_update = False
@@ -41,6 +41,7 @@ class Application(QBaseApplication):
         self.another_instance_opened.connect(self.on_another_instance)
 
         self.save_data = SaveData(
+            app = self,
             save_path = Info.save_path,
             main_color_set = Info.main_color_set,
             neutral_color_set = Info.neutral_color_set

@@ -1,0 +1,171 @@
+{
+    "title": {
+        "open": "Sparkamek > Open Project",
+        "edit": "Sparkamek > Edit Project"
+    },
+    "QPushButton": {
+        "load": "Load",
+        "cancel": "Cancel",
+        "next": "Next",
+        "back": "Back"
+    },
+    "QSlidingStackedWidget": {
+        "general": {
+            "QLabel": {
+                "title": "General",
+                "name": {
+                    "title": "Name",
+                    "description": "The name of the project."
+                }
+            },
+            "QNamedLineEdit": {
+                "name": "Name"
+            }
+        },
+        "icon": {
+            "QLabel": {
+                "title": "Icon",
+                "icon": {
+                    "title": "Icon",
+                    "description": "The icon of the project."
+                },
+                "predefinedIcons": {
+                    "title": "Predefined Icons",
+                    "description": "A list of predefined icons available for the project."
+                },
+                "currentIcon": "Current Icon"
+            },
+            "QFileButton": {
+                "icon": {
+                    "title": "Icon",
+                    "dialog": "Sparkamek > Open Project > Icon"
+                }
+            }
+        },
+        "loader": {
+            "QLabel": {
+                "title": "Loader",
+                "loaderFile": {
+                    "title": "Loader File",
+                    "description": "The loader assembly file of the project (usually named \"Loader.S\")."
+                },
+                "outputFile": {
+                    "title": "Output File",
+                    "description": "The output file of the loader (usually named \"Loader.bin\")."
+                }
+            },
+            "QFileButton": {
+                "openLoaderFile": {
+                    "title": "Loader File",
+                    "dialog": "Sparkamek > Open Project > Loader File"
+                },
+                "editLoaderFile": {
+                    "title": "Loader File",
+                    "dialog": "Sparkamek > Edit Project > Loader File"
+                },
+                "openOutputFile": {
+                    "title": "Output File",
+                    "dialog": "Sparkamek > Open Project > Output File"
+                },
+                "editOutputFile": {
+                    "title": "Output File",
+                    "dialog": "Sparkamek > Edit Project > Output File"
+                }
+            }
+        },
+        "kamek": {
+            "QLabel": {
+                "title": "Kamek",
+                "resources": "Don't know how to setup Kamek ? Check out the %s for more information.",
+                "kamekFile": {
+                    "title": "Kamek File",
+                    "description": "The file containing the list of patches of the project (usually named \"NewerProject.yaml\")."
+                },
+                "buildFolder": {
+                    "title": "Kamek Build Folder",
+                    "description": "The folder where the project will be built (usually named \"Build\").\nWARNING: This folder will be deleted before each compilation !"
+                },
+                "outputFolder": {
+                    "title": "Kamek Output Folder",
+                    "description": "The folder where the project will be moved after each compilation (usually named \"NewerRes\")."
+                },
+                "generatePAL": {
+                    "title": "Generate PAL Version",
+                    "description": "Determines whether the European version (EU) of the project will be generated."
+                },
+                "generateNTSC": {
+                    "title": "Generate NTSC Version",
+                    "description": "Determines whether the American version (US) of the project will be generated."
+                },
+                "generateJP": {
+                    "title": "Generate JP Version",
+                    "description": "Determines whether the Japanese version (JP) of the project will be generated."
+                },
+                "generateTW": {
+                    "title": "Generate TW Version",
+                    "description": "Determines whether the Taiwanese version (TW) of the project will be generated."
+                },
+                "generateKR": {
+                    "title": "Generate KR Version",
+                    "description": "Determines whether the Korean version (KR) of the project will be generated."
+                }
+            },
+            "QFileButton": {
+                "pattern": {
+                    "open":"Sparkamek > Open Project > %s",
+                    "edit":"Sparkamek > Edit Project > %s"
+                },
+                "kamekFile": "Kamek File",
+                "outputFolder": "Kamek Output Folder"
+            },
+            "QNamedLineEdit": {
+                "buildFolder": "Kamek Build Folder"
+            },
+            "QNamedToggleButton": {
+                "generatePAL": "Generate PAL Version (Required)",
+                "generateNTSC": "Generate NTSC Version",
+                "generateJP": "Generate JP Version",
+                "generateTW": "Generate TW Version",
+                "generateKR": "Generate KR Version"
+            }
+        },
+        "reggieNext": {
+            "QLabel": {
+                "title": "Reggie Next",
+                "reggieNextFolder": {
+                    "title": "Reggie Next Folder",
+                    "description": "The Reggie Next patch folder of the project, which contains the patch files (like \"spritedata.xml\", \"sprites.py\", etc.)."
+                }
+            },
+            "QFileButton": {
+                "openReggieNextFolder": {
+                    "title": "Reggie Next Folder",
+                    "dialog": "Sparkamek > Open Project > Reggie Next Folder"
+                },
+                "editReggieNextFolder": {
+                    "title": "Reggie Next Folder",
+                    "dialog": "Sparkamek > Edit Project > Reggie Next Folder"
+                }
+            }
+        },
+        "riivolution": {
+            "QLabel": {
+                "title": "Riivolution",
+                "riivolutionFile": {
+                    "title": "Riivolution File",
+                    "description": "The Riivolution XML file of the project (usually named \"NewerSMBW.xml\")."
+                }
+            },
+            "QFileButton": {
+                "openRiivolutionFile": {
+                    "title": "Riivolution File",
+                    "dialog": "Sparkamek > Open Project > Riivolution File"
+                },
+                "editRiivolutionFile": {
+                    "title": "Riivolution File",
+                    "dialog": "Sparkamek > Edit Project > Riivolution File"
+                }
+            }
+        }
+    }
+}

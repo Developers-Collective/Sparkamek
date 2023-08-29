@@ -1,0 +1,137 @@
+{
+    "title": "Sparkamek > Paramètres",
+    "QSidePanel": {
+        "appearance": {
+            "title": "Apparence",
+            "QLabel": {
+                "language": {
+                    "title": "Langage",
+                    "description": "Sélectionnez un langage à afficher pour Sparkamek."
+                },
+                "theme": {
+                    "title": "Thème",
+                    "description": "Sélectionnez un thème à afficher pour Sparkamek."
+                }
+            },
+            "QNamedComboBox": {
+                "language": "Langage",
+                "theme": "Thème",
+                "themeVariant": "Variante du Thème"
+            }
+        },
+        "updates": {
+            "title": "Mises à Jour",
+            "QLabel": {
+                "checkForUpdates": {
+                    "title": "Vérifier les Mises à Jour",
+                    "description": "Détermine la fréquence de vérification des mises à jour de Sparkamek."
+                }
+            },
+            "QNamedComboBox": {
+                "checkForUpdates": {
+                    "title": "Vérifier les Mises à Jour",
+                    "values": {
+                        "never": "Jamais",
+                        "daily": "Quotidienne",
+                        "weekly": "Hebdomadaire",
+                        "monthly": "Mensuelle",
+                        "atLaunch": "Au lancement"
+                    }
+                }
+            }
+        },
+        "interface": {
+            "title": "Interface",
+            "QLabel": {
+                "startAtLaunch": {
+                    "title": "Démarrer au Lancement",
+                    "description": "Détermine si Sparkamek démarre automatiquement au lancement de l'ordinateur."
+                },
+                "minimizeToTray": {
+                    "title": "Minimiser dans la Barre des Tâches",
+                    "description": "Détermine si Sparkamek est minimisé dans la barre des tâches au lieu d'être fermé."
+                },
+                "compactPaths": {
+                    "title": "Chemins Compacts",
+                    "description": "Détermine si Sparkamek compacte les chemins des applications dans la liste des installations."
+                }
+            },
+            "QNamedComboBox": {
+                "compactPaths": {
+                    "title": "Chemins Compacts",
+                    "values": {
+                        "auto": "Automatique",
+                        "disabled": "Désactivé",
+                        "enabled": "Activé"
+                    }
+                }
+            },
+            "QNamedToggleButton": {
+                "startAtLaunch": "Démarrer au Lancement",
+                "minimizeToTray": "Minimiser dans la Barre des Tâches"
+            }
+        },
+        "notification": {
+            "title": "Notification",
+            "QLabel": {
+                "goesToTray": {
+                    "title": "Notification de Minimisation dans la Barre des Tâches",
+                    "description": "Détermine si Sparkamek affiche une notification lorsqu'il est minimisé dans la barre des tâches."
+                }
+            },
+            "QNamedToggleButton": {
+                "goesToTray": "Minimiser dans la Barre des Tâches"
+            },
+            "QPushButton": {
+                "checkAll": "Tout Cocher",
+                "uncheckAll": "Tout Décocher",
+                "invertAll": "Inverser la Sélection"
+            }
+        },
+        "paths": {
+            "title": "Chemins",
+            "QLabel": {
+                "devkitPPCPath": {
+                    "title": "Chemin DevkitPPC",
+                    "description": "Le chemin du dossier <span style=\"font-weight: bold\">bin</span> de devkitPPC."
+                }
+            },
+            "QFileButton": {
+                "devkitPPCPath": {
+                    "title": "Chemin DevkitPPC",
+                    "dialog": "Sparkamek > Paramètres > Chemins > Chemin DevkitPPC"
+                }
+            }
+        },
+        "data": {
+            "title": "Données",
+            "QLabel": {
+                "clearData": {
+                    "title": "Effacer les Données",
+                    "description": "Efface toutes les données et redémarre l'application."
+                },
+                "importData": {
+                    "title": "Importer les Données",
+                    "description": "Importe des données à partir d'un fichier et redémarre l'application."
+                },
+                "exportData": {
+                    "title": "Exporter les Données",
+                    "description": "Exporte les données vers un fichier."
+                }
+            },
+            "QPushButton": {
+                "clearData": "Effacer les Données",
+                "importData": "Importer les Données",
+                "exportData": "Exporter les Données"
+            },
+            "QFileDialog": {
+                "importData": "Sparkamek > Paramètres > Données > Importer les Données",
+                "exportData": "Sparkamek > Paramètres > Données > Exporter les Données"
+            }
+        }
+    },
+    "QPushButton": {
+        "cancel": "Annuler",
+        "apply": "Appliquer"
+    }
+}
