@@ -1,8 +1,9 @@
 #----------------------------------------------------------------------
 
     # Libraries
+from interface import implements
 from data.lib.storage import XMLNode
-from .BaseSprite import BaseSprite
+from .IBaseSprite import IBaseSprite
 from .BaseItem import BaseItem
 from .Dependency import Dependency
 from .DualBox import DualBox
@@ -13,12 +14,10 @@ from .External import External
 #----------------------------------------------------------------------
 
     # Class
-class Sprite(BaseSprite):
+class Sprite(implements(IBaseSprite)):
     name: str = 'sprite'
 
     def __init__(self, data: XMLNode) -> None:
-        super().__init__(data)
-
         self.id = data.get_attribute('id', None)
         self.sprite_name = data.get_attribute('name', '')
         self.asmhacks = self._bool_filter(data.get_attribute('asmhacks', False))
@@ -49,8 +48,6 @@ class Sprite(BaseSprite):
         return True if value == 'True' else False if value == 'False' else bool(value)
 
     def export(self) -> XMLNode:
-        sup = super().export()
-
         return XMLNode(
             'sprite',
             (
@@ -63,9 +60,8 @@ class Sprite(BaseSprite):
                 ({'notes': self.notes} if self.notes else {}) |
                 ({'advancednotes': self.advancednotes} if self.advancednotes else {}) |
                 ({'phonebook': self.phonebook} if self.phonebook else {})
-            ) | sup.attributes,
-            sup.children + ([self.dependency.export()] if self.dependency else []) + [c.export() for c in self.children],
-            sup.value
+            ),
+            ([self.dependency.export()] if self.dependency else []) + [c.export() for c in self.children]
         )
 
     def copy(self) -> 'Sprite':

@@ -1,21 +1,18 @@
 #----------------------------------------------------------------------
 
     # Libraries
+from interface import Interface
 from data.lib.storage import XMLNode
 #----------------------------------------------------------------------
 
     # Class
-class BaseSprite:
-    def __init__(self, data: XMLNode) -> None:
-        pass
+class IBaseItem(Interface):
+    def __init__(self, data: XMLNode) -> None: pass
 
-    def export(self) -> XMLNode:
-        return XMLNode('sprite')
+    def export(self) -> XMLNode: pass
 
-    def copy(self) -> 'BaseSprite':
-        return BaseSprite(self.export())
+    def copy(self) -> 'IBaseItem': pass
 
     @staticmethod
-    def create() -> 'BaseSprite':
-        return BaseSprite(XMLNode('sprite'))
+    def create() -> 'IBaseItem': pass
 #----------------------------------------------------------------------

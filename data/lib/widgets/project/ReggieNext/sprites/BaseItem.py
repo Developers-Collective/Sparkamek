@@ -1,20 +1,18 @@
 #----------------------------------------------------------------------
 
     # Libraries
+from interface import implements
 from data.lib.storage import XMLNode
-from data.lib.widgets.project.ReggieNext.sprites.BaseSprite import BaseSprite
-from .BaseSprite import BaseSprite
+from .IBaseSprite import IBaseSprite
 from .NybbleRange import NybbleRange
 from .ReqNybble import ReqNybble
 #----------------------------------------------------------------------
 
     # Class
-class BaseItem(BaseSprite):
+class BaseItem(implements(IBaseSprite)):
     name: str = 'BaseItem'
 
     def __init__(self, data: XMLNode) -> None:
-        super().__init__(data)
-
         reqnybs = str(data.get_attribute('requirednybble', ''))
         requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
 
@@ -44,8 +42,6 @@ class BaseItem(BaseSprite):
         self.advancedcomment = data.get_attribute('advancedcomment', '')
 
     def export(self) -> XMLNode:
-        sup = super().export()
-
         return XMLNode(
             self.name,
             (
@@ -56,9 +52,7 @@ class BaseItem(BaseSprite):
                 ({'comment2': self.comment2} if self.comment2 else {}) |
                 ({'advanced': self.advanced} if self.advanced else {}) |
                 ({'advancedcomment': self.advancedcomment} if self.advancedcomment else {})
-            ) | sup.attributes,
-            sup.children,
-            sup.value
+            )
         )
 
     def copy(self) -> 'BaseItem':

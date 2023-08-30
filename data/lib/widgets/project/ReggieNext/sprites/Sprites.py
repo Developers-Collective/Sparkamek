@@ -1,15 +1,21 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.storage import XML
+from data.lib.storage import XML, XMLNode
 from .Sprite import Sprite
 #----------------------------------------------------------------------
 
     # Class
 class Sprites:
     def __init__(self, data: XML = None) -> None:
-        if data: self.children = [Sprite(c) for c in data.children]
-        else: self.children = []
+        self.children = []
+
+        if not data: return
+
+        node: XMLNode = data.root
+        if not node: return
+
+        self.children = [Sprite(c) for c in node.children]
 
     def __getitem__(self, index: int) -> Sprite:
         return self.children[index]
@@ -58,7 +64,9 @@ class Sprites:
 
     def export(self) -> XML:
         return XML(
-            'sprites',
-            [c.export() for c in self.children]
+            XMLNode(
+                'sprites',
+                children = [c.export() for c in self.children]
+            )
         )
 #----------------------------------------------------------------------

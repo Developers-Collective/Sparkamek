@@ -1,30 +1,25 @@
 #----------------------------------------------------------------------
 
     # Libraries
+from interface import implements
 from data.lib.storage import XMLNode
-from .BaseSprite import BaseSprite
+from .IBaseSprite import IBaseSprite
 #----------------------------------------------------------------------
 
     # Class
-class Suggested(BaseSprite):
+class Suggested(implements(IBaseSprite)):
     name: str = 'suggested'
 
     def __init__(self, data: XMLNode) -> None:
-        super().__init__(data)
-
         sprite = data.get_attribute('sprite')
         self.sprite: int = int(sprite) if sprite != '' and sprite is not None else None
 
     def export(self) -> XMLNode:
-        sup = super().export()
-
         return XMLNode(
             self.name,
             (
                 ({'sprite': self.sprite} if self.sprite is not None else {})
-            ) | sup.attributes,
-            sup.children,
-            sup.value
+            )
         ) if self.sprite is not None else None
 
     def copy(self) -> 'Suggested':

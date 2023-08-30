@@ -13,7 +13,7 @@ class CheckBox(BaseItem):
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
-        self.title = data.get_attribute('title', '')
+        self._title = data.get_attribute('title', '')
 
     def export(self) -> XMLNode:
         sup = super().export()
@@ -21,7 +21,7 @@ class CheckBox(BaseItem):
         return XMLNode(
             self.name,
             (
-                ({'title': self.title} if self.title else {})
+                ({'title': self._title} if self._title else {})
             ) | sup.attributes,
             sup.children,
             sup.value

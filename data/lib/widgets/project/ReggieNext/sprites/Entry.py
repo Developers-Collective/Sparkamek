@@ -12,8 +12,8 @@ class Entry(BaseItem):
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
-        self.value = int(data.get_attribute('value', '0'))
-        self.item = data.value
+        self._value = int(data.get_attribute('value', '0'))
+        self._item = data.value
 
     def export(self) -> XMLNode:
         sup = super().export()
@@ -21,10 +21,10 @@ class Entry(BaseItem):
         return XMLNode(
             self.name,
             (
-                ({'value': self.value} if self.value is not None else {})
+                ({'value': self._value} if self._value is not None else {})
             ) | sup.attributes,
             sup.children,
-            self.item
+            self._item
         )
 
     def copy(self) -> 'Entry':
