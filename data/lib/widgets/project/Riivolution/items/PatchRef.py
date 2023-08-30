@@ -4,7 +4,6 @@
 from interface import implements
 from data.lib.storage import XMLNode
 from .IBaseItem import IBaseItem
-from .PatchRef import PatchRef
 #----------------------------------------------------------------------
 
     # Class

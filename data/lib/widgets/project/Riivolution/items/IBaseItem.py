@@ -7,7 +7,7 @@ from data.lib.storage import XMLNode
 
     # Class
 class IBaseItem(Interface):
-    def __init__(self, data: XMLNode) -> None: pass
+    def __init__(self, data: XMLNode = None) -> None: pass
 
     def export(self) -> XMLNode: pass
 
