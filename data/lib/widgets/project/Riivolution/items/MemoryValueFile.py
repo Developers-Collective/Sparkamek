@@ -15,13 +15,15 @@ class MemoryValueFile(implements(IBaseItem)):
 
         self.offset: int = data.get_attribute('offset', 0) # Required
         self.valuefile: str = data.get_attribute('valuefile', '') # Required
+        self.comment: str = data.get_attribute('comment', '') # Optional
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
             (
                 {'offset': self.offset} |
-                {('valuefile'): self.valuefile}
+                {('valuefile'): self.valuefile} |
+                ({'comment': self.comment} if self.comment else {})
             )
         )
 

@@ -13,9 +13,10 @@ class MemorySearchValue(implements(IBaseItem)):
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.original: str = data.get_attribute('original', '') # Required
-        self.value: str = data.get_attribute('value', '') # Required
+        self.original: str = str(data.get_attribute('original', '')) # Required
+        self.value: str = str(data.get_attribute('value', '')) # Required
         self.align: int = data.get_attribute('align', 1) # Optional
+        self.comment: str = data.get_attribute('comment', '') # Optional
 
     def export(self) -> XMLNode:
         return XMLNode(
@@ -24,7 +25,8 @@ class MemorySearchValue(implements(IBaseItem)):
                 {'original': self.original} |
                 {('value'): self.value} |
                 ({'align': self.align} if self.align != 1 else {}) |
-                {'search': True}
+                {'search': True} |
+                ({'comment': self.comment} if self.comment else {})
             )
         )
 

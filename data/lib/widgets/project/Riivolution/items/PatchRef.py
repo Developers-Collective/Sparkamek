@@ -4,32 +4,28 @@
 from interface import implements
 from data.lib.storage import XMLNode
 from .IBaseItem import IBaseItem
+from .PatchRef import PatchRef
 #----------------------------------------------------------------------
 
     # Class
-class MemoryOcarina(implements(IBaseItem)):
-    name: str = 'memory'
+class PatchRef(implements(IBaseItem)):
+    name: str = 'patch'
 
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.offset: int = data.get_attribute('offset', 0) # Required
-        self.value: str = str(data.get_attribute('value', '')) # Required
+        self.id: str = data.get_attribute('id', 'patchid') # Required
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
-            (
-                {'offset': self.offset} |
-                {('value'): self.value} |
-                {'ocarina': True}
-            )
+            {'id': self.id}
         )
 
-    def copy(self) -> 'MemoryOcarina':
-        return MemoryOcarina(self.export())
+    def copy(self) -> 'PatchRef':
+        return PatchRef(self.export())
 
     @staticmethod
-    def create() -> 'MemoryOcarina':
-        return MemoryOcarina(XMLNode(MemoryOcarina.name))
+    def create() -> 'PatchRef':
+        return PatchRef(XMLNode(PatchRef.name))
 #----------------------------------------------------------------------

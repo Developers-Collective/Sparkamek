@@ -18,7 +18,7 @@ class ID(implements(IBaseItem)):
         self.developer: str = data.get_attribute('developer', '') # Optional
         self.disc: int = int(data.get_attribute('disc', None)) # Optional
         self.version: int = int(data.get_attribute('version', 0)) # Optional
-        self.regions: list[Region] = [Region(child) for child in data.get_children('region')]
+        self.region_children: list[Region] = [Region(child) for child in data.get_children(Region.name)]
 
     def export(self) -> XMLNode:
         return XMLNode(
@@ -29,7 +29,7 @@ class ID(implements(IBaseItem)):
                 ({'disc': self.disc} if self.disc != None else {}) |
                 ({'version': self.version} if self.version != None else {})
             ),
-            ([r.export() for r in self.regions] if self.regions else [])
+            ([r.export() for r in self.region_children] if self.region_children else [])
         )
 
     def copy(self) -> 'ID':

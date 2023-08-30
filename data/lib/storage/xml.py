@@ -102,14 +102,23 @@ class XMLNode:
 
 
     @staticmethod
-    def _convert(val):
+    def _convert(val: str) -> int | float | str:
+        if val.startswith('0x'):
+            try: return int(val, 16)
+            except ValueError: pass
+
+        if val.startswith('0b'):
+            try: return int(val, 2)
+            except ValueError: pass
+
+        if val.startswith('0o'):
+            try: return int(val, 8)
+            except ValueError: pass
+
         constructors = [int, float, str]
         for c in constructors:
-            try:
-                return c(val)
-
-            except ValueError:
-                pass
+            try: return c(val)
+            except ValueError: pass
 
 
 

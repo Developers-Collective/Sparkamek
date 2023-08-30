@@ -14,8 +14,9 @@ class MemoryValue(implements(IBaseItem)):
         if not data: data = self.create().export()
 
         self.offset: int = data.get_attribute('offset', 0) # Required
-        self.value: str = data.get_attribute('value', '') # Required
-        self.original: str = data.get_attribute('original', '') # Optional
+        self.value: str = str(data.get_attribute('value', '')) # Required
+        self.original: str = str(data.get_attribute('original', '')) # Optional
+        self.comment: str = data.get_attribute('comment', '') # Optional
 
     def export(self) -> XMLNode:
         return XMLNode(
@@ -23,7 +24,8 @@ class MemoryValue(implements(IBaseItem)):
             (
                 {'offset': self.offset} |
                 {('value'): self.value} |
-                ({'original': self.original} if self.original else {})
+                ({'original': self.original} if self.original else {}) |
+                ({'comment': self.comment} if self.comment else {})
             )
         )
 

@@ -4,32 +4,31 @@
 from interface import implements
 from data.lib.storage import XMLNode
 from .IBaseItem import IBaseItem
+from .Option import Option
 #----------------------------------------------------------------------
 
     # Class
-class MemoryOcarina(implements(IBaseItem)):
-    name: str = 'memory'
+class Section(implements(IBaseItem)):
+    name: str = 'section'
 
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.offset: int = data.get_attribute('offset', 0) # Required
-        self.value: str = str(data.get_attribute('value', '')) # Required
+        self.name: str = data.get_attribute('name', 'Section Name') # Required
+
+        self.option_children: list[Option] = data.get_children(Option.name)
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
-            (
-                {'offset': self.offset} |
-                {('value'): self.value} |
-                {'ocarina': True}
-            )
+            {'name': self.name},
+            [p.export() for p in self.option_children]
         )
 
-    def copy(self) -> 'MemoryOcarina':
-        return MemoryOcarina(self.export())
+    def copy(self) -> 'Section':
+        return Section(self.export())
 
     @staticmethod
-    def create() -> 'MemoryOcarina':
-        return MemoryOcarina(XMLNode(MemoryOcarina.name))
+    def create() -> 'Section':
+        return Section(XMLNode(Section.name))
 #----------------------------------------------------------------------

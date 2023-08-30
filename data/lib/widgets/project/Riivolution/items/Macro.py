@@ -4,32 +4,35 @@
 from interface import implements
 from data.lib.storage import XMLNode
 from .IBaseItem import IBaseItem
+from .Param import Param
 #----------------------------------------------------------------------
 
     # Class
-class MemoryOcarina(implements(IBaseItem)):
-    name: str = 'memory'
+class Macro(implements(IBaseItem)):
+    name: str = 'macro'
 
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.offset: int = data.get_attribute('offset', 0) # Required
-        self.value: str = str(data.get_attribute('value', '')) # Required
+        self.id = data.get_attribute('id', 'optionid') # Required
+        self.name = data.get_attribute('name', 'Option Name') # Required
+
+        self.param_children: list[Param] = data.get_children(Param.name)
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
             (
-                {'offset': self.offset} |
-                {('value'): self.value} |
-                {'ocarina': True}
-            )
+                {'id': self.id} |
+                {'name': self.name}
+            ),
+            [p.export() for p in self.param_children]
         )
 
-    def copy(self) -> 'MemoryOcarina':
-        return MemoryOcarina(self.export())
+    def copy(self) -> 'Macro':
+        return Macro(self.export())
 
     @staticmethod
-    def create() -> 'MemoryOcarina':
-        return MemoryOcarina(XMLNode(MemoryOcarina.name))
+    def create() -> 'Macro':
+        return Macro(XMLNode(Macro.name))
 #----------------------------------------------------------------------
