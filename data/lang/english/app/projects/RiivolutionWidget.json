@@ -1,0 +1,7 @@
+{
+    "QPushButton": {
+        "load": "Load",
+        "save": "Save"
+    },
+    "WiiDiscWidget": "#ref: app/projects/RiivolutionWidget/WiiDiscWidget"
+}

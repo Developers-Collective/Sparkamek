@@ -115,6 +115,9 @@ class XMLNode:
             try: return int(val, 8)
             except ValueError: pass
 
+        if val.lower() == 'true': return True
+        if val.lower() == 'false': return False
+
         constructors = [int, float, str]
         for c in constructors:
             try: return c(val)

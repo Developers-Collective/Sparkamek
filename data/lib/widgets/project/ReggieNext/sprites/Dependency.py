@@ -13,7 +13,7 @@ class Dependency(implements(IBaseSprite)):
     name: str = 'dependency'
 
     def __init__(self, data: XMLNode) -> None:
-        self._suggested = [Suggested(s) for s in data.get_children('suggested')]
+        self.suggested = [Suggested(s) for s in data.get_children('suggested')]
         self.required = [Required(r) for r in data.get_children('required')]
 
         self.notes: str = data.get_attribute('notes', '')
@@ -24,8 +24,8 @@ class Dependency(implements(IBaseSprite)):
             (
                 ({'notes': self.notes} if self.notes else {})
             ),
-            [s.export() for s in self._suggested if s.export()] + [r.export() for r in self.required if r.export()]
-        ) if self._suggested or self.required else None
+            [s.export() for s in self.suggested if s.export()] + [r.export() for r in self.required if r.export()]
+        ) if self.suggested or self.required else None
 
     def copy(self) -> 'Dependency':
         return Dependency(self.export())

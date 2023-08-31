@@ -1,0 +1,18 @@
+{
+    "title": "%s Kamek Compiler",
+    "QPushButton": {
+        "compile": "Compile",
+        "stop": "Stop Compilation"
+    },
+    "QNamedToggleButton": {
+        "showCompleteLogs": "Show Complete Logs"
+    },
+    "QNamedTextBrowser": {
+        "simpleLogs": "Simple Logs",
+        "completeLogs": "Complete Logs",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info",
+        "success": "Success"
+    }
+}

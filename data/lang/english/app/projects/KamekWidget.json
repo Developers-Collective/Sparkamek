@@ -1,0 +1,32 @@
+{
+    "QLabel": {
+        "spritesAndActors": "Sprites and Actors"
+    },
+    "QBetterListWidget": {
+        "actorName": "Actor Name",
+        "actorID": "Actor ID",
+        "spriteID": "Sprite ID",
+        "replaceOrNew": "Replace or New",
+        "replace": "Replace",
+        "new": "New"
+    },
+    "QNamedToggleButton": {
+        "caseSensitive": "Case Sensitive"
+    },
+    "QIconLineEdit": {
+        "search": "Search..."
+    },
+    "QNamedComboBox": {
+        "searchBy": {
+            "title": "Search By",
+            "values": {
+                "actorName": "Actor Name",
+                "actorID": "Actor ID",
+                "spriteID": "Sprite ID",
+                "replaceOrNew": "Replace or New"
+            }
+        }
+    },
+    "CompilerDockWidget": "#ref: app/projects/KamekWidget/CompilerDockWidget",
+    "SymbolsDockWidget": "#ref: app/projects/KamekWidget/SymbolsDockWidget"
+}

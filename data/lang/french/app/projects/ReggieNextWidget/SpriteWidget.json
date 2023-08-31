@@ -1,0 +1,116 @@
+{
+    "QLabel": {
+        "generalInfo": "Informations Générales",
+        "dependencies": "Dépendances",
+        "required": "Requis",
+        "suggested": "Suggérés",
+        "settings": "Paramètres",
+        "usedSettings": "Paramètres Utilisés: %s"
+    },
+    "QPushButton": {
+        "addEntry": "Ajouter une Entrée"
+    },
+    "QNamedSpinBox": {
+        "spriteID": "ID du Sprite"
+    },
+    "QNamedLineEdit": {
+        "name": "Nom"
+    },
+    "QNamedTextEdit": {
+        "notes": "Notes",
+        "yoshinotes": "Notes Yoshi",
+        "advancednotes": "Notes Avancées"
+    },
+    "QNamedToggleButton": {
+        "asmhacks": "Support des ASM Hacks",
+        "sizehacks": "Support des Hacks de Taille",
+        "noyoshi": "Ne Supporte pas Yoshi"
+    },
+    "DependencyDataItem": {
+        "QNamedSpinBox": {
+            "spriteID": "ID du Sprite"
+        }
+    },
+    "QMenu": {
+        "addEntry": {
+            "QAction": {
+                "addDualBox": "Ajouter un Choix Unique / Boutons Radio",
+                "addCheckbox": "Ajouter une Case à Cocher",
+                "addValue": "Ajouter une Valeur Saisie",
+                "addList": "Ajouter une Liste Déroulante",
+                "addExternal": "Ajouter un Sélecteur de Données d'un Fichier (External)"
+            }
+        }
+    },
+    "BaseItemData": {
+        "QLabel": {
+            "nybbleRange": "%s à %s",
+            "nybbles": "Nybble(s): %s",
+            "settings": "Paramètres: %s",
+            "nybbleTitle": "Nybbles",
+            "propertyTitle": "Autres Propriétés",
+            "requiredNybbles": "Nybble(s) Requis: %s",
+            "requiredNybbleValue": "%s → %s"
+        },
+        "QNamedTextEdit": {
+            "comment": "Commentaire",
+            "comment2": "Commentaire 2",
+            "advancedcomment": "Commentaire Avancé"
+        },
+        "QNamedToggleButton": {
+            "advanced": "Avancé"
+        }
+    },
+    "NybbleData": {
+        "QNamedComboBox": {
+            "firstNybble": "Premier Nybble",
+            "firstNybbleBit": "Premier Nybble Bit",
+            "lastNybble": "Dernier Nybble",
+            "lastNybbleBit": "Dernier Nybble Bit"
+        }
+    },
+    "ReqNybbleData": {
+        "QLabel": {
+            "title": "Nybble(s) Requis / Valeur(s) Requise(s)"
+        },
+        "ReqNybbleDataItem": {
+            "QNamedSpinBox": {
+                "fromValue": "De la Valeur",
+                "toValue": "À la Valeur"
+            }
+        }
+    },
+    "DualBoxData": {
+        "QNamedLineEdit": {
+            "title1": "Titre 1 (Valeur = 0)",
+            "title2": "Titre 2 (Valeur = 1)"
+        }
+    },
+    "ValueData": {
+        "QNamedLineEdit": {
+            "title": "Titre",
+            "idtype": "Collection d'ID"
+        }
+    },
+    "CheckBoxData": {
+        "QNamedLineEdit": {
+            "title": "Titre"
+        },
+        "ListData": {
+            "QNamedLineEdit": {
+                "title": "Titre"
+            },
+            "QPushButton": {
+                "add": "Ajouter une Entrée"
+            },
+            "EntryListItem": {
+                "QNamedSpinBox": {
+                    "value": "Valeur"
+                },
+                "QNamedLineEdit": {
+                    "item": "Entrée"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "title": "%s Symbols",
+    "QIconLineEdit": {
+        "search": "Search..."
+    },
+    "QBetterListWidget": {
+        "address": "Address",
+        "name": "Nice Name",
+        "raw": "Raw Name"
+    },
+    "QNamedToggleButton": {
+        "caseSensitive": "Case Sensitive"
+    },
+    "QNamedComboBox": {
+        "searchBy": {
+            "title": "Search By",
+            "values": {
+                "address": "Address",
+                "name": "Nice Name",
+                "raw": "Raw Name"
+            }
+        }
+    }
+}

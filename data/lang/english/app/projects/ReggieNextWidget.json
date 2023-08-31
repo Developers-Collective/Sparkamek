@@ -1,0 +1,18 @@
+{
+    "type": {
+        "dualbox": "Dual Box / Radio Buttons",
+        "checkbox": "Checkbox",
+        "value": "Entry Value",
+        "list": "Drop Down List",
+        "external": "Value Selector from a File (External)"
+    },
+    "QPushButton": {
+        "clear": "Clear",
+        "reset": "Reset",
+        "create": "Create a New Sprite",
+        "delete": "Delete Selected Sprite"
+    },
+    "SpriteListDockWidget": "#ref: app/projects/ReggieNextWidget/SpriteListDockWidget",
+    "SpriteWidget": "#ref: app/projects/ReggieNextWidget/SpriteWidget",
+    "ItemDataPropertyDockWidget": "#ref: app/projects/ReggieNextWidget/ItemDataPropertyDockWidget"
+}

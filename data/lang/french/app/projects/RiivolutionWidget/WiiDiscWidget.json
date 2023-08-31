@@ -1,0 +1,11 @@
+{
+    "QLabel": {
+        "generalInfo": "Informations générales"
+    },
+    "QNamedLineEdit": {
+        "root": "Racine"
+    },
+    "QNamedSpinBox": {
+        "version": "Version"
+    }
+}

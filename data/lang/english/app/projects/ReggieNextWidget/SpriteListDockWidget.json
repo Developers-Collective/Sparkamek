@@ -1,0 +1,14 @@
+{
+    "title": "%s Sprite List",
+    "QBetterListWidget": {
+        "spriteID": "Sprite ID",
+        "name": "Name"
+    },
+    "QIconLineEdit": {
+        "search": "Search..."
+    },
+    "QPushButton": {
+        "load": "Load",
+        "save": "Save"
+    }
+}
