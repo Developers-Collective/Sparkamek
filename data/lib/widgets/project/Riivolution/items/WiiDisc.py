@@ -5,6 +5,7 @@ from data.lib.storage import XML, XMLNode
 from .ID import ID
 from .Options import Options
 from .Patch import Patch
+from .Network import Network
 #----------------------------------------------------------------------
 
     # Class
@@ -24,6 +25,9 @@ class WiiDisc: # Doc at https://riivolution.github.io/wiki/Patch_Format/
         self.options = Options(node.get_first_child('options'))
         self.patch = Patch(node.get_first_child('patch'))
 
+        network = node.get_first_child('network')
+        self.network = Network(network) if network else None # Optional
+
     def export(self) -> XML:
         return XML(
             XMLNode(
@@ -38,7 +42,7 @@ class WiiDisc: # Doc at https://riivolution.github.io/wiki/Patch_Format/
                     self.id.export(),
                     self.options.export(),
                     self.patch.export()
-                ]
+                ] + ([self.network.export()] if self.network else [])
             )
         )
 

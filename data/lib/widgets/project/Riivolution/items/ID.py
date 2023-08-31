@@ -37,5 +37,5 @@ class ID(implements(IBaseItem)):
 
     @staticmethod
     def create() -> 'ID':
-        return ID(XMLNode(ID.name, attributes = {'game': 'NSMBW'}))
+        return ID(XMLNode(ID.name))
 #----------------------------------------------------------------------
