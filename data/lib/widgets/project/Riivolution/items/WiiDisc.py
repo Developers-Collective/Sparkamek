@@ -9,7 +9,7 @@ from .Network import Network
 #----------------------------------------------------------------------
 
     # Class
-class WiiDisc: # Doc at https://riivolution.github.io/wiki/Patch_Format/
+class WiiDisc: # Doc at https://riivolution.github.io/wiki/Patch_Format/ & https://riivolution.github.io/wiki/RiiFS/
     def __init__(self, data: XML = None) -> None:
         if not data: data = self.create().export()
 
