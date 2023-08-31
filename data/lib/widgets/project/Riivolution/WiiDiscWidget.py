@@ -49,11 +49,11 @@ class WiiDiscWidget(QGridWidget):
         self._top_info_widget.grid_layout.addWidget(label, 0, 0, 1, 2)
 
         self._root_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.root'))
-        self._root_lineedit.line_edit.textChanged.connect(self._send_data)
+        self._root_lineedit.line_edit.textChanged.connect(self._root_changed)
         self._top_info_widget.grid_layout.addWidget(self._root_lineedit, 1, 0)
 
         self._version_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.version'))
-        self._version_spinbox.spin_box.valueChanged.connect(self._send_data)
+        self._version_spinbox.spin_box.valueChanged.connect(self._version_changed)
         self._version_spinbox.setRange(1, 1)
         self._version_spinbox.setValue(1)
         self._version_spinbox.setProperty('wide', True)
@@ -77,6 +77,18 @@ class WiiDiscWidget(QGridWidget):
 
         self._disable_send = False
 
+
+    def _version_changed(self, value: int) -> None:
+        if self._disable_send: return
+        self._wiidisc.version = value
+        self._send_data()
+
+    def _root_changed(self, text: str) -> None:
+        if self._disable_send: return
+        if text != '' and not text.startswith('/'): text = f'/{text}'
+        self._wiidisc.root = text
+        self._root_lineedit.setText(text)
+        self._send_data()
 
     def _send_data(self, *args) -> None:
         pass

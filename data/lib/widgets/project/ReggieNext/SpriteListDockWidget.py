@@ -187,7 +187,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
     def update_sprite(self, prev_info: tuple[int, str], sprite: Sprite) -> None:
-        if prev_info[0] == sprite.id:
+        if prev_info[0] == sprite.id and prev_info[1] == sprite.sprite_name:
             if self._sprites.get_by_id(prev_info[0]):
                 self._sprites.replace_by_id(prev_info[0], sprite)
 

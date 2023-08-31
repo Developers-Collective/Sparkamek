@@ -59,14 +59,14 @@ class SpriteWidget(QGridWidget):
         self._top_info_widget.grid_layout.addWidget(label, 0, 0, 1, 2)
 
         self._id_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.spriteID'))
-        self._id_spinbox.spin_box.valueChanged.connect(self._send_data)
+        self._id_spinbox.spin_box.valueChanged.connect(self._id_changed)
         self._id_spinbox.setRange(0, 2147483647) # profileID is u32 (2^32 - 1) but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 2^31 sprites lmao
         self._id_spinbox.setValue(0)
         self._id_spinbox.setProperty('wide', True)
         self._top_info_widget.grid_layout.addWidget(self._id_spinbox, 1, 0)
 
         self._name_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.name'))
-        self._name_lineedit.line_edit.textChanged.connect(self._send_data)
+        self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
         self._top_info_widget.grid_layout.addWidget(self._name_lineedit, 1, 1)
 
         self._used_settings_label = QLabel()
@@ -393,6 +393,16 @@ class SpriteWidget(QGridWidget):
 
         sender.set_checked(checked)
         self.property_entry_selected.emit(widget)
+
+    def _id_changed(self, value: int) -> None:
+        if self._sprite is None: return
+        self._sprite.id = value
+        self._send_data()
+
+    def _name_changed(self, text: str) -> None:
+        if self._sprite is None or not text: return
+        self._sprite.sprite_name = text
+        self._send_data()
 
     def _asmhacks_changed(self, state: bool) -> None:
         if self._sprite is None: return
