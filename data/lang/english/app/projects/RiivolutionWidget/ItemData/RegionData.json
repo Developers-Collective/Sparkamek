@@ -1,5 +1,10 @@
 {
     "QLabel": {
         "type": "Type: %s"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "type": "Type"
+        }
     }
 }

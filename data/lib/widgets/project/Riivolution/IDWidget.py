@@ -39,24 +39,47 @@ class IDWidget(QGridWidget):
         self._disable_send = True
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.grid_layout.setSpacing(8)
+        self.grid_layout.setSpacing(16)
 
-        label = QLabel(self._lang.get_data('QLabel.ID'))
+
+        frame = QGridWidget()
+        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame.grid_layout.setSpacing(8)
+        self.grid_layout.addWidget(frame, 0, 0)
+
+        label = QLabel(self._lang.get_data('QLabel.gameProperties'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        self.grid_layout.addWidget(label, 0, 0)
+        frame.grid_layout.addWidget(label, 0, 0)
+
+        self._game_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.game'))
+        self._game_lineedit.setToolTip(self._lang.get_data('QToolTip.game'))
+        self._game_lineedit.line_edit.textChanged.connect(self._game_changed)
+        frame.grid_layout.addWidget(self._game_lineedit, 1, 0)
+
+
+        frame = QGridWidget()
+        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame.grid_layout.setSpacing(8)
+        self.grid_layout.addWidget(frame, 1, 0)
+
+        label = QLabel(self._lang.get_data('QLabel.regions'))
+        label.setProperty('h', 2)
+        label.setProperty('small', True)
+        frame.grid_layout.addWidget(label, 2, 0)
 
         self._region_draglist = QDragList(None, Qt.Orientation.Vertical)
         self._region_draglist.moved.connect(self._region_entry_moved)
-        self.grid_layout.addWidget(self._region_draglist, 1, 0)
+        frame.grid_layout.addWidget(self._region_draglist, 3, 0)
 
         self._add_region_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
         self._add_region_entry_button.setIcon(self._add_entry_icon)
         self._add_region_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_region_entry_button.setProperty('color', 'main')
         self._add_region_entry_button.clicked.connect(self._add_region_entry)
-        self.grid_layout.addWidget(self._add_region_entry_button, 2, 0)
+        frame.grid_layout.addWidget(self._add_region_entry_button, 4, 0)
         self._add_region_entry_button.setEnabled(False)
+
 
         self._id: ID = None
 
@@ -107,6 +130,12 @@ class IDWidget(QGridWidget):
 
         self._id.region_children.remove(item.data)
         item.deleteLater()
+
+        self.property_entry_selected.emit(None)
+
+        for item in self._region_draglist.items:
+            item.set_checked(False)
+
         self._send_data()
 
     def _entry_selected(self, sender: RegionData, widget: QGridWidget | None) -> None:
@@ -121,4 +150,11 @@ class IDWidget(QGridWidget):
 
     def _send_data(self, *args) -> None:
         self.data_changed.emit()
+
+
+    def _game_changed(self, text: str) -> None:
+        if self._disable_send: return
+
+        self._id.game = text
+        self._send_data()
 #----------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton
+from PySide6.QtWidgets import QPushButton, QDockWidget
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData
@@ -9,6 +9,7 @@ from data.lib.widgets.ProjectKeys import ProjectKeys
 from data.lib.storage.xml import XML
 from .WiiDiscWidget import WiiDiscWidget
 from .items import WiiDisc
+from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 #----------------------------------------------------------------------
 
     # Class
@@ -31,6 +32,15 @@ class RiivolutionWidget(SubProjectWidgetBase):
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
+
+        self.scroll_layout.setSpacing(20)
+
+        dockwidgets = data.get('dockwidgets', {})
+
+        self._item_data_property_dock_widget = ItemDataPropertyDockWidget(app, name, icon, data)
+
+        if 'itemDataProperty' in dockwidgets: self._item_data_property_dock_widget.load_dict(self, dockwidgets['itemDataProperty'])
+        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._item_data_property_dock_widget)
 
         topframe = QGridWidget()
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
@@ -55,13 +65,41 @@ class RiivolutionWidget(SubProjectWidgetBase):
 
 
         self._wii_disc_widget = WiiDiscWidget(self._path)
+        self._wii_disc_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
         self._wii_disc_widget.setDisabled(True)
         self._root.scroll_layout.addWidget(self._wii_disc_widget, 1, 0)
+
+
+    @property
+    def task_is_running(self) -> bool:
+        return False
+
+
+    def _save_dock_widgets(self) -> dict:
+        dockwidgets = {}
+
+        for dw in self.findChildren(QDockWidget):
+            dockwidgets[dw.objectName()] = dw.to_dict()
+
+        return dockwidgets
+
+
+    def reset_dock_widgets(self) -> None:
+        for dw in [self._item_data_property_dock_widget]:
+            dw.setVisible(True)
+            dw.setFloating(False)
+
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._item_data_property_dock_widget)
+
+
+    def export(self) -> dict:
+        return super().export()
 
 
     def _load(self) -> None:
         self._wii_disc_widget.wiidisc = WiiDisc(XML.parse_file(self._path))
         self._wii_disc_widget.setDisabled(False)
+        self._item_data_property_dock_widget.set_widget(None)
 
     def _save(self) -> None:
         pass

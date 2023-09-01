@@ -136,6 +136,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
             dw.setFloating(False)
 
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._sprite_list_dock_widget)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._item_data_property_dock_widget)
 
 
     def export(self) -> dict:

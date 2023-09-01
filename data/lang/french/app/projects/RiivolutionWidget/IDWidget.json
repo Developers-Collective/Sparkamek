@@ -1,9 +1,16 @@
 {
     "QLabel": {
-        "ID": "ID"
+        "gameProperties": "Propriétés du jeu",
+        "regions": "Régions"
+    },
+    "QNamedLineEdit": {
+        "game": "ID du Disque de Jeu"
     },
     "QPushButton": {
         "addEntry": "Ajouter une entrée"
+    },
+    "QToolTip": {
+        "game": "L'ID du disque du jeu (Jusqu'à trois caractères).\nPar exemple, l'ID du disque de New Super Mario Bros. Wii est \"SMN\"."
     },
     "RegionData": "#ref: app/projects/RiivolutionWidget/ItemData/RegionData"
 }

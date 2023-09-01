@@ -3,5 +3,6 @@
         "load": "Charger",
         "save": "Sauvegarder"
     },
-    "WiiDiscWidget": "#ref: app/projects/RiivolutionWidget/WiiDiscWidget"
+    "WiiDiscWidget": "#ref: app/projects/RiivolutionWidget/WiiDiscWidget",
+    "ItemDataPropertyDockWidget": "#ref: app/projects/RiivolutionWidget/ItemDataPropertyDockWidget"
 }

@@ -1,14 +1,14 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton, QLabel, QMenu
-from PySide6.QtCore import Qt, Signal, QPoint
-from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
+from PySide6.QtWidgets import QLabel
+from PySide6.QtCore import Signal
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragListItem, QNamedLineEdit, QNamedSpinBox
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import WiiDisc
 from .IDWidget import IDWidget
 from .itemdata.BaseItemData import BaseItemData
+from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 #----------------------------------------------------------------------
 
     # Class
@@ -16,6 +16,8 @@ class WiiDiscWidget(QGridWidget):
     type: ProjectKeys = ProjectKeys.ReggieNext
 
     _app: QBaseApplication = None
+
+    property_entry_selected = Signal(QGridWidget or None)
 
     _add_entry_icon = None
     _add_item_entry_icon = None
@@ -28,6 +30,8 @@ class WiiDiscWidget(QGridWidget):
         WiiDiscWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget')
         WiiDiscWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
         WiiDiscWidget._add_item_entry_icon = app.get_icon('popup/addItem.png', True, QSaveData.IconMode.Local)
+
+        ItemDataPropertyDockWidget.init(app)
 
         BaseItemData.init(app)
         IDWidget.init(app)
@@ -66,7 +70,7 @@ class WiiDiscWidget(QGridWidget):
 
         self._id_widget = IDWidget(path)
         self._id_widget.data_changed.connect(self._send_data)
-        # self._id_widget.property_entry_selected.connect(self._property_entry_selected)
+        self._id_widget.property_entry_selected.connect(self._id_property_entry_selected)
         self.grid_layout.addWidget(self._id_widget, 1, 0)
 
         self._wiidisc: WiiDisc = None
@@ -104,4 +108,9 @@ class WiiDiscWidget(QGridWidget):
 
     def _send_data(self, *args) -> None:
         pass
+
+    def _id_property_entry_selected(self, widget: QGridWidget or None) -> None:
+        self.property_entry_selected.emit(widget)
+
+        # todo: unselect all other widgets
 #----------------------------------------------------------------------

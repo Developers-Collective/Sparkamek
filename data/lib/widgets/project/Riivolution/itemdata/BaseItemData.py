@@ -93,6 +93,7 @@ class BaseItemData(QDragListItem):
 
 
         self._property_frame = QGridWidget()
+        self._property_frame.type = self.type
         self._property_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
         self._property_frame.grid_layout.setSpacing(20)
 
