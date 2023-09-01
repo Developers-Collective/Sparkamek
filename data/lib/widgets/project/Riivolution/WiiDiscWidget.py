@@ -7,6 +7,8 @@ from PySide6.QtGui import QAction
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import WiiDisc
+from .IDWidget import IDWidget
+from .itemdata.BaseItemData import BaseItemData
 #----------------------------------------------------------------------
 
     # Class
@@ -26,6 +28,9 @@ class WiiDiscWidget(QGridWidget):
         WiiDiscWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget')
         WiiDiscWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
         WiiDiscWidget._add_item_entry_icon = app.get_icon('popup/addItem.png', True, QSaveData.IconMode.Local)
+
+        BaseItemData.init(app)
+        IDWidget.init(app)
 
     def __init__(self, path: str) -> None:
         super().__init__()
@@ -59,6 +64,11 @@ class WiiDiscWidget(QGridWidget):
         self._version_spinbox.setProperty('wide', True)
         self._top_info_widget.grid_layout.addWidget(self._version_spinbox, 1, 1)
 
+        self._id_widget = IDWidget(path)
+        self._id_widget.data_changed.connect(self._send_data)
+        # self._id_widget.property_entry_selected.connect(self._property_entry_selected)
+        self.grid_layout.addWidget(self._id_widget, 1, 0)
+
         self._wiidisc: WiiDisc = None
 
 
@@ -72,8 +82,10 @@ class WiiDiscWidget(QGridWidget):
 
         self._disable_send = True
 
-        self._version_spinbox.setValue(self._wiidisc.version)
-        self._root_lineedit.setText(self._wiidisc.root)
+        self._version_spinbox.setValue(self._wiidisc.version if self._wiidisc else 1)
+        self._root_lineedit.setText(self._wiidisc.root if self._wiidisc else '')
+
+        self._id_widget.id = self._wiidisc.id if self._wiidisc else None
 
         self._disable_send = False
 

@@ -1,0 +1,9 @@
+{
+    "QLabel": {
+        "ID": "ID"
+    },
+    "QPushButton": {
+        "addEntry": "Ajouter une entrée"
+    },
+    "RegionData": "#ref: app/projects/RiivolutionWidget/ItemData/RegionData"
+}

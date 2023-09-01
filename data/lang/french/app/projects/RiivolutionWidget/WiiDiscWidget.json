@@ -7,5 +7,8 @@
     },
     "QNamedSpinBox": {
         "version": "Version"
-    }
+    },
+    "IDWidget": "#ref: app/projects/RiivolutionWidget/IDWidget",
+    "OptionsWidget": "#ref: app/projects/RiivolutionWidget/OptionsWidget",
+    "PatchWidget": "#ref: app/projects/RiivolutionWidget/PatchWidget"
 }
