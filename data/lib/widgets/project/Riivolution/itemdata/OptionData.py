@@ -50,10 +50,19 @@ class OptionData(BaseSubItemData):
         self._choice_pages.addWidget(frame)
 
 
+        self._back_button = QPushButton()
+        self._back_button.setIcon(self._back_icon)
+        self._back_button.setText(self._lang.get_data('QPushButton.back'))
+        self._back_button.setProperty('color', 'main')
+        self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._back_button.clicked.connect(self.back_pressed.emit)
+        frame.grid_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+
+
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 0, 0)
+        frame.grid_layout.addWidget(subframe, 1, 0)
 
         label = QLabel(self._lang.get_data('QLabel.generalInfo'))
         label.setProperty('h', 2)
@@ -71,7 +80,7 @@ class OptionData(BaseSubItemData):
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 1, 0)
+        frame.grid_layout.addWidget(subframe, 2, 0)
 
         label = QLabel(self._lang.get_data('QLabel.choices'))
         label.setProperty('h', 2)
@@ -92,27 +101,12 @@ class OptionData(BaseSubItemData):
 
         subframe.grid_layout.setRowStretch(3, 1)
 
-        frame.grid_layout.setRowStretch(2, 1)
+        frame.grid_layout.setRowStretch(3, 1)
 
 
         self._data_frame = QGridWidget()
         self._data_frame.grid_layout.setSpacing(8)
         self._data_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-
-        self._back_button = QPushButton()
-        self._back_button.setIcon(self._back_icon)
-        self._back_button.setText(self._lang.get_data('QPushButton.back'))
-        self._back_button.setProperty('color', 'main')
-        self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._back_button.clicked.connect(lambda: self._choice_pages.slide_in_index(0))
-        self._data_frame.grid_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-
-        self._data_frame_content = QGridWidget()
-        self._data_frame_content.grid_layout.setSpacing(0)
-        self._data_frame_content.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._data_frame.grid_layout.addWidget(self._data_frame_content, 1, 0)
-
-        self._data_frame.grid_layout.setRowStretch(2, 1)
 
         self._choice_pages.addWidget(self._data_frame)
 
@@ -182,12 +176,15 @@ class OptionData(BaseSubItemData):
 
     def _entry_selected(self, sender: ChoiceData, widget: QGridWidget | None) -> None:
         self._set_widget(widget)
+        try: sender.back_pressed.disconnect()
+        except: pass
+        sender.back_pressed.connect(lambda: self._choice_pages.slide_in_index(0))
         self._choice_pages.slide_in_index(1)
 
 
     def _set_widget(self, widget: QGridWidget | None) -> None:
         if self._current_widget: self._current_widget.setParent(None)
-        if widget: self._data_frame_content.grid_layout.addWidget(widget, 0, 0)
+        if widget: self._data_frame.grid_layout.addWidget(widget, 0, 0)
         self._current_widget = widget
 
 

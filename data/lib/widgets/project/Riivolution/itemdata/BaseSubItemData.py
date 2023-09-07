@@ -16,6 +16,7 @@ class BaseSubItemData(QDragListItem):
     _normal_color = '#FFFFFF'
     _checked_color = '#FFFFFF'
 
+    back_pressed = Signal()
     edited = Signal(QDragListItem, QGridWidget or None)
     deleted = Signal(QDragListItem)
     data_changed = Signal()

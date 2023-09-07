@@ -99,21 +99,6 @@ class SectionData(BaseItemData):
         self._data_frame.grid_layout.setSpacing(8)
         self._data_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        self._back_button = QPushButton()
-        self._back_button.setIcon(self._back_icon)
-        self._back_button.setText(self._lang.get_data('QPushButton.back'))
-        self._back_button.setProperty('color', 'main')
-        self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._back_button.clicked.connect(lambda: self._option_pages.slide_in_index(0))
-        self._data_frame.grid_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-
-        self._data_frame_content = QGridWidget()
-        self._data_frame_content.grid_layout.setSpacing(0)
-        self._data_frame_content.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._data_frame.grid_layout.addWidget(self._data_frame_content, 1, 0)
-
-        self._data_frame.grid_layout.setRowStretch(2, 1)
-
         self._option_pages.addWidget(self._data_frame)
 
         self._update_text()
@@ -182,12 +167,15 @@ class SectionData(BaseItemData):
 
     def _entry_selected(self, sender: OptionData, widget: QGridWidget | None) -> None:
         self._set_widget(widget)
+        try: sender.back_pressed.disconnect()
+        except: pass
+        sender.back_pressed.connect(lambda: self._option_pages.slide_in_index(0))
         self._option_pages.slide_in_index(1)
 
 
     def _set_widget(self, widget: QGridWidget | None) -> None:
         if self._current_widget: self._current_widget.setParent(None)
-        if widget: self._data_frame_content.grid_layout.addWidget(widget, 0, 0)
+        if widget: self._data_frame.grid_layout.addWidget(widget, 0, 0)
         self._current_widget = widget
 
 
