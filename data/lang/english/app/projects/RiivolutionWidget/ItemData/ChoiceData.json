@@ -1,7 +1,17 @@
 {
-    "QLabel": {},
-    "PropertyWidget": {
-        "QNamedLineEdit": {}
+    "QLabel": {
+        "generalInfo": "General Info",
+        "patches": "Patches",
+        "text": "%s • %s patch(es)"
     },
-    "PatchRefData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchRefData"
+    "QPushButton": {
+        "addEntry": "Add patch",
+        "back": "Back"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "name": "Name"
+        },
+        "PatchRefData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchRefData"
+    }
 }

@@ -37,7 +37,6 @@ class BaseSubItemData(QDragListItem):
 
         self.setProperty('color', 'main')
         self.setProperty('side', 'all')
-        self.setProperty('bottom-border-only', True)
         self.setProperty('border-radius', 8)
 
         self._data = data

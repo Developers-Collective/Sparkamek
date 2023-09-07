@@ -1,6 +1,10 @@
 {
-    "QLabel": {},
+    "QLabel": {
+        "generalInfo": "General Info"
+    },
     "PropertyWidget": {
-        "QNamedLineEdit": {}
+        "QNamedLineEdit": {
+            "name": "Name"
+        }
     }
 }

@@ -1,11 +1,11 @@
 {
     "QLabel": {
-        "generalInfo": "Informations générales",
+        "generalInfo": "Informations Générales",
         "choices": "Choix",
         "text": "%s • %s choix"
     },
     "QPushButton": {
-        "addEntry": "Ajouter un choix",
+        "addEntry": "Ajouter un Choix",
         "back": "Retour"
     },
     "PropertyWidget": {
