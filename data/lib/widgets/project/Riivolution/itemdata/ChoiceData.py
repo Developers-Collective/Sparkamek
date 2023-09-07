@@ -7,7 +7,7 @@ from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWi
 from ..items.Choice import Choice
 from ..items.PatchRef import PatchRef
 from .BaseSubItemData import BaseSubItemData
-# from .PatchRefData import PatchRefData
+from .PatchRefData import PatchRefData
 #----------------------------------------------------------------------
 
     # Class
@@ -25,6 +25,8 @@ class ChoiceData(BaseSubItemData):
 
         ChoiceData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
         ChoiceData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
+
+        PatchRefData.init(app)
 
     def __init__(self, data: Choice, path: str) -> None:
         super().__init__(data, path)
@@ -122,12 +124,10 @@ class ChoiceData(BaseSubItemData):
 
         if self._data:
             for patchref in self._data.patchref_children:
-                # prd = PatchRefData(patchref, self._path)
-                # prd.data_changed.connect(self._send_data)
-                # prd.edited.connect(self._entry_selected)
-                # prd.deleted.connect(self._delete_patchref_entry)
-                # self._patchref_draglist.add_item(prd)
-                pass
+                prd = PatchRefData(patchref, self._path)
+                prd.data_changed.connect(self._send_data)
+                prd.deleted.connect(self._delete_patchref_entry)
+                self._patchref_draglist.add_item(prd)
 
         self._disable_send = False
 
@@ -153,31 +153,23 @@ class ChoiceData(BaseSubItemData):
         pr = PatchRef.create()
         self._data.patchref_children.append(pr)
 
-        # prd = PatchRefData(c, self._path)
-        # prd.data_changed.connect(self._send_data)
-        # prd.deleted.connect(self._delete_patchref_entry)
-        # prd.edited.connect(self._entry_selected)
-        # self._patchref_draglist.add_item(prd)
+        prd = PatchRefData(pr, self._path)
+        prd.data_changed.connect(self._send_data)
+        prd.deleted.connect(self._delete_patchref_entry)
+        self._patchref_draglist.add_item(prd)
 
         self._send_data()
 
-    # def _delete_patchref_entry(self, item: PatchRefData) -> None:
-    #     if self._data is None: return
+    def _delete_patchref_entry(self, item: PatchRefData) -> None:
+        if self._data is None: return
 
-    #     self._data.patchref_children.remove(item.data)
-    #     item.setParent(None)
-    #     item.deleteLater()
+        self._data.patchref_children.remove(item.data)
+        item.setParent(None)
+        item.deleteLater()
 
-    #     self._patchref_pages.slide_in_index(0)
+        self._patchref_pages.slide_in_index(0)
 
-    #     self._send_data()
-
-    # def _entry_selected(self, sender: PatchRefData, widget: QGridWidget | None) -> None:
-    #     self._set_widget(widget)
-    #     try: sender.back_pressed.disconnect()
-    #     except: pass
-    #     sender.back_pressed.connect(lambda: self._patchref_pages.slide_in_index(0))
-    #     self._patchref_pages.slide_in_index(1)
+        self._send_data()
 
 
     def _set_widget(self, widget: QGridWidget | None) -> None:
