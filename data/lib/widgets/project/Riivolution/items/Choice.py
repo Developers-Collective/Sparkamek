@@ -14,14 +14,14 @@ class Choice(implements(IBaseItem)):
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.name: str = data.get_attribute('name', 'Choice Name') # Required
+        self.name_: str = data.get_attribute('name', 'Choice Name') # Required
 
-        self.patchref_children: list[PatchRef] = data.get_children(PatchRef.name)
+        self.patchref_children: list[PatchRef] = [PatchRef(p) for p in data.get_children(PatchRef.name) if p]
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
-            {'name': self.name},
+            {'name': self.name_},
             [p.export() for p in self.patchref_children]
         )
 

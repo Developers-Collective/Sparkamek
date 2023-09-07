@@ -1,0 +1,17 @@
+{
+    "QLabel": {
+        "generalInfo": "Informations générales",
+        "Options": "Options",
+        "text": "%s • %s option(s)"
+    },
+    "QPushButton": {
+        "addEntry": "Ajouter une option",
+        "back": "Retour"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "name": "Nom"
+        },
+        "OptionData": "#ref: app/projects/RiivolutionWidget/ItemData/OptionData"
+    }
+}

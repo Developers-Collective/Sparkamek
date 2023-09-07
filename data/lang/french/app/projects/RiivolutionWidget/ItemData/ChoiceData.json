@@ -1,0 +1,7 @@
+{
+    "QLabel": {},
+    "PropertyWidget": {
+        "QNamedLineEdit": {}
+    },
+    "PatchRefData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchRefData"
+}

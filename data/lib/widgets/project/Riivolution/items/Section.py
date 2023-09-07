@@ -14,14 +14,14 @@ class Section(implements(IBaseItem)):
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.name: str = data.get_attribute('name', 'Section Name') # Required
+        self.name_: str = data.get_attribute('name', 'Section Name') # Required
 
-        self.option_children: list[Option] = data.get_children(Option.name)
+        self.option_children: list[Option] = [Option(o) for o in data.get_children(Option.name) if o]
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
-            {'name': self.name},
+            {'name': self.name_},
             [p.export() for p in self.option_children]
         )
 

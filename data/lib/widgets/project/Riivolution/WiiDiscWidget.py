@@ -7,7 +7,10 @@ from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import WiiDisc
 from .IDWidget import IDWidget
+from .OptionsWidget import OptionsWidget
+# from .PatchWidget import PatchWidget
 from .itemdata.BaseItemData import BaseItemData
+from .itemdata.BaseSubItemData import BaseSubItemData
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 #----------------------------------------------------------------------
 
@@ -34,7 +37,10 @@ class WiiDiscWidget(QGridWidget):
         ItemDataPropertyDockWidget.init(app)
 
         BaseItemData.init(app)
+        BaseSubItemData.init(app)
         IDWidget.init(app)
+        OptionsWidget.init(app)
+        # PatchWidget.init(app)
 
     def __init__(self, path: str) -> None:
         super().__init__()
@@ -73,6 +79,16 @@ class WiiDiscWidget(QGridWidget):
         self._id_widget.property_entry_selected.connect(self._id_property_entry_selected)
         self.grid_layout.addWidget(self._id_widget, 1, 0)
 
+        self._options_widget = OptionsWidget(path)
+        self._options_widget.data_changed.connect(self._send_data)
+        self._options_widget.property_entry_selected.connect(self._options_property_entry_selected)
+        self.grid_layout.addWidget(self._options_widget, 2, 0)
+
+        # self._patch_widget = PatchWidget(path)
+        # self._patch_widget.data_changed.connect(self._send_data)
+        # self._patch_widget.property_entry_selected.connect(self._patch_property_entry_selected)
+        # self.grid_layout.addWidget(self._patch_widget, 3, 0)
+
         self._wiidisc: WiiDisc = None
 
 
@@ -90,6 +106,8 @@ class WiiDiscWidget(QGridWidget):
         self._root_lineedit.setText(self._wiidisc.root if self._wiidisc else '')
 
         self._id_widget.id = self._wiidisc.id if self._wiidisc else None
+        self._options_widget.options = self._wiidisc.options if self._wiidisc else None
+        # self._patch_widget.patch = self._wiidisc.patch if self._wiidisc else None
 
         self._disable_send = False
 
@@ -112,5 +130,20 @@ class WiiDiscWidget(QGridWidget):
     def _id_property_entry_selected(self, widget: QGridWidget or None) -> None:
         self.property_entry_selected.emit(widget)
 
-        # todo: unselect all other widgets
+        self._options_widget.deselect_all()
+        # self._patch_widget.deselect_all()
+
+    def _options_property_entry_selected(self, widget: QGridWidget or None) -> None:
+        self.property_entry_selected.emit(widget)
+
+        self._id_widget.deselect_all()
+        # self._patch_widget.deselect_all()
+
+    # def _patch_property_entry_selected(self, widget: QGridWidget or None) -> None:
+    #     self.property_entry_selected.emit(widget)
+
+    #     self._id_widget.deselect_all()
+    #     self._options_widget.deselect_all()
+
+    #     # todo: unselect all other widgets
 #----------------------------------------------------------------------

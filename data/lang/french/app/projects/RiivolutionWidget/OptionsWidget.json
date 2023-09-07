@@ -1,1 +1,9 @@
-{}
+{
+    "QLabel": {
+        "options": "Options"
+    },
+    "QPushButton": {
+        "addEntry": "Ajouter une entrée"
+    },
+    "SectionData": "#ref: app/projects/RiivolutionWidget/ItemData/SectionData"
+}

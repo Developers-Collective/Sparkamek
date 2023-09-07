@@ -17,7 +17,7 @@ class Macro(implements(IBaseItem)):
         self.id = data.get_attribute('id', 'optionid') # Required
         self.name = data.get_attribute('name', 'Option Name') # Required
 
-        self.param_children: list[Param] = data.get_children(Param.name)
+        self.param_children: list[Param] = [Param(p) for p in data.get_children(Param.name) if p]
 
     def export(self) -> XMLNode:
         return XMLNode(

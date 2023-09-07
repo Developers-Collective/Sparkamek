@@ -15,8 +15,8 @@ class Options(implements(IBaseItem)):
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.macro_children: list[Macro] = data.get_children(Macro.name)
-        self.section_children: list[Section] = data.get_children(Section.name)
+        self.macro_children: list[Macro] = [Macro(m) for m in data.get_children(Macro.name) if m]
+        self.section_children: list[Section] = [Section(s) for s in data.get_children(Section.name) if s]
 
     def export(self) -> XMLNode:
         return XMLNode(

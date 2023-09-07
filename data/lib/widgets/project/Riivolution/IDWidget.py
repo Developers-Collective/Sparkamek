@@ -1,10 +1,9 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton, QLabel, QMenu
-from PySide6.QtCore import Qt, Signal, QPoint
-from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
+from PySide6.QtWidgets import QPushButton, QLabel
+from PySide6.QtCore import Qt, Signal
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import ID, Region
 from .itemdata import RegionData
@@ -87,7 +86,7 @@ class IDWidget(QGridWidget):
     @property
     def id(self) -> ID:
         return self._id
-    
+
     @id.setter
     def id(self, id: ID) -> None:
         self._id = id
@@ -141,11 +140,18 @@ class IDWidget(QGridWidget):
     def _entry_selected(self, sender: RegionData, widget: QGridWidget | None) -> None:
         checked = sender.is_checked()
 
-        for item in self._region_draglist.items:
-            item.set_checked(False)
+        self.deselect_all()
 
         sender.set_checked(checked)
         self.property_entry_selected.emit(widget)
+
+    def deselect_all(self) -> None:
+        self._disable_send = True
+
+        for item in self._region_draglist.items:
+            item.set_checked(False)
+
+        self._disable_send = False
 
 
     def _send_data(self, *args) -> None:
