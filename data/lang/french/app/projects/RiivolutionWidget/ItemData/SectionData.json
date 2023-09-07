@@ -5,8 +5,7 @@
         "text": "%s • %s option(s)"
     },
     "QPushButton": {
-        "addEntry": "Ajouter une Option",
-        "back": "Retour"
+        "addEntry": "Ajouter une Option"
     },
     "PropertyWidget": {
         "QNamedLineEdit": {

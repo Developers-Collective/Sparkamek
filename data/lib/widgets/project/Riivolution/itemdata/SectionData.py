@@ -16,7 +16,6 @@ class SectionData(BaseItemData):
     child_cls: Section = Section
 
     _add_entry_icon = None
-    _back_icon = None
 
     _lang = {}
 
@@ -24,7 +23,6 @@ class SectionData(BaseItemData):
         SectionData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData')
 
         SectionData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
-        SectionData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
 
         OptionData.init(app)
 
