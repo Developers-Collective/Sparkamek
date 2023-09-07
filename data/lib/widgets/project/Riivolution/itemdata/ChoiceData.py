@@ -4,16 +4,16 @@
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
 from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList
-from ..items.Option import Option
 from ..items.Choice import Choice
+from ..items.PatchRef import PatchRef
 from .BaseSubItemData import BaseSubItemData
-from .ChoiceData import ChoiceData
+# from .PatchRefData import PatchRefData
 #----------------------------------------------------------------------
 
     # Class
-class OptionData(BaseSubItemData):
-    type: str = 'Option'
-    child_cls: Option = Option
+class ChoiceData(BaseSubItemData):
+    type: str = 'Choice'
+    child_cls: Choice = Choice
 
     _add_entry_icon = None
     _back_icon = None
@@ -21,14 +21,12 @@ class OptionData(BaseSubItemData):
     _lang = {}
 
     def init(app: QBaseApplication) -> None:
-        OptionData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData')
+        ChoiceData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData.PropertyWidget.ChoiceData')
 
-        OptionData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
-        OptionData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
+        ChoiceData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
+        ChoiceData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
 
-        ChoiceData.init(app)
-
-    def __init__(self, data: Option, path: str) -> None:
+    def __init__(self, data: Choice, path: str) -> None:
         super().__init__(data, path)
 
         self._disable_send = False
@@ -38,16 +36,16 @@ class OptionData(BaseSubItemData):
         self._optionname_label.setProperty('brighttitle', True)
         self._content_frame.grid_layout.addWidget(self._optionname_label, 0, 0)
 
-        self._choice_pages = QSlidingStackedWidget()
-        self._choice_pages.set_orientation(Qt.Orientation.Horizontal)
-        self._property_frame.grid_layout.addWidget(self._choice_pages, 0, 0)
+        self._patchref_pages = QSlidingStackedWidget()
+        self._patchref_pages.set_orientation(Qt.Orientation.Horizontal)
+        self._property_frame.grid_layout.addWidget(self._patchref_pages, 0, 0)
 
 
         frame = QGridWidget()
         frame.grid_layout.setSpacing(30)
         frame.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        self._choice_pages.addWidget(frame)
+        self._patchref_pages.addWidget(frame)
 
 
         subframe = QGridWidget()
@@ -73,22 +71,22 @@ class OptionData(BaseSubItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         frame.grid_layout.addWidget(subframe, 1, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.choices'))
+        label = QLabel(self._lang.get_data('QLabel.patches'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
 
-        self._choice_draglist = QDragList()
-        self._choice_draglist.moved.connect(self._choice_entry_moved)
-        subframe.grid_layout.addWidget(self._choice_draglist, 1, 0)
+        self._patchref_draglist = QDragList()
+        self._patchref_draglist.moved.connect(self._patchref_entry_moved)
+        subframe.grid_layout.addWidget(self._patchref_draglist, 1, 0)
 
-        self._add_choice_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
-        self._add_choice_entry_button.setIcon(self._add_entry_icon)
-        self._add_choice_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._add_choice_entry_button.setProperty('color', 'main')
-        self._add_choice_entry_button.clicked.connect(self._add_choice_entry)
-        subframe.grid_layout.addWidget(self._add_choice_entry_button, 2, 0)
-        self._add_choice_entry_button.setEnabled(False)
+        self._add_patchref_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_patchref_entry_button.setIcon(self._add_entry_icon)
+        self._add_patchref_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._add_patchref_entry_button.setProperty('color', 'main')
+        self._add_patchref_entry_button.clicked.connect(self._add_patchref_entry)
+        subframe.grid_layout.addWidget(self._add_patchref_entry_button, 2, 0)
+        self._add_patchref_entry_button.setEnabled(False)
 
         subframe.grid_layout.setRowStretch(3, 1)
 
@@ -104,7 +102,7 @@ class OptionData(BaseSubItemData):
         self._back_button.setText(self._lang.get_data('QPushButton.back'))
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._back_button.clicked.connect(lambda: self._choice_pages.slide_in_index(0))
+        self._back_button.clicked.connect(lambda: self._patchref_pages.slide_in_index(0))
         self._data_frame.grid_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
         self._data_frame_content = QGridWidget()
@@ -114,7 +112,7 @@ class OptionData(BaseSubItemData):
 
         self._data_frame.grid_layout.setRowStretch(2, 1)
 
-        self._choice_pages.addWidget(self._data_frame)
+        self._patchref_pages.addWidget(self._data_frame)
 
         self._update_text()
 
@@ -124,24 +122,24 @@ class OptionData(BaseSubItemData):
     def _load_data(self) -> None:
         self._disable_send = True
 
-        self._choice_draglist.clear()
+        self._patchref_draglist.clear()
 
-        self._add_choice_entry_button.setEnabled(self._data is not None)
+        self._add_patchref_entry_button.setEnabled(self._data is not None)
 
         if self._data:
-            for choice in self._data.choice_children:
-                cd = ChoiceData(choice, self._path)
-                cd.data_changed.connect(self._send_data)
-                cd.edited.connect(self._entry_selected)
-                cd.deleted.connect(self._delete_choice_entry)
-                self._choice_draglist.add_item(cd)
+            for patchref in self._data.patchref_children:
+                # prd = PatchRefData(patchref, self._path)
+                # prd.data_changed.connect(self._send_data)
+                # prd.edited.connect(self._entry_selected)
+                # prd.deleted.connect(self._delete_patchref_entry)
+                # self._patchref_draglist.add_item(prd)
                 pass
 
         self._disable_send = False
 
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace('%s', self._data.name_, 1).replace('%s', str(len(self._data.choice_children)), 1)
+        s = self._lang.get_data('QLabel.text').replace('%s', self._data.name_, 1).replace('%s', str(len(self._data.patchref_children)), 1)
         self._optionname_label.setText(s)
         self._name_lineedit.line_edit.setText(self._data.name_)
 
@@ -153,36 +151,36 @@ class OptionData(BaseSubItemData):
         self._update_text()
         self.data_changed.emit()
 
-    def _choice_entry_moved(self, old_index: int, new_index: int) -> None:
-        self._data.choice_children.insert(new_index, self._data.choice_children.pop(old_index))
+    def _patchref_entry_moved(self, old_index: int, new_index: int) -> None:
+        self._data.patchref_children.insert(new_index, self._data.patchref_children.pop(old_index))
         self._send_data()
 
-    def _add_choice_entry(self) -> None:
-        c = Choice.create()
-        self._data.choice_children.append(c)
+    def _add_patchref_entry(self) -> None:
+        pr = PatchRef.create()
+        self._data.patchref_children.append(pr)
 
-        cd = ChoiceData(c, self._path)
-        cd.data_changed.connect(self._send_data)
-        cd.deleted.connect(self._delete_choice_entry)
-        cd.edited.connect(self._entry_selected)
-        self._choice_draglist.add_item(cd)
-
-        self._send_data()
-
-    def _delete_choice_entry(self, item: ChoiceData) -> None:
-        if self._data is None: return
-
-        self._data.choice_children.remove(item.data)
-        item.setParent(None)
-        item.deleteLater()
-
-        self._choice_pages.slide_in_index(0)
+        # prd = PatchRefData(c, self._path)
+        # prd.data_changed.connect(self._send_data)
+        # prd.deleted.connect(self._delete_patchref_entry)
+        # prd.edited.connect(self._entry_selected)
+        # self._patchref_draglist.add_item(prd)
 
         self._send_data()
 
-    def _entry_selected(self, sender: ChoiceData, widget: QGridWidget | None) -> None:
-        self._set_widget(widget)
-        self._choice_pages.slide_in_index(1)
+    # def _delete_patchref_entry(self, item: PatchRefData) -> None:
+    #     if self._data is None: return
+
+    #     self._data.patchref_children.remove(item.data)
+    #     item.setParent(None)
+    #     item.deleteLater()
+
+    #     self._patchref_pages.slide_in_index(0)
+
+    #     self._send_data()
+
+    # def _entry_selected(self, sender: PatchRefData, widget: QGridWidget | None) -> None:
+    #     self._set_widget(widget)
+    #     self._patchref_pages.slide_in_index(1)
 
 
     def _set_widget(self, widget: QGridWidget | None) -> None:
