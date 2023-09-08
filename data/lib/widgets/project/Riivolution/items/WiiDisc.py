@@ -23,7 +23,7 @@ class WiiDisc: # Doc at https://riivolution.github.io/wiki/Patch_Format/ & https
 
         self.id = ID(node.get_first_child('id'))
         self.options = Options(node.get_first_child('options'))
-        self.patch = Patch(node.get_first_child('patch'))
+        self.patch_children = [Patch(p) for p in node.get_children('patch')]
 
         network = node.get_first_child('network')
         self.network = Network(network) if network else None # Optional

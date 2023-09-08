@@ -1,0 +1,21 @@
+{
+    "QLabel": {
+        "generalInfo": "General Info",
+        "files": "Files",
+        "folders": "Folders",
+        "savegames": "Savegames",
+        "memories": "Memories",
+        "text": "%s • %s item(s)"
+    },
+    "QPushButton": {
+        "addFile": "Add File",
+        "addFolder": "Add Folder",
+        "addSavegame": "Add Savegame",
+        "addMemory": "Add Memory"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "id": "ID"
+        }
+    }
+}

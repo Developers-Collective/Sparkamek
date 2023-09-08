@@ -35,9 +35,9 @@ class ExternalData(BaseItemData):
         iw = QIconWidget(None, self._external_icon, self._icon_size, False)
         self._content_frame.grid_layout.addWidget(iw, 0, 1)
 
-        self._type_label = QLabel(self._data.type)
-        self._type_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._type_label, 0, 2)
+        self._external_type_label = QLabel(self._data.type)
+        self._external_type_label.setProperty('brighttitle', True)
+        self._content_frame.grid_layout.addWidget(self._external_type_label, 0, 2)
 
         self._content_frame.grid_layout.setColumnStretch(3, 1)
 
@@ -67,6 +67,6 @@ class ExternalData(BaseItemData):
 
     def _type_changed(self, index: int) -> None:
         self._data.type = self._files[index]
-        self._type_label.setText(self._data.type)
+        self._external_type_label.setText(self._data.type)
         self.data_changed.emit()
 #----------------------------------------------------------------------

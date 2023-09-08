@@ -1,16 +1,16 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QLabel
-from PySide6.QtCore import Signal
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragListItem, QNamedLineEdit, QNamedSpinBox
+from PySide6.QtWidgets import QLabel, QPushButton
+from PySide6.QtCore import Signal, Qt
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox
 from data.lib.widgets.ProjectKeys import ProjectKeys
-from .items import WiiDisc
+from .items import WiiDisc, Patch
 from .IDWidget import IDWidget
 from .OptionsWidget import OptionsWidget
-# from .PatchWidget import PatchWidget
 from .itemdata.BaseItemData import BaseItemData
 from .itemdata.BaseSubItemData import BaseSubItemData
+from .itemdata.PatchData import PatchData
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 #----------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ class WiiDiscWidget(QGridWidget):
         BaseSubItemData.init(app)
         IDWidget.init(app)
         OptionsWidget.init(app)
-        # PatchWidget.init(app)
+        PatchData.init(app)
 
     def __init__(self, path: str) -> None:
         super().__init__()
@@ -79,15 +79,34 @@ class WiiDiscWidget(QGridWidget):
         self._id_widget.property_entry_selected.connect(self._id_property_entry_selected)
         self.grid_layout.addWidget(self._id_widget, 1, 0)
 
+
         self._options_widget = OptionsWidget(path)
         self._options_widget.data_changed.connect(self._send_data)
         self._options_widget.property_entry_selected.connect(self._options_property_entry_selected)
         self.grid_layout.addWidget(self._options_widget, 2, 0)
 
-        # self._patch_widget = PatchWidget(path)
-        # self._patch_widget.data_changed.connect(self._send_data)
-        # self._patch_widget.property_entry_selected.connect(self._patch_property_entry_selected)
-        # self.grid_layout.addWidget(self._patch_widget, 3, 0)
+
+        frame = QGridWidget()
+        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame.grid_layout.setSpacing(8)
+        self.grid_layout.addWidget(frame, 3, 0)
+
+        label = QLabel(self._lang.get_data('QLabel.patches'))
+        label.setProperty('h', 2)
+        label.setProperty('small', True)
+        frame.grid_layout.addWidget(label, 0, 0)
+
+        self._patch_draglist = QDragList(None, Qt.Orientation.Vertical)
+        self._patch_draglist.moved.connect(self._patch_entry_moved)
+        frame.grid_layout.addWidget(self._patch_draglist, 1, 0)
+
+        self._add_patch_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_patch_entry_button.setIcon(self._add_entry_icon)
+        self._add_patch_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._add_patch_entry_button.setProperty('color', 'main')
+        self._add_patch_entry_button.clicked.connect(self._add_patch_entry)
+        frame.grid_layout.addWidget(self._add_patch_entry_button, 2, 0)
+        self._add_patch_entry_button.setEnabled(False)
 
         self._wiidisc: WiiDisc = None
 
@@ -107,7 +126,18 @@ class WiiDiscWidget(QGridWidget):
 
         self._id_widget.id = self._wiidisc.id if self._wiidisc else None
         self._options_widget.options = self._wiidisc.options if self._wiidisc else None
-        # self._patch_widget.patch = self._wiidisc.patch if self._wiidisc else None
+
+        self._patch_draglist.clear()
+
+        self._add_patch_entry_button.setEnabled(self._wiidisc is not None)
+
+        if self._wiidisc.patch_children:
+            for patch in self._wiidisc.patch_children:
+                pd = PatchData(patch, self._path)
+                pd.data_changed.connect(self._send_data)
+                pd.selected.connect(self._patch_property_entry_selected)
+                pd.deleted.connect(self._delete_patch_entry)
+                self._patch_draglist.add_item(pd)
 
         self._disable_send = False
 
@@ -131,19 +161,54 @@ class WiiDiscWidget(QGridWidget):
         self.property_entry_selected.emit(widget)
 
         self._options_widget.deselect_all()
-        # self._patch_widget.deselect_all()
+        self._patch_deselect_all()
 
     def _options_property_entry_selected(self, widget: QGridWidget or None) -> None:
         self.property_entry_selected.emit(widget)
 
         self._id_widget.deselect_all()
-        # self._patch_widget.deselect_all()
+        self._patch_deselect_all()
 
-    # def _patch_property_entry_selected(self, widget: QGridWidget or None) -> None:
-    #     self.property_entry_selected.emit(widget)
+    def _patch_deselect_all(self) -> None:
+        for item in self._patch_draglist.items:
+            item.set_checked(False)
 
-    #     self._id_widget.deselect_all()
-    #     self._options_widget.deselect_all()
+    def _patch_property_entry_selected(self, sender: PatchData, widget: QGridWidget or None) -> None:
+        self.property_entry_selected.emit(widget)
 
-    #     # todo: unselect all other widgets
+        checked = sender.is_checked()
+
+        self._id_widget.deselect_all()
+        self._options_widget.deselect_all()
+        self._patch_deselect_all()
+
+        sender.set_checked(checked)
+
+
+    def _patch_entry_moved(self, old_index: int, new_index: int) -> None:
+        self._wiidisc.patch_children.insert(new_index, self._wiidisc.patch_children.pop(old_index))
+        self._send_data()
+
+    def _add_patch_entry(self) -> None:
+        p = Patch.create()
+        self._wiidisc.patch_children.append(p)
+
+        pd = PatchData(p, self._path)
+        pd.data_changed.connect(self._send_data)
+        pd.deleted.connect(self._delete_patch_entry)
+        pd.selected.connect(self._patch_property_entry_selected)
+        self._patch_draglist.add_item(pd)
+
+        self._send_data()
+
+    def _delete_patch_entry(self, item: PatchData) -> None:
+        if self._wiidisc is None: return
+
+        self.property_entry_selected.emit(None)
+
+        self._wiidisc.patch_children.remove(item.data)
+        item.setParent(None)
+        item.deleteLater()
+
+        self._send_data()
 #----------------------------------------------------------------------

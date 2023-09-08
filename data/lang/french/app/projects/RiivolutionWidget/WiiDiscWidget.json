@@ -1,6 +1,10 @@
 {
     "QLabel": {
-        "generalInfo": "Informations générales"
+        "generalInfo": "Informations générales",
+        "patches": "Patchs"
+    },
+    "QPushButton": {
+        "addEntry": "Ajouter une entrée"
     },
     "QNamedLineEdit": {
         "root": "Racine"
@@ -10,5 +14,5 @@
     },
     "IDWidget": "#ref: app/projects/RiivolutionWidget/IDWidget",
     "OptionsWidget": "#ref: app/projects/RiivolutionWidget/OptionsWidget",
-    "PatchWidget": "#ref: app/projects/RiivolutionWidget/PatchWidget"
+    "PatchData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchData"
 }

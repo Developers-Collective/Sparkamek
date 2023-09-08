@@ -1,7 +1,7 @@
 {
     "QLabel": {
         "generalInfo": "Informations Générales",
-        "Options": "Options",
+        "options": "Options",
         "text": "%s • %s option(s)"
     },
     "QPushButton": {
