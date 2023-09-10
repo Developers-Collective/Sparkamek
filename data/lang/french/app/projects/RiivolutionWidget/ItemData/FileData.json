@@ -1,0 +1,20 @@
+{
+    "QLabel": {
+        "text": "%s → %s"
+    },
+    "QPushButton": {
+        "back": "Back"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "disc": "Disque",
+            "external": "Fichier",
+            "length": "Longueur",
+            "offset": "Décalage"
+        },
+        "QNamedToggleButton": {
+            "resize": "Redimensionner",
+            "create": "Créer"
+        }
+    }
+}

@@ -34,11 +34,10 @@ class PatchRefData(BaseItemData):
         if not text: return
 
         self._data.id = text
-        self.data_changed.emit()
+        self._send_data()
 
 
     def _send_data(self, *args) -> None:
-        self._update_text()
         self.data_changed.emit()
 
     def set_checked(self, checked: bool) -> None:

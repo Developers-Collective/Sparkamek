@@ -13,6 +13,7 @@ from ..items.MemorySearchValue import MemorySearchValue
 from ..items.MemorySearchValueFile import MemorySearchValueFile
 from ..items.MemoryOcarina import MemoryOcarina
 from .BaseItemData import BaseItemData
+from .FileData import FileData
 # from .PatchChildData import PatchChildData
 #----------------------------------------------------------------------
 
@@ -29,6 +30,8 @@ class PatchData(BaseItemData):
         PatchData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData')
 
         PatchData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
+
+        FileData.init(app)
 
     def __init__(self, data: Patch, path: str) -> None:
         super().__init__(data, path)
@@ -117,12 +120,11 @@ class PatchData(BaseItemData):
 
         if self._data:
             for file in self._data.file_children:
-                # fd = FileData(file, self._path)
-                # fd.data_changed.connect(self._send_data)
-                # fd.edited.connect(self._entry_selected)
-                # fd.deleted.connect(self._delete_file_entry)
-                # self._file_draglist.add_item(fd)
-                pass
+                fd = FileData(file, self._path)
+                fd.data_changed.connect(self._send_data)
+                fd.edited.connect(self._entry_selected)
+                fd.deleted.connect(self._delete_file_entry)
+                self._file_draglist.add_item(fd)
 
         self._disable_send = False
 
@@ -136,7 +138,6 @@ class PatchData(BaseItemData):
             ), 1
         )
         self._patchid_label.setText(s)
-        self._id_lineedit.line_edit.setText(self._data.id)
 
 
     def _id_changed(self, text: str) -> None:
@@ -154,31 +155,31 @@ class PatchData(BaseItemData):
         f = File.create()
         self._data.file_children.append(f)
 
-        # fd = FileData(f, self._path)
-        # fd.data_changed.connect(self._send_data)
-        # fd.deleted.connect(self._delete_file_entry)
-        # fd.edited.connect(self._entry_selected)
-        # self._file_draglist.add_item(fd)
+        fd = FileData(f, self._path)
+        fd.data_changed.connect(self._send_data)
+        fd.deleted.connect(self._delete_file_entry)
+        fd.edited.connect(self._entry_selected)
+        self._file_draglist.add_item(fd)
 
         self._send_data()
 
-    # def _delete_file_entry(self, item: FileData) -> None:
-    #     if self._data is None: return
+    def _delete_file_entry(self, item: FileData) -> None:
+        if self._data is None: return
 
-    #     self._data.file_children.remove(item.data)
-    #     item.setParent(None)
-    #     item.deleteLater()
+        self._data.file_children.remove(item.data)
+        item.setParent(None)
+        item.deleteLater()
 
-    #     self._child_pages.slide_in_index(0)
+        self._child_pages.slide_in_index(0)
 
-    #     self._send_data()
+        self._send_data()
 
-    # def _entry_selected(self, sender: PatchChildData, widget: QGridWidget | None) -> None:
-    #     self._set_widget(widget)
-    #     try: sender.back_pressed.disconnect()
-    #     except: pass
-    #     sender.back_pressed.connect(lambda: self._child_pages.slide_in_index(0))
-    #     self._child_pages.slide_in_index(1)
+    def _entry_selected(self, sender, widget: QGridWidget | None) -> None: # todo: add type to sender
+        self._set_widget(widget)
+        try: sender.back_pressed.disconnect()
+        except: pass
+        sender.back_pressed.connect(lambda: self._child_pages.slide_in_index(0))
+        self._child_pages.slide_in_index(1)
 
 
     def _set_widget(self, widget: QGridWidget | None) -> None:

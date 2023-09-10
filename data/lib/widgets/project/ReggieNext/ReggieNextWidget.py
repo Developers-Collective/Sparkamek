@@ -4,14 +4,14 @@
 from PySide6.QtWidgets import QDockWidget, QPushButton
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .SpriteListDockWidget import SpriteListDockWidget
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 from .SpriteWidget import SpriteWidget
 from .sprites.Sprite import Sprite
-from data.lib.storage.xml import XML, XMLNode
-import os, shutil
+from data.lib.storage.xml import XMLNode
+import os
 #----------------------------------------------------------------------
 
     # Class

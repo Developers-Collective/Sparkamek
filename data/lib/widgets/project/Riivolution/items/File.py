@@ -13,7 +13,7 @@ class File(implements(IBaseItem)):
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.disc: str = data.get_attribute('disc', 'file') # Required
+        self.disc: str = data.get_attribute('disc', '/file') # Required
         self.external: str = data.get_attribute('external', 'file') # Required
         self.resize: bool = data.get_attribute('resize', True) # Optional
         self.create_: bool = data.get_attribute('create', False) # Optional
