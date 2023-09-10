@@ -1,1 +1,13 @@
-{}
+{
+    "QPushButton": {
+        "back": "Retour"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "external": "Dossier"
+        },
+        "QNamedToggleButton": {
+            "clone": "Cloner"
+        }
+    }
+}

@@ -3,7 +3,7 @@
         "text": "%s → %s"
     },
     "QPushButton": {
-        "back": "Back"
+        "back": "Retour"
     },
     "PropertyWidget": {
         "QNamedLineEdit": {

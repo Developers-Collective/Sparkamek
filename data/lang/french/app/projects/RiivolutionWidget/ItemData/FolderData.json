@@ -1,1 +1,20 @@
-{}
+{
+    "QLabel": {
+        "text": "%s → %s"
+    },
+    "QPushButton": {
+        "back": "Retour"
+    },
+    "PropertyWidget": {
+        "QNamedLineEdit": {
+            "disc": "Disque",
+            "external": "Dossier",
+            "length": "Longueur"
+        },
+        "QNamedToggleButton": {
+            "recursive": "Récursif",
+            "resize": "Redimensionner",
+            "create": "Créer"
+        }
+    }
+}

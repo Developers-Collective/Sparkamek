@@ -10,7 +10,7 @@
     "QPushButton": {
         "addFile": "Add File",
         "addFolder": "Add Folder",
-        "addSavegame": "Add Savegame",
+        "addSavegame": "Add SaveGame",
         "addMemory": "Add Memory"
     },
     "PropertyWidget": {

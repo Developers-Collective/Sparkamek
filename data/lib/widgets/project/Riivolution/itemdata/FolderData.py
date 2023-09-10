@@ -4,25 +4,25 @@
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
 from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData
-from ..items.File import File
+from ..items.Folder import Folder
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------
 
     # Class
-class FileData(BaseSubItemData):
-    type: str = 'File'
-    child_cls: File = File
+class FolderData(BaseSubItemData):
+    type: str = 'Folder'
+    child_cls: Folder = Folder
 
     _back_icon = None
 
     _lang = {}
 
     def init(app: QBaseApplication) -> None:
-        FileData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.FileData')
+        FolderData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.FolderData')
 
-        FileData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
+        FolderData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
 
-    def __init__(self, data: File, path: str) -> None:
+    def __init__(self, data: Folder, path: str) -> None:
         super().__init__(data, path)
 
         self._disable_send = False
@@ -66,10 +66,9 @@ class FileData(BaseSubItemData):
         self._create_togglebutton.toggled.connect(self._create_toggled)
         subframe.grid_layout.addWidget(self._create_togglebutton, 1, 1)
 
-        self._offset_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.offset'))
-        self._offset_lineedit.setText(hex(self._data.offset))
-        self._offset_lineedit.line_edit.textChanged.connect(self._offset_changed)
-        subframe.grid_layout.addWidget(self._offset_lineedit, 2, 0)
+        self._recursive_togglebutton = QNamedToggleButton(None, self._lang.get_data('PropertyWidget.QNamedToggleButton.recursive'), self._data.recursive, True)
+        self._recursive_togglebutton.toggled.connect(self._recursive_toggled)
+        subframe.grid_layout.addWidget(self._recursive_togglebutton, 2, 0)
 
         self._length_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.length'))
         self._length_lineedit.setText(hex(self._data.length))
@@ -86,14 +85,20 @@ class FileData(BaseSubItemData):
 
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace('%s', self._data.external, 1).replace('%s', self._data.disc, 1)
+        s = self._lang.get_data('QLabel.text').replace(
+            '%s',
+            self._data.external,
+            1
+        ).replace(
+            '%s',
+            self._data.disc if self._data.disc else f'/{self._data.external}',
+            1
+        )
         self._text_label.setText(s)
 
 
     def _disc_changed(self, text: str) -> None:
-        if not text: return
-
-        if not text.startswith('/'): text = f'/{text}'
+        if text != '' and not text.startswith('/'): text = f'/{text}'
         self._disc_lineedit.setText(text)
 
         self._data.disc = text
@@ -113,20 +118,8 @@ class FileData(BaseSubItemData):
         self._data.create_ = checked
         self._send_data()
 
-    def _offset_changed(self, text: str) -> None:
-        if not text: return
-
-        text = text.replace('0x', '')
-        new_text = ''
-        for c in text.upper():
-            if c in '0123456789ABCDEF': new_text += c
-
-        try: value = int(text, 16)
-        except ValueError:
-            self._offset_lineedit.setText(f'0x{hex(self._data.offset)[2:].upper()}')
-            return
-
-        self._data.offset = value
+    def _recursive_toggled(self, checked: bool) -> None:
+        self._data.recursive = checked
         self._send_data()
 
     def _length_changed(self, text: str) -> None:
