@@ -8,7 +8,9 @@
     "PropertyWidget": {
         "QNamedLineEdit": {
             "disc": "Disc",
-            "external": "Folder",
+            "external": "Folder"
+        },
+        "QNamedHexSpinBox": {
             "length": "Length"
         },
         "QNamedToggleButton": {

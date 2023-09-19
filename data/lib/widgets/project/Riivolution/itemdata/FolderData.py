@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData, QNamedHexSpinBox
 from ..items.Folder import Folder
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------
@@ -70,10 +70,11 @@ class FolderData(BaseSubItemData):
         self._recursive_togglebutton.toggled.connect(self._recursive_toggled)
         subframe.grid_layout.addWidget(self._recursive_togglebutton, 2, 0)
 
-        self._length_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.length'))
-        self._length_lineedit.setText(hex(self._data.length))
-        self._length_lineedit.line_edit.textChanged.connect(self._length_changed)
-        subframe.grid_layout.addWidget(self._length_lineedit, 2, 1)
+        self._length_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.length'))
+        self._length_hexspinbox.set_range(0, 0xFFFFFFFF)
+        self._length_hexspinbox.set_value(self._data.length)
+        self._length_hexspinbox.value_changed.connect(self._length_changed)
+        subframe.grid_layout.addWidget(self._length_hexspinbox, 2, 1)
 
         subframe.grid_layout.setRowStretch(3, 1)
 
@@ -122,19 +123,7 @@ class FolderData(BaseSubItemData):
         self._data.recursive = checked
         self._send_data()
 
-    def _length_changed(self, text: str) -> None:
-        if not text: return
-
-        text = text.replace('0x', '')
-        new_text = ''
-        for c in text.upper():
-            if c in '0123456789ABCDEF': new_text += c
-
-        try: value = int(text, 16)
-        except ValueError:
-            self._length_lineedit.setText(f'0x{hex(self._data.offset)[2:].upper()}')
-            return
-        
+    def _length_changed(self, value: str) -> None:
         self._data.length = value
         self._send_data()
 
