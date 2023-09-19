@@ -45,19 +45,21 @@ class XMLNode:
         return [child for child in self.children if child.name == name]
 
 
-    def _convert_attribute(self, attr: str) -> str:
+    def _convert_data(self, attr: str) -> str:
+        if attr == 'True': return 'true'
+        if attr == 'False': return 'false'
         return attr.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')#.replace('\'', '&apos;')
 
 
     def __repr__(self) -> str:
-        attr = ' '.join([f'{self._convert_attribute(str(key))}="{self._convert_attribute(str(value))}"' for key, value in self.attributes.items()])
+        attr = ' '.join([f'{self._convert_data(str(key))}="{self._convert_data(str(value))}"' for key, value in self.attributes.items()])
 
         s = f'<{self.name}'
         if attr: s += f' {attr}'
 
         while None in self._children: self._children.remove(None)
 
-        if self.value is not None: s += f'>{self.value}</{self.name}>'
+        if self.value is not None: s += f'>{self._convert_data(self.value)}</{self.name}>'
         elif self.children:
             s += '>'
 

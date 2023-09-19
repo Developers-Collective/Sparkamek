@@ -1,29 +1,28 @@
 #----------------------------------------------------------------------
 
     # Libraries
+from interface import implements
 from data.lib.storage import XMLNode
-from .BaseItem import BaseItem
+from .IBaseSprite import IBaseSprite
 #----------------------------------------------------------------------
 
     # Class
-class Entry(BaseItem):
+class Entry(implements(IBaseSprite)):
     name: str = 'entry'
 
     def __init__(self, data: XMLNode) -> None:
-        super().__init__(data)
+        super().__init__()
 
         self.value = int(data.get_attribute('value', '0'))
         self.item = data.value
 
     def export(self) -> XMLNode:
-        sup = super().export()
-
         return XMLNode(
             self.name,
             (
                 ({'value': self.value} if self.value is not None else {})
-            ) | sup.attributes,
-            sup.children,
+            ),
+            [],
             self.item
         )
 
@@ -32,5 +31,5 @@ class Entry(BaseItem):
 
     @staticmethod
     def create() -> 'Entry':
-        return Entry(XMLNode('entry', attributes = {'nybble': 1, 'value': 0}, value = 'New Entry'))
+        return Entry(XMLNode('entry', value = 'New Entry'))
 #----------------------------------------------------------------------
