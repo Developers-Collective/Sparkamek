@@ -97,7 +97,7 @@ Much better, right?
 
 Sparkamek is a GUI for Kamek, so it does the same thing as Kamek, but with a lot of improvements. It also allows you to compile a custom loader for your game with improved features, like with the Kamek one.
 
-You can also create and edit the Reggie Next (the level editor app) spritedata file with ease, which is use to create patches for the it.
+You can also create and edit the Reggie Next (the level editor app) spritedata file with ease, which is use to create patches for the game.
 
 And finally, you can also create and edit the Riivolution file with ease, which is used to create patches for the game.
 
