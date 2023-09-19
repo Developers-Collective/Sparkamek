@@ -78,7 +78,7 @@ class QNamedTextEdit(QGridWidget):
         return self.text_edit.toPlainText()
 
     def setText(self, text: str) -> None:
-        self.text_edit.setText(text)
+        self.text_edit.setPlainText(text)
         # self.setLineHeight(self._line_height)
 
     def append(self, text: str) -> None:

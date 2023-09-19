@@ -41,5 +41,5 @@ class QHexValidator(QValidator):
         except ValueError: return (QValidator.State.Invalid, input, pos)
         except AssertionError: return (QValidator.State.Invalid, input, pos)
 
-        return (QValidator.State.Acceptable, input, pos)
+        return (QValidator.State.Acceptable, f'{i:X}', pos)
 #----------------------------------------------------------------------
