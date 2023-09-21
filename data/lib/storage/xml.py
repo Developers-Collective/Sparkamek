@@ -120,7 +120,11 @@ class XMLNode:
         if val.lower() == 'true': return True
         if val.lower() == 'false': return False
 
-        constructors = [int, float, str]
+        if (val.count('.') == 1) and val.replace('.', '').isdigit():
+            try: return float(val)
+            except ValueError: pass
+
+        constructors = [int, str]
         for c in constructors:
             try: return c(val)
             except ValueError: pass

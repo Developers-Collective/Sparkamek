@@ -1,1 +1,30 @@
-{}
+{
+    "MemoryValueData": {
+        "QPushButton": {
+            "back": "Back"
+        },
+        "QLabel": {
+            "text": "%s: %s → %s"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "offset": "Offset",
+                "value": "Value",
+                "original": "Original Value"
+            }
+        }
+    },
+    "MemoryValueFileData": {
+        "QPushButton": {
+            "back": "Retour"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "offset": "Offset"
+            },
+            "QNamedLineEdit": {
+                "valuefile": "Value File"
+            }
+        }
+    }
+}

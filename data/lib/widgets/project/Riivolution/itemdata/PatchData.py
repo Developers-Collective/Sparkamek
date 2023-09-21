@@ -9,6 +9,7 @@ from .BaseItemData import BaseItemData
 from .FileData import FileData
 from .FolderData import FolderData
 from .SaveGameData import SaveGameData
+from .MemoryValueData import MemoryValueData, MemoryValue
 #----------------------------------------------------------------------
 
     # Class
@@ -28,6 +29,7 @@ class PatchData(BaseItemData):
         FileData.init(app)
         FolderData.init(app)
         SaveGameData.init(app)
+        MemoryValueData.init(app)
 
     def __init__(self, data: Patch, path: str) -> None:
         super().__init__(data, path)
@@ -152,6 +154,30 @@ class PatchData(BaseItemData):
         subframe.grid_layout.addWidget(self._add_savegame_entry_button, 2, 0)
         self._add_savegame_entry_button.setEnabled(False)
 
+
+        subframe = QGridWidget()
+        subframe.grid_layout.setSpacing(8)
+        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        leftframe.grid_layout.addWidget(subframe, 2, 0)
+
+        label = QLabel(self._lang.get_data('QLabel.memories'))
+        label.setProperty('h', 2)
+        label.setProperty('small', True)
+        subframe.grid_layout.addWidget(label, 0, 0)
+
+        self._memory_draglist = QDragList()
+        self._memory_draglist.moved.connect(self._memory_entry_moved)
+        subframe.grid_layout.addWidget(self._memory_draglist, 1, 0)
+
+        self._add_memory_entry_button = QPushButton(self._lang.get_data('QPushButton.addMemory'))
+        self._add_memory_entry_button.setIcon(self._add_entry_icon)
+        self._add_memory_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._add_memory_entry_button.setProperty('color', 'main')
+        self._add_memory_entry_button.clicked.connect(self._add_memory_entry)
+        subframe.grid_layout.addWidget(self._add_memory_entry_button, 2, 0)
+        self._add_memory_entry_button.setEnabled(False)
+
+
         subframe.grid_layout.setRowStretch(3, 1)
 
         leftframe.grid_layout.setRowStretch(2, 1)
@@ -201,6 +227,24 @@ class PatchData(BaseItemData):
                 sgd.edited.connect(self._entry_selected)
                 sgd.deleted.connect(self._delete_savegame_entry)
                 self._savegame_draglist.add_item(sgd)
+
+        self._memory_draglist.clear()
+        self._add_memory_entry_button.setEnabled(self._data is not None)
+        if self._data:
+            for memory in self._data.memory_children:
+                type_ = type(memory)
+                if (type_ is MemoryValue): md = MemoryValueData(memory, self._path)
+                # elif (type_ is MemoryValueFile): md = MemoryValueFileData(memory, self._path)
+                # elif (type_ is MemorySearchValue): md = MemorySearchValueData(memory, self._path)
+                # elif (type_ is MemorySearchValueFile): md = MemorySearchValueFileData(memory, self._path)
+                # elif (type_ is MemoryOcarina): md = MemoryOcarinaData(memory, self._path)
+
+                else: continue
+
+                md.data_changed.connect(self._send_data)
+                md.edited.connect(self._entry_selected)
+                md.deleted.connect(self._delete_memory_entry)
+                self._memory_draglist.add_item(md)
 
         self._disable_send = False
 
@@ -300,6 +344,35 @@ class PatchData(BaseItemData):
         if self._data is None: return
 
         self._data.savegame_children.remove(item.data)
+        item.setParent(None)
+        item.deleteLater()
+
+        self._child_pages.slide_in_index(0)
+
+        self._send_data()
+
+
+    def _memory_entry_moved(self, old_index: int, new_index: int) -> None:
+        self._data.memory_children.insert(new_index, self._data.memory_children.pop(old_index))
+        self._send_data()
+
+    def _add_memory_entry(self) -> None:
+        # todo: add memory type choice and create the correct child class
+        m = MemoryValueData.child_cls.create()
+        self._data.memory_children.append(m)
+
+        md = MemoryValueData(m, self._path)
+        md.data_changed.connect(self._send_data)
+        md.deleted.connect(self._delete_memory_entry)
+        md.edited.connect(self._entry_selected)
+        self._memory_draglist.add_item(md)
+
+        self._send_data()
+
+    def _delete_memory_entry(self, item: MemoryValueData) -> None:
+        if self._data is None: return
+
+        self._data.memory_children.remove(item.data)
         item.setParent(None)
         item.deleteLater()
 

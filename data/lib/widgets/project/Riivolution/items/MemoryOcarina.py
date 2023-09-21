@@ -14,7 +14,7 @@ class MemoryOcarina(implements(IBaseItem)):
         if not data: data = self.create().export()
 
         self.offset: int = data.get_attribute('offset', 0) # Required
-        self.value: str = str(data.get_attribute('value', '')) # Required
+        self.value: int = int(str(data.get_attribute('value', 0)), 16) # Required
 
     def export(self) -> XMLNode:
         return XMLNode(
