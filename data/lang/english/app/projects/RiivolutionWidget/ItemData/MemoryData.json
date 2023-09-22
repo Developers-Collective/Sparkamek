@@ -77,5 +77,22 @@
                 "comment": "Comment"
             }
         }
+    },
+    "MemoryOcarinaData": {
+        "QPushButton": {
+            "back": "Back"
+        },
+        "QLabel": {
+            "text": "%s: %s"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "offset": "Offset",
+                "value": "Value"
+            },
+            "QNamedTextEdit": {
+                "comment": "Comment"
+            }
+        }
     }
 }

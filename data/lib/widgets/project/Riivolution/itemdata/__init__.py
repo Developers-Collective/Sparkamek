@@ -13,4 +13,5 @@ from .MemoryValueData import MemoryValueData
 from .MemoryValueFileData import MemoryValueFileData
 from .MemorySearchValueData import MemorySearchValueData
 from .MemorySearchValueFileData import MemorySearchValueFileData
+from .MemoryOcarinaData import MemoryOcarinaData
 #----------------------------------------------------------------------

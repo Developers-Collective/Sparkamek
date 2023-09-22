@@ -15,6 +15,7 @@ from .MemoryValueData import MemoryValueData, MemoryValue
 from .MemoryValueFileData import MemoryValueFileData, MemoryValueFile
 from .MemorySearchValueData import MemorySearchValueData, MemorySearchValue
 from .MemorySearchValueFileData import MemorySearchValueFileData, MemorySearchValueFile
+from .MemoryOcarinaData import MemoryOcarinaData, MemoryOcarina
 #----------------------------------------------------------------------
 
     # Class
@@ -244,7 +245,7 @@ class PatchData(BaseItemData):
                 elif (type_ is MemoryValueFile): md = MemoryValueFileData(memory, self._path)
                 elif (type_ is MemorySearchValue): md = MemorySearchValueData(memory, self._path)
                 elif (type_ is MemorySearchValueFile): md = MemorySearchValueFileData(memory, self._path)
-                # elif (type_ is MemoryOcarina): md = MemoryOcarinaData(memory, self._path)
+                elif (type_ is MemoryOcarina): md = MemoryOcarinaData(memory, self._path)
 
                 else: continue
 

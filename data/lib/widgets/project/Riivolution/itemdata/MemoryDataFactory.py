@@ -7,6 +7,7 @@ from .MemoryValueData import MemoryValueData
 from .MemoryValueFileData import MemoryValueFileData
 from .MemorySearchValueData import MemorySearchValueData
 from .MemorySearchValueFileData import MemorySearchValueFileData
+from .MemoryOcarinaData import MemoryOcarinaData
 #----------------------------------------------------------------------
 
     # Class
@@ -19,6 +20,7 @@ class MemoryDataFactory:
         MemoryValueFileData,
         MemorySearchValueData,
         MemorySearchValueFileData,
+        MemoryOcarinaData,
     ]
 
     def __new__(cls) -> None:
