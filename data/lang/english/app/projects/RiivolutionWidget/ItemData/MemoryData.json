@@ -11,6 +11,29 @@
                 "offset": "Offset",
                 "value": "Value",
                 "original": "Original Value"
+            },
+            "QNamedTextEdit": {
+                "comment": "Comment"
+            }
+        }
+    },
+    "MemorySearchValueData": {
+        "QPushButton": {
+            "back": "Back"
+        },
+        "QLabel": {
+            "text": "%s → %s (%s)"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "original": "Original Value",
+                "value": "Value"
+            },
+            "QNamedSpinBox": {
+                "align": "Byte Alignment"
+            },
+            "QNamedTextEdit": {
+                "comment": "Comment"
             }
         }
     },
@@ -18,12 +41,40 @@
         "QPushButton": {
             "back": "Retour"
         },
+        "QLabel": {
+            "text": "%s: %s"
+        },
         "PropertyWidget": {
             "QNamedHexSpinBox": {
                 "offset": "Offset"
             },
             "QNamedLineEdit": {
                 "valuefile": "Value File"
+            },
+            "QNamedTextEdit": {
+                "comment": "Comment"
+            }
+        }
+    },
+    "MemorySearchValueFileData": {
+        "QPushButton": {
+            "back": "Back"
+        },
+        "QLabel": {
+            "text": "%s: %s (%s)"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "original": "Original Value"
+            },
+            "QNamedLineEdit": {
+                "valuefile": "Value File"
+            },
+            "QNamedSpinBox": {
+                "align": "Byte Alignment"
+            },
+            "QNamedTextEdit": {
+                "comment": "Comment"
             }
         }
     }

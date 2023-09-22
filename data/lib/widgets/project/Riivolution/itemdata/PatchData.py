@@ -1,15 +1,20 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QLabel, QPushButton
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QPushButton, QMenu
+from PySide6.QtCore import Qt, QPoint
+from PySide6.QtGui import QAction
 from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList
 from ..items.Patch import Patch
 from .BaseItemData import BaseItemData
 from .FileData import FileData
 from .FolderData import FolderData
 from .SaveGameData import SaveGameData
+from .MemoryDataFactory import MemoryDataFactory
 from .MemoryValueData import MemoryValueData, MemoryValue
+from .MemoryValueFileData import MemoryValueFileData, MemoryValueFile
+from .MemorySearchValueData import MemorySearchValueData, MemorySearchValue
+from .MemorySearchValueFileData import MemorySearchValueFileData, MemorySearchValueFile
 #----------------------------------------------------------------------
 
     # Class
@@ -18,6 +23,7 @@ class PatchData(BaseItemData):
     child_cls: Patch = Patch
 
     _add_entry_icon = None
+    _add_memory_entry_icon = None
 
     _lang = {}
 
@@ -25,11 +31,12 @@ class PatchData(BaseItemData):
         PatchData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData')
 
         PatchData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
+        PatchData._add_memory_entry_icon = app.get_icon('popup/addMemory.png', True, QSaveData.IconMode.Local)
 
         FileData.init(app)
         FolderData.init(app)
         SaveGameData.init(app)
-        MemoryValueData.init(app)
+        MemoryDataFactory.init(app)
 
     def __init__(self, data: Patch, path: str) -> None:
         super().__init__(data, path)
@@ -234,9 +241,9 @@ class PatchData(BaseItemData):
             for memory in self._data.memory_children:
                 type_ = type(memory)
                 if (type_ is MemoryValue): md = MemoryValueData(memory, self._path)
-                # elif (type_ is MemoryValueFile): md = MemoryValueFileData(memory, self._path)
-                # elif (type_ is MemorySearchValue): md = MemorySearchValueData(memory, self._path)
-                # elif (type_ is MemorySearchValueFile): md = MemorySearchValueFileData(memory, self._path)
+                elif (type_ is MemoryValueFile): md = MemoryValueFileData(memory, self._path)
+                elif (type_ is MemorySearchValue): md = MemorySearchValueData(memory, self._path)
+                elif (type_ is MemorySearchValueFile): md = MemorySearchValueFileData(memory, self._path)
                 # elif (type_ is MemoryOcarina): md = MemoryOcarinaData(memory, self._path)
 
                 else: continue
@@ -357,11 +364,34 @@ class PatchData(BaseItemData):
         self._send_data()
 
     def _add_memory_entry(self) -> None:
-        # todo: add memory type choice and create the correct child class
-        m = MemoryValueData.child_cls.create()
+        lang = self._lang.get_data('QMenu.addEntry')
+        send_param = lambda k: lambda: self._add_memory_entry_clicked(k)
+
+        menu = QMenu(self)
+        menu.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        actions_add_entry = []
+
+        for memory_item_t in MemoryDataFactory.get_all():
+            action_add_entry = QAction(lang.get_data(f'QAction.add{memory_item_t.child_cls.key.title()}'))
+            action_add_entry.setIcon(self._add_memory_entry_icon)
+            action_add_entry.triggered.connect(send_param(memory_item_t.child_cls.key))
+            actions_add_entry.append(action_add_entry)
+
+        for a in actions_add_entry: menu.addAction(a) # Doesn't work if I do it in the loop above for some reason
+
+        menu.exec(self._add_memory_entry_button.mapToGlobal(QPoint(0, 0)))
+
+        self._send_data()
+
+    def _add_memory_entry_clicked(self, key: str) -> None:
+        cls_ = MemoryDataFactory.get_data(key)
+        if cls_ is None: return
+
+        m = cls_.child_cls.create()
         self._data.memory_children.append(m)
 
-        md = MemoryValueData(m, self._path)
+        md = cls_(m, self._path)
         md.data_changed.connect(self._send_data)
         md.deleted.connect(self._delete_memory_entry)
         md.edited.connect(self._entry_selected)

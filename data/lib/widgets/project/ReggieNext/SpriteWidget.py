@@ -304,21 +304,21 @@ class SpriteWidget(QGridWidget):
     def _add_settings_entry(self) -> None:
         if self._sprite is None: return
 
-        lang = self._lang['QMenu']['addEntry']
+        lang = self._lang.get_data('QMenu.addEntry')
         send_param = lambda k: lambda: self._add_settings_entry_clicked(k)
 
         menu = QMenu(self)
         menu.setCursor(Qt.CursorShape.PointingHandCursor)
 
-        actions_addEntry = []
+        actions_add_entry = []
 
         for item_t in ItemDataFactory.get_all():
-            action_addEntry = QAction(lang['QAction'][f'add{item_t.child_cls.name.title()}'])
-            action_addEntry.setIcon(self._add_item_entry_icon)
-            action_addEntry.triggered.connect(send_param(item_t.child_cls.name))
-            actions_addEntry.append(action_addEntry)
+            action_add_entry = QAction(lang.get_data(f'QAction.add{item_t.child_cls.name.title()}'))
+            action_add_entry.setIcon(self._add_item_entry_icon)
+            action_add_entry.triggered.connect(send_param(item_t.child_cls.name))
+            actions_add_entry.append(action_add_entry)
 
-        for a in actions_addEntry: menu.addAction(a) # Doesn't work if I do it in the loop above for some reason
+        for a in actions_add_entry: menu.addAction(a) # Doesn't work if I do it in the loop above for some reason
 
         menu.exec(self._add_settings_entry_button.mapToGlobal(QPoint(0, 0)))
 

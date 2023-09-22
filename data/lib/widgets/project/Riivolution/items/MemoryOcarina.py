@@ -9,6 +9,7 @@ from .IBaseItem import IBaseItem
     # Class
 class MemoryOcarina(implements(IBaseItem)):
     name: str = 'memory'
+    key: str = 'memoryocarina'
 
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()

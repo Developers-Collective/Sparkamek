@@ -21,5 +21,16 @@
         "FolderData": "#ref: app/projects/RiivolutionWidget/ItemData/FolderData",
         "SaveGameData": "#ref: app/projects/RiivolutionWidget/ItemData/SaveGameData",
         "MemoryData": "#ref: app/projects/RiivolutionWidget/ItemData/MemoryData"
+    },
+    "QMenu": {
+        "addEntry": {
+            "QAction": {
+                "addMemoryvalue": "Add Memory Value",
+                "addMemoryvaluefile": "Add Memory Value from File",
+                "addMemorysearchvalue": "Add Memory Search Value",
+                "addMemorysearchvaluefile": "Add Memory Search Value from File",
+                "addMemoryOcarina": "Add Ocarina Memory"
+            }
+        }
     }
 }

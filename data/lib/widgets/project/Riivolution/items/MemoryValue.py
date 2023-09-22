@@ -9,6 +9,7 @@ from .IBaseItem import IBaseItem
     # Class
 class MemoryValue(implements(IBaseItem)):
     name: str = 'memory'
+    key: str = 'memoryvalue'
 
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()

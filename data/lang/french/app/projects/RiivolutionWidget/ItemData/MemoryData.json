@@ -11,6 +11,29 @@
                 "offset": "Décalage",
                 "value": "Valeur",
                 "original": "Valeur Originale"
+            },
+            "QNamedTextEdit": {
+                "comment": "Commentaire"
+            }
+        }
+    },
+    "MemorySearchValueData": {
+        "QPushButton": {
+            "back": "Retour"
+        },
+        "QLabel": {
+            "text": "%s → %s (%s)"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "original": "Valeur Originale",
+                "value": "Value"
+            },
+            "QNamedSpinBox": {
+                "align": "Alignement (octets)"
+            },
+            "QNamedTextEdit": {
+                "comment": "Commentaire"
             }
         }
     },
@@ -18,12 +41,40 @@
         "QPushButton": {
             "back": "Retour"
         },
+        "QLabel": {
+            "text": "%s: %s"
+        },
         "PropertyWidget": {
             "QNamedHexSpinBox": {
                 "offset": "Décalage"
             },
             "QNamedLineEdit": {
                 "valuefile": "Fichier de Valeurs"
+            },
+            "QNamedTextEdit": {
+                "comment": "Commentaire"
+            }
+        }
+    },
+    "MemorySearchValueFileData": {
+        "QPushButton": {
+            "back": "Retour"
+        },
+        "QLabel": {
+            "text": "%s: %s (%s)"
+        },
+        "PropertyWidget": {
+            "QNamedHexSpinBox": {
+                "original": "Valeur Originale"
+            },
+            "QNamedLineEdit": {
+                "valuefile": "Fichier de Valeurs"
+            },
+            "QNamedSpinBox": {
+                "align": "Alignement (octets)"
+            },
+            "QNamedTextEdit": {
+                "comment": "Commentaire"
             }
         }
     }

@@ -37,7 +37,6 @@ class WiiDiscWidget(QGridWidget):
         ItemDataPropertyDockWidget.init(app)
 
         BaseItemData.init(app)
-        BaseSubItemData.init(app)
         IDWidget.init(app)
         OptionsWidget.init(app)
         PatchData.init(app)
