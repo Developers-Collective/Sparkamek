@@ -9,6 +9,8 @@
     "QPushButton": {
         "clear": "Effacer",
         "reset": "Réinitialiser",
+        "import": "Importer...",
+        "export": "Exporter...",
         "create": "Créer un Nouveau Sprite",
         "delete": "Supprimer le Sprite Sélectionné"
     },

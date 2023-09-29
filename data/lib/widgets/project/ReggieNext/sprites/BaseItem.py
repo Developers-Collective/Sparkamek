@@ -34,7 +34,9 @@ class BaseItem(implements(IBaseSprite)):
             val = requiredvals[i] if i < len(requiredvals) else [1]
             self.requirednybblevals.append(ReqNybble(requirednybbles[i], val))
 
-        self.nybbles = NybbleRange(data.get_attribute('nybble', ''))
+        bits = data.get_attribute('bits', '')
+        if bits: self.nybbles = NybbleRange.from_bits(bits)
+        else: self.nybbles = NybbleRange(data.get_attribute('nybble', ''))
 
         self.comment = data.get_attribute('comment', '')
         self.comment2 = data.get_attribute('comment2', '')

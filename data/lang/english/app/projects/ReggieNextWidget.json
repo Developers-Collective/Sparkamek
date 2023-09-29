@@ -9,6 +9,8 @@
     "QPushButton": {
         "clear": "Clear",
         "reset": "Reset",
+        "import": "Import...",
+        "export": "Export...",
         "create": "Create a New Sprite",
         "delete": "Delete Selected Sprite"
     },

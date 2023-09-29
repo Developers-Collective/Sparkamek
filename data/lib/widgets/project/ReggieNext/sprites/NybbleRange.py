@@ -60,4 +60,14 @@ class NybbleRange:
     def convert2hex_formatted(self) -> str:
         s = f'{self.convert2int():016X}'
         return f'{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}'
+
+    @staticmethod
+    def from_bits(bits: str) -> 'NybbleRange':
+        if bits == '' or bits is None: return NybbleRange('1')
+        if not isinstance(bits, str): bits = str(bits)
+
+        bit_list = bits.replace(' ', '').split('-')
+
+        if len(bit_list) == 2: return NybbleRange(f'{Nybble.from_bits(bit_list[0]).export()}-{Nybble.from_bits(bit_list[1]).export()}')
+        else: return NybbleRange(Nybble.from_bits(bit_list[0]).export())
 #----------------------------------------------------------------------

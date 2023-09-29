@@ -22,4 +22,11 @@ class Nybble:
 
     def copy(self) -> 'Nybble':
         return Nybble(self.export())
+
+    @staticmethod
+    def from_bits(bits: str) -> 'Nybble':
+        bits_int = int(bits)
+
+        nybble, bit = divmod(bits_int, 4)
+        return Nybble(f'{nybble + 1}' + (f'.{bit + 1}' if bit != 0 else ''))
 #----------------------------------------------------------------------

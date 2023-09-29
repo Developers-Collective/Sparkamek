@@ -225,11 +225,13 @@ class SpriteListDockWidget(QSavableDockWidget):
                 self._list.add_item([str(sprite.id), sprite.sprite_name], None, self._list_alignment)
 
 
-    def delete_sprite(self, data: tuple[int, str]) -> None:
-        if self._sprites.get_by_id(data[0]):
-            self._sprites.remove_by_id(data[0])
+    def delete_sprite(self, data: Sprite) -> None:
+        self._sprite_selection_changed(None, (str(data.id), data.sprite_name))
 
-            index = self._list.index((str(data[0]), data[1]))
+        if self._sprites.get_by_id(data.id):
+            self._sprites.remove_by_id(data.id)
+
+            index = self._list.index((str(data.id), data.sprite_name))
             self._list.remove_item(index)
 
 

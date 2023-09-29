@@ -20,6 +20,8 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
     _clear_icon = None
     _reset_icon = None
+    _import_icon = None
+    _export_icon = None
     _create_icon = None
     _delete_icon = None
 
@@ -29,6 +31,8 @@ class ReggieNextWidget(SubProjectWidgetBase):
         ReggieNextWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget')
         ReggieNextWidget._clear_icon = app.get_icon('pushbutton/clear.png', True, QSaveData.IconMode.Local)
         ReggieNextWidget._reset_icon = app.get_icon('pushbutton/reset.png', True, QSaveData.IconMode.Local)
+        ReggieNextWidget._import_icon = app.get_icon('pushbutton/import.png', True, QSaveData.IconMode.Local)
+        ReggieNextWidget._export_icon = app.get_icon('pushbutton/export.png', True, QSaveData.IconMode.Local)
         ReggieNextWidget._create_icon = app.get_icon('pushbutton/create.png', True, QSaveData.IconMode.Local)
         ReggieNextWidget._delete_icon = app.get_icon('pushbutton/delete.png', True, QSaveData.IconMode.Local)
 
@@ -39,7 +43,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
 
-        self.scroll_layout.setSpacing(20)
+        self.scroll_layout.setSpacing(10)
 
         dockwidgets = data.get('dockwidgets', {})
 
@@ -89,6 +93,30 @@ class ReggieNextWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
 
+        self._import_button = QPushButton(self._lang.get_data('QPushButton.import'))
+        self._import_button.setIcon(self._import_icon)
+        self._import_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._import_button.setProperty('icon-padding', True)
+        self._import_button.setProperty('color', 'main')
+        self._import_button.clicked.connect(self._import)
+        self._import_button.setEnabled(False)
+        topframe.grid_layout.addWidget(self._import_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self._export_button = QPushButton(self._lang.get_data('QPushButton.export'))
+        self._export_button.setIcon(self._export_icon)
+        self._export_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._export_button.setProperty('icon-padding', True)
+        self._export_button.setProperty('color', 'main')
+        self._export_button.clicked.connect(self._export)
+        self._export_button.setEnabled(False)
+        topframe.grid_layout.addWidget(self._export_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+
+
+        topframe = QGridWidget()
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        topframe.grid_layout.setSpacing(8)
+        self._root.scroll_layout.addWidget(topframe, 2, 0, Qt.AlignmentFlag.AlignTop)
+
         self._reset_button = QPushButton(self._lang.get_data('QPushButton.reset'))
         self._reset_button.setIcon(self._reset_icon)
         self._reset_button.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -107,11 +135,12 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._clear_button.setEnabled(False)
         topframe.grid_layout.addWidget(self._clear_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
+
         self._sprite_widget = SpriteWidget(self._path)
         self._sprite_widget.sprite_edited.connect(self._sprite_edited)
         self._sprite_widget.current_sprite_changed.connect(self._item_data_property_dock_widget.update_title)
         self._sprite_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
-        self._root.scroll_layout.addWidget(self._sprite_widget, 2, 0)
+        self._root.scroll_layout.addWidget(self._sprite_widget, 3, 0)
 
 
     @property
@@ -174,7 +203,15 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._reset_button.setEnabled(False)
 
     def _delete(self) -> None:
-        if self._prev_info: self._sprite_list_dock_widget.delete_sprite(self._prev_info)
+        if self._current_sprite:
+            self._save_current_sprite()
+            self._sprite_list_dock_widget.delete_sprite(self._current_sprite)
+
+    def _import(self) -> None:
+        pass
+
+    def _export(self) -> None:
+        pass
 
     def _reset(self) -> None:
         self._sprite_widget.sprite = self._current_sprite.copy() if self._current_sprite is not None else None
