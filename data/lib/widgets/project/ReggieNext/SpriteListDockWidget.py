@@ -153,6 +153,9 @@ class SpriteListDockWidget(QSavableDockWidget):
 
         self._sprite_list_loader_worker.start()
 
+    def import_item(self, item: Sprite) -> None:
+        self._load_item(item)
+
     def _load_item(self, item: Sprite) -> None:
         try:
             self._sprites.add(item)

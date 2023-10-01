@@ -18,7 +18,9 @@ class Sprite(implements(IBaseSprite)):
     name: str = 'sprite'
 
     def __init__(self, data: XMLNode) -> None:
-        self.id = data.get_attribute('id', None)
+        self.id = data.get_attribute('id', 0)
+        if not isinstance(self.id, int): self.id = 0
+
         self.sprite_name = data.get_attribute('name', '')
         self.asmhacks = self._bool_filter(data.get_attribute('asmhacks', False))
         self.sizehacks = self._bool_filter(data.get_attribute('sizehacks', False))
@@ -51,8 +53,8 @@ class Sprite(implements(IBaseSprite)):
         return XMLNode(
             'sprite',
             (
-                ({'id': self.id} if self.id is not None else {}) |
-                ({'name': self.sprite_name} if self.sprite_name else {}) |
+                {'id': self.id} |
+                {'name': self.sprite_name} |
                 ({'asmhacks': self.asmhacks} if self.asmhacks else {}) |
                 ({'sizehacks': self.sizehacks} if self.sizehacks else {}) |
                 ({'noyoshi': self.noyoshi} if self.noyoshi else {}) |

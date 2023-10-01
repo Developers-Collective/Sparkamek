@@ -9,10 +9,30 @@
     "QPushButton": {
         "clear": "Effacer",
         "reset": "Réinitialiser",
-        "import": "Importer...",
+        "import": "Importer un Sprite...",
         "export": "Exporter le Sprite Sélectionné...",
         "create": "Créer un Nouveau Sprite",
         "delete": "Supprimer le Sprite Sélectionné"
+    },
+    "ImportDialog": {
+        "title": "Sparkamek > Reggie Next > Importer un Sprite > %s (%s/%s)",
+        "QLabel": {
+            "spriteID": {
+                "title": "ID du Sprite",
+                "description": "Le nouvel ID du Sprite à importer. Notez que l'ID doit être unique et ne doit pas être déjà utilisé par un autre Sprite."
+            }
+        },
+        "QNamedSpinBox": {
+            "spriteID": "ID du Sprite"
+        },
+        "QPushButton": {
+            "import": "Importer",
+            "cancel": "Annuler"
+        }
+    },
+    "QFileDialog": {
+        "import": "Sparkamek > Reggie Next > Importer un Sprite",
+        "export": "Sparkamek > Reggie Next > Exporter un Sprite"
     },
     "SpriteListDockWidget": "#ref: app/projects/ReggieNextWidget/SpriteListDockWidget",
     "SpriteWidget": "#ref: app/projects/ReggieNextWidget/SpriteWidget",

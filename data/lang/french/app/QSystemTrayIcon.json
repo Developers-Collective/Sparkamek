@@ -9,7 +9,7 @@
         },
         "ReggieNextWidget": {
             "successfullySaved": {
-                "title": "Reggie Next",
+                "title": "Info Reggie Next",
                 "message": "Reggie Next • Données enregistrées avec succès !"
             },
             "errorWhileSaving": {
@@ -27,6 +27,18 @@
             "warningWhileLoadingSprite": {
                 "title": "Avertissement Reggie Next",
                 "message": "Reggie Next • Un avertissement est survenu lors du chargement des données !\nAvertissement: %s"
+            },
+            "errorWhileImportingSprite": {
+                "title": "Erreur Reggie Next",
+                "message": "Reggie Next • Une erreur est survenue lors de l'importation des données !\nErreur: %s"
+            },
+            "errorWhileExportingSprite": {
+                "title": "Erreur Reggie Next",
+                "message": "Reggie Next • Une erreur est survenue lors de l'exportation des données !\nErreur: %s"
+            },
+            "successfullyExportedSprite": {
+                "title": "Info Reggie Next",
+                "message": "Reggie Next • %s exporté avec succès !"
             }
         }
     }

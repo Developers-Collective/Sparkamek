@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QDockWidget, QPushButton
+from PySide6.QtWidgets import QDockWidget, QPushButton, QFileDialog
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData
@@ -10,8 +10,9 @@ from .SpriteListDockWidget import SpriteListDockWidget
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 from .SpriteWidget import SpriteWidget
 from .sprites.Sprite import Sprite
-from data.lib.storage.xml import XMLNode
-import os
+from .ImportDialog import ImportDialog
+from data.lib.storage.xml import XML, XMLNode
+import os, traceback
 #----------------------------------------------------------------------
 
     # Class
@@ -99,7 +100,6 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._import_button.setProperty('icon-padding', True)
         self._import_button.setProperty('color', 'main')
         self._import_button.clicked.connect(self._import)
-        self._import_button.setEnabled(False)
         topframe.grid_layout.addWidget(self._import_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._export_button = QPushButton(self._lang.get_data('QPushButton.export'))
@@ -185,6 +185,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
     def _update_buttons(self) -> None:
         self._delete_button.setEnabled(self._current_sprite is not None)
+        self._export_button.setEnabled(self._current_sprite is not None)
         self._clear_button.setEnabled(self._current_sprite is not None)
         self._reset_button.setEnabled(self._current_sprite is not None)
 
@@ -208,10 +209,75 @@ class ReggieNextWidget(SubProjectWidgetBase):
             self._sprite_list_dock_widget.delete_sprite(self._current_sprite)
 
     def _import(self) -> None:
-        pass
+        path = QFileDialog.getOpenFileName(
+            parent = self,
+            dir = self._path,
+            caption = self._lang.get_data('QFileDialog.import'),
+            filter = 'XML (*.xml)'
+        )[0]
+
+        if not path: return
+
+        try:
+            root = XML.parse_file(path).root
+            if root.name == 'sprite': ls = [root]
+            elif root.name == 'sprites':
+                ls = [c for c in root.children if c.name == 'sprite']
+                if not ls: raise Exception('Invalid sprite')
+            else: raise Exception('Invalid sprite')
+
+            len_ls = len(ls)
+            for i, s in enumerate(ls, 1):
+                sprite = Sprite(s)
+                fixed_sprite = ImportDialog(self._app.window, self._lang.get_data('ImportDialog'), sprite, i, len_ls).exec()
+
+                if not fixed_sprite: return
+                self._sprite_list_dock_widget.import_item(fixed_sprite)
+
+        except Exception as e:
+            return self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileImportingSprite.message').replace('%s', str(e)),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
 
     def _export(self) -> None:
-        pass
+        if not self._current_sprite: return
+
+        path = QFileDialog.getSaveFileName(
+            parent = self,
+            dir = self._path,
+            caption = self._lang.get_data('QFileDialog.export'),
+            filter = 'XML (*.xml)'
+        )[0]
+
+        if not path: return
+
+        try:
+            sprite = self._current_sprite.copy()
+            sprite.id = 0
+
+            with open(path, 'w', encoding = 'utf-8') as f:
+                f.write(f'\t{sprite.export().export()}')
+
+            return self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.successfullyExportedSprite.message').replace('%s', sprite.sprite_name),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
+
+        except Exception as e:
+            return self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileExportingSprite.message').replace('%s', str(e)),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
 
     def _reset(self) -> None:
         self._sprite_widget.sprite = self._current_sprite.copy() if self._current_sprite is not None else None

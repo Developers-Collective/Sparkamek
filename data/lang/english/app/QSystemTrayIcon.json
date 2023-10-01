@@ -27,6 +27,18 @@
             "warningWhileLoadingSprite": {
                 "title": "Reggie Next Warning",
                 "message": "Reggie Next • A warning occurred while loading a sprite !\nWarning: %s"
+            },
+            "errorWhileImportingSprite": {
+                "title": "Reggie Next Error",
+                "message": "Reggie Next • An error occurred while importing the sprite !\nError: %s"
+            },
+            "errorWhileExportingSprite": {
+                "title": "Reggie Next Error",
+                "message": "Reggie Next • An error occurred while exporting the sprite !\nError: %s"
+            },
+            "successfullyExportedSprite": {
+                "title": "Reggie Next Info",
+                "message": "Reggie Next • Successfully exported %s !"
             }
         }
     }
