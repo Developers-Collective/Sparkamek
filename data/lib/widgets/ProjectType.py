@@ -13,8 +13,8 @@ class ProjectType:
     @staticmethod
     def get_all() -> list[type[SubProjectWidgetBase]]:
         return [
-            LoaderWidget,
             KamekWidget,
+            LoaderWidget,
             ReggieNextWidget,
             RiivolutionWidget,
         ]

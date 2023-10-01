@@ -10,7 +10,7 @@
         "clear": "Clear",
         "reset": "Reset",
         "import": "Import...",
-        "export": "Export...",
+        "export": "Export Selected Sprite...",
         "create": "Create a New Sprite",
         "delete": "Delete Selected Sprite"
     },

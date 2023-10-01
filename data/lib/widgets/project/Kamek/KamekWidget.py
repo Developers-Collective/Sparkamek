@@ -1,38 +1,41 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QLabel, QPushButton, QDockWidget
-from PySide6.QtCore import Qt, QSortFilterProxyModel
-from data.lib.qtUtils import QBaseApplication, QBetterListWidget, QSaveData, QGridWidget, QIconLineEdit, QNamedComboBox, QNamedToggleButton
+from PySide6.QtWidgets import QPushButton, QDockWidget
+from PySide6.QtCore import Qt
+from data.lib.qtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.widgets.ProjectKeys import ProjectKeys
-from .CompilerDockWidget import CompilerDockWidget
+from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
-from .SpritesAndActorsWorker import SpritesAndActorsWorker
+from .CompilerWorker import CompilerWorker
+from ..LogType import LogType
 #----------------------------------------------------------------------
 
     # Class
 class KamekWidget(SubProjectWidgetBase):
     type: ProjectKeys = ProjectKeys.Kamek
 
-    _refresh_icon = None
-    _search_icon = None
+    _compile_icon = None
+    _stop_icon = None
+
+    _neutral_color = QUtilsColor.from_hex('#aaaaaa')
+    _bracket_color = QUtilsColor.from_hex('#dddddd')
 
     _lang = {}
 
     def init(app: QBaseApplication) -> None:
         KamekWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget')
-        KamekWidget._refresh_icon = app.get_icon('pushbutton/refresh.png', True, QSaveData.IconMode.Local)
-        KamekWidget._search_icon = app.get_icon('lineedit/search', True, QSaveData.IconMode.Local)
+        KamekWidget._compile_icon = app.get_icon('pushbutton/play.png', True, QSaveData.IconMode.Local)
+        KamekWidget._stop_icon = app.get_icon('pushbutton/stop.png', True, QSaveData.IconMode.Local)
 
-        CompilerDockWidget.init(app)
+        SpritesAndActorsDockWidget.init(app)
+        CompilerWorker.init(app)
         SymbolsDockWidget.init(app)
-        SpritesAndActorsWorker.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
-
-        self.scroll_layout.setSpacing(20)
+        self._data = data
 
         dockwidgets = data.get('dockwidgets', {})
         self._build_folder = data.get('buildFolder', None)
@@ -44,140 +47,137 @@ class KamekWidget(SubProjectWidgetBase):
         self._generate_tw = data.get('generateTW', True)
         # self._generate_ch = data.get('generateCH', True)
 
-        self._compiler_dock_widget = CompilerDockWidget(app, name, icon, data, app.save_data.devkitppc_path)
+        self._sprites_and_actors_dock_widget = SpritesAndActorsDockWidget(app, name, icon, data)
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
 
-        if 'compiler' in dockwidgets: self._compiler_dock_widget.load_dict(self, dockwidgets['compiler'])
-        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
+        if 'spritesAndActors' in dockwidgets: self._sprites_and_actors_dock_widget.load_dict(self, dockwidgets['spritesAndActors'])
+        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._sprites_and_actors_dock_widget)
 
         if 'symbols' in dockwidgets: self._symbols_dock_widget.load_dict(self, dockwidgets['symbols'])
         else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
 
-        if 'compiler' not in dockwidgets and 'symbols' not in dockwidgets:
-            self.tabifyDockWidget(self._compiler_dock_widget, self._symbols_dock_widget)
-            self._compiler_dock_widget.raise_()
-
-        self._compiler_dock_widget.new_symbols.connect(self._symbols_dock_widget.set_symbols)
+        if 'spritesAndActors' not in dockwidgets and 'symbols' not in dockwidgets:
+            self.tabifyDockWidget(self._sprites_and_actors_dock_widget, self._symbols_dock_widget)
+            self._sprites_and_actors_dock_widget.raise_()
 
 
-        topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
+        self._devkitppc_path: str = app.save_data.devkitppc_path
 
-        label = QLabel(self._lang.get_data('QLabel.spritesAndActors'))
-        label.setProperty('h', 2)
-        label.setProperty('small', True)
-        topframe.grid_layout.addWidget(label, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        self._compile_thread = None
 
-        self._refresh_sprites_and_actors_button = QPushButton()
-        self._refresh_sprites_and_actors_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._refresh_sprites_and_actors_button.setProperty('color', 'main')
-        self._refresh_sprites_and_actors_button.setIcon(self._refresh_icon)
-        self._refresh_sprites_and_actors_button.clicked.connect(self._refresh_sprites_and_actors)
-        topframe.grid_layout.addWidget(self._refresh_sprites_and_actors_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        frame = QGridWidget()
+        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame.grid_layout.setSpacing(8)
+        self._root.scroll_layout.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignTop)
 
+        self._compile_button = QPushButton(self._lang.get_data('QPushButton.compile'))
+        self._compile_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._compile_button.setIcon(self._compile_icon)
+        self._compile_button.clicked.connect(self._compile)
+        self._compile_button.setProperty('color', 'main')
+        self._compile_button.setProperty('icon-padding', True)
+        frame.grid_layout.addWidget(self._compile_button, 0, 0, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        subtopframe = QGridWidget()
-        subtopframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        subtopframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(subtopframe, 1, 0, Qt.AlignmentFlag.AlignTop)
+        self._complete_view_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.showCompleteLogs'))
+        self._complete_view_toggle.toggle_button.toggled.connect(self._switch_logs_view)
+        frame.grid_layout.addWidget(self._complete_view_toggle, 0, 1, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
-        search_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.searchBy.title'))
-        search_combobox.combo_box.addItems([
-            self._lang.get_data('QNamedComboBox.searchBy.values.actorName'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.actorID'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.spriteID'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.replaceOrNew')
-        ])
-        search_combobox.combo_box.setCurrentIndex(0)
-        search_combobox.combo_box.currentIndexChanged.connect(self._search_by_changed)
-        subtopframe.grid_layout.addWidget(search_combobox, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        self._logs_slide_widget = QSlidingStackedWidget()
+        self._root.scroll_layout.addWidget(self._logs_slide_widget, 1, 0)
 
-        subtoprightframe = QGridWidget()
-        subtoprightframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        subtoprightframe.grid_layout.setSpacing(8)
-        subtopframe.grid_layout.addWidget(subtoprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
-        subtoprightframe.grid_layout.setColumnStretch(1, 0)
-
-        case_sensitive_togge = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.caseSensitive'), False)
-        case_sensitive_togge.toggle_button.toggled.connect(self.case_sensitive_toggled)
-        subtoprightframe.grid_layout.addWidget(case_sensitive_togge, 0, 0)
-
-        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get_data('QIconLineEdit.search'))
-        self._searchbar.textChanged.connect(self.text_changed)
-        subtoprightframe.grid_layout.addWidget(self._searchbar, 0, 1)
-
-
-        self._sprite_list = QBetterListWidget(
-            [
-                self._lang.get_data('QBetterListWidget.actorName'),
-                self._lang.get_data('QBetterListWidget.actorID'),
-                self._lang.get_data('QBetterListWidget.spriteID'),
-                self._lang.get_data('QBetterListWidget.replaceOrNew')
-            ],
-            170,
-            Qt.AlignmentFlag.AlignCenter
+        self._simple_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get_data('QNamedTextBrowser.simpleLogs'))
+        self._simple_logs_textbrowser.setReadOnly(True)
+        self._simple_logs_textbrowser.text_browser.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse |
+            Qt.TextInteractionFlag.LinksAccessibleByMouse
         )
-        self._sprite_list.setSortingEnabled(True)
-        self._sprite_list.sortByColumn(1, Qt.SortOrder.AscendingOrder)
-        self._root.scroll_layout.addWidget(self._sprite_list, 2, 0)
+        self._simple_logs_textbrowser.text_browser.setOpenExternalLinks(True)
+        self._logs_slide_widget.addWidget(self._simple_logs_textbrowser)
 
-        self._proxy_model = QSortFilterProxyModel(
-            self, filterKeyColumn = 0, recursiveFilteringEnabled = True
+        self._complete_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get_data('QNamedTextBrowser.completeLogs'))
+        self._complete_logs_textbrowser.setReadOnly(True)
+        self._complete_logs_textbrowser.text_browser.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse |
+            Qt.TextInteractionFlag.LinksAccessibleByMouse
         )
-        self._proxy_model.setSourceModel(self._sprite_list.model())
-        self._proxy_model.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        self._sprite_list.setModel(self._proxy_model)
-
-        self._sprites_and_actors_worker: SpritesAndActorsWorker = None
+        self._complete_logs_textbrowser.text_browser.setOpenExternalLinks(True)
+        self._logs_slide_widget.addWidget(self._complete_logs_textbrowser)
 
 
     @property
     def task_is_running(self) -> bool:
-        return self._compiler_dock_widget.task_is_running or self._symbols_dock_widget.task_is_running or self._sprites_and_actors_worker is not None
+        return self._sprites_and_actors_dock_widget.task_is_running or self._symbols_dock_widget.task_is_running or self._compile_thread is not None
 
 
-    def text_changed(self, text: str) -> None:
-        self._proxy_model.setFilterRegularExpression(text)
+    def _compile(self) -> None:
+        if self._compile_thread is None:
+            self._compile_button.setIcon(self._stop_icon)
+            self._compile_button.setText(self._lang.get_data('QPushButton.stop'))
 
-    def case_sensitive_toggled(self, state: bool) -> None:
-        self._proxy_model.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseSensitive if state else Qt.CaseSensitivity.CaseInsensitive)
+            self._simple_logs_textbrowser.clear()
+            self._complete_logs_textbrowser.clear()
 
-    def _search_by_changed(self, index: int) -> None:
-        self._proxy_model.setFilterKeyColumn(index)
+            self._compile_thread = CompilerWorker(self._data, self._devkitppc_path)
+            self._compile_thread.done.connect(self._compile_done)
+            self._compile_thread.error.connect(self._compile_error)
+            self._compile_thread.log_simple.connect(self._log_simple)
+            self._compile_thread.log_complete.connect(self._log_complete)
+            self._compile_thread.new_symbols.connect(self._symbols_dock_widget.set_symbols)
+            self._compile_thread.start()
 
+        else:
+            self._compile_button.setIcon(self._compile_icon)
+            self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
 
-    def _refresh_sprites_and_actors(self) -> None:
-        self._sprite_list.clear()
+            if self._compile_thread.isRunning(): self._compile_thread.terminate()
+            self._compile_thread = None
 
-        if self._sprites_and_actors_worker is not None:
-            self._sprites_and_actors_worker.terminate()
+    def _compile_done(self) -> None:
+        self._compile_button.setIcon(self._compile_icon)
+        self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
 
-        self._sprites_and_actors_worker = SpritesAndActorsWorker(self._path)
-        self._sprites_and_actors_worker.done.connect(self._refresh_sprites_and_actors_done)
-        self._sprites_and_actors_worker.error.connect(self._refresh_sprites_and_actors_error)
-        self._sprites_and_actors_worker.found_item.connect(self._refresh_sprites_and_actors_found_item)
-        self._sprites_and_actors_worker.start()
+        if self._compile_thread.isRunning(): self._compile_thread.terminate()
+        self._compile_thread = None
 
-    def _refresh_sprites_and_actors_done(self) -> None:
-        if self._sprites_and_actors_worker.isRunning():
-            self._sprites_and_actors_worker.terminate()
+    def _compile_error(self, error: str) -> None:
+        self._compile_button.setIcon(self._compile_icon)
+        self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
 
-        self._sprites_and_actors_worker = None
+        if self._compile_thread.isRunning(): self._compile_thread.terminate()
+        self._compile_thread = None
 
-    def _refresh_sprites_and_actors_error(self, error: str) -> None:
-        self._refresh_sprites_and_actors_done()
-        print(error)
+    def _switch_logs_view(self, value: bool) -> None:
+        self._logs_slide_widget.slide_in_index(int(value))
 
-    def _refresh_sprites_and_actors_found_item(self, actor_name: str, actor_id: int, sprite_id: int, replace: bool) -> None:
-        self._sprite_list.add_item([actor_name, str(actor_id), str(sprite_id) if sprite_id > -1 else '-', self._lang.get_data('QBetterListWidget.replace') if replace else self._lang.get_data('QBetterListWidget.new')], None, [Qt.AlignmentFlag.AlignLeft, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter])
+    def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
+        l = self._lang.get_data(f'QNamedTextBrowser.{log_type.name.lower()}')
+        if invisible:
+            l = '<span>' + '&nbsp;' * (len(l) + 2) * 2 + '</span>'
+
+        def gen_span(msg: str, color: QUtilsColor, bold: bool = False) -> str:
+            bold_text = 'font-weight: 700;' if bold else 'font-weight: 400;'
+            return f'<span style="color: {color.hex}; {bold_text};">{msg}</span>'
+
+        if invisible: return f'{l} {gen_span(msg, self._neutral_color)}'
+        return f'{gen_span("[", self._bracket_color, True)}{gen_span(l, log_type.value, True)}{gen_span("]", self._bracket_color, True)} {gen_span(msg, self._neutral_color)}'
+
+    def _log_simple(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
+        self._simple_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
+
+    def _log_complete(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
+        self._complete_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
+
+    def terminate_task(self) -> None:
+        if self._compile_thread is not None:
+            self._compile_thread.terminate()
+            self._compile_thread = None
+
 
     def _save_dock_widgets(self) -> dict:
-        if self._sprites_and_actors_worker is not None:
-            self._sprites_and_actors_worker.terminate()
+        if self._compile_thread is not None:
+            self._compile_thread.terminate()
 
-        self._compiler_dock_widget.terminate_task()
+        self._sprites_and_actors_dock_widget.terminate_task()
 
         dockwidgets = {}
 
@@ -199,16 +199,16 @@ class KamekWidget(SubProjectWidgetBase):
         }
 
     def reset_dock_widgets(self) -> None:
-        for dw in [self._compiler_dock_widget, self._symbols_dock_widget]:
+        for dw in [self._sprites_and_actors_dock_widget, self._symbols_dock_widget]:
             dw.setVisible(True)
             dw.setFloating(False)
 
-        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._compiler_dock_widget)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._sprites_and_actors_dock_widget)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
 
-        if self._compiler_dock_widget not in self.tabifiedDockWidgets(self._symbols_dock_widget): self.tabifyDockWidget(self._symbols_dock_widget, self._compiler_dock_widget)
+        if self._sprites_and_actors_dock_widget not in self.tabifiedDockWidgets(self._symbols_dock_widget): self.tabifyDockWidget(self._symbols_dock_widget, self._sprites_and_actors_dock_widget)
 
     def settings_updated(self, settings: QSaveData) -> None:
-        self._compiler_dock_widget.set_devkitppc_path(settings.devkitppc_path)
+        self._devkitppc_path = settings.devkitppc_path
         return super().settings_updated(settings)
 #----------------------------------------------------------------------
