@@ -62,6 +62,10 @@ class Sprites:
     def sort_by_id(self) -> None:
         self.children.sort(key = lambda s: s.id)
 
+    def get_next_free_id(self) -> int:
+        if not self.children: return 0
+        return max([s.id for s in self.children]) + 1
+
     def export(self) -> XML:
         return XML(
             XMLNode(

@@ -229,6 +229,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
             len_ls = len(ls)
             for i, s in enumerate(ls, 1):
                 sprite = Sprite(s)
+                sprite.id = self._sprite_list_dock_widget.sprites.get_next_free_id()
                 fixed_sprite = ImportDialog(self._app.window, self._lang.get_data('ImportDialog'), sprite, i, len_ls).exec()
 
                 if not fixed_sprite: return
