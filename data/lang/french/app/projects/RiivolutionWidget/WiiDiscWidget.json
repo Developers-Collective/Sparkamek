@@ -12,6 +12,10 @@
     "QNamedSpinBox": {
         "version": "Version"
     },
+    "QToolTip": {
+        "root": "Utilisé comme racine pour tous les chemins utilisés dans ce XML.",
+        "version": "Riivolution v1.0 ne supporte que les XMLs avec une version de 1."
+    },
     "IDWidget": "#ref: app/projects/RiivolutionWidget/IDWidget",
     "OptionsWidget": "#ref: app/projects/RiivolutionWidget/OptionsWidget",
     "PatchData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchData"

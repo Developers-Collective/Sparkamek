@@ -49,29 +49,35 @@ class FileData(BaseSubItemData):
 
 
         self._disc_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.disc'))
+        self._disc_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.disc'))
         self._disc_lineedit.line_edit.setText(self._data.disc)
         self._disc_lineedit.line_edit.textChanged.connect(self._disc_changed)
         subframe.grid_layout.addWidget(self._disc_lineedit, 0, 0)
 
         self._external_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.external'))
+        self._external_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.external'))
         self._external_lineedit.line_edit.setText(self._data.external)
         self._external_lineedit.line_edit.textChanged.connect(self._external_changed)
         subframe.grid_layout.addWidget(self._external_lineedit, 0, 1)
 
         self._resize_togglebutton = QNamedToggleButton(None, self._lang.get_data('PropertyWidget.QNamedToggleButton.resize'), self._data.resize, True)
+        self._resize_togglebutton.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.resize'))
         self._resize_togglebutton.toggled.connect(self._resize_toggled)
         subframe.grid_layout.addWidget(self._resize_togglebutton, 1, 0)
 
         self._create_togglebutton = QNamedToggleButton(None, self._lang.get_data('PropertyWidget.QNamedToggleButton.create'), self._data.create_, True)
+        self._create_togglebutton.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.create'))
         self._create_togglebutton.toggled.connect(self._create_toggled)
         subframe.grid_layout.addWidget(self._create_togglebutton, 1, 1)
 
         self._offset_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.offset'))
+        self._offset_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.offset'))
         self._offset_hexspinbox.set_value(self._data.offset)
         self._offset_hexspinbox.value_changed.connect(self._offset_changed)
         subframe.grid_layout.addWidget(self._offset_hexspinbox, 2, 0)
 
         self._length_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.length'))
+        self._length_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.length'))
         self._length_hexspinbox.set_range(0, 0xFFFFFFFF)
         self._length_hexspinbox.set_value(self._data.length)
         self._length_hexspinbox.value_changed.connect(self._length_changed)

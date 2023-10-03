@@ -72,11 +72,18 @@ class PatchData(BaseItemData):
         subframe.grid_layout.addWidget(label, 0, 0)
 
         self._id_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.id'))
+        self._id_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.id'))
         self._id_lineedit.line_edit.setText(self._data.id)
         self._id_lineedit.line_edit.textChanged.connect(self._id_changed)
         subframe.grid_layout.addWidget(self._id_lineedit, 1, 0)
 
-        subframe.grid_layout.setRowStretch(2, 1)
+        self._root_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.root'))
+        self._root_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.root'))
+        self._root_lineedit.line_edit.setText(self._data.root)
+        self._root_lineedit.line_edit.textChanged.connect(self._root_changed)
+        subframe.grid_layout.addWidget(self._root_lineedit, 2, 0)
+
+        subframe.grid_layout.setRowStretch(3, 1)
 
 
         leftframe = QGridWidget()
@@ -273,6 +280,12 @@ class PatchData(BaseItemData):
 
         self._data.id = text
         self._update_text()
+        self.data_changed.emit()
+
+    def _root_changed(self, text: str) -> None:
+        if not text: return
+
+        self._data.root = text
         self.data_changed.emit()
 
 

@@ -17,6 +17,14 @@
         "QNamedToggleButton": {
             "resize": "Resize",
             "create": "Create"
+        },
+        "QToolTip": {
+            "disc": "The file on disc to replace. This can be rooted as a full disc path or just a filename to search for.",
+            "external": "The file on SD/USB to replace the disc file with.",
+            "resize": "Defaults to true, specifies whether to resize the disc file to the external file.",
+            "create": "Defaults to false, specifies whether to add the file on the disc if it does not exist.",
+            "offset": "The offset into the disc file to start replacing; defaults to 0 (beginning of the file).",
+            "length": "The length specifies how much to patch the file. If not specified, or set to 0, it will default to the size of the external file."
         }
     }
 }

@@ -17,6 +17,14 @@
         "QNamedToggleButton": {
             "resize": "Redimensionner",
             "create": "Créer"
+        },
+        "QToolTip": {
+            "disc": "Le fichier sur le disque à remplacer. Il peut être enraciné comme un chemin de disque complet ou juste un nom de fichier à rechercher.",
+            "external": "Le fichier sur SD/USB à remplacer par le fichier sur le disque.",
+            "resize": "Vrai par défaut, spécifie si le fichier sur le disque doit être redimensionné au fichier externe.",
+            "create": "Faux par défaut, spécifie si le fichier sur le disque doit être redimensionné au fichier externe.",
+            "offset": "Le décalage dans le fichier de disque pour commencer à remplacer; par défaut à 0 (début du fichier).",
+            "length": "La longueur spécifie combien de patcher le fichier. Si non spécifié, ou mis à 0, il sera par défaut à la taille du fichier externe."
         }
     }
 }

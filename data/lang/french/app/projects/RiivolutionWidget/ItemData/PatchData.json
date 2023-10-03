@@ -15,12 +15,17 @@
     },
     "PropertyWidget": {
         "QNamedLineEdit": {
-            "id": "ID"
+            "id": "ID",
+            "root": "Racine"
         },
         "FileData": "#ref: app/projects/RiivolutionWidget/ItemData/FileData",
         "FolderData": "#ref: app/projects/RiivolutionWidget/ItemData/FolderData",
         "SaveGameData": "#ref: app/projects/RiivolutionWidget/ItemData/SaveGameData",
-        "MemoryData": "#ref: app/projects/RiivolutionWidget/ItemData/MemoryData"
+        "MemoryData": "#ref: app/projects/RiivolutionWidget/ItemData/MemoryData",
+        "QToolTip": {
+            "id": "Il s'agit de l'identifiant auquel un choix fera référence pour activer le patch.",
+            "root": "Cela peut définir le chemin racine pour tous les éléments de ce patch."
+        }
     },
     "QMenu": {
         "addEntry": {

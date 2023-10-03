@@ -63,10 +63,12 @@ class WiiDiscWidget(QGridWidget):
         self._top_info_widget.grid_layout.addWidget(label, 0, 0, 1, 2)
 
         self._root_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.root'))
+        self._root_lineedit.setToolTip(self._lang.get_data('QToolTip.root'))
         self._root_lineedit.line_edit.textChanged.connect(self._root_changed)
         self._top_info_widget.grid_layout.addWidget(self._root_lineedit, 1, 0)
 
         self._version_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.version'))
+        self._version_spinbox.setToolTip(self._lang.get_data('QToolTip.version'))
         self._version_spinbox.spin_box.valueChanged.connect(self._version_changed)
         self._version_spinbox.setRange(1, 1)
         self._version_spinbox.setValue(1)
