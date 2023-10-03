@@ -59,6 +59,7 @@ class SectionData(BaseItemData):
         subframe.grid_layout.addWidget(label, 0, 0)
 
         self._name_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.name'))
+        self._name_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.name'))
         self._name_lineedit.line_edit.setText(self._data.name_)
         self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
         subframe.grid_layout.addWidget(self._name_lineedit, 1, 0)

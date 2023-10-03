@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QNamedSpinBox
 from ..items.Option import Option
 from ..items.Choice import Choice
 from .BaseSubItemData import BaseSubItemData
@@ -69,10 +69,24 @@ class OptionData(BaseSubItemData):
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
 
+        self._id_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.id'))
+        self._id_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.id'))
+        self._id_lineedit.line_edit.setText(self._data.id)
+        self._id_lineedit.line_edit.textChanged.connect(self._id_changed)
+        subframe.grid_layout.addWidget(self._id_lineedit, 1, 0)
+
         self._name_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.name'))
+        self._name_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.name'))
         self._name_lineedit.line_edit.setText(self._data.name_)
         self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
-        subframe.grid_layout.addWidget(self._name_lineedit, 1, 0)
+        subframe.grid_layout.addWidget(self._name_lineedit, 2, 0)
+
+        self._default_spinbox = QNamedSpinBox(None, self._lang.get_data('PropertyWidget.QNamedSpinBox.default'))
+        self._default_spinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.default'))
+        self._default_spinbox.set_value(self._data.default)
+        self._default_spinbox.set_range(0, 999999999)
+        self._default_spinbox.value_changed.connect(self._default_changed)
+        subframe.grid_layout.addWidget(self._default_spinbox, 3, 0)
 
         subframe.grid_layout.setRowStretch(2, 1)
 
@@ -140,12 +154,25 @@ class OptionData(BaseSubItemData):
         self._name_lineedit.line_edit.setText(self._data.name_)
 
 
+    def _id_changed(self, text: str) -> None:
+        if not text: return
+
+        self._data.id = text
+        self._send_data()
+
     def _name_changed(self, text: str) -> None:
         if not text: return
 
         self._data.name_ = text
         self._update_text()
         self.data_changed.emit()
+
+    def _default_changed(self, value: int) -> None:
+        if self._disable_send: return
+
+        self._data.default = value
+        self._send_data()
+
 
     def _choice_entry_moved(self, old_index: int, new_index: int) -> None:
         self._data.choice_children.insert(new_index, self._data.choice_children.pop(old_index))

@@ -5,6 +5,9 @@
     "PropertyWidget": {
         "QNamedLineEdit": {
             "id": "ID"
+        },
+        "QToolTip": {
+            "id": "L'ID du patch à activer lorsque ce choix est sélectionné. Cela fait référence aux patchs définis dans la section Patch située à la racine."
         }
     }
 }

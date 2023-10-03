@@ -10,7 +10,16 @@
     },
     "PropertyWidget": {
         "QNamedLineEdit": {
+            "id": "ID",
             "name": "Name"
+        },
+        "QNamedSpinBox": {
+            "default": "Default"
+        },
+        "QToolTip": {
+            "id": "Used for both allowing an option to be macroed, as well as combining options from two different XMLs (they must be under the same section name as well).",
+            "name": "The name of the option to be shown in Riivolution.",
+            "default": "The index of the default choice to be selected when the program first starts. Once the user has saved their settings (launched a game), this is ignored and the last-used choice is set.\nThe index is 1-based, because setting it to 0 is disabled (this is the default when it's not specified)."
         },
         "ChoiceData": "#ref: app/projects/RiivolutionWidget/ItemData/ChoiceData"
     }

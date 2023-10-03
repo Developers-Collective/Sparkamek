@@ -12,6 +12,9 @@
         "QNamedLineEdit": {
             "name": "Nom"
         },
+        "QToolTip": {
+            "name": "Il s'agit du nom du choix tel qu'il apparaîtra dans Riivolution."
+        },
         "PatchRefData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchRefData"
     }
 }
