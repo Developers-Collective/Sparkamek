@@ -8,6 +8,10 @@
         },
         "QNamedToggleButton": {
             "clone": "Cloner"
+        },
+        "QToolTip": {
+            "external": "Le dossier sur la SD/USB où stocker la sauvegarde du jeu. Il sera créé s'il n'existe pas.",
+            "clone": "Vrai par défaut, spécifie si la sauvegarde actuelle de la Wii doit être copiée dans le dossier externe avant de lancer le jeu.\nQuand c'est vrai, cela n'est fait que si le dossier externe est vide, donc seulement au premier démarrage ou s'il a été supprimé. Quand c'est faux, cela commence une nouvelle sauvegarde si le dossier externe est vide."
         }
     }
 }

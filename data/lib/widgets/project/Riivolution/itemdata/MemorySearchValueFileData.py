@@ -49,23 +49,27 @@ class MemorySearchValueFileData(BaseSubItemData):
 
 
         self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'))
+        self._original_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.original'))
         self._original_hexspinbox.set_range(0, 0xFFFFFFFFFFFFFFFF)
         self._original_hexspinbox.set_value(self._data.original)
         self._original_hexspinbox.value_changed.connect(self._original_changed)
         subframe.grid_layout.addWidget(self._original_hexspinbox, 0, 0)
 
         self._valuefile_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.valuefile'))
+        self._valuefile_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.valuefile'))
         self._valuefile_lineedit.setText(self._data.valuefile)
         self._valuefile_lineedit.text_changed.connect(self._valuefile_changed)
         subframe.grid_layout.addWidget(self._valuefile_lineedit, 1, 0)
 
         self._align_spinbox = QNamedSpinBox(None, self._lang.get_data('PropertyWidget.QNamedSpinBox.align'))
+        self._align_spinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.align'))
         self._align_spinbox.set_range(1, 65535)
         self._align_spinbox.set_value(self._data.align)
         self._align_spinbox.value_changed.connect(self._align_changed)
         subframe.grid_layout.addWidget(self._align_spinbox, 2, 0)
 
         self._comment_lineedit = QNamedTextEdit(None, '', self._lang.get_data('PropertyWidget.QNamedTextEdit.comment'))
+        self._comment_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.comment'))
         self._comment_lineedit.setText(self._data.comment)
         self._comment_lineedit.text_changed.connect(self._comment_changed)
         subframe.grid_layout.addWidget(self._comment_lineedit, 3, 0)

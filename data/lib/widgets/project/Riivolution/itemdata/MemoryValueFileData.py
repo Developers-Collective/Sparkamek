@@ -49,17 +49,20 @@ class MemoryValueFileData(BaseSubItemData):
 
 
         self._offset_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.offset'))
+        self._offset_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.offset'))
         self._offset_hexspinbox.set_range(0, 0xFFFFFFFF)
         self._offset_hexspinbox.set_value(self._data.offset)
         self._offset_hexspinbox.value_changed.connect(self._offset_changed)
         subframe.grid_layout.addWidget(self._offset_hexspinbox, 0, 0)
 
         self._valuefile_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.valuefile'))
+        self._valuefile_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.valuefile'))
         self._valuefile_lineedit.setText(self._data.valuefile)
         self._valuefile_lineedit.text_changed.connect(self._valuefile_changed)
         subframe.grid_layout.addWidget(self._valuefile_lineedit, 0, 1)
 
         self._comment_lineedit = QNamedTextEdit(None, '', self._lang.get_data('PropertyWidget.QNamedTextEdit.comment'))
+        self._comment_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.comment'))
         self._comment_lineedit.setText(self._data.comment)
         self._comment_lineedit.text_changed.connect(self._comment_changed)
         subframe.grid_layout.addWidget(self._comment_lineedit, 1, 0, 1, 2)

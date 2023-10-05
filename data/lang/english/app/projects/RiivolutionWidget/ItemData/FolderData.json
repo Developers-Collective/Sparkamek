@@ -17,6 +17,14 @@
             "recursive": "Recursive",
             "resize": "Resize",
             "create": "Create"
+        },
+        "QToolTip": {
+            "disc": "The folder on disc to replace. This can be empty or omitted in order to just do a filename search without a specific folder.",
+            "external": "The folder on SD/USB to replace the disc files with.",
+            "resize": "Defaults to true, specifies whether to resize the disc files to the ones found in the external folder.",
+            "create": "Defaults to false, specifies whether to add any files and folders (if recursive == true) to the disc folder if they're not found.",
+            "recursive": "Defaults to true and tells Riivolution whether to go looking in subfolders for other files to replace.",
+            "length": "The length specifies how much to patch each file in the folder. It can be used to expand files in a folder for testing purposed. If not specified, or set to 0, it will default to the size of each external file."
         }
     }
 }

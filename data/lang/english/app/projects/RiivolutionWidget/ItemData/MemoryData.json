@@ -14,6 +14,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Comment"
+            },
+            "QToolTip": {
+                "offset": "The offset in memory at which to write and/or verify.",
+                "value": "The value to write to memory at. Must be a string of hex characters, and its length must be a multiple of two.",
+                "original": "If original is specified, but does not match the memory at that address, value will not be written to memory.",
+                "comment": "A comment to describe the purpose of this memory value.\nThis is not used by the game, and is only for your own reference."
             }
         }
     },
@@ -34,6 +40,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Comment"
+            },
+            "QToolTip": {
+                "original": "The original pattern to search the game binary for.",
+                "value": "The value to replace the original pattern with. Must be the same length.",
+                "align": "The byte alignment to search with. Defaults to 1, but often should be higher in order to save time when searching.",
+                "comment": "A comment to describe the purpose of this memory value.\nThis is not used by the game, and is only for your own reference."
             }
         }
     },
@@ -53,6 +65,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Comment"
+            },
+            "QToolTip": {
+                "offset": "The offset in memory at which to write and/or verify.",
+                "valuefile": "An alternative to value is to specify a file path to read the value from instead. Either valuefile or value must be specified, and the whole file will be used.",
+                "original": "If original is specified, but does not match the memory at that address, value will not be written to memory.",
+                "comment": "A comment to describe the purpose of this memory value.\nThis is not used by the game, and is only for your own reference."
             }
         }
     },
@@ -75,6 +93,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Comment"
+            },
+            "QToolTip": {
+                "original": "The original pattern to search the game binary for.",
+                "valuefile": "An alternative to value is to specify a file path to read the value from instead. Either valuefile or value must be specified, and the whole file will be used.",
+                "align": "The byte alignment to search with. Defaults to 1, but often should be higher in order to save time when searching.",
+                "comment": "A comment to describe the purpose of this memory value.\nThis is not used by the game, and is only for your own reference."
             }
         }
     },
@@ -92,6 +116,11 @@
             },
             "QNamedTextEdit": {
                 "comment": "Comment"
+            },
+            "QToolTip": {
+                "offset": "The offset is the offset in memory of the location to branch to.",
+                "value": "The value pattern to search the game binary for.",
+                "comment": "A comment to describe the purpose of this memory value.\nThis is not used by the game, and is only for your own reference."
             }
         }
     }

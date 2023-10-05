@@ -8,6 +8,10 @@
         },
         "QNamedToggleButton": {
             "clone": "Clone"
+        },
+        "QToolTip": {
+            "external": "The folder on SD/USB to store the game's savefile inside. It will be created if it does not exist.",
+            "clone": "Defaults to true, specifies whether to copy the Wii's current savegame to the external folder before starting the game.\nWhen set to true, this is only done when the external folder is empty, so only on first startup or if it's been deleted. When set to false, it begin an entirely new save if the external folder is empty."
         }
     }
 }

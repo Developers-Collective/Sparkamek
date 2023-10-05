@@ -17,6 +17,14 @@
             "recursive": "Récursif",
             "resize": "Redimensionner",
             "create": "Créer"
+        },
+        "QToolTip": {
+            "disc": "Le dossier sur le disque à remplacer. Cela peut être vide ou omis afin de faire une recherche de nom de fichier sans dossier spécifique.",
+            "external": "Le dossier sur SD/USB à remplacer les fichiers du disque avec.",
+            "resize": "Faux par défaut, spécifie si les fichiers du disque doivent être redimensionnés à ceux trouvés dans le dossier externe.",
+            "create": "Faux par défaut, spécifie quand ajouter des fichiers et dossiers (si récursif == true) au dossier du disque s'ils ne sont pas trouvés.",
+            "recursive": "Vrai par défaut, spécifie si Riivolution doit chercher dans les sous-dossiers pour d'autres fichiers à remplacer.",
+            "length": "La longueur spécifie combien de patcher chaque fichier dans le dossier. Il peut être utilisé pour étendre les fichiers dans un dossier à des fins de test. Si non spécifié, ou mis à 0, il sera par défaut à la taille de chaque fichier externe."
         }
     }
 }

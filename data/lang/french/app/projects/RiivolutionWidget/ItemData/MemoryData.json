@@ -14,6 +14,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Commentaire"
+            },
+            "QToolTip": {
+                "offset": "Le décalage en mémoire auquel écrire et/ou vérifier.",
+                "value": "La valeur à écrire en mémoire. Doit être une chaîne de caractères hexadécimaux, et sa longueur doit être un multiple de deux.",
+                "original": "Si original est spécifié, mais ne correspond pas à la mémoire à cette adresse, la valeur ne sera pas écrite en mémoire.",
+                "comment": "Un commentaire pour décrire l'objectif de cette valeur mémoire.\nCe n'est pas utilisé par le jeu, et est seulement pour votre propre référence."
             }
         }
     },
@@ -34,6 +40,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Commentaire"
+            },
+            "QToolTip": {
+                "original": "Le modèle original pour rechercher le binaire du jeu.",
+                "value": "La valeur à remplacer le modèle original avec. Doit être de la même longueur.",
+                "align": "Le décalage en octets pour rechercher avec. Par défaut à 1, mais devrait souvent être plus élevé afin d'économiser du temps lors de la recherche.",
+                "comment": "Un commentaire pour décrire l'objectif de cette valeur mémoire.\nCe n'est pas utilisé par le jeu, et est seulement pour votre propre référence."
             }
         }
     },
@@ -53,6 +65,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Commentaire"
+            },
+            "QToolTip": {
+                "offset": "Le décalage en mémoire auquel écrire et/ou vérifier.",
+                "valuefile": "Une alternative à value est de spécifier un chemin de fichier à lire la valeur à partir de la place. Soit valuefile ou value doit être spécifié, et le fichier entier sera utilisé.",
+                "original": "Si original est spécifié, mais ne correspond pas à la mémoire à cette adresse, la valeur ne sera pas écrite en mémoire.",
+                "comment": "Un commentaire pour décrire l'objectif de cette valeur mémoire.\nCe n'est pas utilisé par le jeu, et est seulement pour votre propre référence."
             }
         }
     },
@@ -75,6 +93,12 @@
             },
             "QNamedTextEdit": {
                 "comment": "Commentaire"
+            },
+            "QToolTip": {
+                "original": "Le modèle original pour rechercher le binaire du jeu.",
+                "valuefile": "Une alternative à value est de spécifier un chemin de fichier à lire la valeur à partir de la place. Soit valuefile ou value doit être spécifié, et le fichier entier sera utilisé.",
+                "align": "Le décalage en octets pour rechercher avec. Par défaut à 1, mais devrait souvent être plus élevé afin d'économiser du temps lors de la recherche.",
+                "comment": "Un commentaire pour décrire l'objectif de cette valeur mémoire.\nCe n'est pas utilisé par le jeu, et est seulement pour votre propre référence."
             }
         }
     },
@@ -92,6 +116,11 @@
             },
             "QNamedTextEdit": {
                 "comment": "Commentaire"
+            },
+            "QToolTip": {
+                "offset": "Le décalage est le décalage en mémoire de l'emplacement à brancher.",
+                "value": "Le modèle de valeur pour rechercher le binaire du jeu.",
+                "comment": "Un commentaire pour décrire l'objectif de cette valeur mémoire.\nCe n'est pas utilisé par le jeu, et est seulement pour votre propre référence."
             }
         }
     }

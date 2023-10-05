@@ -49,11 +49,13 @@ class SaveGameData(BaseSubItemData):
 
 
         self._external_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.external'))
+        self._external_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.external'))
         self._external_lineedit.line_edit.setText(self._data.external)
         self._external_lineedit.line_edit.textChanged.connect(self._external_changed)
         subframe.grid_layout.addWidget(self._external_lineedit, 0, 0)
 
         self._clone_togglebutton = QNamedToggleButton(None, self._lang.get_data('PropertyWidget.QNamedToggleButton.clone'), self._data.clone, True)
+        self._clone_togglebutton.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.clone'))
         self._clone_togglebutton.toggled.connect(self._clone_toggled)
         subframe.grid_layout.addWidget(self._clone_togglebutton, 0, 1)
 
