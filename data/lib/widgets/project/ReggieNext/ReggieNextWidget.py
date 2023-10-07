@@ -209,6 +209,8 @@ class ReggieNextWidget(SubProjectWidgetBase):
             self._sprite_list_dock_widget.delete_sprite(self._current_sprite)
 
     def _import(self) -> None:
+        self._save_current_sprite()
+
         path = QFileDialog.getOpenFileName(
             parent = self,
             dir = self._path,
@@ -246,6 +248,8 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
     def _export(self) -> None:
         if not self._current_sprite: return
+
+        self._save_current_sprite()
 
         path = QFileDialog.getSaveFileName(
             parent = self,
