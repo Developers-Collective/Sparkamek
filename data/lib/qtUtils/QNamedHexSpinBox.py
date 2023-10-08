@@ -167,5 +167,5 @@ class QNamedHexSpinBox(QGridWidget):
         return ''.join([f'{ord(c):02X}' for c in s])
 
     def _hex2str(self, s: str) -> str:
-        return ''.join([chr(int(s[i:i + 2], 16)) for i in range(0, len(s), 2)])
+        return ''.join([chr(int(s[i:i + 2], 16)) for i in range(0, len(s), 2)]) # Doesn't work with 3+ bytes characters but no need for now
 #----------------------------------------------------------------------

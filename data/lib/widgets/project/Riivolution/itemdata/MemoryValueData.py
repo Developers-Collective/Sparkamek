@@ -68,7 +68,7 @@ class MemoryValueData(BaseSubItemData):
         self._value_hexspinbox.value_changed.connect(self._value_changed)
         subframe.grid_layout.addWidget(self._value_hexspinbox, 1, 0)
 
-        self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'))
+        self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'), True)
         self._original_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.original'))
         self._original_hexspinbox.set_range(0, 0xFFFFFFFFFFFFFFFF)
         self._original_hexspinbox.set_value(self._data.original)

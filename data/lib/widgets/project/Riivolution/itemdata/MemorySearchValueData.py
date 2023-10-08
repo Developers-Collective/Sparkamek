@@ -54,7 +54,7 @@ class MemorySearchValueData(BaseSubItemData):
         frame.scroll_layout.addWidget(subframe, 1, 0)
 
 
-        self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'))
+        self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'), True)
         self._original_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.original'))
         self._original_hexspinbox.set_range(0, 0xFFFFFFFFFFFFFFFF)
         self._original_hexspinbox.set_value(self._data.original)
