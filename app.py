@@ -175,6 +175,12 @@ class Application(QBaseApplication):
         settings_button.clicked.connect(self.settings_menu)
         right_frame.grid_layout.addWidget(settings_button, 0, 2)
 
+        about_button = QPushButton()
+        about_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        about_button.setIcon(self.save_data.get_icon('menubar/note.png', mode = QSaveData.IconMode.Local))
+        about_button.clicked.connect(self.about_menu_clicked)
+        right_frame.grid_layout.addWidget(about_button, 0, 3)
+
 
         self.root.grid_layout.addWidget(top_menu, 0, 0, Qt.AlignmentFlag.AlignTop)
 
@@ -371,9 +377,6 @@ class Application(QBaseApplication):
 
     def about_clicked(self) -> None:
         lang = self.get_lang_data('QAbout.Sparkamek')
-        supports = '\n'.join(f'&nbsp;&nbsp;&nbsp;• <a href=\"{link}\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">{name}</a>' for name, link in [
-            ('GitHub', 'https://github.com')
-        ])
         QAboutBox(
             app = self,
             title = lang['title'],
@@ -381,8 +384,7 @@ class Application(QBaseApplication):
             texts = [
                 lang['texts'][0],
                 lang['texts'][1].replace('%s', f'<a href=\"https://github.com/Synell\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Synel</a>'),
-                lang['texts'][2].replace('%s', supports),
-                lang['texts'][3].replace('%s', f'<a href=\"https://github.com/Synell/Sparkamek\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Sparkamek Github</a>')
+                lang['texts'][2].replace('%s', f'<a href=\"https://github.com/Synell/Sparkamek\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Sparkamek Github</a>')
             ]
         ).exec()
 
