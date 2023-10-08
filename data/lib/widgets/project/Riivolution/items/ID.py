@@ -16,8 +16,8 @@ class ID(implements(IBaseItem)):
 
         self.game: str = data.get_attribute('game', '') # Optional
         self.developer: str = data.get_attribute('developer', '') # Optional
-        self.disc: int = data.get_attribute('disc', None) # Optional
-        self.version: int = data.get_attribute('version', None) # Optional
+        self.disc: int = data.get_attribute('disc', -1) # Optional
+        self.version: int = data.get_attribute('version', -1) # Optional
         self.region_children: list[Region] = [Region(child) for child in data.get_children(Region.name)]
 
     def export(self) -> XMLNode:
@@ -26,8 +26,8 @@ class ID(implements(IBaseItem)):
             (
                 ({'game': self.game} if self.game else {}) |
                 ({'developer': self.developer} if self.developer else {}) |
-                ({'disc': self.disc} if self.disc != None else {}) |
-                ({'version': self.version} if self.version != None else {})
+                ({'disc': self.disc} if self.disc != -1 else {}) |
+                ({'version': self.version} if self.version != -1 else {})
             ),
             ([r.export() for r in self.region_children] if self.region_children else [])
         )

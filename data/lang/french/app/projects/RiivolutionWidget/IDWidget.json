@@ -4,13 +4,21 @@
         "regions": "Régions"
     },
     "QNamedLineEdit": {
-        "game": "ID du Disque de Jeu"
+        "game": "ID du Disque de Jeu",
+        "developer": "Développeur"
+    },
+    "QNamedSpinBox": {
+        "disc": "Disque",
+        "version": "Version"
     },
     "QPushButton": {
         "addEntry": "Ajouter une entrée"
     },
     "QToolTip": {
-        "game": "L'ID du disque du jeu (Jusqu'à trois caractères).\nPar exemple, l'ID du disque de New Super Mario Bros. Wii est \"SMN\"."
+        "game": "L'ID du disque du jeu (Jusqu'à trois caractères).\nPar exemple, l'ID du disque de New Super Mario Bros. Wii est \"SMN\".",
+        "developer": "Deux caractères utilisés pour identifier les créateurs du jeu.",
+        "disc": "Un octet spécifiant le numéro de disque du jeu. C'est généralement 0, mais peut être 1 pour le deuxième disque d'un jeu multi-disques - comme Tales of Symphonia - et ainsi de suite.",
+        "version": "Un autre octet spécifiant la version du disque. C'est encore une fois généralement 0, mais peut être augmenté pour les réimpressions de jeux."
     },
     "RegionData": "#ref: app/projects/RiivolutionWidget/ItemData/RegionData"
 }

@@ -4,13 +4,21 @@
         "regions": "Regions"
     },
     "QNamedLineEdit": {
-        "game": "Disc Game ID"
+        "game": "Disc Game ID",
+        "developer": "Developper"
+    },
+    "QNamedSpinBox": {
+        "disc": "Disc Number",
+        "version": "Disc Version"
     },
     "QPushButton": {
         "addEntry": "Add Entry"
     },
     "QToolTip": {
-        "game": "The game ID of the disc (Up to three characters).\nFor example, the game ID of New Super Mario Bros. Wii is \"SMN\"."
+        "game": "The game ID of the disc (Up to three characters).\nFor example, the game ID of New Super Mario Bros. Wii is \"SMN\".",
+        "developer": "Two characters used to identify the makers of the game.",
+        "disc": "One byte specifying the disc number of the game. This is usually 0, but may be 1 for the second disc of a multi-disc game - like Tales of Symphonia - and so on.",
+        "version": "Another byte specifying the disc version. This is again usually 0, but may be increased for game reprints."
     },
     "RegionData": "#ref: app/projects/RiivolutionWidget/ItemData/RegionData"
 }

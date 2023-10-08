@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import ID, Region
 from .itemdata import RegionData
@@ -49,12 +49,31 @@ class IDWidget(QGridWidget):
         label = QLabel(self._lang.get_data('QLabel.gameProperties'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        frame.grid_layout.addWidget(label, 0, 0)
+        frame.grid_layout.addWidget(label, 0, 0, 1, 2)
 
         self._game_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.game'))
+        self._game_lineedit.line_edit.setMaxLength(3)
         self._game_lineedit.setToolTip(self._lang.get_data('QToolTip.game'))
         self._game_lineedit.line_edit.textChanged.connect(self._game_changed)
         frame.grid_layout.addWidget(self._game_lineedit, 1, 0)
+
+        self._developer_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.developer'))
+        self._developer_lineedit.line_edit.setMaxLength(2)
+        self._developer_lineedit.setToolTip(self._lang.get_data('QToolTip.developer'))
+        self._developer_lineedit.line_edit.textChanged.connect(self._developer_changed)
+        frame.grid_layout.addWidget(self._developer_lineedit, 1, 1)
+
+        self._disc_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.disc'))
+        self._disc_spinbox.set_range(-1, 99)
+        self._disc_spinbox.setToolTip(self._lang.get_data('QToolTip.disc'))
+        self._disc_spinbox.value_changed.connect(self._disc_changed)
+        frame.grid_layout.addWidget(self._disc_spinbox, 2, 0)
+
+        self._version_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.version'))
+        self._version_spinbox.set_range(-1, 99)
+        self._version_spinbox.setToolTip(self._lang.get_data('QToolTip.version'))
+        self._version_spinbox.value_changed.connect(self._version_changed)
+        frame.grid_layout.addWidget(self._version_spinbox, 2, 1)
 
 
         frame = QGridWidget()
@@ -93,11 +112,21 @@ class IDWidget(QGridWidget):
 
         self._disable_send = True
 
+        self._game_lineedit.line_edit.setText('')
+        self._developer_lineedit.line_edit.setText('')
+        self._disc_spinbox.set_value(-1)
+        self._version_spinbox.set_value(-1)
+
         self._region_draglist.clear()
 
         self._add_region_entry_button.setEnabled(self._id is not None)
 
         if self._id:
+            self._game_lineedit.line_edit.setText(self._id.game)
+            self._developer_lineedit.line_edit.setText(self._id.developer)
+            self._disc_spinbox.set_value(self._id.disc)
+            self._version_spinbox.set_value(self._id.version)
+
             for region in self._id.region_children:
                 rd = RegionData(region, self._path)
                 rd.data_changed.connect(self._send_data)
@@ -162,5 +191,23 @@ class IDWidget(QGridWidget):
         if self._disable_send: return
 
         self._id.game = text
+        self._send_data()
+
+    def _developer_changed(self, text: str) -> None:
+        if self._disable_send: return
+
+        self._id.developer = text
+        self._send_data()
+
+    def _disc_changed(self, value: int) -> None:
+        if self._disable_send: return
+
+        self._id.disc = value
+        self._send_data()
+
+    def _version_changed(self, value: int) -> None:
+        if self._disable_send: return
+
+        self._id.version = value
         self._send_data()
 #----------------------------------------------------------------------
