@@ -2,11 +2,10 @@
 
     # Libraries
 from PySide6.QtCore import Signal, QThread
-import os, subprocess, sys, shutil
+import os, subprocess, shutil
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
 from ..LogType import LogType
-from ..ProjectException import ProjectException
 #----------------------------------------------------------------------
 
     # Class

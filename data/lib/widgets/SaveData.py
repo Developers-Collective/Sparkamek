@@ -30,6 +30,11 @@ class SaveData(QSaveData):
         self.compact_paths = 0
 
         self.goes_to_tray_notif = True
+        self.kamek_compile_done_notif = True
+        self.kamek_compile_missing_symbols_notif = True
+        self.kamek_compile_error_notif = True
+        self.loader_compile_done_notif = True
+        self.loader_compile_error_notif = True
 
         self.projects = []
 
@@ -229,6 +234,11 @@ class SaveData(QSaveData):
 
 
         widget.goes_to_tray_notif_checkbox = generate_notif('goesToTray', self.goes_to_tray_notif)
+        widget.kamek_compile_done_notif_checkbox = generate_notif('kamekCompileDone', self.kamek_compile_done_notif)
+        widget.kamek_compile_missing_symbols_notif_checkbox = generate_notif('kamekCompileMissingSymbols', self.kamek_compile_missing_symbols_notif)
+        widget.kamek_compile_error_notif_checkbox = generate_notif('kamekCompileError', self.kamek_compile_error_notif)
+        widget.loader_compile_done_notif_checkbox = generate_notif('loaderCompileDone', self.loader_compile_done_notif)
+        widget.loader_compile_error_notif_checkbox = generate_notif('loaderCompileError', self.loader_compile_error_notif)
 
         return widget
 
@@ -276,6 +286,11 @@ class SaveData(QSaveData):
         self.compact_paths = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].compact_paths_combobox.combo_box.currentIndex()
 
         self.goes_to_tray_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].goes_to_tray_notif_checkbox.isChecked()
+        self.kamek_compile_done_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_done_notif_checkbox.isChecked()
+        self.kamek_compile_missing_symbols_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_missing_symbols_notif_checkbox.isChecked()
+        self.kamek_compile_error_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_error_notif_checkbox.isChecked()
+        self.loader_compile_done_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].loader_compile_done_notif_checkbox.isChecked()
+        self.loader_compile_error_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].loader_compile_error_notif_checkbox.isChecked()
 
         self.devkitppc_path = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.paths.title')].devkitppc_folder_button.path()
 
@@ -304,6 +319,11 @@ class SaveData(QSaveData):
             'compactPaths': self.compact_paths,
 
             'goesToTrayNotif': self.goes_to_tray_notif,
+            'kamekCompileDoneNotif': self.kamek_compile_done_notif,
+            'kamekCompileMissingSymbolsNotif': self.kamek_compile_missing_symbols_notif,
+            'kamekCompileErrorNotif': self.kamek_compile_error_notif,
+            'loaderCompileDoneNotif': self.loader_compile_done_notif,
+            'loaderCompileErrorNotif': self.loader_compile_error_notif,
 
             'projects': self.projects,
 
@@ -324,6 +344,11 @@ class SaveData(QSaveData):
         with exc: self.compact_paths = extra_data['compactPaths']
 
         with exc: self.goes_to_tray_notif = extra_data['goesToTrayNotif']
+        with exc: self.kamek_compile_done_notif = extra_data['kamekCompileDoneNotif']
+        with exc: self.kamek_compile_missing_symbols_notif = extra_data['kamekCompileMissingSymbolsNotif']
+        with exc: self.kamek_compile_error_notif = extra_data['kamekCompileErrorNotif']
+        with exc: self.loader_compile_done_notif = extra_data['loaderCompileDoneNotif']
+        with exc: self.loader_compile_error_notif = extra_data['loaderCompileErrorNotif']
 
         with exc: self.projects = extra_data['projects']
 

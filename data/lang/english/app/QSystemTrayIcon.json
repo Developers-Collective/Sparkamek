@@ -7,6 +7,30 @@
             "title": "Goes to Tray",
             "message": "Sparkamek is still running in the background."
         },
+        "KamekWidget": {
+            "compileDone": {
+                "title": "%s Kamek Info",
+                "message": "Kamek • Compilation done !"
+            },
+            "compileMissingSymbols": {
+                "title": "%s Kamek Warning",
+                "message": "Kamek • Compilation done with missing symbols !\nCheck the log for more informations."
+            },
+            "compileError": {
+                "title": "%s Kamek Error",
+                "message": "Kamek • Compilation error !\nCheck the log for more informations."
+            }
+        },
+        "LoaderWidget": {
+            "compileDone": {
+                "title": "%s Loader Info",
+                "message": "Loader • Compilation done !"
+            },
+            "compileError": {
+                "title": "%s Loader Error",
+                "message": "Loader • Compilation error !\nCheck the log for more informations."
+            }
+        },
         "ReggieNextWidget": {
             "successfullySaved": {
                 "title": "Reggie Next Info",

@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton
+from PySide6.QtWidgets import QPushButton, QSystemTrayIcon
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from ..LogType import LogType
@@ -107,12 +107,40 @@ class LoaderWidget(SubProjectWidgetBase):
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
 
+        if self._app.save_data.loader_compile_done_notif: self._app.sys_tray.showMessage(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.LoaderWidget.compileDone.title').replace('%s', self._name),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.LoaderWidget.compileDone.message'),
+            QSystemTrayIcon.MessageIcon.Information,
+            self._app.MESSAGE_DURATION
+        )
+        self._app.show_alert(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.LoaderWidget.compileDone.message'),
+            raise_duration = self._app.ALERT_RAISE_DURATION,
+            pause_duration = self._app.ALERT_PAUSE_DURATION,
+            fade_duration = self._app.ALERT_FADE_DURATION,
+            color = 'main'
+        )
+
     def _compile_error(self, error: str) -> None:
         self._compile_button.setIcon(self._compile_icon)
         self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
 
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
+
+        if self._app.save_data.loader_compile_error_notif: self._app.sys_tray.showMessage(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.LoaderWidget.compileError.title').replace('%s', self._name),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.LoaderWidget.compileError.message'),
+            QSystemTrayIcon.MessageIcon.Critical,
+            self._app.MESSAGE_DURATION
+        )
+        self._app.show_alert(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.LoaderWidget.compileError.message'),
+            raise_duration = self._app.ALERT_RAISE_DURATION,
+            pause_duration = self._app.ALERT_PAUSE_DURATION,
+            fade_duration = self._app.ALERT_FADE_DURATION,
+            color = 'main'
+        )
 
     @property
     def task_is_running(self) -> bool:

@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton, QDockWidget
+from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
 from data.lib.qtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor
 from ..SubProjectWidgetBase import SubProjectWidgetBase
@@ -35,6 +35,9 @@ class KamekWidget(SubProjectWidgetBase):
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
+        self._app = app
+        self._name = name
+        self._icon = icon
         self._data = data
 
         dockwidgets = data.get('dockwidgets', {})
@@ -132,12 +135,29 @@ class KamekWidget(SubProjectWidgetBase):
             if self._compile_thread.isRunning(): self._compile_thread.terminate()
             self._compile_thread = None
 
-    def _compile_done(self) -> None:
+    def _compile_done(self, missing_symbols: bool) -> None:
         self._compile_button.setIcon(self._compile_icon)
         self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
 
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
+
+        k = 'MissingSymbols' if missing_symbols else 'Done'
+        b = self._app.save_data.kamek_compile_missing_symbols_notif if missing_symbols else self._app.save_data.kamek_compile_done_notif
+
+        if b: self._app.sys_tray.showMessage(
+            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.KamekWidget.compile{k}.title').replace('%s', self._name),
+            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.KamekWidget.compile{k}.message'),
+            QSystemTrayIcon.MessageIcon.Information,
+            self._app.MESSAGE_DURATION
+        )
+        self._app.show_alert(
+            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.KamekWidget.compile{k}.message'),
+            raise_duration = self._app.ALERT_RAISE_DURATION,
+            pause_duration = self._app.ALERT_PAUSE_DURATION,
+            fade_duration = self._app.ALERT_FADE_DURATION,
+            color = 'main'
+        )
 
     def _compile_error(self, error: str) -> None:
         self._compile_button.setIcon(self._compile_icon)
@@ -145,6 +165,20 @@ class KamekWidget(SubProjectWidgetBase):
 
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
+
+        if self._app.save_data.kamek_compile_error_notif: self._app.sys_tray.showMessage(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.KamekWidget.compileError.title').replace('%s', self._name),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.KamekWidget.compileError.message'),
+            QSystemTrayIcon.MessageIcon.Critical,
+            self._app.MESSAGE_DURATION
+        )
+        self._app.show_alert(
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.KamekWidget.compileError.message'),
+            raise_duration = self._app.ALERT_RAISE_DURATION,
+            pause_duration = self._app.ALERT_PAUSE_DURATION,
+            fade_duration = self._app.ALERT_FADE_DURATION,
+            color = 'main'
+        )
 
     def _switch_logs_view(self, value: bool) -> None:
         self._logs_slide_widget.slide_in_index(int(value))

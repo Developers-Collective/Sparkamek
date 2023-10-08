@@ -7,6 +7,30 @@
             "title": "Minimisé dans la Barre des Tâches",
             "message": "Sparkamek est maintenant minimisé dans la barre des tâches."
         },
+        "KamekWidget": {
+            "compileDone": {
+                "title": "Info Kamek de %s",
+                "message": "Kamek • Compilation terminée !"
+            },
+            "compileMissingSymbols": {
+                "title": "Avertissement Kamek de %s",
+                "message": "Kamek • Compilation terminée avec des symboles manquants !\nVoir le log pour plus d'informations."
+            },
+            "compileError": {
+                "title": "Erreur Kamek de %s",
+                "message": "Kamek • Une erreur est survenue lors de la compilation !\nVoir le log pour plus d'informations."
+            }
+        },
+        "LoaderWidget": {
+            "compileDone": {
+                "title": "Info Loader de %s",
+                "message": "Loader • Compilation terminée !"
+            },
+            "compileError": {
+                "title": "Erreur Loader de %s",
+                "message": "Loader • Une erreur est survenue lors de la compilation !\nVoir le log pour plus d'informations."
+            }
+        },
         "ReggieNextWidget": {
             "successfullySaved": {
                 "title": "Info Reggie Next",

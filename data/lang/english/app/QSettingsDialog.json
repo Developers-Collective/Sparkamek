@@ -77,10 +77,35 @@
                 "goesToTray": {
                     "title": "Goes to Tray Notification",
                     "description": "Determines if a notification will be sent when the app goes to the tray."
+                },
+                "kamekCompileDone": {
+                    "title": "Kamek Compile Done Notification",
+                    "description": "Determines if a notification will be sent when Kamek finishes compiling."
+                },
+                "kamekCompileMissingSymbols": {
+                    "title": "Kamek Compile Missing Symbols Notification",
+                    "description": "Determines if a notification will be sent when Kamek encounters missing symbols while compiling."
+                },
+                "kamekCompileError": {
+                    "title": "Kamek Compile Error Notification",
+                    "description": "Determines if a notification will be sent when Kamek encounters an error while compiling."
+                },
+                "loaderCompileDone": {
+                    "title": "Loader Compile Done Notification",
+                    "description": "Determines if a notification will be sent when the loader finishes compiling."
+                },
+                "loaderCompileError": {
+                    "title": "Loader Compile Error Notification",
+                    "description": "Determines if a notification will be sent when the loader encounters an error while compiling."
                 }
             },
             "QNamedToggleButton": {
-                "goesToTray": "Goes to Tray"
+                "goesToTray": "Goes to Tray",
+                "kamekCompileDone": "Kamek Compile Done",
+                "kamekCompileMissingSymbols": "Kamek Compile Missing Symbols",
+                "kamekCompileError": "Kamek Compile Error",
+                "loaderCompileDone": "Loader Compile Done",
+                "loaderCompileError": "Loader Compile Error"
             },
             "QPushButton": {
                 "checkAll": "Check All",

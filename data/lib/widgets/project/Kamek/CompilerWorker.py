@@ -15,7 +15,7 @@ from .compiler import *
 class CompilerWorker(QThread):
     _color_link = QUtilsColor('#0000FF')
 
-    done = Signal()
+    done = Signal(bool)
     error = Signal(str)
     log_simple = Signal(str, LogType, bool)
     log_complete = Signal(str, LogType, bool)
@@ -246,7 +246,7 @@ class CompilerWorker(QThread):
 
         self.new_symbols.emit(func_symbols)
 
-        self.done.emit()
+        self.done.emit(bool(missing_symbols))
 
     def _copy_files(self, version_name_1: str, version_name_2: str) -> None:
         (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_loader.bin').replace(self._build_folder / f'System{version_name_2}.bin')

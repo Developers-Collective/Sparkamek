@@ -77,10 +77,35 @@
                 "goesToTray": {
                     "title": "Notification de Minimisation dans la Barre des Tâches",
                     "description": "Détermine si Sparkamek affiche une notification lorsqu'il est minimisé dans la barre des tâches."
+                },
+                "kamekCompileDone": {
+                    "title": "Notification de Compilation Kamek Terminée",
+                    "description": "Détermine si Sparkamek affiche une notification lorsqu'une compilation est terminée."
+                },
+                "kamekCompileMissingSymbols": {
+                    "title": "Notification de Symboles Manquants à la Compilation Kamek",
+                    "description": "Détermine si Sparkamek affiche une notification lorsqu'il manque des symboles à la compilation."
+                },
+                "kamekCompileError": {
+                    "title": "Notification d'Erreur de Compilation Kamek",
+                    "description": "Détermine si Sparkamek affiche une notification lorsqu'une erreur de compilation est survenue."
+                },
+                "loaderCompileDone": {
+                    "title": "Notification de Compilation Loader Terminée",
+                    "description": "Détermine si Sparkamek affiche une notification lorsqu'une compilation est terminée."
+                },
+                "loaderCompileError": {
+                    "title": "Notification d'Erreur de Compilation Loader",
+                    "description": "Détermine si Sparkamek affiche une notification lorsqu'une erreur de compilation est survenue."
                 }
             },
             "QNamedToggleButton": {
-                "goesToTray": "Minimiser dans la Barre des Tâches"
+                "goesToTray": "Minimiser dans la Barre des Tâches",
+                "kamekCompileDone": "Compilation Kamek Terminée",
+                "kamekCompileMissingSymbols": "Symboles Manquants à la Compilation Kamek",
+                "kamekCompileError": "Erreur de Compilation Kamek",
+                "loaderCompileDone": "Compilation Loader Terminée",
+                "loaderCompileError": "Erreur de Compilation Loader"
             },
             "QPushButton": {
                 "checkAll": "Tout Cocher",
