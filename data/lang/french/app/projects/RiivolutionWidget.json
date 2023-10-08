@@ -3,6 +3,9 @@
         "load": "Charger",
         "save": "Sauvegarder"
     },
+    "QLabel": {
+        "description": "Pour l'instant, ce widget ne supporte pas la balise \"macro\" et les balises de RiiFS. Pour plus d'informations, veuillez visiter le %s."
+    },
     "WiiDiscWidget": "#ref: app/projects/RiivolutionWidget/WiiDiscWidget",
     "ItemDataPropertyDockWidget": "#ref: app/projects/RiivolutionWidget/ItemDataPropertyDockWidget"
 }

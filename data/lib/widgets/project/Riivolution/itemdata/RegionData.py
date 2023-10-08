@@ -26,6 +26,7 @@ class RegionData(BaseItemData):
         self._content_frame.grid_layout.addWidget(self._regiontype_label, 0, 0)
 
         self._regiontype_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.type'))
+        self._regiontype_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.type'))
         self._regiontype_lineedit.line_edit.setText(self._data.type)
         self._regiontype_lineedit.line_edit.textChanged.connect(self._type_changed)
         self._regiontype_lineedit.line_edit.setMaxLength(1)

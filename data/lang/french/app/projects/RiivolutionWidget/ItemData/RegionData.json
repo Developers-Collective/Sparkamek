@@ -5,6 +5,9 @@
     "PropertyWidget": {
         "QNamedLineEdit": {
             "type": "Type"
+        },
+        "QToolTip": {
+            "type": "Contient le caractère de région de l'ID du jeu, généralement \"E\", \"P\" ou \"J\"."
         }
     }
 }

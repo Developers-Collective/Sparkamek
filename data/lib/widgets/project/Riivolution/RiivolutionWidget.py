@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QPushButton, QDockWidget
+from PySide6.QtWidgets import QPushButton, QDockWidget, QLabel
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData
@@ -64,10 +64,22 @@ class RiivolutionWidget(SubProjectWidgetBase):
         topframe.grid_layout.addWidget(self._save_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
+        topframe = QGridWidget()
+        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
+        topframe.grid_layout.setSpacing(8)
+        self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
+
+        label = QLabel(self._lang.get_data('QLabel.description').replace('%s', f'<a href="https://riivolution.github.io/wiki/Patch_Format/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">Riivolution Patch Format Wiki</a>'))
+        label.setOpenExternalLinks(True)
+        label.setWordWrap(True)
+        label.setProperty('brighttitle', True)
+        topframe.grid_layout.addWidget(label, 0, 0)
+
+
         self._wii_disc_widget = WiiDiscWidget(self._path)
         self._wii_disc_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
         self._wii_disc_widget.setDisabled(True)
-        self._root.scroll_layout.addWidget(self._wii_disc_widget, 1, 0)
+        self._root.scroll_layout.addWidget(self._wii_disc_widget, 2, 0)
 
 
     @property
