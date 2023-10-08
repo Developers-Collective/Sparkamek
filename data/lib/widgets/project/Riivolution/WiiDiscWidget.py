@@ -9,7 +9,6 @@ from .items import WiiDisc, Patch
 from .IDWidget import IDWidget
 from .OptionsWidget import OptionsWidget
 from .itemdata.BaseItemData import BaseItemData
-from .itemdata.BaseSubItemData import BaseSubItemData
 from .itemdata.PatchData import PatchData
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 #----------------------------------------------------------------------

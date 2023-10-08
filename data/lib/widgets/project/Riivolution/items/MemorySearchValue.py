@@ -23,8 +23,8 @@ class MemorySearchValue(implements(IBaseItem)):
         return XMLNode(
             self.name,
             (
-                {'original': self.original} |
-                {('value'): self.value} |
+                {'original': f'{self.original:X}'} |
+                {('value'): f'{self.value:X}'} |
                 ({'align': self.align} if self.align != 1 else {}) |
                 {'search': True} |
                 ({'comment': self.comment} if self.comment else {})

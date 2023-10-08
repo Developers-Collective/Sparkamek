@@ -60,7 +60,7 @@ class BaseSubItemData(QDragListItem):
         self._type_label = QLabel()
         self._type_label.setProperty('brightsubtitle', True)
         topleft_frame.grid_layout.addWidget(self._type_label, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        self._update_title_text()
+        self.update_title_text()
 
         self._content_frame = QGridWidget()
         self._content_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
@@ -102,7 +102,7 @@ class BaseSubItemData(QDragListItem):
         return self._data
 
 
-    def _update_title_text(self) -> None:
+    def update_title_text(self) -> None:
         self._type_label.setText(self.type)
 
 

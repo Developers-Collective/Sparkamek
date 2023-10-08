@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame
 from ..items.Section import Section
 from ..items.Option import Option
 from .BaseItemData import BaseItemData
@@ -41,9 +41,10 @@ class SectionData(BaseItemData):
         self._property_frame.grid_layout.addWidget(self._option_pages, 0, 0)
 
 
-        frame = QGridWidget()
-        frame.grid_layout.setSpacing(30)
-        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame = QScrollableGridFrame()
+        frame.setProperty('transparent', True)
+        frame.scroll_layout.setSpacing(30)
+        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
 
         self._option_pages.addWidget(frame)
 
@@ -51,7 +52,7 @@ class SectionData(BaseItemData):
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 0, 0)
+        frame.scroll_layout.addWidget(subframe, 0, 0)
 
         label = QLabel(self._lang.get_data('QLabel.generalInfo'))
         label.setProperty('h', 2)
@@ -70,7 +71,7 @@ class SectionData(BaseItemData):
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 1, 0)
+        frame.scroll_layout.addWidget(subframe, 1, 0)
 
         label = QLabel(self._lang.get_data('QLabel.options'))
         label.setProperty('h', 2)
@@ -91,7 +92,7 @@ class SectionData(BaseItemData):
 
         subframe.grid_layout.setRowStretch(3, 1)
 
-        frame.grid_layout.setRowStretch(2, 1)
+        frame.scroll_layout.setRowStretch(2, 1)
 
 
         self._data_frame = QGridWidget()

@@ -2,8 +2,7 @@
 
     # Libraries
 from PySide6.QtWidgets import QLabel
-from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QScrollableGridFrame
 from ..items.Region import Region
 from .BaseItemData import BaseItemData
 #----------------------------------------------------------------------
@@ -25,12 +24,18 @@ class RegionData(BaseItemData):
         self._regiontype_label.setProperty('brighttitle', True)
         self._content_frame.grid_layout.addWidget(self._regiontype_label, 0, 0)
 
+        frame = QScrollableGridFrame()
+        frame.setProperty('transparent', True)
+        frame.scroll_layout.setSpacing(30)
+        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
+        self._property_frame.grid_layout.addWidget(frame, 0, 0)
+
         self._regiontype_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.type'))
         self._regiontype_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.type'))
         self._regiontype_lineedit.line_edit.setText(self._data.type)
         self._regiontype_lineedit.line_edit.textChanged.connect(self._type_changed)
         self._regiontype_lineedit.line_edit.setMaxLength(1)
-        self._property_frame.grid_layout.addWidget(self._regiontype_lineedit, 0, 0)
+        frame.scroll_layout.addWidget(self._regiontype_lineedit, 0, 0)
 
         self._update_text()
 

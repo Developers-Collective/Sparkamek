@@ -64,14 +64,14 @@ class XMLNode:
             s += '>'
 
             for child in self.children:
-                s += '\n\t' + str(child)
+                s += '\n\t' + str(child).replace('\n', '\n\t')
 
             s += f'\n</{self.name}>'
 
         else:
             s += '/>'
 
-        return s.replace('\n', '\n\t')
+        return s
 
     def __str__(self) -> str:
         return self.__repr__()

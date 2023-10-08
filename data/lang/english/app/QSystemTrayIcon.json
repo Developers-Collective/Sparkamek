@@ -64,6 +64,16 @@
                 "title": "Reggie Next Info",
                 "message": "Reggie Next • Successfully exported %s !"
             }
+        },
+        "RiivolutionWidget": {
+            "successfullySaved": {
+                "title": "Riivolution Info",
+                "message": "Riivolution • Successfully saved !"
+            },
+            "errorWhileSaving": {
+                "title": "Riivolution Error",
+                "message": "Riivolution • An error occurred while saving !\nError: %s"
+            }
         }
     }
 }

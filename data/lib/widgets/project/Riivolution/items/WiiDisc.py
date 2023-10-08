@@ -41,7 +41,7 @@ class WiiDisc: # Doc at https://riivolution.github.io/wiki/Patch_Format/ & https
                 [
                     self.id.export(),
                     self.options.export(),
-                    self.patch.export()
+                    *[p.export() for p in self.patch_children]
                 ] + ([self.network.export()] if self.network else [])
             )
         )

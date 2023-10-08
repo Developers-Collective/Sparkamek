@@ -23,7 +23,7 @@ class MemorySearchValueFile(implements(IBaseItem)):
         return XMLNode(
             self.name,
             (
-                {'original': self.original} |
+                {'original': f'{self.original:X}'} |
                 {('valuefile'): self.valuefile} |
                 ({'align': self.align} if self.align != 1 else {}) |
                 {'search': True} |

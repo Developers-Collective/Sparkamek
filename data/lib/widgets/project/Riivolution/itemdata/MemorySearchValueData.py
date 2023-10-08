@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedTextEdit, QGridWidget, QSaveData, QNamedHexSpinBox, QNamedSpinBox
+from data.lib.qtUtils import QBaseApplication, QNamedTextEdit, QGridWidget, QSaveData, QNamedHexSpinBox, QNamedSpinBox, QScrollableGridFrame
 from ..items.MemorySearchValue import MemorySearchValue
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------
@@ -33,19 +33,25 @@ class MemorySearchValueData(BaseSubItemData):
         self._content_frame.grid_layout.addWidget(self._text_label, 0, 0)
 
 
+        frame = QScrollableGridFrame()
+        frame.setProperty('transparent', True)
+        frame.scroll_layout.setSpacing(30)
+        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
+        self._property_frame.grid_layout.addWidget(frame, 0, 0)
+
         self._back_button = QPushButton()
         self._back_button.setIcon(self._back_icon)
         self._back_button.setText(self._lang.get_data('QPushButton.back'))
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
-        self._property_frame.grid_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        frame.scroll_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
 
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._property_frame.grid_layout.addWidget(subframe, 1, 0)
+        frame.scroll_layout.addWidget(subframe, 1, 0)
 
 
         self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'))
@@ -55,7 +61,7 @@ class MemorySearchValueData(BaseSubItemData):
         self._original_hexspinbox.value_changed.connect(self._original_changed)
         subframe.grid_layout.addWidget(self._original_hexspinbox, 0, 0)
 
-        self._value_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.value'))
+        self._value_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.value'), True)
         self._value_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.value'))
         self._value_hexspinbox.set_range(0, 0xFFFFFFFFFFFFFFFF)
         self._value_hexspinbox.set_value(self._data.value)
@@ -77,12 +83,17 @@ class MemorySearchValueData(BaseSubItemData):
 
         subframe.grid_layout.setRowStretch(4, 1)
 
-        self._property_frame.grid_layout.setRowStretch(2, 1)
+        frame.scroll_layout.setRowStretch(2, 1)
 
         self._update_text()
 
         self._disable_send = False
 
+
+    def update_title_text(self) -> None:
+        comment = self._data.comment.replace('\n', '')
+        if len(comment) > 32: comment = f'{comment[:32]}...'
+        self._type_label.setText(f'{self.type}' + (f' • {comment}' if comment else ''))
 
     def _update_text(self) -> None:
         s = self._lang.get_data('QLabel.text').replace('%s', f'0x{self._data.original:X}', 1).replace('%s', f'0x{self._data.value:X}', 1).replace('%s', f'{self._data.align:X}', 1)
@@ -109,6 +120,7 @@ class MemorySearchValueData(BaseSubItemData):
     def _send_data(self, *args) -> None:
         if self._disable_send: return
 
+        self.update_title_text()
         self._update_text()
         self.data_changed.emit()
 #----------------------------------------------------------------------

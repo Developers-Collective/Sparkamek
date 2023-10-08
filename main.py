@@ -20,6 +20,8 @@ class ApplicationError(QApplication):
         super().__init__(sys.argv)
         self.window = QMainWindow()
         self.window.setWindowTitle('Sparkamek - Error')
+        import traceback
+        traceback.print_exc()
         QMessageBoxWithWidget(
             app = self,
             title = 'Sparkamek - Error',

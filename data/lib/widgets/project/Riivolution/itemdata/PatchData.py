@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame
 from ..items.Patch import Patch
 from .BaseItemData import BaseItemData
 from .FileData import FileData
@@ -54,9 +54,10 @@ class PatchData(BaseItemData):
         self._property_frame.grid_layout.addWidget(self._child_pages, 0, 0)
 
 
-        frame = QGridWidget()
-        frame.grid_layout.setSpacing(30)
-        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame = QScrollableGridFrame()
+        frame.setProperty('transparent', True)
+        frame.scroll_layout.setSpacing(30)
+        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
 
         self._child_pages.addWidget(frame)
 
@@ -64,7 +65,7 @@ class PatchData(BaseItemData):
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 0, 0, 1, 2)
+        frame.scroll_layout.addWidget(subframe, 0, 0, 1, 2)
 
         label = QLabel(self._lang.get_data('QLabel.generalInfo'))
         label.setProperty('h', 2)
@@ -89,12 +90,12 @@ class PatchData(BaseItemData):
         leftframe = QGridWidget()
         leftframe.grid_layout.setSpacing(30)
         leftframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(leftframe, 1, 0)
+        frame.scroll_layout.addWidget(leftframe, 1, 0)
 
         rightframe = QGridWidget()
         rightframe.grid_layout.setSpacing(30)
         rightframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(rightframe, 1, 1)
+        frame.scroll_layout.addWidget(rightframe, 1, 1)
 
 
         subframe = QGridWidget()
@@ -196,7 +197,7 @@ class PatchData(BaseItemData):
         subframe.grid_layout.setRowStretch(3, 1)
 
         leftframe.grid_layout.setRowStretch(2, 1)
-        frame.grid_layout.setRowStretch(2, 1)
+        frame.scroll_layout.setRowStretch(2, 1)
 
 
         self._data_frame = QGridWidget()

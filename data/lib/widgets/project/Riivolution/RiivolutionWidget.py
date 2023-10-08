@@ -10,6 +10,7 @@ from data.lib.storage.xml import XML
 from .WiiDiscWidget import WiiDiscWidget
 from .items import WiiDisc
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
+import os
 #----------------------------------------------------------------------
 
     # Class
@@ -69,7 +70,10 @@ class RiivolutionWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
 
-        label = QLabel(self._lang.get_data('QLabel.description').replace('%s', f'<a href="https://riivolution.github.io/wiki/Patch_Format/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">Riivolution Patch Format Wiki</a>'))
+        label = QLabel(self._lang.get_data('QLabel.description')
+            .replace('%s', f'<a href="https://riivolution.github.io/wiki/Patch_Format/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">Riivolution Patch Format Wiki</a>', 1)
+            .replace('%s', f'<a href="https://riivolution.github.io/wiki/RiiFS/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">RiiFS Wiki</a>', 1)
+        )
         label.setOpenExternalLinks(True)
         label.setWordWrap(True)
         label.setProperty('brighttitle', True)
@@ -80,6 +84,10 @@ class RiivolutionWidget(SubProjectWidgetBase):
         self._wii_disc_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
         self._wii_disc_widget.setDisabled(True)
         self._root.scroll_layout.addWidget(self._wii_disc_widget, 2, 0)
+
+        self._wii_disc_widget.wiidisc = WiiDisc(WiiDisc.create().export())
+        self._wii_disc_widget.setDisabled(False)
+        self._item_data_property_dock_widget.set_widget(None)
 
 
     @property
@@ -114,5 +122,30 @@ class RiivolutionWidget(SubProjectWidgetBase):
         self._item_data_property_dock_widget.set_widget(None)
 
     def _save(self) -> None:
-        pass
+        if self._wii_disc_widget.wiidisc is None: return
+
+        try:
+            path = f'{self.path}'
+            if not os.path.exists(f'{path}.bak'):
+                os.rename(path, f'{path}.bak')
+
+            with open(path, 'w', encoding = 'utf-8') as f:
+                f.write(str(self._wii_disc_widget.wiidisc.export().export(indent = 4)))
+
+            self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.RiivolutionWidget.successfullySaved.message'),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
+
+        except Exception as e:
+            self._app.show_alert(
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.RiivolutionWidget.errorWhileSaving.message').replace('%s', str(e)),
+                raise_duration = self._app.ALERT_RAISE_DURATION,
+                pause_duration = self._app.ALERT_PAUSE_DURATION,
+                fade_duration = self._app.ALERT_FADE_DURATION,
+                color = 'main'
+            )
 #----------------------------------------------------------------------

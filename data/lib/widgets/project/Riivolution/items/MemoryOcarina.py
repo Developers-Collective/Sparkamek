@@ -14,7 +14,9 @@ class MemoryOcarina(implements(IBaseItem)):
     def __init__(self, data: XMLNode = None) -> None:
         if not data: data = self.create().export()
 
-        self.offset: int = data.get_attribute('offset', 0) # Required
+        self.offset: int = str(data.get_attribute('offset', 0)) # Required
+        if self.offset.startswith('0x'): self.offset = int(self.offset, 16)
+        else: self.offset = int(self.offset)
         self.value: int = int(str(data.get_attribute('value', 0)), 16) # Required
         self.comment: str = data.get_attribute('comment', '') # Optional
 
@@ -22,8 +24,8 @@ class MemoryOcarina(implements(IBaseItem)):
         return XMLNode(
             self.name,
             (
-                {'offset': self.offset} |
-                {('value'): self.value} |
+                {'offset': f'0x{self.offset:X}'} |
+                {('value'): f'{self.value:X}'} |
                 ({'comment': self.comment} if self.comment else {}) |
                 {'ocarina': True}
             )

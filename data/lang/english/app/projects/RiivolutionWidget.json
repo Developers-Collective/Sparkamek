@@ -4,7 +4,7 @@
         "save": "Save"
     },
     "QLabel": {
-        "description": "Currently, this widget doesn't support the \"macro\" tag and the RiiFS tags. For more information, please visit the %s."
+        "description": "Currently, this widget doesn't support the \"macro\" tag and the RiiFS tags. For more information, please visit the %s and the %s."
     },
     "WiiDiscWidget": "#ref: app/projects/RiivolutionWidget/WiiDiscWidget",
     "ItemDataPropertyDockWidget": "#ref: app/projects/RiivolutionWidget/ItemDataPropertyDockWidget"

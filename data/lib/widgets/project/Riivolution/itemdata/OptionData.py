@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QNamedSpinBox
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QNamedSpinBox, QScrollableGridFrame
 from ..items.Option import Option
 from ..items.Choice import Choice
 from .BaseSubItemData import BaseSubItemData
@@ -43,9 +43,10 @@ class OptionData(BaseSubItemData):
         self._property_frame.grid_layout.addWidget(self._choice_pages, 0, 0)
 
 
-        frame = QGridWidget()
-        frame.grid_layout.setSpacing(30)
-        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        frame = QScrollableGridFrame()
+        frame.setProperty('transparent', True)
+        frame.scroll_layout.setSpacing(30)
+        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
 
         self._choice_pages.addWidget(frame)
 
@@ -56,13 +57,13 @@ class OptionData(BaseSubItemData):
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
-        frame.grid_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        frame.scroll_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
 
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 1, 0)
+        frame.scroll_layout.addWidget(subframe, 1, 0)
 
         label = QLabel(self._lang.get_data('QLabel.generalInfo'))
         label.setProperty('h', 2)
@@ -94,7 +95,7 @@ class OptionData(BaseSubItemData):
         subframe = QGridWidget()
         subframe.grid_layout.setSpacing(8)
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.addWidget(subframe, 2, 0)
+        frame.scroll_layout.addWidget(subframe, 2, 0)
 
         label = QLabel(self._lang.get_data('QLabel.choices'))
         label.setProperty('h', 2)
@@ -115,7 +116,7 @@ class OptionData(BaseSubItemData):
 
         subframe.grid_layout.setRowStretch(3, 1)
 
-        frame.grid_layout.setRowStretch(3, 1)
+        frame.scroll_layout.setRowStretch(3, 1)
 
 
         self._data_frame = QGridWidget()
