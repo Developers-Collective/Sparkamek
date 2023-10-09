@@ -17,8 +17,8 @@ class QScrollableGridFrame(QSmoothScrollArea):
         self.setWidget(self.scroll_frame)
         self.setWidgetResizable(True)
 
-    def setProperty(self, name: str, value: Any) -> bool:
-        ret = super().setProperty(name, value)
+    def set_all_property(self, name: str, value: Any) -> bool:
+        ret = self.setProperty(name, value)
         self.scroll_frame.setProperty(name, value)
         self.scroll_layout.setProperty(name, value)
 

@@ -25,7 +25,7 @@ class RegionData(BaseItemData):
         self._content_frame.grid_layout.addWidget(self._regiontype_label, 0, 0)
 
         frame = QScrollableGridFrame()
-        frame.setProperty('transparent', True)
+        frame.set_all_property('transparent', True)
         frame.scroll_layout.setSpacing(30)
         frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
         self._property_frame.grid_layout.addWidget(frame, 0, 0)
