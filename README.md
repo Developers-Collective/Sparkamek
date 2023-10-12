@@ -115,7 +115,11 @@ Once you have created a project, you'll have 1 to 4 tabs.
 
 ### Loader Tab
 
-todo
+Here you can create and edit the loader for your game. The compiler has 2 modes: simple and complete.
+
+The complete mode is the same as the base Loader one, meaning it has all the other stuff, but with colors, spacing and the correct line number for the errors / warnings whereas the simple mode is a lot more compact and only shows essential information.
+
+![Simple compiler](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/loader-compiler-simple.png)
 
 
 ### Kamek Tab
@@ -132,7 +136,7 @@ Here you can check the sprites and actors that are in the game.
 
 Here you can compile the code for the game. The compiler has 2 modes: simple and complete.
 
-The complete mode is the same as the Kamek one, but with colors, spacing and the correct line number for the errors / warnings whereas the simple mode is a lot more compact and only shows essential information.
+The complete mode is the same as the base Kamek one, meaning it has all the other stuff, but with colors, spacing and the correct line number for the errors / warnings whereas the simple mode is a lot more compact and only shows essential information (and the only one true error instead of 1041 unrelated ones).
 
 ![Simple compiler](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/kamek-compiler-simple.png)
 
