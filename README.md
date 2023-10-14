@@ -151,9 +151,108 @@ Here you can check the symbols that are compiled, for debugging purposes.
 
 ### Reggie Next Tab
 
-todo
+This tab is used to easily edit the `spritedata.xml` file, which is used to create sprite patches for the Reggie Next. You can also create a new `spritedata.xml` file from scratch.
 
+![Reggie Next](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-all.png)
+
+#### Sprites
+
+Here you can check and select the sprites that are in the patch. You can load the sprites by pressing the `Load` button and save them by pressing the `Save` button.
+
+![Sprites](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-sprites.png)
+
+When selecting a sprite, you can see its information in the other panels.
+
+#### Sprite Info
+
+Here you can see the information of the selected sprite, as well as some useful buttons.
+
+![Sprite Info](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite.png)
+
+The buttons are:
+- `Create a New Sprite`: Creates a new sprite with the default settings.
+- `Delete Selected Sprite`: Deletes the selected sprite.
+- `Import a Sprite`: Imports one or multiple sprites from a file.
+- `Export Selected Sprite`: Exports the selected sprite to a file.
+- `Reset`: Resets the settings of the selected sprite to the ones it had before editing it (selecting an other sprite sets the new reset state of the edited one).
+- `Clear`: Clears the settings of the selected sprite.
+
+![Sprite Info](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite-buttons.png)
+
+The information are separated in 3 categories: `General Info`, `Dependencies` and `Settings`.
+
+In the `General Info` category, you can see the name of the sprite, its sprite ID, its notes, and its supports.
+
+![General Info](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite-general-info.png)
+
+In the `Dependencies` category, you can see the dependencies of the sprite, which are the sprites that are required and / or suggested for the sprite to work.
+
+![Dependencies](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite-dependencies.png)
+
+In the `Settings` category, you can see the settings of the sprite, which are the settings that'll appear in Reggie Next when you select the sprite.
+
+Here are the settings that you can have:
+- `Dual Box / Radio Buttons`: A group of **two** settings that are exclusive to each other. You can only select one of them.
+- `Entry Value`: A setting that has a raw number value.
+- `Check Box`: A setting that can be enabled or disabled.
+- `Drop Down List`: A group of settings that are exclusive to each other. You can only select one of them.
+- `Value Selector from a File`: A group of **a lot** of settings that are exclusive to each other. You can only select one of them. A special window will open when you select this setting, allowing you to select the value. The values are loaded from a file. (*Note that Sparkamek doesn't support the editing of this files yet.*)
+
+![Settings](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite-settings.png)
+
+By clicking on one of the settings, you can edit it in the properties panel.
+
+These settings are separated in 3 categories: `Nybbles`, `Required Nybble(s) / Required Value(s)` and `Other`.
+
+The nybble settings are used to tell Reggie Next which nybble(s) should be affected by the setting. The `First Nybble` option is the first nybble that'll be affected by the setting, and the `Last Nybble` option is the last nybble that'll be affected by the setting. If you want to affect only one nybble, you can set the `First Nybble` and leave the `Last Nybble` to `None`. Because a nybble is 4 bits, you sometimes want to be more precise, like with a `Check Box` that only require one bit to work. In this case, you can set the `First Nybble Bit` and / or the `Last Nybble Bit` value(s). Note that you can easily check which nybble(s) and bit(s) are affected by the setting by looking at the sprite's current setting, in the bottom right corner of the widget.
+
+![Settings](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite-settings-nybbles.png)
+
+The `Other` category contains the other settings that are related to the type of widget you chose (e.g. `Dual Box / Radio Buttons` in the image below).
+
+![Settings](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/reggie-next-edit-sprite-settings-other.png)
 
 ### Riivolution / Game Tab
 
-todo
+This Riiivolution tab is used to easily edit the `riivolution.xml` file, which is used to create patches for the game. You can also create a new `riivolution.xml` file from scratch.
+
+*Note that this section is a resume, more info can be found in the app itself.*
+
+To load the riivolution file, you have to press the `Load` button. Then, you can edit the file and save it by pressing the `Save` button.
+
+![Riivolution](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-buttons.png)
+
+Once you have loaded the file, you'll see planty of settings that you can edit.
+
+#### General Info
+
+Here you can edit the general information of the patch, like the root folder and the version of riivolution the patch should use.
+
+![General Info](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-general-info.png)
+
+#### Game Properties
+
+Here you can edit the game properties of the patch, like the game ID, the developper, the disc number and the disc version.
+
+![Game Properties](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-game-properties.png)
+
+#### Regions
+
+Here you can edit the regions of the patch. You can add, edit and delete regions.
+
+![Regions](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-regions.png)
+
+![Regions](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-region-properties.png)
+
+#### Options
+
+Here you can edit the options of the patch. You can add, edit and delete options.
+Options are used to set which option should enable which patch. Note that options can enable multiple patches.
+
+![Options](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-options.png)
+
+#### Patches
+
+Here you can edit the different patches. You can add, edit and delete patches.
+
+![Patches](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/riivolution-patches.png)
