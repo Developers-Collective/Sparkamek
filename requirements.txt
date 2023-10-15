@@ -3,3 +3,5 @@ PySide6==6.4.1
 requests==2.31.0
 psutil==5.9.5
 python-interface==1.6.1
+PyYAML==6.0
+pyelftools==0.29
