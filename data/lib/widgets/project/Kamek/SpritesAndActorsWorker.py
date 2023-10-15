@@ -160,7 +160,7 @@ class SpritesAndActorsWorker(QThread):
                             args = profile.replace(' ', '').strip().split('(')[1].split(')')[0].split(',')
                             if args[1] == '0': sprite_name = '-1'
                             else: sprite_name = args[1].split('::')[1]
-                            profile_name = args[3].split('::')[1]
+                            profile_name = args[4].split('::')[1]
 
                             if (sprite_id := sprites.get(sprite_name, None)) is None: continue
                             if (profile_id := profiles.get(profile_name, None)) is None: continue

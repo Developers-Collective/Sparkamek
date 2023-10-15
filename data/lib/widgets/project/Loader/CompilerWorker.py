@@ -8,6 +8,12 @@ from data.lib.qtUtils import QBaseApplication, QUtilsColor
 from ..LogType import LogType
 #----------------------------------------------------------------------
 
+#   Setup
+startupinfo = subprocess.STARTUPINFO()
+startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+startupinfo.wShowWindow = subprocess.SW_HIDE
+#----------------------------------------------------------------------
+
     # Class
 class CompilerWorker(QThread):
     _color_link = QUtilsColor('#0000FF')
@@ -48,7 +54,7 @@ class CompilerWorker(QThread):
         try:
             self.log_info_all('Assembling...', False)
             self.log_info(f'Executing command: {command}', False)
-            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True)
+            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True, startupinfo = startupinfo)
             output = p.communicate()[1].decode('utf-8')
             error_val = p.poll()
 
@@ -94,7 +100,7 @@ class CompilerWorker(QThread):
         try:
             self.log_info_all('Linking...', False)
             self.log_info(f'Executing command: {command}', False)
-            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True)
+            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True, startupinfo = startupinfo)
             output = p.communicate()[1].decode('utf-8')
             error_val = p.poll()
 
