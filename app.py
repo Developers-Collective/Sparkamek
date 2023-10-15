@@ -408,9 +408,9 @@ class Application(QBaseApplication):
     def on_sys_tray_activated(self, reason: QSystemTrayIcon.ActivationReason) -> None:
         match reason:
             case QSystemTrayIcon.ActivationReason.Trigger:
-                self.window.show()
+                self.window.showMaximized()
                 self.window.raise_()
-                self.window.setWindowState(Qt.WindowState.WindowActive)
+                self.window.setWindowState(Qt.WindowState.WindowMaximized)
             case QSystemTrayIcon.ActivationReason.Context:
                 self.sys_tray_menu.popup(QCursor.pos())
 
