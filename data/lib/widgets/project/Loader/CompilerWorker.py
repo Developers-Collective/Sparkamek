@@ -2,16 +2,18 @@
 
     # Libraries
 from PySide6.QtCore import Signal, QThread
-import os, subprocess, shutil
+import os, subprocess, shutil, sys
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
 from ..LogType import LogType
 #----------------------------------------------------------------------
 
 #   Setup
-startupinfo = subprocess.STARTUPINFO()
-startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-startupinfo.wShowWindow = subprocess.SW_HIDE
+startupinfo = {}
+if sys.platform == 'win32':
+    startupinfo['startupinfo'] = subprocess.STARTUPINFO()
+    startupinfo['startupinfo'].dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    startupinfo['startupinfo'].wShowWindow = subprocess.SW_HIDE
 #----------------------------------------------------------------------
 
     # Class
@@ -54,7 +56,7 @@ class CompilerWorker(QThread):
         try:
             self.log_info_all('Assembling...', False)
             self.log_info(f'Executing command: {command}', False)
-            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True, startupinfo = startupinfo)
+            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True, **startupinfo)
             output = p.communicate()[1].decode('utf-8')
             error_val = p.poll()
 
@@ -100,7 +102,7 @@ class CompilerWorker(QThread):
         try:
             self.log_info_all('Linking...', False)
             self.log_info(f'Executing command: {command}', False)
-            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True, startupinfo = startupinfo)
+            p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True, **startupinfo)
             output = p.communicate()[1].decode('utf-8')
             error_val = p.poll()
 
