@@ -87,7 +87,7 @@ class Application(QBaseApplication):
 
 
     def update_title(self) -> None:
-        self.window.setWindowTitle(self.get_lang_data('QMainWindow.title') + f' | Version: {Info.version} | Build: {Info.build}')
+        self.window.setWindowTitle(self.get_lang_data('QMainWindow.title') + f' | Version: {Info.version} • Build: {Info.build}')
 
     def load_colors(self) -> None:
         super().load_colors()
