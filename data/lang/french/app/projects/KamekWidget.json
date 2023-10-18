@@ -14,6 +14,6 @@
         "info": "Info",
         "success": "Succès"
     },
-    "SpritesAndActors": "#ref: app/projects/KamekWidget/SpritesAndActors",
+    "SpritesAndActorsDockWidget": "#ref: app/projects/KamekWidget/SpritesAndActorsDockWidget",
     "SymbolsDockWidget": "#ref: app/projects/KamekWidget/SymbolsDockWidget"
 }

@@ -24,7 +24,7 @@
     "QNamedToggleButton": {
         "asmhacks": "Support des ASM Hacks",
         "sizehacks": "Support des Hacks de Taille",
-        "noyoshi": "Ne Supporte pas Yoshi"
+        "yoshi": "Support de Yoshi"
     },
     "DependencyDataItem": {
         "QNamedSpinBox": {
@@ -95,22 +95,30 @@
     "CheckBoxData": {
         "QNamedLineEdit": {
             "title": "Titre"
+        }
+    },
+    "ListData": {
+        "QNamedLineEdit": {
+            "title": "Titre"
         },
-        "ListData": {
+        "QPushButton": {
+            "add": "Ajouter une Entrée"
+        },
+        "EntryListItem": {
+            "QNamedSpinBox": {
+                "value": "Valeur"
+            },
             "QNamedLineEdit": {
-                "title": "Titre"
-            },
-            "QPushButton": {
-                "add": "Ajouter une Entrée"
-            },
-            "EntryListItem": {
-                "QNamedSpinBox": {
-                    "value": "Valeur"
-                },
-                "QNamedLineEdit": {
-                    "item": "Entrée"
-                }
+                "item": "Entrée"
             }
+        }
+    },
+    "ExternalData": {
+        "QNamedLineEdit": {
+            "title": "Titre"
+        },
+        "QNamedComboBox": {
+            "type": "Type"
         }
     }
 }
