@@ -128,7 +128,7 @@ The complete mode is the same as the base Loader one, meaning it has all the oth
 
 Here you can check the sprites and actors that are in the game.
 
-*Note that the the sprites of this list are to take with a grain of salt, as they are not 100% accurate (because it requires putting the sprites replacement comment and using good profile names).*
+*Note that the sprites of this list are to take with a grain of salt, as they are not 100% accurate (because it requires putting the sprites replacement comment and using good profile names).*
 
 ![Sprites and actors](https://raw.githubusercontent.com/Synell/Assets/main/Sparkamek/readme/kamek-sprites-and-actors.png)
 
