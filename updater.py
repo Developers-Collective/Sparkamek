@@ -30,11 +30,11 @@ class QUpdater(QBaseApplication):
         super().__init__(platform = platform, app_type = QAppType.Updater, single_instance = True)
 
         self.setOrganizationName('Synel')
-        # self.setApplicationDisplayName('Sparkamek')
-        self.setApplicationName('Sparkamek')
+        # self.setApplicationDisplayName(Info.application_name)
+        self.setApplicationName(Info.application_name)
         self.setApplicationVersion(Info.version)
 
-        self.save_data = SaveData(
+        self.save_data = self.save_data = SaveData(
             app = self,
             save_path = Info.save_path,
             main_color_set = Info.main_color_set,
@@ -78,8 +78,8 @@ class QUpdater(QBaseApplication):
 
         QMessageBoxWithWidget(
             app = self,
-            title = lang['title'],
-            text = lang['text'],
+            title = lang.get_data('title'),
+            text = lang.get_data('text'),
             icon = QMessageBoxWithWidget.Icon.Critical,
             widget = w
         ).exec()
@@ -204,7 +204,7 @@ class QUpdater(QBaseApplication):
         self.slide_worker.signals.slide_changed.connect(self.slide)
         self.slide_worker.start()
 
-        self.update_worker = UpdateWorker(self.UPDATE_LINK, self.save_data.token, self.save_data.downloads_folder)
+        self.update_worker = UpdateWorker(self.UPDATE_LINK, '', self.save_data.downloads_folder)
         self.update_worker.signals.download_progress_changed.connect(self.download_progress_changed)
         self.update_worker.signals.download_speed_changed.connect(self.download_speed_changed)
         self.update_worker.signals.download_eta_changed.connect(self.download_eta_changed)

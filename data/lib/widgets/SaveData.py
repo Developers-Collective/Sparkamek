@@ -17,6 +17,7 @@ from data.lib.qtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidge
 class SaveData(QSaveData):
     dateformat = '%Y-%m-%dT%H:%M:%SZ'
     COLOR_LINK = QUtilsColor()
+    downloads_folder = './Sparkamek/'
 
     def __init__(self, app: QBaseApplication, save_path: str = './data/save.dat', main_color_set: QSaveData.ColorSet = None, neutral_color_set: QSaveData.ColorSet = None) -> None:
         self.platform = PlatformType.from_qplatform(app.platform)
