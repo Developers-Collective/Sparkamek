@@ -129,6 +129,8 @@ class XMLNode:
             try: return c(val)
             except ValueError: pass
 
+        return val
+
 
 
 class XML:

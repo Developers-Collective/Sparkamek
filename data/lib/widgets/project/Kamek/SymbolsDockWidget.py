@@ -1,9 +1,9 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QFrame, QPushButton
-from PySide6.QtCore import Qt, QSortFilterProxyModel
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, QNamedToggleButton, QNamedComboBox
+from PySide6.QtWidgets import QFrame
+from PySide6.QtCore import Qt
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, QNamedToggleButton, QNamedComboBox, QBetterSortFilterProxyModel
 from .compiler import FuncSymbol
 #----------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ class SymbolsDockWidget(QSavableDockWidget):
         self._list.sortByColumn(0, Qt.SortOrder.AscendingOrder)
         self._root.scroll_layout.addWidget(self._list, 1, 0)
 
-        self._proxy_model = QSortFilterProxyModel(
+        self._proxy_model = QBetterSortFilterProxyModel(
             self, filterKeyColumn = 1, recursiveFilteringEnabled = True
         )
         self._proxy_model.setSourceModel(self._list.model())

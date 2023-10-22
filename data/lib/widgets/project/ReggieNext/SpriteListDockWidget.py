@@ -2,8 +2,8 @@
 
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
-from PySide6.QtCore import Qt, QSortFilterProxyModel, Signal
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, DelayedSignal
+from PySide6.QtCore import Qt, Signal
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, DelayedSignal, QBetterSortFilterProxyModel
 from .SpriteListLoaderWorker import SpriteListLoaderWorker
 from .sprites import *
 #----------------------------------------------------------------------
@@ -100,7 +100,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._list.item_selection_changed.connect(self._sprite_selection_changed)
         self._root.scroll_layout.addWidget(self._list, 2, 0)
 
-        self._proxy_model = QSortFilterProxyModel(
+        self._proxy_model = QBetterSortFilterProxyModel(
             self, filterKeyColumn = 1, recursiveFilteringEnabled = True
         )
         self._proxy_model.setSourceModel(self._list.model())
