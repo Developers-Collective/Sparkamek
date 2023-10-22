@@ -337,8 +337,10 @@ class ReggieNextWidget(SubProjectWidgetBase):
             if not os.path.exists(f'{path}.bak'):
                 os.rename(path, f'{path}.bak')
 
+            s = str(self._sprite_list_dock_widget.sprites.export().export(indent = 2)) # If an error occurs, the old file won't be overwritten
+
             with open(path, 'w', encoding = 'utf-8') as f:
-                f.write(str(self._sprite_list_dock_widget.sprites.export().export(indent = 2)))
+                f.write(s)
 
             self._app.show_alert(
                 self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.successfullySaved.message'),

@@ -59,7 +59,7 @@ class XMLNode:
 
         while None in self._children: self._children.remove(None)
 
-        if self.value is not None: s += f'>{self._convert_data(self.value)}</{self.name}>'
+        if self.value is not None: s += f'>{self._convert_data(str(self.value))}</{self.name}>'
         elif self.children:
             s += '>'
 

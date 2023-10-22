@@ -129,8 +129,10 @@ class RiivolutionWidget(SubProjectWidgetBase):
             if not os.path.exists(f'{path}.bak'):
                 os.rename(path, f'{path}.bak')
 
+                s = str(self._wii_disc_widget.wiidisc.export().export(indent = 4)) # If an error occurs, the old file won't be overwritten
+
             with open(path, 'w', encoding = 'utf-8') as f:
-                f.write(str(self._wii_disc_widget.wiidisc.export().export(indent = 4)))
+                f.write(s)
 
             self._app.show_alert(
                 self._app.get_lang_data('QSystemTrayIcon.showMessage.RiivolutionWidget.successfullySaved.message'),
