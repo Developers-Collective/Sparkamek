@@ -2,7 +2,7 @@
 
     # Libraries
 from PySide6.QtCore import Signal, QThread
-import os, yaml, sys, difflib, traceback
+import os, yaml, sys, difflib, timeit
 from pathlib import Path
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
@@ -65,6 +65,8 @@ class CompilerWorker(QThread):
 
     def run(self) -> None:
         self.log_info_all('Starting compilation...', False)
+
+        start_time = timeit.default_timer()
 
         try:
             with open(self._project_full_path, 'r', encoding = 'utf-8') as f:
@@ -206,7 +208,6 @@ class CompilerWorker(QThread):
             return self.error.emit(e.msg)
 
         except Exception as e:
-            print(traceback.format_exc())
             self.log_error(str(e), False)
             return self.error.emit(str(e))
 
@@ -288,9 +289,11 @@ class CompilerWorker(QThread):
                     file.replace(Path(self._cwd) / path / file.name)
 
 
+        s = f'Compilation finished in {timeit.default_timer() - start_time:.2f} seconds.'
+
         self.log_info_all('&nbsp;', True)
-        if missing_symbols: self.log_success('All done, but the game will crash at some point due to missing symbols.', False)
-        else: self.log_success('All done!', False)
+        if missing_symbols: self.log_success(f'All done, but the game will crash at some point due to missing symbols.\n{s}', False)
+        else: self.log_success(f'All done! {s}', False)
 
         self.new_symbols.emit(func_symbols)
 
