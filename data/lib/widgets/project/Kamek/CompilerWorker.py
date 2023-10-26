@@ -66,8 +66,24 @@ class CompilerWorker(QThread):
     def run(self) -> None:
         self.log_info_all('Starting compilation...', False)
 
-        with open(self._project_full_path, 'r', encoding = 'utf-8') as f:
-            project_data = yaml.safe_load(f)
+        try:
+            with open(self._project_full_path, 'r', encoding = 'utf-8') as f:
+                project_data = yaml.safe_load(f)
+
+        except FileNotFoundError:
+            msg = f'Cannot find project file at "{self._project_full_path}"'
+            self.log_error(msg, False)
+            return self.error.emit(msg)
+        
+        except yaml.YAMLError as e:
+            msg = f'Cannot parse project file at "{self._project_full_path}"'
+            self.log_error(msg, False)
+            return self.error.emit(msg)
+        
+        except Exception as e:
+            msg = f'Cannot read project file at "{self._project_full_path}"\n{e}'
+            self.log_error(msg, False)
+            return self.error.emit(msg)
 
         if not isinstance(project_data, dict):
             msg = 'The project file is an invalid format (it should be a YAML mapping)'
