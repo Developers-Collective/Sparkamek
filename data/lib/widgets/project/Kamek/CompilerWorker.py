@@ -124,7 +124,15 @@ class CompilerWorker(QThread):
         try: self._address_mapper_controller.run()
 
         except ProjectException as e:
-            self.log_error(e.msg.replace('\n', '<br/>'), False)
+            l = e.msg.replace('\n', '<br/>').split('<br/>')
+            if not l:
+                self.log_error('Internal error', False)
+                return self.error.emit('Internal error')
+
+            self.log_error(l[0], False)
+            for line in l[1:]:
+                self.log_error(line, True)
+
             return self.error.emit(e.msg)
 
 

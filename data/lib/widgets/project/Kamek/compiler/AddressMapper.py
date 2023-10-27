@@ -216,8 +216,22 @@ class AddressMapperController(QObject):
 
 
     def _do_module(self, src: str, dest: str, mappers: dict[str, AddressMapper]) -> None:
-        with open(f'{self._cwd}/{src}') as f:
-            m = yaml.safe_load(f.read())
+        try:
+            with open(f'{self._cwd}/{src}') as f:
+                m = yaml.safe_load(f.read())
+
+        except FileNotFoundError as e:
+            raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">{e.filename}</span>" at "{self._cwd}"', LogType.Error)
+        
+        except yaml.MarkedYAMLError as e:
+            error = e.problem_mark.get_snippet().split('\n')[0]
+            symbols_str = e.problem_mark.get_snippet().split('\n')[1]
+            index_start, index_end = symbols_str.find('^'), symbols_str.rfind('^')
+            error_highlight = f'{error[:index_start]}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{error[index_start:index_end+1]}</span>{error[index_end+1:]}'
+
+            error_msg = f'{e.problem} {e.context}'.replace('<', '&lt;').replace('>', '&gt;')
+
+            raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{LogType.Error.value.hex[1:]}">{src}</span>\n{error_msg}\n{error_highlight}', LogType.Error)
 
         for x_id, txt_id in self._version_ids.items():
             mapper = mappers[txt_id]
@@ -230,8 +244,22 @@ class AddressMapperController(QObject):
 
 
     def _do_project(self, f: str, already_done: set, mappers: dict[str, AddressMapper]) -> None:
-        with open(f) as infile:
-            proj = yaml.safe_load(infile.read())
+        try:
+            with open(f) as infile:
+                proj = yaml.safe_load(infile.read())
+
+        except FileNotFoundError as e:
+            raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">{e.filename}</span>" at "{self._cwd}"', LogType.Error)
+
+        except yaml.MarkedYAMLError as e:
+            error = e.problem_mark.get_snippet().split('\n')[0]
+            symbols_str = e.problem_mark.get_snippet().split('\n')[1]
+            index_start, index_end = symbols_str.find('^'), symbols_str.rfind('^')
+            error_highlight = f'{error[:index_start]}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{error[index_start:index_end+1]}</span>{error[index_end+1:]}'
+
+            error_msg = f'{e.problem} {e.context}'.replace('<', '&lt;').replace('>', '&gt;')
+
+            raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{LogType.Error.value.hex[1:]}">{f}</span>\n{error_msg}\n{error_highlight}', LogType.Error)
 
         if 'modules' in proj:
             for m in proj['modules']:
