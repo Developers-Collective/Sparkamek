@@ -90,6 +90,7 @@ class AddressMapperController(QObject):
         for x_id, txt_id in self._version_ids.items():
             try: self._do_mapfile(f'kamek_{self._base_version}.x', f'kamek_{x_id}.x', mappers[txt_id])
             except FileNotFoundError: raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">kamek_{self._base_version}.x</span>" at "{self._cwd}"', LogType.Error)
+            except KeyError: raise ProjectException(f'Unable to find version <span style="background-color: #55{LogType.Error.value.hex[1:]}">{txt_id}</span> in {self._cwd}/tools/versions-nsmbw.txt', LogType.Error)
             except Exception as e: raise ProjectException(str(e), LogType.Error)
 
         already_done = set()
