@@ -108,6 +108,10 @@
                 "generateKR": {
                     "title": "Générer la Version KR",
                     "description": "Détermine si Sparkamek doit générer une version Coréenne (KR) du projet."
+                },
+                "generateCN": {
+                    "title": "Générer la Version CN",
+                    "description": "Détermine si Sparkamek doit générer une version Chinoise (CN) du projet."
                 }
             },
             "QFileButton": {
@@ -126,7 +130,8 @@
                 "generateNTSC": "Générer la Version NTSC",
                 "generateJP": "Générer la Version JP",
                 "generateTW": "Générer la Version TW",
-                "generateKR": "Générer la Version KR"
+                "generateKR": "Générer la Version KR",
+                "generateCN": "Générer la Version CN"
             }
         },
         "reggieNext": {

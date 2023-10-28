@@ -44,11 +44,11 @@ class KamekWidget(SubProjectWidgetBase):
         self._build_folder = data.get('buildFolder', None)
         self._output_folder = data.get('outputFolder', None)
         self._generate_pal = data.get('generatePAL', True)
-        self._generate_ntsc = data.get('generateNTSC', True)
-        self._generate_jp = data.get('generateJP', True)
-        self._generate_kr = data.get('generateKR', True)
-        self._generate_tw = data.get('generateTW', True)
-        # self._generate_ch = data.get('generateCH', True)
+        self._generate_ntsc = data.get('generateNTSC', False)
+        self._generate_jp = data.get('generateJP', False)
+        self._generate_kr = data.get('generateKR', False)
+        self._generate_tw = data.get('generateTW', False)
+        self._generate_cn = data.get('generateCN', False)
 
         self._sprites_and_actors_dock_widget = SpritesAndActorsDockWidget(app, name, icon, data)
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
@@ -229,7 +229,7 @@ class KamekWidget(SubProjectWidgetBase):
             'generateJP': self._generate_jp,
             'generateKR': self._generate_kr,
             'generateTW': self._generate_tw,
-            # 'generateCN': self._generate_cn,
+            'generateCN': self._generate_cn,
         }
 
     def reset_dock_widgets(self) -> None:

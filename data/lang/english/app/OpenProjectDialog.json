@@ -108,6 +108,10 @@
                 "generateKR": {
                     "title": "Generate KR Version",
                     "description": "Determines whether the Korean version (KR) of the project will be generated."
+                },
+                "generateCN": {
+                    "title": "Generate CN Version",
+                    "description": "Determines whether the Chinese version (CN) of the project will be generated."
                 }
             },
             "QFileButton": {
@@ -126,7 +130,8 @@
                 "generateNTSC": "Generate NTSC Version",
                 "generateJP": "Generate JP Version",
                 "generateTW": "Generate TW Version",
-                "generateKR": "Generate KR Version"
+                "generateKR": "Generate KR Version",
+                "generateCN": "Generate CN Version"
             }
         },
         "reggieNext": {
