@@ -384,7 +384,17 @@ class Application(QBaseApplication):
             texts = [
                 lang['texts'][0],
                 lang['texts'][1].replace('%s', f'<a href=\"https://github.com/Synell\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Synel</a>'),
-                lang['texts'][2].replace('%s', f'<a href=\"https://github.com/Synell/Sparkamek\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Sparkamek Github</a>')
+                lang['texts'][2].replace('%s', f'<a href=\"https://github.com/Synell/Sparkamek\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Sparkamek Github</a>'),
+                lang['texts'][3].replace(
+                    '%s',
+                    ' & '.join(
+                        ', '.join([
+                            f'<a href=\"https://github.com/N-I-N-0\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Nin0</a>',
+                            f'<a href=\"https://github.com/Ryguy0777\" style=\"color: {self.COLOR_LINK.hex}; text-decoration: none;\">Ryguy</a>',
+                        ]).rsplit(', ', 1)
+                    )
+                ),
+                lang['texts'][4],
             ]
         ).exec()
 

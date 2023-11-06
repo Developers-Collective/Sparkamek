@@ -4,7 +4,9 @@
         "texts": [
             "Sparkamek est un logiciel libre qui permet de gérer des projets Kamek 1.3.X, qui sont des projets contenant du code C++ à destination de NSMBW.",
             "Sparkamek est développé par %s, est écrit en Python, utilise le framework PySide 6 pour l'interface graphique et est disponible pour Windows, MacOS et Linux.",
-            "Allez sur le %s pour plus d'informations."
+            "Allez sur le %s pour plus d'informations.",
+            "Remerciements spéciaux à %s pour l'aide sur certaines fonctionnalités.",
+            "En espérant que vous apprécierez Sparkamek ! :)"
         ]
     }
 }

@@ -454,13 +454,31 @@ class OpenProjectDialog(QDialog):
             return w
 
 
-        self._kamek_generate_pal_toggle = generate_version('generatePAL', kamek_data.get('generatePAL', True) if kamek_data else True)
-        self._kamek_generate_pal_toggle.setDisabled(True)
-        self._kamek_generate_ntsc_toggle = generate_version('generateNTSC', kamek_data.get('generateNTSC', False) if kamek_data else True)
-        self._kamek_generate_jp_toggle = generate_version('generateJP', kamek_data.get('generateJP', False) if kamek_data else True)
+        self._kamek_generate_pal_v1_toggle = generate_version('generatePALv1', (kamek_data.get('generatePALv1', True) or kamek_data.get('generatePAL', True)) if kamek_data else True)
+        self._kamek_generate_pal_v1_toggle.setDisabled(True)
+        self._kamek_generate_pal_v2_toggle = generate_version('generatePALv2', (kamek_data.get('generatePALv2', True) or kamek_data.get('generatePAL', True)) if kamek_data else True)
+        self._kamek_generate_ntsc_v1_toggle = generate_version('generateNTSCv1', (kamek_data.get('generateNTSCv1', False) or kamek_data.get('generateNTSC', False)) if kamek_data else True)
+        self._kamek_generate_ntsc_v2_toggle = generate_version('generateNTSCv2', (kamek_data.get('generateNTSCv2', False) or kamek_data.get('generateNTSC', False)) if kamek_data else True)
+        self._kamek_generate_jp_v1_toggle = generate_version('generateJPv1', (kamek_data.get('generateJPv1', False) or kamek_data.get('generateJP', False)) if kamek_data else True)
+        self._kamek_generate_jp_v2_toggle = generate_version('generateJPv2', (kamek_data.get('generateJPv2', False) or kamek_data.get('generateJP', False)) if kamek_data else True)
         self._kamek_generate_tw_toggle = generate_version('generateTW', kamek_data.get('generateTW', False) if kamek_data else True)
         self._kamek_generate_kr_toggle = generate_version('generateKR', kamek_data.get('generateKR', False) if kamek_data else True)
-        self._kamek_generate_cn_toggle = generate_version('generateCN', kamek_data.get('generateCN', False) if kamek_data else True)
+        self._kamek_generate_cn_toggle = generate_version('generateCN', kamek_data.get('generateCN', False) if kamek_data else False)
+
+
+        frame = QFrame()
+        frame.setProperty('border-top', True)
+        frame.setFixedHeight(1)
+        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+
+        label = OpenProjectDialog._text_group(lang.get_data(f'QLabel.nintendoDriverMode.title'), lang.get_data(f'QLabel.nintendoDriverMode.description'))
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        self._nintendo_driver_mode_toggle = QNamedToggleButton()
+        self._nintendo_driver_mode_toggle.setText(lang.get_data(f'QNamedToggleButton.nintendoDriverMode'))
+        self._nintendo_driver_mode_toggle.setChecked(kamek_data.get('nintendoDriverMode', False) if kamek_data else False)
+        root_frame.grid_layout.addWidget(self._nintendo_driver_mode_toggle, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(self._nintendo_driver_mode_toggle, Qt.AlignmentFlag.AlignLeft)
 
 
         return widget
@@ -705,12 +723,16 @@ class OpenProjectDialog(QDialog):
             'path': self.kamek_file_button.path(),
             'buildFolder': new_build_folder,
             'outputFolder': self.kamek_output_folder.path() if self.kamek_output_folder.path() not in self._forbidden_paths else None,
-            'generatePAL': self._kamek_generate_pal_toggle.isChecked(),
-            'generateNTSC': self._kamek_generate_ntsc_toggle.isChecked(),
-            'generateJP': self._kamek_generate_jp_toggle.isChecked(),
+            'generatePALv1': self._kamek_generate_pal_v1_toggle.isChecked(),
+            'generatePALv2': self._kamek_generate_pal_v2_toggle.isChecked(),
+            'generateNTSCv1': self._kamek_generate_ntsc_v1_toggle.isChecked(),
+            'generateNTSCv2': self._kamek_generate_ntsc_v2_toggle.isChecked(),
+            'generateJPv1': self._kamek_generate_jp_v1_toggle.isChecked(),
+            'generateJPv2': self._kamek_generate_jp_v2_toggle.isChecked(),
             'generateTW': self._kamek_generate_tw_toggle.isChecked(),
             'generateKR': self._kamek_generate_kr_toggle.isChecked(),
             'generateCN': self._kamek_generate_cn_toggle.isChecked(),
+            'nintendoDriverMode': self._nintendo_driver_mode_toggle.isChecked()
         }
     
     def _get_reggienext(self) -> dict | None:

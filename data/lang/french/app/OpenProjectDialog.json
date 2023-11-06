@@ -44,7 +44,7 @@
         },
         "loader": {
             "QLabel": {
-                "title": "Loader",
+                "title": "Loader (Optionnel)",
                 "loaderFile": {
                     "title": "Fichier Loader",
                     "description": "Le fichier assembleur du projet (généralement nommé \"Loader.S\")."
@@ -75,7 +75,7 @@
         },
         "kamek": {
             "QLabel": {
-                "title": "Kamek",
+                "title": "Kamek (Optionnel)",
                 "resources": "Aucune idée de comment installer Kamek ? Voici le %s pour plus d'informations.",
                 "kamekFile": {
                     "title": "Fichier Kamek",
@@ -89,17 +89,29 @@
                     "title": "Dossier de Sortie Kamek",
                     "description": "Le dossier où seront placés les fichiers une fois compilés (généralement nommé \"NewerRes\")."
                 },
-                "generatePAL": {
-                    "title": "Générer la Version PAL",
-                    "description": "Détermine si Sparkamek doit générer une version Européeene (EU) du projet."
+                "generatePALv1": {
+                    "title": "Générer la Version PAL v1",
+                    "description": "Détermine si Sparkamek doit générer une version Européeene (EU • Revision 1) du projet."
                 },
-                "generateNTSC": {
-                    "title": "Générer la Version NTSC",
-                    "description": "Détermine si Sparkamek doit générer une version Américaine (US) du projet."
+                "generatePALv2": {
+                    "title": "Générer la Version PAL v2",
+                    "description": "Détermine si Sparkamek doit générer une version Européeene (EU • Revision 2) du projet."
                 },
-                "generateJP": {
-                    "title": "Générer la Version JP",
-                    "description": "Détermine si Sparkamek doit générer une version Japonaise (JP) du projet."
+                "generateNTSCv1": {
+                    "title": "Générer la Version NTSC v1",
+                    "description": "Détermine si Sparkamek doit générer une version Américaine (US • Revision 1) du projet."
+                },
+                "generateNTSCv2": {
+                    "title": "Générer la Version NTSC v2",
+                    "description": "Détermine si Sparkamek doit générer une version Américaine (US • Revision 2) du projet."
+                },
+                "generateJPv1": {
+                    "title": "Générer la Version JP v1",
+                    "description": "Détermine si Sparkamek doit générer une version Japonaise (JP • Revision 1) du projet."
+                },
+                "generateJPv2": {
+                    "title": "Générer la Version JP v2",
+                    "description": "Détermine si Sparkamek doit générer une version Japonaise (JP • Revision 2) du projet."
                 },
                 "generateTW": {
                     "title": "Générer la Version TW",
@@ -112,6 +124,10 @@
                 "generateCN": {
                     "title": "Générer la Version CN",
                     "description": "Détermine si Sparkamek doit générer une version Chinoise (CN) du projet."
+                },
+                "nintendoDriverMode": {
+                    "title": "Mode Nintendo Driver",
+                    "description": "Détermine si le Mode Nintendo Driver sera activé pour CodeWarrior.\nNintendo Driver est un mode spécial qui permet de compiler des instructions de code spéciales pour le jeu.\nPour l'utiliser, vous avez besoin d'une version spéciale de CodeWarrior.\nSi vous ne savez pas ce que c'est, vous n'en avez probablement pas besoin (et s'il vous plaît ne la demandez pas).\n\nDans le doute, laissez cette option désactivée."
                 }
             },
             "QFileButton": {
@@ -126,17 +142,21 @@
                 "buildFolder": "Dossier de Compilation Kamek"
             },
             "QNamedToggleButton": {
-                "generatePAL": "Générer la Version PAL (Requis)",
-                "generateNTSC": "Générer la Version NTSC",
-                "generateJP": "Générer la Version JP",
+                "generatePALv1": "Générer la Version PAL v1 (Requise)",
+                "generatePALv2": "Générer la Version PAL v2",
+                "generateNTSCv1": "Générer la Version NTSC v1",
+                "generateNTSCv2": "Générer la Version NTSC v2",
+                "generateJPv1": "Générer la Version JP v1",
+                "generateJPv2": "Générer la Version JP v2",
                 "generateTW": "Générer la Version TW",
                 "generateKR": "Générer la Version KR",
-                "generateCN": "Générer la Version CN"
+                "generateCN": "Générer la Version CN",
+                "nintendoDriverMode": "Mode Nintendo Driver"
             }
         },
         "reggieNext": {
             "QLabel": {
-                "title": "Reggie Next",
+                "title": "Reggie Next (Optionnel)",
                 "reggieNextFolder": {
                     "title": "Dossier Reggie Next",
                     "description": "Le dossier contenant les patchs de Reggie Next du projet (comme \"spritedata.xml\", \"sprites.py\", etc.)."
@@ -155,7 +175,7 @@
         },
         "riivolution": {
             "QLabel": {
-                "title": "Riivolution",
+                "title": "Riivolution (Optionnel)",
                 "riivolutionFile": {
                     "title": "Fichier Riivolution",
                     "description": "Le fichier Riivolution du projet (généralement nommé \"NewerSMBW.xml\")."

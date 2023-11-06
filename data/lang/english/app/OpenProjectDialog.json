@@ -44,7 +44,7 @@
         },
         "loader": {
             "QLabel": {
-                "title": "Loader",
+                "title": "Loader (Optional)",
                 "loaderFile": {
                     "title": "Loader File",
                     "description": "The loader assembly file of the project (usually named \"Loader.S\")."
@@ -75,7 +75,7 @@
         },
         "kamek": {
             "QLabel": {
-                "title": "Kamek",
+                "title": "Kamek (Optional)",
                 "resources": "Don't know how to setup Kamek ? Check out the %s for more information.",
                 "kamekFile": {
                     "title": "Kamek File",
@@ -89,17 +89,29 @@
                     "title": "Kamek Output Folder",
                     "description": "The folder where the project will be moved after each compilation (usually named \"NewerRes\")."
                 },
-                "generatePAL": {
-                    "title": "Generate PAL Version",
-                    "description": "Determines whether the European version (EU) of the project will be generated."
+                "generatePALv1": {
+                    "title": "Generate PAL v1 Version",
+                    "description": "Determines whether the European version (EU • Revision 1) of the project will be generated."
                 },
-                "generateNTSC": {
-                    "title": "Generate NTSC Version",
-                    "description": "Determines whether the American version (US) of the project will be generated."
+                "generatePALv2": {
+                    "title": "Generate PAL v2 Version",
+                    "description": "Determines whether the European version (EU • Revision 2) of the project will be generated."
                 },
-                "generateJP": {
-                    "title": "Generate JP Version",
-                    "description": "Determines whether the Japanese version (JP) of the project will be generated."
+                "generateNTSCv1": {
+                    "title": "Generate NTSC v1 Version",
+                    "description": "Determines whether the American version (US • Revision 1) of the project will be generated."
+                },
+                "generateNTSCv2": {
+                    "title": "Generate NTSC v2 Version",
+                    "description": "Determines whether the American version (US • Revision 2) of the project will be generated."
+                },
+                "generateJPv1": {
+                    "title": "Generate JP v1 Version",
+                    "description": "Determines whether the Japanese version (JP • Revision 1) of the project will be generated."
+                },
+                "generateJPv2": {
+                    "title": "Generate JP v2 Version",
+                    "description": "Determines whether the Japanese version (JP • Revision 2) of the project will be generated."
                 },
                 "generateTW": {
                     "title": "Generate TW Version",
@@ -112,6 +124,10 @@
                 "generateCN": {
                     "title": "Generate CN Version",
                     "description": "Determines whether the Chinese version (CN) of the project will be generated."
+                },
+                "nintendoDriverMode": {
+                    "title": "Nintendo Driver Mode",
+                    "description": "Determines whether the Nintendo Driver Mode will be enabled for CodeWarrior.\nNintendo Driver is a special mode that allows to compile some special code instructions for the game.\nTo use it, you need a special version of CodeWarrior.\nIf you don't know what this is, you probably don't need it (and please don't ask for it).\n\nIf unsure, leave this option disabled."
                 }
             },
             "QFileButton": {
@@ -126,17 +142,21 @@
                 "buildFolder": "Kamek Build Folder"
             },
             "QNamedToggleButton": {
-                "generatePAL": "Generate PAL Version (Required)",
-                "generateNTSC": "Generate NTSC Version",
-                "generateJP": "Generate JP Version",
+                "generatePALv1": "Generate PAL v1 Version (Required)",
+                "generatePALv2": "Generate PAL v2 Version",
+                "generateNTSCv1": "Generate NTSC v1 Version",
+                "generateNTSCv2": "Generate NTSC v2 Version",
+                "generateJPv1": "Generate JP v1 Version",
+                "generateJPv2": "Generate JP v2 Version",
                 "generateTW": "Generate TW Version",
                 "generateKR": "Generate KR Version",
-                "generateCN": "Generate CN Version"
+                "generateCN": "Generate CN Version",
+                "nintendoDriverMode": "Nintendo Driver Mode"
             }
         },
         "reggieNext": {
             "QLabel": {
-                "title": "Reggie Next",
+                "title": "Reggie Next (Optional)",
                 "reggieNextFolder": {
                     "title": "Reggie Next Folder",
                     "description": "The Reggie Next patch folder of the project, which contains the patch files (like \"spritedata.xml\", \"sprites.py\", etc.)."
@@ -155,7 +175,7 @@
         },
         "riivolution": {
             "QLabel": {
-                "title": "Riivolution",
+                "title": "Riivolution (Optional)",
                 "riivolutionFile": {
                     "title": "Riivolution File",
                     "description": "The Riivolution XML file of the project (usually named \"NewerSMBW.xml\")."
