@@ -1,0 +1,64 @@
+{
+    "title": "Convertisseur d'Adresses (Beta)",
+    "QGridGroupBox": {
+        "input": {
+            "title": "Entrée",
+            "QNamedComboBox": {
+                "region": {
+                    "title": "Région d'Entrée"
+                }
+            },
+            "QNamedHexSpinBox": {
+                "address": "Adresse d'Entrée"
+            }
+        },
+        "default": {
+            "title": "Défaut",
+            "QNamedComboBox": {
+                "region": {
+                    "title": "Région par Défaut"
+                }
+            },
+            "QNamedHexSpinBox": {
+                "address": "Adresse par Défaut"
+            }
+        },
+        "output": {
+            "title": "Sortie",
+            "QNamedComboBox": {
+                "region": {
+                    "title": "Région de Sortie"
+                }
+            },
+            "QNamedHexSpinBox": {
+                "address": "Adresse de Sortie"
+            }
+        }
+    },
+    "QNamedComboBox": {
+        "region": {
+            "values": {
+                "default": "Région par Défaut",
+                "P1": "[PAL / %s] Europe v1",
+                "P2": "[PAL / %s] Europe v2",
+                "E1": "[NTSC / %s] USA v1",
+                "E2": "[NTSC / %s] USA v2",
+                "J1": "[JP / %s] Japon v1",
+                "J2": "[JP / %s] Japon v2",
+                "K": "[KR / %s] Corée",
+                "W": "[TW / %s] Taïwan",
+                "C": "[CN / %s] Chine"
+            }
+        }
+    },
+    "QPushButton": {
+        "exchangeRegions": "Échanger les Régions",
+        "exchangeAddresses": "Échanger les Adresses"
+    },
+    "QSystemTrayIcon": {
+        "showMessage": {
+            "inputOverlap": "L'adresse d'entrée (0x%s) ne peut pas être convertie en région par défaut.",
+            "outputOverlap": "L'adresse par défaut (0x%s) ne peut pas être convertie en région de sortie (%s)."
+        }
+    }
+}

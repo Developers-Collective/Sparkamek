@@ -15,5 +15,6 @@
         "success": "Success"
     },
     "SpritesAndActorsDockWidget": "#ref: app/projects/KamekWidget/SpritesAndActorsDockWidget",
-    "SymbolsDockWidget": "#ref: app/projects/KamekWidget/SymbolsDockWidget"
+    "SymbolsDockWidget": "#ref: app/projects/KamekWidget/SymbolsDockWidget",
+    "AddressCalculatorDockWidget": "#ref: app/projects/KamekWidget/AddressCalculatorDockWidget"
 }

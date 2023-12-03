@@ -1,0 +1,4 @@
+{
+    "title": "%s Address Calculator",
+    "AddressConverterWidget": "#ref: app/projects/KamekWidget/AddressCalculator/AddressConverterWidget"
+}

@@ -5,7 +5,7 @@ from PySide6.QtCore import Signal, QThread
 import os, yaml, traceback
 
 from data.lib.qtUtils import QBaseApplication
-from .compiler import *
+from ..compiler import *
 #----------------------------------------------------------------------
 
     # Class

@@ -1,8 +1,5 @@
 {
     "title": "Sprites et Acteurs de %s",
-    "QLabel": {
-        "spritesAndActors": "Sprites et Acteurs"
-    },
     "QBetterListWidget": {
         "actorName": "Nom de l'Acteur",
         "actorID": "ID de l'Acteur",

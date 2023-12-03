@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QFrame, QPushButton, QLabel
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QUtilsColor, QIconLineEdit, QNamedComboBox, QBetterListWidget
-from .SpritesAndActorsWorker import SpritesAndActorsWorker
+from .sprites_and_actors.SpritesAndActorsWorker import SpritesAndActorsWorker
 #----------------------------------------------------------------------
 
     # Class
@@ -38,28 +38,11 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         self.setObjectName('spritesAndActors')
         self.setWidget(self._root)
 
-        topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
-
-        label = QLabel(self._lang.get_data('QLabel.spritesAndActors'))
-        label.setProperty('h', 2)
-        label.setProperty('small', True)
-        topframe.grid_layout.addWidget(label, 0, 0, Qt.AlignmentFlag.AlignLeft)
-
-        self._refresh_sprites_and_actors_button = QPushButton()
-        self._refresh_sprites_and_actors_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._refresh_sprites_and_actors_button.setProperty('color', 'main')
-        self._refresh_sprites_and_actors_button.setIcon(self._refresh_icon)
-        self._refresh_sprites_and_actors_button.clicked.connect(self._refresh_sprites_and_actors)
-        topframe.grid_layout.addWidget(self._refresh_sprites_and_actors_button, 0, 1, Qt.AlignmentFlag.AlignRight)
-
 
         subtopframe = QGridWidget()
         subtopframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         subtopframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(subtopframe, 1, 0, Qt.AlignmentFlag.AlignTop)
+        self._root.scroll_layout.addWidget(subtopframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         search_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.searchBy.title'))
         search_combobox.combo_box.addItems([
@@ -86,6 +69,13 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         self._searchbar.textChanged.connect(self.text_changed)
         subtoprightframe.grid_layout.addWidget(self._searchbar, 0, 1)
 
+        self._refresh_sprites_and_actors_button = QPushButton()
+        self._refresh_sprites_and_actors_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._refresh_sprites_and_actors_button.setProperty('color', 'main')
+        self._refresh_sprites_and_actors_button.setIcon(self._refresh_icon)
+        self._refresh_sprites_and_actors_button.clicked.connect(self._refresh_sprites_and_actors)
+        subtoprightframe.grid_layout.addWidget(self._refresh_sprites_and_actors_button, 0, 2)
+
 
         self._sprite_list = QBetterListWidget(
             [
@@ -99,7 +89,7 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         )
         self._sprite_list.setSortingEnabled(True)
         self._sprite_list.sortByColumn(1, Qt.SortOrder.AscendingOrder)
-        self._root.scroll_layout.addWidget(self._sprite_list, 2, 0)
+        self._root.scroll_layout.addWidget(self._sprite_list, 1, 0)
 
         self._proxy_model = QSortFilterProxyModel(
             self, filterKeyColumn = 0, recursiveFilteringEnabled = True

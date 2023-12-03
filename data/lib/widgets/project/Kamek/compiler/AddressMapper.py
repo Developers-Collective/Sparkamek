@@ -6,6 +6,7 @@ import dataclasses, typing, re, yaml, os
 
 from ...LogType import LogType
 from ...ProjectException import ProjectException
+from .KamekConstants import KamekConstants
 #----------------------------------------------------------------------
 
     # Class
@@ -26,14 +27,24 @@ class AddressMapper(QObject):
             return f'<mapping {self!s}>'
 
 
-    _base: 'AddressMapper' = None
+    # base: 'AddressMapper' = None
 
     def __init__(self, base: 'AddressMapper' = None) -> None:
         super(AddressMapper, self).__init__()
         self._mappings: list[AddressMapper.Mapping] = []
+        self._base: AddressMapper = base
 
 
-    def add_mapping(self, start: int, end: int, delta: int):
+    @property
+    def base(self) -> 'AddressMapper':
+        return self._base
+    
+    @base.setter
+    def base(self, value: 'AddressMapper') -> None:
+        self._base = value
+
+
+    def add_mapping(self, start: int, end: int, delta: int) -> None:
         if start > end:
             raise ValueError(f'cannot map {start:08X}-{end:08X} as start is higher than end')
 
@@ -45,19 +56,87 @@ class AddressMapper(QObject):
 
         self._mappings.append(new_mapping)
 
-    def remap(self, input: int):
-        if self._base is not None:
-            input = self._base.remap(input)
+    def remap(self, input: int) -> int:
+        if self.base is not None:
+            input = self.base.remap(input)
 
         for mapping in self._mappings:
             if mapping.start <= input <= mapping.end:
+                # print(f'[REMAP] {mapping.start:X}-{mapping.end:X}: {mapping.delta:X} => {input:X} => {input + mapping.delta:X}')
                 return input + mapping.delta
 
         return input
 
+    def demap(self, input: int) -> int:
+        for mapping in self._mappings:
+            if (mapping.start + mapping.delta) <= input <= (mapping.end + mapping.delta):
+                input = input - mapping.delta
+                break
+
+        if self.base is not None:
+            input = self.base.demap(input)
+
+        return input
+
+    def demap_reverse(self, input: int) -> int:
+        for mapping in self._mappings:
+            if mapping.start <= input <= mapping.end:
+                # print(f'[DEMAP] {mapping.start:X}-{mapping.end:X}: {mapping.delta:X} => {input:X} => {input + mapping.delta:X}')
+                input = input + mapping.delta
+                break
+
+        if self.base is not None:
+            input = self.base.demap_reverse(input)
+
+        return input
+
+    def items(self) -> list[Mapping]:
+        return self._mappings.copy()
+
+    def __str__(self) -> str:
+        return '\n'.join([str(x) for x in self._mappings])
 
 
-class AddressMapperController(QObject):
+
+class AddressMapperMistake:
+    def __init__(self) -> None:
+        self._mistakes: list[AddressMapperMistake.Mistake] = []
+
+    @dataclasses.dataclass
+    class Mistake:
+        start: int = None
+        end: int = None
+
+        def overlaps(self, other: 'AddressMapperMistake.Mistake'):
+            return (self.end >= other.start) and (self.start <= other.end)
+
+        def __str__(self):
+            return f'{self.start:08X}-{self.end:08X}'
+
+        def __repr__(self):
+            return f'<mistake {self!s}>'
+        
+    def add_mistake(self, start: int, end: int) -> None:
+        if start > end:
+            raise ValueError(f'cannot map {start:08X}-{end:08X} as start is higher than end')
+
+        new_mistake = self.Mistake(start, end)
+
+        for mistake in self._mistakes:
+            if mistake.overlaps(new_mistake):
+                raise ValueError(f'mistake "{new_mistake}" overlaps with earlier mistake "{mistake}"')
+
+        self._mistakes.append(new_mistake)
+
+    def overlaps(self, addr: int) -> bool:
+        for mistake in self._mistakes:
+            if mistake.start <= addr <= mistake.end:
+                return True
+        return False
+
+
+
+class AddressMapperController:
     log_simple = Signal(str, LogType, bool)
     log_complete = Signal(str, LogType, bool)
 
@@ -77,16 +156,15 @@ class AddressMapperController(QObject):
 
 
     def run(self) -> None:
-        path = f'{self._cwd}/tools/versions-nsmbw.txt'
-        if not os.path.exists(path):
-            path = './data/game/nsmbw/versions/versions-nsmbw.txt'
+        path = KamekConstants.get_versions_nsmbw(self._cwd)
         
         if not os.path.exists(path):
             raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">versions-nsmbw.txt</span>" at "{self._cwd}/tools"', LogType.Error)
 
         with open(path, 'r', encoding = 'utf-8') as infile:
-            try: mappers = self._read_version_info(infile)
+            try: mappers = AddressMapperController.read_version_info(infile)
             except ValueError as e: raise ProjectException(str(e), LogType.Error)
+            except ProjectException as e: raise e
 
         if not os.path.isdir(f'{self._cwd}/processed'):
             os.mkdir(f'{self._cwd}/processed')
@@ -102,7 +180,8 @@ class AddressMapperController(QObject):
         except FileNotFoundError as e: raise ProjectException(str(e), LogType.Error)
 
 
-    def _read_version_info(self, f: typing.TextIO) -> dict[str, AddressMapper]:
+    @staticmethod
+    def read_version_info(f: typing.TextIO) -> dict[str, AddressMapper]:
         mappers = {'default': AddressMapper()}
 
         comment_regex = re.compile(r'^\s*#')
@@ -139,10 +218,10 @@ class AddressMapperController(QObject):
                     base_name = match.group(1)
                     if base_name not in mappers:
                         raise ValueError(f'Version {current_version_name} extends unknown version <span style="background-color: #55{LogType.Error.value.hex[1:]}">{base_name}</span>')
-                    if current_version._base is not None:
+                    if current_version.base is not None:
                         raise ValueError(f'Version {current_version_name} already extends a version')
 
-                    current_version._base = mappers[base_name]
+                    current_version.base = mappers[base_name]
                     continue
 
                 match = mapping_regex.match(line)
@@ -160,9 +239,7 @@ class AddressMapperController(QObject):
                     current_version.add_mapping(start_address, end_address, delta)
                     continue
 
-            ret = (f'Unrecognised line in versions file: <span style="background-color: #55{LogType.Warning.value.hex[1:]}">{line}</span>', LogType.Warning, False)
-            self.log_simple.emit(*ret)
-            self.log_complete.emit(*ret)
+            raise ProjectException(f'Unrecognised line in versions file: <span style="background-color: #55{LogType.Warning.value.hex[1:]}">{line}</span>', LogType.Warning)
 
         return mappers
 
@@ -271,4 +348,52 @@ class AddressMapperController(QObject):
                 if m not in already_done:
                     already_done.add(m)
                     self._do_module(m.replace('processed/', ''), m, mappers)
+
+
+    @staticmethod
+    def revert_mappers(mappers_base: dict[str, AddressMapper]) -> dict[str, AddressMapper]:
+        new_mappers: dict[str, AddressMapper] = {}
+
+        for version, address_mapper in mappers_base.items():
+            base = None
+            if address_mapper.base:
+                base_key = [k for k, v in mappers_base.items() if v == mappers_base[version].base]
+                if base_key:
+                    base = new_mappers[base_key[0]]
+
+            new_mappers[version] = AddressMapper(base)
+
+            for mapping in address_mapper.items():
+                new_mappers[version].add_mapping(mapping.start + mapping.delta, mapping.end + mapping.delta, -mapping.delta)
+
+        return new_mappers
+
+
+    @staticmethod
+    def read_version_errors(folder: str) -> tuple[dict[str, AddressMapperMistake], dict[str, AddressMapperMistake]]:
+        base_errors: dict[str, AddressMapperMistake] = {'default': AddressMapperMistake()}
+        other_errors: dict[str, AddressMapperMistake] = {'default': AddressMapperMistake()}
+
+        for filename in os.listdir(folder):
+            if not filename.endswith('.txt'):
+                continue
+
+            base_region, other_region = filename.removesuffix('.txt').split('-')
+
+            with open(f'{folder}/{filename}') as f:
+                lines = [x.rstrip() for x in f.readlines() if x.rstrip()]
+
+            address_mapper_mistake = AddressMapperMistake()
+
+            for line in lines:
+                start, end = line.split('-')
+                start = int(start, 16)
+                end = int(end, 16)
+
+                address_mapper_mistake.add_mistake(start, end)
+
+            if base_region == 'default': base_errors[other_region] = address_mapper_mistake
+            elif other_region == 'default': other_errors[base_region] = address_mapper_mistake
+
+        return base_errors, other_errors
 #----------------------------------------------------------------------
