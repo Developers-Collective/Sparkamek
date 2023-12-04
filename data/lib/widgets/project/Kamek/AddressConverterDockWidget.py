@@ -9,7 +9,7 @@ import os
 #----------------------------------------------------------------------
 
     # Class
-class AddressCalculatorDockWidget(QSavableDockWidget):
+class AddressConverterDockWidget(QSavableDockWidget):
     _error_icon = None
     _warning_icon = None
     _success_icon = None
@@ -18,12 +18,12 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
     _lang = {}
 
     def init(app: QBaseApplication) -> None:
-        AddressCalculatorDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.AddressCalculatorDockWidget')
+        AddressConverterDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.AddressConverterDockWidget')
 
-        AddressCalculatorDockWidget._error_icon = app.get_icon('raw/error.png', True, QSaveData.IconMode.Local)
-        AddressCalculatorDockWidget._warning_icon = app.get_icon('raw/warning.png', True, QSaveData.IconMode.Local)
-        AddressCalculatorDockWidget._success_icon = app.get_icon('raw/success.png', True, QSaveData.IconMode.Local)
-        AddressCalculatorDockWidget._right_arrow_icon = app.get_icon('raw/arrowRight.png', True, QSaveData.IconMode.Local)
+        AddressConverterDockWidget._error_icon = app.get_icon('raw/error.png', True, QSaveData.IconMode.Local)
+        AddressConverterDockWidget._warning_icon = app.get_icon('raw/warning.png', True, QSaveData.IconMode.Local)
+        AddressConverterDockWidget._success_icon = app.get_icon('raw/success.png', True, QSaveData.IconMode.Local)
+        AddressConverterDockWidget._right_arrow_icon = app.get_icon('raw/arrowRight.png', True, QSaveData.IconMode.Local)
 
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
@@ -40,7 +40,7 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
         self._root.setMinimumHeight(100)
         self._root.setFrameShape(QFrame.Shape.NoFrame)
         self._root.scroll_widget.setProperty('QDockWidget', True)
-        self.setObjectName('addressCalculator')
+        self.setObjectName('addressConverter')
         self.setWidget(self._root)
 
 
@@ -92,7 +92,7 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
         self._input_hexspinbox.hex_spinbox.value_changed.connect(self._convert)
 
 
-        convert_direction_button_left = QIconWidget(None, AddressCalculatorDockWidget._right_arrow_icon, QSize(32, 32), False)
+        convert_direction_button_left = QIconWidget(None, AddressConverterDockWidget._right_arrow_icon, QSize(32, 32), False)
         frame.grid_layout.addWidget(convert_direction_button_left, 0, 1)
 
 
@@ -121,11 +121,11 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
         row_frame.grid_layout.addWidget(self._middle_hexspinbox, 0, 0)
         self._middle_hexspinbox.hex_spinbox.setReadOnly(True)
 
-        self._middle_icon_widget = QIconWidget(None, AddressCalculatorDockWidget._success_icon, QSize(32, 32), False)
+        self._middle_icon_widget = QIconWidget(None, AddressConverterDockWidget._success_icon, QSize(32, 32), False)
         row_frame.grid_layout.addWidget(self._middle_icon_widget, 0, 1)
 
 
-        convert_direction_button_right = QIconWidget(None, AddressCalculatorDockWidget._right_arrow_icon, QSize(32, 32), False)
+        convert_direction_button_right = QIconWidget(None, AddressConverterDockWidget._right_arrow_icon, QSize(32, 32), False)
         frame.grid_layout.addWidget(convert_direction_button_right, 0, 3)
 
 
@@ -154,7 +154,7 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
         self._output_hexspinbox.hex_spinbox.setReadOnly(True)
         row_frame.grid_layout.addWidget(self._output_hexspinbox, 0, 0)
 
-        self._output_icon_widget = QIconWidget(None, AddressCalculatorDockWidget._success_icon, QSize(32, 32), False)
+        self._output_icon_widget = QIconWidget(None, AddressConverterDockWidget._success_icon, QSize(32, 32), False)
         row_frame.grid_layout.addWidget(self._output_icon_widget, 0, 1)
 
 
@@ -187,7 +187,7 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
         if self._base_address_mapper[input_region].remap(middle_address) != input_address:
             error = True
 
-            self._middle_icon_widget.icon = AddressCalculatorDockWidget._warning_icon
+            self._middle_icon_widget.icon = AddressConverterDockWidget._warning_icon
 
             self._app.show_alert(
                 self._lang.get_data('QSystemTrayIcon.showMessage.inputOverlap').replace('%s', f'{input_address:X}', 1),
@@ -198,7 +198,7 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
             )
 
         else:
-            self._middle_icon_widget.icon = AddressCalculatorDockWidget._success_icon
+            self._middle_icon_widget.icon = AddressConverterDockWidget._success_icon
 
         self._middle_hexspinbox.set_value(middle_address)
 
@@ -215,9 +215,9 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
                 color = 'main'
             )
 
-        if not error: self._output_icon_widget.icon = AddressCalculatorDockWidget._success_icon
+        if not error: self._output_icon_widget.icon = AddressConverterDockWidget._success_icon
         elif input_address == output_address:
-            self._output_icon_widget.icon = AddressCalculatorDockWidget._warning_icon
+            self._output_icon_widget.icon = AddressConverterDockWidget._warning_icon
 
             self._app.show_alert(
                 self._lang.get_data('QSystemTrayIcon.showMessage.noChange').replace('%s', f'{input_address:X}', 1).replace('%s', output_region, 1),
@@ -226,7 +226,7 @@ class AddressCalculatorDockWidget(QSavableDockWidget):
                 fade_duration = self._app.ALERT_FADE_DURATION,
                 color = 'main'
             )
-        else: self._output_icon_widget.icon = AddressCalculatorDockWidget._error_icon
+        else: self._output_icon_widget.icon = AddressConverterDockWidget._error_icon
 
         self._output_hexspinbox.set_value(output_address)
 #----------------------------------------------------------------------

@@ -8,7 +8,7 @@ from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
-from .AddressCalculatorDockWidget import AddressCalculatorDockWidget
+from .AddressConverterDockWidget import AddressConverterDockWidget
 from .CompilerWorker import CompilerWorker
 from ..LogType import LogType
 #----------------------------------------------------------------------
@@ -33,7 +33,7 @@ class KamekWidget(SubProjectWidgetBase):
         SpritesAndActorsDockWidget.init(app)
         CompilerWorker.init(app)
         SymbolsDockWidget.init(app)
-        AddressCalculatorDockWidget.init(app)
+        AddressConverterDockWidget.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
@@ -54,7 +54,7 @@ class KamekWidget(SubProjectWidgetBase):
 
         self._sprites_and_actors_dock_widget = SpritesAndActorsDockWidget(app, name, icon, data)
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
-        self._address_calculator_dock_widget = AddressCalculatorDockWidget(app, name, icon, data)
+        self._address_converter_dock_widget = AddressConverterDockWidget(app, name, icon, data)
 
         if 'spritesAndActors' in dockwidgets: self._sprites_and_actors_dock_widget.load_dict(self, dockwidgets['spritesAndActors'])
         else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._sprites_and_actors_dock_widget)
@@ -62,12 +62,12 @@ class KamekWidget(SubProjectWidgetBase):
         if 'symbols' in dockwidgets: self._symbols_dock_widget.load_dict(self, dockwidgets['symbols'])
         else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
 
-        if 'addressCalculator' in dockwidgets: self._address_calculator_dock_widget.load_dict(self, dockwidgets['addressCalculator'])
-        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._address_calculator_dock_widget)
+        if 'addressConverter' in dockwidgets: self._address_converter_dock_widget.load_dict(self, dockwidgets['addressConverter'])
+        else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._address_converter_dock_widget)
 
-        if 'spritesAndActors' not in dockwidgets and 'symbols' not in dockwidgets and 'addressCalculator' not in dockwidgets:
+        if 'spritesAndActors' not in dockwidgets and 'symbols' not in dockwidgets and 'addressConverter' not in dockwidgets:
             self.tabifyDockWidget(self._sprites_and_actors_dock_widget, self._symbols_dock_widget)
-            self.tabifyDockWidget(self._symbols_dock_widget, self._address_calculator_dock_widget)
+            self.tabifyDockWidget(self._symbols_dock_widget, self._address_converter_dock_widget)
             self._sprites_and_actors_dock_widget.raise_()
 
 
@@ -119,7 +119,7 @@ class KamekWidget(SubProjectWidgetBase):
         return (
             self._sprites_and_actors_dock_widget.task_is_running or
             self._symbols_dock_widget.task_is_running or
-            self._address_calculator_dock_widget.task_is_running or
+            self._address_converter_dock_widget.task_is_running or
             self._compile_thread is not None
         )
 
@@ -245,19 +245,19 @@ class KamekWidget(SubProjectWidgetBase):
         }
 
     def reset_dock_widgets(self) -> None:
-        for dw in [self._sprites_and_actors_dock_widget, self._symbols_dock_widget, self._address_calculator_dock_widget]:
+        for dw in [self._sprites_and_actors_dock_widget, self._symbols_dock_widget, self._address_converter_dock_widget]:
             dw.setVisible(True)
             dw.setFloating(False)
 
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._sprites_and_actors_dock_widget)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._symbols_dock_widget)
-        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._address_calculator_dock_widget)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._address_converter_dock_widget)
 
         if self._sprites_and_actors_dock_widget not in self.tabifiedDockWidgets(self._symbols_dock_widget):
             self.tabifyDockWidget(self._symbols_dock_widget, self._sprites_and_actors_dock_widget)
 
-        if self._symbols_dock_widget not in self.tabifiedDockWidgets(self._address_calculator_dock_widget):
-            self.tabifyDockWidget(self._address_calculator_dock_widget, self._symbols_dock_widget)
+        if self._symbols_dock_widget not in self.tabifiedDockWidgets(self._address_converter_dock_widget):
+            self.tabifyDockWidget(self._address_converter_dock_widget, self._symbols_dock_widget)
 
     def settings_updated(self, settings: QSaveData) -> None:
         self._devkitppc_path = settings.devkitppc_path
