@@ -1,4 +1,65 @@
 {
-    "title": "%s Address Calculator",
-    "AddressConverterWidget": "#ref: app/projects/KamekWidget/AddressCalculator/AddressConverterWidget"
+    "title": "%s Address Converter",
+    "QGridGroupBox": {
+        "input": {
+            "title": "Input",
+            "QNamedComboBox": {
+                "region": {
+                    "title": "Input Region"
+                }
+            },
+            "QNamedHexSpinBox": {
+                "address": "Input Address"
+            }
+        },
+        "default": {
+            "title": "Default",
+            "QNamedComboBox": {
+                "region": {
+                    "title": "Default Region"
+                }
+            },
+            "QNamedHexSpinBox": {
+                "address": "Default Address"
+            }
+        },
+        "output": {
+            "title": "Output",
+            "QNamedComboBox": {
+                "region": {
+                    "title": "Output Region"
+                }
+            },
+            "QNamedHexSpinBox": {
+                "address": "Output Address"
+            }
+        }
+    },
+    "QNamedComboBox": {
+        "region": {
+            "values": {
+                "default": "Default Region",
+                "P1": "[PAL / %s] Europe v1",
+                "P2": "[PAL / %s] Europe v2",
+                "E1": "[NTSC / %s] USA v1",
+                "E2": "[NTSC / %s] USA v2",
+                "J1": "[JP / %s] Japan v1",
+                "J2": "[JP / %s] Japan v2",
+                "K": "[KR / %s] Korea",
+                "W": "[TW / %s] Taiwan",
+                "C": "[CN / %s] China"
+            }
+        }
+    },
+    "QPushButton": {
+        "exchangeRegions": "Exchange Regions",
+        "exchangeAddresses": "Exchange Addresses"
+    },
+    "QSystemTrayIcon": {
+        "showMessage": {
+            "inputOverlap": "Input address (0x%s) cannot be converted to default region.",
+            "outputOverlap": "Default address (0x%s) cannot be converted to output region (%s).",
+            "noChange": "Input address (0x%s) cannot be converted back and forth with the same region (%s)."
+        }
+    }
 }
