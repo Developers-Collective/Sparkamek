@@ -164,9 +164,6 @@ class AddressConverterDockWidget(QSavableDockWidget):
 
 
     def terminate_task(self) -> None:
-        # if self._sprites_and_actors_worker is not None:
-        #     self._sprites_and_actors_worker.terminate()
-        #     self._sprites_and_actors_worker = None
         pass
 
 
