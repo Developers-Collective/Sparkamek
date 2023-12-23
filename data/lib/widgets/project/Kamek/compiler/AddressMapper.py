@@ -98,7 +98,7 @@ class AddressMapper(QObject):
 
 
 
-class AddressMapperController:
+class AddressMapperController(QObject):
     log_simple = Signal(str, LogType, bool)
     log_complete = Signal(str, LogType, bool)
 

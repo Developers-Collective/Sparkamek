@@ -4,6 +4,7 @@
 from PySide6.QtCore import Signal, QThread
 import os, yaml, sys, difflib, timeit
 from pathlib import Path
+from shutil import copyfile
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
 from ..LogType import LogType
@@ -272,7 +273,7 @@ class CompilerWorker(QThread):
 
             for file in self._build_folder.iterdir():
                 if file.is_file():
-                    file.replace(Path(self._cwd) / path / file.name)
+                    copyfile(file, Path(self._cwd) / path / file.name)
 
 
         s = f'Compilation finished in {timeit.default_timer() - start_time:.2f} seconds.'
@@ -286,9 +287,24 @@ class CompilerWorker(QThread):
         self.done.emit(bool(missing_symbols))
 
     def _copy_files(self, version_name_1: str, version_name_2: str) -> None:
-        (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_loader.bin').replace(self._build_folder / f'System{version_name_2}.bin')
-        (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_dlcode.bin').replace(self._build_folder / f'DLCode{version_name_2}.bin')
-        (Path(self._cwd) / self._asm_folder / f'n_{version_name_1}_dlrelocs.bin').replace(self._build_folder / f'DLRelocs{version_name_2}.bin')
+        asm_folder = Path(self._cwd) / self._asm_folder
+        build_folder = self._build_folder
+
+        filenames = (
+            (f'n_{version_name_1}_loader.bin', f'System{version_name_2}.bin'),
+            (f'n_{version_name_1}_dlcode.bin', f'DLCode{version_name_2}.bin'),
+            (f'n_{version_name_1}_dlrelocs.bin', f'DLRelocs{version_name_2}.bin'),
+        )
+
+        for old, new in filenames:
+            try:
+                (asm_folder / old).replace(build_folder / new)
+
+            except FileNotFoundError as e:
+                self.log_warning(f'Cannot find <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{old}</span> file ({os.path.basename(e.filename)}). Did you forget to add them to the compilation config?', False)
+
+            except Exception as e:
+                self.log_warning(f'Cannot copy <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{old}</span> file: {e}', False)
 
     def log_info(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()

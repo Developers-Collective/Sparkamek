@@ -456,7 +456,7 @@ class OpenProjectDialog(QDialog):
 
         self._kamek_generate_pal_v1_toggle = generate_version('generatePALv1', (kamek_data.get('generatePALv1', True) or kamek_data.get('generatePAL', True)) if kamek_data else True)
         self._kamek_generate_pal_v1_toggle.setDisabled(True)
-        self._kamek_generate_pal_v2_toggle = generate_version('generatePALv2', (kamek_data.get('generatePALv2', True) or kamek_data.get('generatePAL', True)) if kamek_data else True)
+        self._kamek_generate_pal_v2_toggle = generate_version('generatePALv2', (kamek_data.get('generatePALv2', False) or kamek_data.get('generatePAL', False)) if kamek_data else True)
         self._kamek_generate_ntsc_v1_toggle = generate_version('generateNTSCv1', (kamek_data.get('generateNTSCv1', False) or kamek_data.get('generateNTSC', False)) if kamek_data else True)
         self._kamek_generate_ntsc_v2_toggle = generate_version('generateNTSCv2', (kamek_data.get('generateNTSCv2', False) or kamek_data.get('generateNTSC', False)) if kamek_data else True)
         self._kamek_generate_jp_v1_toggle = generate_version('generateJPv1', (kamek_data.get('generateJPv1', False) or kamek_data.get('generateJP', False)) if kamek_data else True)
@@ -734,14 +734,14 @@ class OpenProjectDialog(QDialog):
             'generateCN': self._kamek_generate_cn_toggle.isChecked(),
             'nintendoDriverMode': self._nintendo_driver_mode_toggle.isChecked()
         }
-    
+
     def _get_reggienext(self) -> dict | None:
         if self.reggie_folder_button.path() in self._forbidden_paths: return None
 
         return {
             'path': self.reggie_folder_button.path()
         }
-    
+
     def _get_riivolution(self) -> dict | None:
         if self.riivolution_file_button.path() in self._forbidden_paths: return None
 

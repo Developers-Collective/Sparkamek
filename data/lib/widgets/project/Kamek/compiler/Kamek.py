@@ -421,18 +421,18 @@ class KamekBuilder:
             self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
         self._controller.log_simple.emit('&nbsp;', LogType.Error, True)
 
-        # for file in errors: # Removed all the errors because they are not needed
-        #     self._controller.log_complete.emit(f'<span style="font-weight: 700">{file}</span>:', LogType.Error, False)
+        for file in errors: # Keeping the errors as sometimes it can be useful
+            self._controller.log_complete.emit(f'<span style="font-weight: 700">{file}</span>:', LogType.Error, False)
 
-        #     for fasthack_line, code, pos1, pos2, details in errors[file]:
-        #         code_begin = code[:pos1]
-        #         code_middle = code[pos1:pos2 + 1]
-        #         code_end = code[pos2 + 1:]
-        #         self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', LogType.Error, True)
-        #         self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{code_middle}</span>{code_end}', LogType.Error, True)
-        #         for detail in details:
-        #             self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
-        #         self._controller.log_complete.emit('&nbsp;', LogType.Error, True)
+            for fasthack_line, code, pos1, pos2, details in errors[file]:
+                code_begin = code[:pos1]
+                code_middle = code[pos1:pos2 + 1]
+                code_end = code[pos2 + 1:]
+                self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', LogType.Error, True)
+                self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{code_middle}</span>{code_end}', LogType.Error, True)
+                for detail in details:
+                    self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
+                self._controller.log_complete.emit('&nbsp;', LogType.Error, True)
 
 
     def _compile_modules(self) -> None:

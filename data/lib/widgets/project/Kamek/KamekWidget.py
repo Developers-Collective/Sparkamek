@@ -45,9 +45,12 @@ class KamekWidget(SubProjectWidgetBase):
         dockwidgets = data.get('dockwidgets', {})
         self._build_folder = data.get('buildFolder', None)
         self._output_folder = data.get('outputFolder', None)
-        self._generate_pal = data.get('generatePAL', True)
-        self._generate_ntsc = data.get('generateNTSC', False)
-        self._generate_jp = data.get('generateJP', False)
+        self._generate_pal_v1 = data.get('generatePALv1', True) or data.get('generatePAL', True)
+        self._generate_pal_v2 = data.get('generatePALv2', False) or data.get('generatePAL', False)
+        self._generate_ntsc_v1 = data.get('generateNTSCv1', False) or data.get('generateNTSC', False)
+        self._generate_ntsc_v2 = data.get('generateNTSCv2', False) or data.get('generateNTSC', False)
+        self._generate_jp_v1 = data.get('generateJPv1', False) or data.get('generateJP', False)
+        self._generate_jp_v2 = data.get('generateJPv2', False) or data.get('generateJP', False)
         self._generate_kr = data.get('generateKR', False)
         self._generate_tw = data.get('generateTW', False)
         self._generate_cn = data.get('generateCN', False)
@@ -236,9 +239,12 @@ class KamekWidget(SubProjectWidgetBase):
         return super().export() | {
             'buildFolder': self._build_folder,
             'outputFolder': self._output_folder,
-            'generatePAL': self._generate_pal,
-            'generateNTSC': self._generate_ntsc,
-            'generateJP': self._generate_jp,
+            'generatePALv1': self._generate_pal_v1,
+            'generatePALv2': self._generate_pal_v2,
+            'generateNTSCv1': self._generate_ntsc_v1,
+            'generateNTSCv2': self._generate_ntsc_v2,
+            'generateJPv1': self._generate_jp_v1,
+            'generateJPv2': self._generate_jp_v2,
             'generateKR': self._generate_kr,
             'generateTW': self._generate_tw,
             'generateCN': self._generate_cn,
