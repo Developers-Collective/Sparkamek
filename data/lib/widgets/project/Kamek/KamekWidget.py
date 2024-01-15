@@ -54,6 +54,7 @@ class KamekWidget(SubProjectWidgetBase):
         self._generate_kr = data.get('generateKR', False)
         self._generate_tw = data.get('generateTW', False)
         self._generate_cn = data.get('generateCN', False)
+        self._nintendo_driver_mode = data.get('nintendoDriverMode', False)
 
         self._sprites_and_actors_dock_widget = SpritesAndActorsDockWidget(app, name, icon, data)
         self._symbols_dock_widget = SymbolsDockWidget(app, name, icon, data)
@@ -248,6 +249,7 @@ class KamekWidget(SubProjectWidgetBase):
             'generateKR': self._generate_kr,
             'generateTW': self._generate_tw,
             'generateCN': self._generate_cn,
+            'nintendoDriverMode': self._nintendo_driver_mode,
         }
 
     def reset_dock_widgets(self) -> None:
