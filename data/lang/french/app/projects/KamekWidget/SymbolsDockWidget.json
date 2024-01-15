@@ -19,6 +19,14 @@
                 "name": "Nom Joli",
                 "raw": "Nom Brut"
             }
+        },
+        "addressMode": {
+            "title": "Mode d'Adresse",
+            "values": {
+                "contains": "Contient",
+                "greaterOrEqual": "Supérieur ou Égal",
+                "lessOrEqual": "Inférieur ou Égal"
+            }
         }
     }
 }

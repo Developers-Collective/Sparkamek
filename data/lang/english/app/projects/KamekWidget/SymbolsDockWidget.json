@@ -19,6 +19,14 @@
                 "name": "Nice Name",
                 "raw": "Raw Name"
             }
+        },
+        "addressMode": {
+            "title": "Address Mode",
+            "values": {
+                "contains": "Contains",
+                "greaterOrEqual": "Greater or Equal",
+                "lessOrEqual": "Less or Equal"
+            }
         }
     }
 }
