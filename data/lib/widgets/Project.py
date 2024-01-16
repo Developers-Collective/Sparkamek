@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QIcon, QAction
-from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication, QSaveData
+from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication, QSaveData, QLangData
 from .ProjectType import ProjectType
 from .project import *
 
@@ -22,7 +22,7 @@ class Project(QGridWidget):
     edit_clicked = Signal()
     remove_clicked = Signal()
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     _base_app: QBaseApplication = None
     _more_icon = None

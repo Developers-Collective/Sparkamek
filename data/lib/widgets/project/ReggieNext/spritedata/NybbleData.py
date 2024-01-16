@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import Signal
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QNamedComboBox
+from data.lib.qtUtils import QGridWidget, QBaseApplication, QNamedComboBox, QLangData
 from ..sprites.NybbleRange import NybbleRange
 from ..sprites.Nybble import Nybble
 #----------------------------------------------------------------------
@@ -12,7 +12,7 @@ from ..sprites.Nybble import Nybble
 class NybbleData(QGridWidget):
     data_changed = Signal()
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         NybbleData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.NybbleData')

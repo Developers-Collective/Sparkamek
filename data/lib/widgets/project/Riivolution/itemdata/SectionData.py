@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame, QLangData
 from ..items.Section import Section
 from ..items.Option import Option
 from .BaseItemData import BaseItemData
@@ -17,7 +17,7 @@ class SectionData(BaseItemData):
 
     _add_entry_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         SectionData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData')

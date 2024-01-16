@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData, QScrollableGridFrame
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData, QScrollableGridFrame, QLangData
 from ..items.SaveGame import SaveGame
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------
@@ -15,7 +15,7 @@ class SaveGameData(BaseSubItemData):
 
     _back_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         SaveGameData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.SaveGameData')

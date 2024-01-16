@@ -3,6 +3,7 @@
     # Libraries
 from typing import Callable
 from PySide6.QtGui import QIcon
+from PySide6.QtCore import QObject, Signal
 import json, os
 from enum import Enum
 from contextlib import suppress
@@ -18,7 +19,10 @@ from .QThemeManager import QThemeManager, QColorSet
 #----------------------------------------------------------------------
 
     # Class
-class QSaveData:
+class QSaveData(QObject):
+    warning_received = Signal(str)
+
+
     class StyleSheetMode(Enum):
         All = 'all'
         Global = 'global'
@@ -53,6 +57,8 @@ class QSaveData:
             QUtilsColor('#000000')
         )
     ) -> None:
+        super().__init__()
+
         self._app_type: QAppType = app.app_type
         self._language: str = default_language
         self._theme: str = default_theme
@@ -61,11 +67,20 @@ class QSaveData:
         self._lang_folder: str = lang_folder
         self._themes_folder: str = themes_folder
         self._first_time: bool = False
+        self._developer_mode: bool = False
 
         self._language_manager: QLangDataManager = QLangDataManager()
+        self._language_manager.warning_received.connect(self.warning_received.emit)
+
         self._theme_manager: QThemeManager = QThemeManager(main_color_set, neutral_color_set)
+        self._theme_manager.warning_received.connect(self.warning_received.emit)
 
         self._load(reload_all = True)
+
+
+    @property
+    def developer_mode(self) -> bool: return self._developer_mode
+
 
     def get_lang_data(self, path: str) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:
         return self._language_manager.get(path)
@@ -73,7 +88,16 @@ class QSaveData:
     def save(self) -> None:
         extra_data = self._save_extra_data()
         with open(self._path, 'w', encoding = 'utf-8') as outfile:
-            json.dump(obj = {'language': self._language, 'theme': self._theme, 'themeVariant': self._theme_variant} | extra_data, fp = outfile, ensure_ascii = False)
+            json.dump(
+                obj = {
+                    'language': self._language,
+                    'theme': self._theme,
+                    'themeVariant': self._theme_variant,
+                    'developerMode': self._developer_mode
+                } | extra_data,
+                fp = outfile,
+                ensure_ascii = False
+            )
 
     def _save_extra_data(self) -> dict: return {}
 
@@ -105,6 +129,10 @@ class QSaveData:
                     self._theme_variant = data['themeVariant']
                     self._load_theme_data()
                     res |= True
+
+            with exc:
+                if 'developerMode' in reload or reload_all:
+                    self._developer_mode = data['developerMode']
 
             with exc: res |= self._load_extra_data(data, reload, reload_all)
 
@@ -222,7 +250,7 @@ class QSaveData:
         os.remove(self._path)
 
     def export_data(self, filename: str) -> None:
-        new_data = {'language': self._language, 'theme': self._theme, 'themeVariant': self._theme_variant} | self._export_extra_data()
+        new_data = {'language': self._language, 'theme': self._theme, 'themeVariant': self._theme_variant, 'developerMode': self._developer_mode} | self._export_extra_data()
 
         with open(filename, 'w', encoding = 'utf-8') as outfile:
             json.dump(new_data, outfile)
@@ -236,6 +264,7 @@ class QSaveData:
         self._language = data['language']
         self._theme = data['theme']
         self._theme_variant = data['themeVariant']
+        self._developer_mode = data['developerMode']
         self._load_extra_data(data)
         self.save()
 #----------------------------------------------------------------------

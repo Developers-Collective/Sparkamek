@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget, QDragListItem, QNamedSpinBox
+from data.lib.qtUtils import QBaseApplication, QSaveData, QNamedLineEdit, QDragListItem, QNamedSpinBox, QLangData
 from ..sprites.Entry import Entry
 #----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ class EntryListItem(QDragListItem):
     deleted = Signal(QDragListItem)
 
     _delete_icon = None
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         EntryListItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ListData.EntryListItem')

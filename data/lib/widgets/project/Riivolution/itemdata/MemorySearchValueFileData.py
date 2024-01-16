@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QGridWidget, QSaveData, QNamedHexSpinBox, QNamedTextEdit, QNamedSpinBox, QScrollableGridFrame
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QGridWidget, QSaveData, QNamedHexSpinBox, QNamedTextEdit, QNamedSpinBox, QScrollableGridFrame, QLangData
 from ..items.MemorySearchValueFile import MemorySearchValueFile
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------
@@ -15,7 +15,7 @@ class MemorySearchValueFileData(BaseSubItemData):
 
     _back_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         MemorySearchValueFileData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.MemoryData.MemorySearchValueFileData')

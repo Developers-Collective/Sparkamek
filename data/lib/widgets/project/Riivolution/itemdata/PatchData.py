@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame, QLangData
 from ..items.Patch import Patch
 from .BaseItemData import BaseItemData
 from .FileData import FileData
@@ -26,7 +26,7 @@ class PatchData(BaseItemData):
     _add_entry_icon = None
     _add_memory_entry_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         PatchData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData')

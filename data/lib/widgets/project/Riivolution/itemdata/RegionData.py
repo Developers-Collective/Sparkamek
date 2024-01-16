@@ -2,7 +2,7 @@
 
     # Libraries
 from PySide6.QtWidgets import QLabel
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QScrollableGridFrame
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QScrollableGridFrame, QLangData
 from ..items.Region import Region
 from .BaseItemData import BaseItemData
 #----------------------------------------------------------------------
@@ -12,7 +12,7 @@ class RegionData(BaseItemData):
     type: str = 'Region'
     child_cls: Region = Region
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         RegionData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.IDWidget.RegionData')

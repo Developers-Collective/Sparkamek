@@ -61,4 +61,6 @@ from .DelayedSignal import DelayedSignal
 from .QHexSpinBox import QHexSpinBox
 from .QNamedHexSpinBox import QNamedHexSpinBox
 from .QBetterSortFilterProxyModel import QBetterSortFilterProxyModel
+from .QLogsList import QLogsList
+from .QLogsDialog import QLogsDialog
 #----------------------------------------------------------------------

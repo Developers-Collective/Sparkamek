@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QPushButton, QSystemTrayIcon
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from ..LogType import LogType
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .CompilerWorker import CompilerWorker
 #----------------------------------------------------------------------
@@ -17,7 +17,7 @@ class LoaderWidget(SubProjectWidgetBase):
     _compile_icon = None
     _stop_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     _neutral_color = QUtilsColor.from_hex('#aaaaaa')
     _bracket_color = QUtilsColor.from_hex('#dddddd')

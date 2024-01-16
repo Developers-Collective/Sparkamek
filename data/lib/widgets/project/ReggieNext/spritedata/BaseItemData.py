@@ -4,7 +4,7 @@
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QssSelector
+from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QssSelector, QLangData
 from ..sprites.BaseItem import BaseItem
 from .NybbleData import NybbleData
 from .ReqNybbleData import ReqNybbleData
@@ -22,7 +22,7 @@ class BaseItemData(QDragListItem):
     selected = Signal(QDragListItem, QGridWidget or None)
     data_changed = Signal()
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     _delete_icon = None
 

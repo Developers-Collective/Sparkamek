@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QLabel
 from PySide6.QtCore import Qt, QSize
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedComboBox, QGridGroupBox, QNamedHexSpinBox, QIconWidget
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedComboBox, QGridGroupBox, QNamedHexSpinBox, QIconWidget, QLangData
 from .compiler import AddressMapperController, AddressMapper, KamekConstants
 import os
 #----------------------------------------------------------------------
@@ -15,7 +15,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
     _success_icon = None
     _right_arrow_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         AddressConverterDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.AddressConverterDockWidget')

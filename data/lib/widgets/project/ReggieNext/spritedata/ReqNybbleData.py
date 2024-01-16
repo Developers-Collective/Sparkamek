@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtCore import Signal
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QDragList, QSaveData
+from data.lib.qtUtils import QGridWidget, QBaseApplication, QDragList, QSaveData, QLangData
 from ..sprites.ReqNybble import ReqNybble
 from ..sprites.NybbleRange import NybbleRange
 from .ReqNybbleDataItem import ReqNybbleDataItem
@@ -16,7 +16,7 @@ class ReqNybbleData(QGridWidget):
 
     _add_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         ReqNybbleData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ReqNybbleData')

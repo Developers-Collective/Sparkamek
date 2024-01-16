@@ -3,10 +3,14 @@
     # Libraries
 import json, os
 from typing import Union
+from PySide6.QtCore import QObject, Signal
 #----------------------------------------------------------------------
 
     # Class
-class QLangData:
+class QLangData(QObject):
+    warning_received = Signal(str)
+
+
     class NoTranslation(str):
         def __new__(cls, value: str = None) -> None:
             instance = super().__new__(cls, 'No translation')
@@ -38,13 +42,15 @@ class QLangData:
 
 
     def __init__(self, data: dict = {}, cwd: str = './', current_file: str = '???') -> None:
-        self._current_file = current_file
+        super().__init__()
 
+        self._current_file = current_file
         self._data = {}
 
         for key, value in data.items():
             if isinstance(value, dict):
                 self._data[key] = QLangData(value, cwd, current_file)
+                self._data[key].warning_received.connect(self.warning_received.emit)
                 continue
 
             if isinstance(value, str):
@@ -55,6 +61,7 @@ class QLangData:
                     with open(f'{cwd}{file}.json', 'r', encoding = 'utf-8') as infile:
                         try:
                             self._data[key] = QLangData(json.load(infile), cwd, f'{cwd}{file}.json')
+                            self._data[key].warning_received.connect(self.warning_received.emit)
 
                         except Exception as e:
                             raise Exception(f'Error in {cwd}{file}.json:\n{e}')
@@ -69,21 +76,24 @@ class QLangData:
         data = self
 
         for key in keys:
-            try: data = data[key]
-            except KeyError as e: raise Exception(f'Cannot find {e.args[0]} of {path} in {self._current_file}')
+            try: data = data._data[key]
+            except KeyError as e:
+                self.warning_received.emit(f'Cannot find {e.args[0]} of {path} in {self._current_file}')
+                return QLangData.NoTranslation() if default is None else default
 
-        if default is not None and isinstance(data, self.NoTranslation): return default
+        if isinstance(data, QLangData.NoTranslation):
+            if default is not None: return default
+            self.warning_received.emit(f'Cannot find {path} in {self._current_file}')
+
         return data
 
 
     def __getattr__(self, key: str) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:
-        try: return self._data[key]
-        except KeyError: return self.NoTranslation()
+        return self.get(key)
 
 
     def __getitem__(self, key: str) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:
-        try: return self._data[key]
-        except KeyError: return self.NoTranslation()
+        return self.get(key)
 
 
     def __call__(self, *args, **kwargs) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:

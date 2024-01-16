@@ -2,13 +2,19 @@
 
     # Libraries
 import json, os
+from PySide6.QtCore import QObject, Signal
 
 from .QColorSet import QColorSet
 #----------------------------------------------------------------------
 
     # Class
-class QThemeManager:
+class QThemeManager(QObject):
+    warning_received = Signal(str)
+
+
     def __init__(self, main_color_set: QColorSet, neutral_color_set: QColorSet) -> None:
+        super().__init__()
+
         self._data_global = ''
         self._data_local = ''
         self._main_color_set: ColorSet = main_color_set
@@ -26,8 +32,14 @@ class QThemeManager:
 
 
     def load(self, themes_folder: str, theme: str, theme_variant: str) -> None:
-        self._load_global(themes_folder, theme, theme_variant)
-        self._load_local(themes_folder, theme, theme_variant)
+        try:
+            self._load_global(themes_folder, theme, theme_variant)
+            self._load_local(themes_folder, theme, theme_variant)
+
+        except Exception as e:
+            self.warning_received.emit(f'Failed to load theme data from {themes_folder}/{theme}/{theme_variant}: {e}')
+            self._data_global = ''
+            self._data_local = ''
 
 
     def _load_global(self, themes_folder: str, theme: str, theme_variant: str) -> None:

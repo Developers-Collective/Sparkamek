@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor
+from data.lib.qtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QLangData
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
@@ -23,7 +23,7 @@ class KamekWidget(SubProjectWidgetBase):
     _neutral_color = QUtilsColor.from_hex('#aaaaaa')
     _bracket_color = QUtilsColor.from_hex('#dddddd')
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         KamekWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget')

@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QLangData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import Options, Section
 from .itemdata import SectionData
@@ -20,7 +20,7 @@ class OptionsWidget(QGridWidget):
 
     _add_entry_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         OptionsWidget._app = app

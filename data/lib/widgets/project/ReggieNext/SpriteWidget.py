@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QPushButton, QLabel, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton, QLangData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .sprites.Sprite import Sprite
 from .sprites.Dependency import Required, Suggested
@@ -21,7 +21,7 @@ class SpriteWidget(QGridWidget):
     _add_entry_icon = None
     _add_item_entry_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     current_sprite_changed = Signal(Sprite or None)
     sprite_edited = Signal()

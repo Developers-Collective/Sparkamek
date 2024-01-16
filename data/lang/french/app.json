@@ -9,6 +9,15 @@
                 "editProject": "Éditer le Projet..."
             }
         },
+        "QLogsDialog": {
+            "title": "Journal des Messages",
+            "QPushButton": {
+                "ok": "OK"
+            }
+        },
+        "QLogsList": {
+            "messages": "Messages"
+        },
         "QSlidingStackedWidget": "#ref: app/QSlidingStackedWidget"
     },
     "OpenProjectDialog": "#ref: app/OpenProjectDialog",

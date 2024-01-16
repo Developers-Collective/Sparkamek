@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QDockWidget, QPushButton, QFileDialog
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .SpriteListDockWidget import SpriteListDockWidget
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
@@ -12,7 +12,7 @@ from .SpriteWidget import SpriteWidget
 from .sprites.Sprite import Sprite
 from .ImportDialog import ImportDialog
 from data.lib.storage.xml import XML, XMLNode
-import os, traceback
+import os
 #----------------------------------------------------------------------
 
     # Class
@@ -26,7 +26,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
     _create_icon = None
     _delete_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         ReggieNextWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget')

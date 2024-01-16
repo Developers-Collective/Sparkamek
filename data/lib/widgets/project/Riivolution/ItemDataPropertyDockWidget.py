@@ -2,12 +2,12 @@
 
     # Libraries
 from PySide6.QtWidgets import QFrame
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QLangData
 #----------------------------------------------------------------------
 
     # Class
 class ItemDataPropertyDockWidget(QSavableDockWidget):
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.ItemDataPropertyDockWidget')

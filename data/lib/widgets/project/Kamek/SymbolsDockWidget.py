@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, QNamedToggleButton, QNamedComboBox, QBetterSortFilterProxyModel
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, QNamedToggleButton, QNamedComboBox, QBetterSortFilterProxyModel, QLangData
 from .compiler import FuncSymbol
 #----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ from .compiler import FuncSymbol
 class SymbolsDockWidget(QSavableDockWidget):
     _search_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     _neutral_color = QUtilsColor.from_hex('#aaaaaa')
     _bracket_color = QUtilsColor.from_hex('#dddddd')

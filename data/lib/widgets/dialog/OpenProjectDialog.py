@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QDialog, QFrame, QLabel, QGridLayout, QWidget, QPushButton
 from PySide6.QtCore import Qt, QSize
-from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform
+from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform, QLangData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 
 import os
@@ -11,7 +11,7 @@ import os
 
     # Class
 class OpenProjectDialog(QDialog):
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
     _open_image_icon = None
     _open_file_icon = None
     _open_folder_icon = None

@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedSpinBox
+from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedSpinBox, QLangData
 from ..sprites.Required import Required
 from ..sprites.Suggested import Suggested
 #----------------------------------------------------------------------
@@ -13,7 +13,7 @@ class DependencyDataItem(QDragListItem):
     deleted = Signal(QDragListItem)
     data_changed = Signal()
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     _delete_icon = None
 

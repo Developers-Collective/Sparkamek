@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Signal, Qt
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox
+from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QLangData
 from data.lib.widgets.ProjectKeys import ProjectKeys
 from .items import WiiDisc, Patch
 from .IDWidget import IDWidget
@@ -24,7 +24,7 @@ class WiiDiscWidget(QGridWidget):
     _add_entry_icon = None
     _add_item_entry_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         WiiDiscWidget._app = app

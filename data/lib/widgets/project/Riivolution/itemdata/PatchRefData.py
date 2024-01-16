@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit
+from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QLangData
 from ..items.PatchRef import PatchRef
 from .BaseItemData import BaseItemData
 #----------------------------------------------------------------------
@@ -11,7 +11,7 @@ class PatchRefData(BaseItemData):
     type: str = 'PatchRef'
     child_cls: PatchRef = PatchRef
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         PatchRefData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData.PropertyWidget.ChoiceData.PropertyWidget.PatchRefData')

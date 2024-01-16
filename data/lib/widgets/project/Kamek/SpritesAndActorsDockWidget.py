@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton, QLabel
 from PySide6.QtCore import Qt, QSortFilterProxyModel
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QUtilsColor, QIconLineEdit, QNamedComboBox, QBetterListWidget
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QUtilsColor, QIconLineEdit, QNamedComboBox, QBetterListWidget, QLangData
 from .sprites_and_actors.SpritesAndActorsWorker import SpritesAndActorsWorker
 #----------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
     _refresh_icon = None
     _search_icon = None
 
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         SpritesAndActorsDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.SpritesAndActorsDockWidget')

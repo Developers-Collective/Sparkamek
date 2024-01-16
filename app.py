@@ -57,6 +57,11 @@ class Application(QBaseApplication):
 
         Project.init(self)
         OpenProjectDialog.init(self)
+        QLogsList.init(self)
+        QLogsDialog.init(self)
+
+        self.logs_dialog: QLogsDialog = QLogsDialog(self.window)
+        self.save_data.warning_received.connect(self.logs_dialog.add_warning)
 
         self.create_widgets()
         self.update_title()
@@ -160,12 +165,19 @@ class Application(QBaseApplication):
         right_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
         top_menu.grid_layout.addWidget(right_frame, 0, 0, Qt.AlignmentFlag.AlignRight)
 
+        self.logs_button = QPushButton()
+        self.logs_button.setIcon(self.save_data.get_icon('pushbutton/logs.png', mode = QSaveData.IconMode.Local))
+        self.logs_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.logs_button.clicked.connect(self.logs_dialog.exec)
+        right_frame.grid_layout.addWidget(self.logs_button, 0, 2)
+        self.logs_button.setVisible(self.save_data.developer_mode)
+
         self.update_button = QPushButton(lang['QPushButton']['update'])
         self.update_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.update_button.clicked.connect(self.update_click)
         self.update_button.setProperty('color', 'main')
         self.update_button.setProperty('transparent', True)
-        right_frame.grid_layout.addWidget(self.update_button, 0, 1)
+        right_frame.grid_layout.addWidget(self.update_button, 0, 2)
         self.update_button.setVisible(False)
 
         settings_button = QPushButton(lang['QPushButton']['settings'])
@@ -173,13 +185,13 @@ class Application(QBaseApplication):
         settings_button.setCursor(Qt.CursorShape.PointingHandCursor)
         settings_button.setIcon(self.save_data.get_icon('pushbutton/settings.png', mode = QSaveData.IconMode.Local))
         settings_button.clicked.connect(self.settings_menu)
-        right_frame.grid_layout.addWidget(settings_button, 0, 2)
+        right_frame.grid_layout.addWidget(settings_button, 0, 3)
 
         about_button = QPushButton()
         about_button.setCursor(Qt.CursorShape.PointingHandCursor)
         about_button.setIcon(self.save_data.get_icon('menubar/note.png', mode = QSaveData.IconMode.Local))
         about_button.clicked.connect(self.about_menu_clicked)
-        right_frame.grid_layout.addWidget(about_button, 0, 3)
+        right_frame.grid_layout.addWidget(about_button, 0, 4)
 
 
         self.root.grid_layout.addWidget(top_menu, 0, 0, Qt.AlignmentFlag.AlignTop)

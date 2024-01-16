@@ -1,16 +1,15 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QFrame, QPushButton
-from PySide6.QtCore import Qt, QSortFilterProxyModel, Signal
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, DelayedSignal
+from PySide6.QtWidgets import QFrame
+from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QLangData
 from .SpriteListLoaderWorker import SpriteListLoaderWorker
 from .sprites import *
 #----------------------------------------------------------------------
 
     # Class
 class ItemDataPropertyDockWidget(QSavableDockWidget):
-    _lang = {}
+    _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
         ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.ItemDataPropertyDockWidget')
