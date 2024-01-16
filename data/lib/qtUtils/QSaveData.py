@@ -13,11 +13,11 @@ from . import QBaseApplication
 from .QSettingsDialog import QSettingsDialog
 from .QUtilsColor import QUtilsColor
 from .QAppType import QAppType
+from .QLangDataManager import QLangDataManager, QLangData
 #----------------------------------------------------------------------
 
     # Class
 class QSaveData:
-    # color = 'blue'
     class StyleSheetMode(Enum):
         All = 'all'
         Global = 'global'
@@ -62,44 +62,6 @@ class QSaveData:
             )
 
 
-    class LangData(dict):
-        def __init__(self, data: dict = {}, cwd: str = './') -> None:
-            d = {}
-
-            for key, value in data.items():
-                if isinstance(value, dict):
-                    d[key] = QSaveData.LangData(value, cwd)
-                    continue
-
-                if isinstance(value, str):
-                    if value.startswith('#ref:'):
-                        file = value.replace('#ref:', '').replace(' ', '').replace('\\', '/')
-
-                        if not os.path.exists(f'{cwd}{file}.json'): raise Exception(f'Cannot find {cwd}{file}.json')
-                        with open(f'{cwd}{file}.json', 'r', encoding = 'utf-8') as infile:
-                            try:
-                                d[key] = QSaveData.LangData(json.load(infile), cwd)
-
-                            except Exception as e:
-                                raise Exception(f'Error in {cwd}{file}.json:\n{e}')
-
-                        continue
-
-                d[key] = value
-
-            super().__init__(d)
-
-        def get_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
-            keys = path.split('.')
-            data = self
-
-            for key in keys:
-                try: data = data[key]
-                except KeyError as e: raise Exception(f'Cannot find {e.args[0]} of {path}')
-
-            return data
-
-
     def __init__(self,
         app: QBaseApplication,
         save_path = './data/save.dat',
@@ -134,17 +96,12 @@ class QSaveData:
         self._main_color_set: 'QSaveData.ColorSet' = main_color_set
         self._neutral_color_set: 'QSaveData.ColorSet' = neutral_color_set
 
+        self._language_manager: QLangDataManager = QLangDataManager()
+
         self._load(reload_all = True)
 
-    def get_lang_data(self, path: str) -> Union[str, 'QSaveData.LangData', list[Union[str, 'QSaveData.LangData']]]:
-        keys = path.split('.')
-        data = self._language_data
-
-        for key in keys:
-            try: data = data[key]
-            except KeyError as e: raise Exception(f'Cannot find {e.args[0]} of {path}')
-
-        return data
+    def get_lang_data(self, path: str) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:
+        return self._language_manager.get(path)
 
     def save(self) -> None:
         extra_data = self._save_extra_data()
@@ -191,11 +148,7 @@ class QSaveData:
         return res
 
     def _load_language_data(self) -> None:
-        with open(f'{self._lang_folder}{self._language}.json', 'r', encoding = 'utf-8') as infile:
-            filename = json.load(infile)['root'][self._app_type.value]
-        
-        with open(f'{self._lang_folder}{self._language}/{filename}.json', 'r', encoding = 'utf-8') as infile:
-            self._language_data = QSaveData.LangData(json.load(infile), f'{self._lang_folder}{self._language}/')
+        self._language_manager.load(f'{self._lang_folder}{self._language}', self._app_type)
 
     def _load_theme_data(self) -> None:
         self._theme_data = ''
@@ -290,7 +243,7 @@ class QSaveData:
 
         dialog = QSettingsDialog(
             parent = app.window,
-            settings_data = self._language_data.get_data('QSettingsDialog'),
+            settings_data = self._language_manager.get('QSettingsDialog'),
             lang_folder = self._lang_folder,
             themes_folder = self._themes_folder,
             current_lang = self._language,
@@ -324,8 +277,8 @@ class QSaveData:
             if 'theme' in reload_list: self.set_stylesheet(app)
             if res:
                 QMessageBoxWithWidget(app,
-                    self._language_data.get_data('QMessageBox.information.settingsReload.title'),
-                    self._language_data.get_data('QMessageBox.information.settingsReload.text'),
+                    self._language_manager.get('QMessageBox.information.settingsReload.title'),
+                    self._language_manager.get('QMessageBox.information.settingsReload.text'),
                     None,
                     QMessageBoxWithWidget.Icon.Information,
                     None

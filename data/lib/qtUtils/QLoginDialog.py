@@ -5,12 +5,12 @@ from PySide6.QtWidgets import QDialog, QPushButton
 from PySide6.QtCore import Qt
 from .QGridFrame import QGridFrame
 from .QLoginWidget import QLoginWidget
-from . import QSaveData
+from .QLangDataManager import QLangData
 #----------------------------------------------------------------------
 
     # Class
 class QLoginDialog(QDialog):
-    def __init__(self, parent = None , lang: QSaveData.LangData = {}, username: str = '', password: str = '', remember_checkbox: bool = True, remember: bool = False):
+    def __init__(self, parent = None , lang: QLangData = {}, username: str = '', password: str = '', remember_checkbox: bool = True, remember: bool = False):
         super().__init__(parent)
 
         self.setWindowTitle(lang['title'])

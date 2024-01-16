@@ -8,7 +8,7 @@ from .QFiles import QFiles
 from .QGridFrame import QGridFrame
 from .QIconWidget import QIconWidget
 from .QLinkLabel import QLinkLabel
-from . import QSaveData
+from .QLangDataManager import QLangData
 #----------------------------------------------------------------------
 
     # Class
@@ -18,7 +18,7 @@ class QFileZone(QGridFrame):
     item_added = Signal(str)
     items_added = Signal(list)
 
-    def __init__(self, parent = None, lang: QSaveData.LangData = {}, icon: str = None, icon_size: int = 96, type: QFiles.Dialog = QFiles.Dialog.OpenFileName, dir: str = '', filter: str = '') -> None:
+    def __init__(self, parent = None, lang: QLangData = {}, icon: str = None, icon_size: int = 96, type: QFiles.Dialog = QFiles.Dialog.OpenFileName, dir: str = '', filter: str = '') -> None:
         super().__init__(parent)
         self._icon = icon
         self._lang = lang

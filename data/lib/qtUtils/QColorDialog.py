@@ -6,12 +6,12 @@ from PySide6.QtCore import Qt
 from .QGridFrame import QGridFrame
 from .QUtilsColor import QUtilsColor
 from .QColorPicker import QColorPicker
-from . import QSaveData
+from .QLangDataManager import QLangData
 #----------------------------------------------------------------------
 
     # Class
 class QColorDialog(QDialog):
-    def __init__(self, parent = None , lang: QSaveData.LangData = {}, color: QUtilsColor = QUtilsColor('#FFFFFF')):
+    def __init__(self, parent = None , lang: QLangData = {}, color: QUtilsColor = QUtilsColor('#FFFFFF')):
         super().__init__(parent)
 
         self.setWindowTitle(lang['title'])

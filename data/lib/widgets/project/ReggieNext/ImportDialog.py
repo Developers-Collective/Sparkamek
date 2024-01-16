@@ -3,13 +3,13 @@
     # Libraries
 from PySide6.QtWidgets import QDialog, QPushButton, QLabel
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QGridFrame, QSaveData, QGridWidget, QNamedSpinBox
+from data.lib.qtUtils import QGridFrame, QLangData, QGridWidget, QNamedSpinBox
 from .sprites import Sprite
 #----------------------------------------------------------------------
 
     # Class
 class ImportDialog(QDialog):
-    def __init__(self, parent = None , lang: QSaveData.LangData = {}, sprite: Sprite = None, i: int = 1, length: int = 1):
+    def __init__(self, parent = None , lang: QLangData = {}, sprite: Sprite = None, i: int = 1, length: int = 1):
         super().__init__(parent)
 
         self.setWindowTitle(lang.get_data('title').replace('%s', sprite.sprite_name, 1).replace('%s', str(i), 1).replace('%s', str(length), 1))

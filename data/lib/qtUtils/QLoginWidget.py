@@ -8,14 +8,14 @@ from PySide6.QtCore import Qt, Signal
 from .QGridFrame import QGridFrame
 from .QNamedLineEdit import QNamedLineEdit
 from .QNamedToggleButton import QNamedToggleButton
-from . import QSaveData
+from .QLangDataManager import QLangData
 #----------------------------------------------------------------------
 
     # Class
 class QLoginWidget(QGridFrame):
     enter_key_pressed = Signal()
 
-    def __init__(self, parent = None , lang: QSaveData.LangData = {}, username: str = '', password: str = '', remember_checkbox: bool = True, remember: bool = False) -> None:
+    def __init__(self, parent = None , lang: QLangData = {}, username: str = '', password: str = '', remember_checkbox: bool = True, remember: bool = False) -> None:
         super().__init__(parent)
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
