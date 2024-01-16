@@ -41,15 +41,16 @@ class QLangData(QObject):
 
 
 
-    def __init__(self, data: dict = {}, cwd: str = './', current_file: str = '???') -> None:
+    def __init__(self, data: dict = {}, cwd: str = './', current_file: str = '???', path_to_here: str = None) -> None:
         super().__init__()
 
-        self._current_file = current_file
         self._data = {}
+        self._current_file = current_file
+        self._path_to_here = path_to_here
 
         for key, value in data.items():
             if isinstance(value, dict):
-                self._data[key] = QLangData(value, cwd, current_file)
+                self._data[key] = QLangData(value, cwd, current_file, f'{path_to_here}.{key}' if path_to_here is not None else key)
                 self._data[key].warning_received.connect(self.warning_received.emit)
                 continue
 
@@ -60,7 +61,7 @@ class QLangData(QObject):
                     if not os.path.exists(f'{cwd}{file}.json'): raise Exception(f'Cannot find {cwd}{file}.json')
                     with open(f'{cwd}{file}.json', 'r', encoding = 'utf-8') as infile:
                         try:
-                            self._data[key] = QLangData(json.load(infile), cwd, f'{cwd}{file}.json')
+                            self._data[key] = QLangData(json.load(infile), cwd, f'{cwd}{file}.json', f'{path_to_here}.{key}' if path_to_here is not None else key)
                             self._data[key].warning_received.connect(self.warning_received.emit)
 
                         except Exception as e:
@@ -78,7 +79,7 @@ class QLangData(QObject):
         for key in keys:
             try: data = data._data[key]
             except KeyError as e:
-                self.warning_received.emit(f'Cannot find {e.args[0]} of {path} in {self._current_file}')
+                self.warning_received.emit(f'[{self._current_file}] Cannot find {e.args[0]} from\n{self._path_to_here}.{path}')
                 return QLangData.NoTranslation() if default is None else default
 
         if isinstance(data, QLangData.NoTranslation):

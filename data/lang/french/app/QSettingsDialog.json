@@ -54,6 +54,10 @@
                 "compactPaths": {
                     "title": "Chemins Compacts",
                     "description": "Détermine si Sparkamek compacte les chemins des applications dans la liste des installations."
+                },
+                "developerMode": {
+                    "title": "Mode Développeur",
+                    "description": "Détermine si Sparkamek affiche les options de débogage et de développement, comme la console de débogage."
                 }
             },
             "QNamedComboBox": {
@@ -68,7 +72,8 @@
             },
             "QNamedToggleButton": {
                 "startAtLaunch": "Démarrer au Lancement",
-                "minimizeToTray": "Minimiser dans la Barre des Tâches"
+                "minimizeToTray": "Minimiser dans la Barre des Tâches",
+                "developerMode": "Mode Développeur"
             }
         },
         "notification": {

@@ -108,7 +108,7 @@ class SaveData(QSaveData):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        # label = QSettingsDialog.textGroup(lang.get('QLabel.startAtLaunch.title'), lang.get('QLabel.startAtLaunch.description'))
+        # label = QSettingsDialog._text_group(lang.get('QLabel.startAtLaunch.title'), lang.get('QLabel.startAtLaunch.description'))
         # root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.start_at_launch_checkbox = QNamedToggleButton()
@@ -152,6 +152,22 @@ class SaveData(QSaveData):
         widget.compact_paths_combobox.combo_box.setCurrentIndex(self.compact_paths)
         root_frame.grid_layout.addWidget(widget.compact_paths_combobox, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(widget.compact_paths_combobox, Qt.AlignmentFlag.AlignLeft)
+
+
+        frame = QFrame()
+        frame.setProperty('border-top', True)
+        frame.setFixedHeight(1)
+        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+
+
+        label = QSettingsDialog._text_group(lang.get('QLabel.developerMode.title'), lang.get('QLabel.developerMode.description'))
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        widget.developer_mode_checkbox = QNamedToggleButton()
+        widget.developer_mode_checkbox.setText(lang.get('QNamedToggleButton.developerMode'))
+        widget.developer_mode_checkbox.setChecked(self._developer_mode)
+        root_frame.grid_layout.addWidget(widget.developer_mode_checkbox, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(widget.developer_mode_checkbox, Qt.AlignmentFlag.AlignLeft)
 
 
         return widget
@@ -284,6 +300,7 @@ class SaveData(QSaveData):
         self.minimize_to_tray = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].minimize_to_tray_checkbox.isChecked()
 
         self.compact_paths = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].compact_paths_combobox.combo_box.currentIndex()
+        self._developer_mode = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].developer_mode_checkbox.isChecked()
 
         self.goes_to_tray_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].goes_to_tray_notif_checkbox.isChecked()
         self.kamek_compile_done_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_done_notif_checkbox.isChecked()

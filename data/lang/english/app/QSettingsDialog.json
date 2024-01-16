@@ -54,6 +54,10 @@
                 "compactPaths": {
                     "title": "Compact Paths",
                     "description": "Determines whether Sparkamek compacts paths in the interface."
+                },
+                "developerMode": {
+                    "title": "Developer Mode",
+                    "description": "Determines whether Sparkamek is in developer mode. This enables developer features like the log console."
                 }
             },
             "QNamedComboBox": {
@@ -68,7 +72,8 @@
             },
             "QNamedToggleButton": {
                 "startAtLaunch": "Start at Launch",
-                "minimizeToTray": "Minimize to Tray"
+                "minimizeToTray": "Minimize to Tray",
+                "developerMode": "Developer Mode"
             }
         },
         "notification": {

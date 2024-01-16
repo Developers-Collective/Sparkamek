@@ -104,6 +104,7 @@ class Application(QBaseApplication):
     def settings_menu(self) -> None:
         if self.save_data.settings_menu(self):
             self.load_colors()
+            self.logs_button.setVisible(self.save_data.developer_mode)
 
             for project in self.projects:
                 project.settings_updated(self.save_data)
