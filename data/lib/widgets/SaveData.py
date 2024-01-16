@@ -2,15 +2,14 @@
 
     # Libraries
 from urllib.parse import urlparse
-from PySide6.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton
+from PySide6.QtWidgets import QFrame, QPushButton
 from PySide6.QtCore import Qt
 
 from .PlatformType import PlatformType
 from datetime import datetime
 from contextlib import suppress
-import os
 
-from data.lib.qtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QBaseApplication
+from data.lib.qtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QBaseApplication, QColorSet
 #----------------------------------------------------------------------
 
     # Class
@@ -19,7 +18,7 @@ class SaveData(QSaveData):
     COLOR_LINK = QUtilsColor()
     downloads_folder = './Sparkamek/'
 
-    def __init__(self, app: QBaseApplication, save_path: str = './data/save.dat', main_color_set: QSaveData.ColorSet = None, neutral_color_set: QSaveData.ColorSet = None) -> None:
+    def __init__(self, app: QBaseApplication, save_path: str = './data/save.dat', main_color_set: QColorSet = None, neutral_color_set: QColorSet = None) -> None:
         self.platform = PlatformType.from_qplatform(app.platform)
         self.check_for_updates = 4
 

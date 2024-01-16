@@ -14,6 +14,7 @@ from .QSettingsDialog import QSettingsDialog
 from .QUtilsColor import QUtilsColor
 from .QAppType import QAppType
 from .QLangDataManager import QLangDataManager, QLangData
+from .QThemeManager import QThemeManager, QColorSet
 #----------------------------------------------------------------------
 
     # Class
@@ -29,39 +30,6 @@ class QSaveData:
         Local = 'local'
 
 
-    class ColorSet:
-        def __init__(self, name: str, normal: QUtilsColor, hover: QUtilsColor, pressed: QUtilsColor, disabled: QUtilsColor) -> None:
-            self._name = name
-            self._normal = normal
-            self._hover = hover
-            self._pressed = pressed
-            self._disabled = disabled
-
-        @property
-        def name(self) -> str: return self._name
-
-        @property
-        def normal(self) -> QUtilsColor: return self._normal
-
-        @property
-        def hover(self) -> QUtilsColor: return self._hover
-
-        @property
-        def pressed(self) -> QUtilsColor: return self._pressed
-
-        @property
-        def disabled(self) -> QUtilsColor: return self._disabled
-
-        @property
-        def items(self) -> tuple[tuple[str, QUtilsColor]]:
-            return (
-                ('color-normal', self._normal),
-                ('color-hover', self._hover),
-                ('color-pressed', self._pressed),
-                ('color-disabled', self._disabled)
-            )
-
-
     def __init__(self,
         app: QBaseApplication,
         save_path = './data/save.dat',
@@ -70,14 +38,14 @@ class QSaveData:
         default_language = 'english',
         default_theme = 'neutron',
         default_theme_variant = 'dark',
-        main_color_set: 'QSaveData.ColorSet' = ColorSet(
+        main_color_set: QColorSet = QColorSet(
             'smth',
             QUtilsColor('#000000'),
             QUtilsColor('#000000'),
             QUtilsColor('#000000'),
             QUtilsColor('#000000')
         ),
-        neutral_color_set: 'QSaveData.ColorSet' = ColorSet(
+        neutral_color_set: QColorSet = QColorSet(
             'smthelse',
             QUtilsColor('#000000'),
             QUtilsColor('#000000'),
@@ -93,10 +61,9 @@ class QSaveData:
         self._lang_folder: str = lang_folder
         self._themes_folder: str = themes_folder
         self._first_time: bool = False
-        self._main_color_set: 'QSaveData.ColorSet' = main_color_set
-        self._neutral_color_set: 'QSaveData.ColorSet' = neutral_color_set
 
         self._language_manager: QLangDataManager = QLangDataManager()
+        self._theme_manager: QThemeManager = QThemeManager(main_color_set, neutral_color_set)
 
         self._load(reload_all = True)
 
@@ -151,38 +118,14 @@ class QSaveData:
         self._language_manager.load(f'{self._lang_folder}{self._language}', self._app_type)
 
     def _load_theme_data(self) -> None:
-        self._theme_data = ''
-        with open(f'{self._themes_folder}/{self._theme}.json', 'r', encoding = 'utf-8') as infile:
-            data = json.load(infile)['qss']
-            path = data[self._theme_variant]['location']
-
-        if os.path.exists(f'data/lib/qtUtils/themes/{self._theme}/{self._theme_variant}/{path}/main.json'):
-            with open(f'data/lib/qtUtils/themes/{self._theme}/{self._theme_variant}/{path}/main.json', 'r', encoding = 'utf-8') as infile:
-                files = json.load(infile)['files']
-
-            for file in files:
-                with open(f'data/lib/qtUtils/themes/{self._theme}/{self._theme_variant}/{path}/{file}.qss', 'r', encoding = 'utf-8') as infile:
-                    self._theme_data += infile.read()
-
-            self._theme_data = self._theme_data.replace(
-                '{path}',
-                f'data/lib/qtUtils/themes/{self._theme}/{self._theme_variant}/{path}/icons/'.replace('//', '/')
-            )
-
-            self._theme_data = self._theme_data.replace('{main-color-name}', self._main_color_set.name)
-            for key, value in self._main_color_set.items:
-                self._theme_data = self._theme_data.replace(f'{{main-{key}}}', value.hex[1:])
-
-            self._theme_data = self._theme_data.replace('{neutral-color-name}', self._neutral_color_set.name)
-            for key, value in self._neutral_color_set.items:
-                self._theme_data = self._theme_data.replace(f'{{neutral-{key}}}', value.hex[1:])
+        self._theme_manager.load(self._themes_folder, self._theme, self._theme_variant)
 
     def _load_extra_data(self, extra_data: dict = {}, reload: list = [], reload_all: bool = False) -> bool: return False
 
     def set_stylesheet(self, app: QBaseApplication = None) -> None:
         if not app: return
         app.setStyleSheet(self.get_stylesheet(app, QSaveData.StyleSheetMode.All))
-        app.window.setProperty('color', self._main_color_set.name)
+        app.window.setProperty('color', self._theme_manager.main_color_set.name)
 
     def get_stylesheet(self, app: QBaseApplication = None, mode: StyleSheetMode = StyleSheetMode.All) -> str:
         if not app: return ''
@@ -198,33 +141,11 @@ class QSaveData:
                     )
 
             case QSaveData.StyleSheetMode.Global:
-                return self._theme_data
+                return self._theme_manager.get_global()
 
             case QSaveData.StyleSheetMode.Local:
-                with open(f'{self._themes_folder}/{self._theme}.json', 'r', encoding = 'utf-8') as infile:
-                    data = json.load(infile)['qss']
-                    path = data[self._theme_variant]['location']
+                return self._theme_manager.get_local()
 
-                with open(f'{self._themes_folder}/{self._theme}/{self._theme_variant}/{path}/main.json', 'r', encoding = 'utf-8') as infile:
-                    files = json.load(infile)['files']
-
-                theme_data = ''
-
-                for file in files:
-                    with open(f'{self._themes_folder}/{self._theme}/{self._theme_variant}/{path}/{file}.qss', 'r', encoding = 'utf-8') as infile:
-                        theme_data += infile.read()
-
-                theme_data = theme_data.replace('{path}', f'{self._themes_folder}/{self._theme}/{self._theme_variant}/icons/'.replace('//', '/'))
-
-                theme_data = theme_data.replace('{main-color-name}', self._main_color_set.name)
-                for key, value in self._main_color_set.items:
-                    theme_data = theme_data.replace(f'{{main-{key}}}', value.hex[1:])
-
-                theme_data = theme_data.replace('{neutral-color-name}', self._neutral_color_set.name)
-                for key, value in self._neutral_color_set.items:
-                    theme_data = theme_data.replace(f'{{neutral-{key}}}', value.hex[1:])
-
-                return theme_data
         return ''
 
     def get_icon_dir(self) -> str:
