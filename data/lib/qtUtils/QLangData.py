@@ -7,7 +7,11 @@ from typing import Union
 
     # Class
 class QLangData:
-    class NoTranslation:
+    class NoTranslation(str):
+        def __new__(cls, value: str = None) -> None:
+            instance = super().__new__(cls, 'No translation')
+            return instance
+
         def __getitem__(self, __key: str) -> 'QLangData.NoTranslation':
             return self
 
@@ -25,7 +29,7 @@ class QLangData:
 
 
         def __str__(self) -> str:
-            return 'No translation available'
+            return super().__str__()
 
 
         def __repr__(self) -> str:
