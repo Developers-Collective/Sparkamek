@@ -2,7 +2,6 @@
 
     # Libraries
 import json, os
-from typing import Union
 
 from .QColorSet import QColorSet
 #----------------------------------------------------------------------
