@@ -22,7 +22,7 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         SpritesAndActorsWorker.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
-        super().__init__(self._lang.get_data('title').replace('%s', name))
+        super().__init__(self._lang.get('title').replace('%s', name))
 
         self._name = name
         self._icon = icon
@@ -44,12 +44,12 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         subtopframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(subtopframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
-        search_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.searchBy.title'))
+        search_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.searchBy.title'))
         search_combobox.combo_box.addItems([
-            self._lang.get_data('QNamedComboBox.searchBy.values.actorName'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.actorID'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.spriteID'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.replaceOrNew')
+            self._lang.get('QNamedComboBox.searchBy.values.actorName'),
+            self._lang.get('QNamedComboBox.searchBy.values.actorID'),
+            self._lang.get('QNamedComboBox.searchBy.values.spriteID'),
+            self._lang.get('QNamedComboBox.searchBy.values.replaceOrNew')
         ])
         search_combobox.combo_box.setCurrentIndex(0)
         search_combobox.combo_box.currentIndexChanged.connect(self._search_by_changed)
@@ -61,11 +61,11 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         subtopframe.grid_layout.addWidget(subtoprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
         subtoprightframe.grid_layout.setColumnStretch(1, 0)
 
-        case_sensitive_togge = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.caseSensitive'), False)
+        case_sensitive_togge = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.caseSensitive'), False)
         case_sensitive_togge.toggle_button.toggled.connect(self.case_sensitive_toggled)
         subtoprightframe.grid_layout.addWidget(case_sensitive_togge, 0, 0)
 
-        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get_data('QIconLineEdit.search'))
+        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get('QIconLineEdit.search'))
         self._searchbar.textChanged.connect(self.text_changed)
         subtoprightframe.grid_layout.addWidget(self._searchbar, 0, 1)
 
@@ -79,10 +79,10 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
 
         self._sprite_list = QBetterListWidget(
             [
-                self._lang.get_data('QBetterListWidget.actorName'),
-                self._lang.get_data('QBetterListWidget.actorID'),
-                self._lang.get_data('QBetterListWidget.spriteID'),
-                self._lang.get_data('QBetterListWidget.replaceOrNew')
+                self._lang.get('QBetterListWidget.actorName'),
+                self._lang.get('QBetterListWidget.actorID'),
+                self._lang.get('QBetterListWidget.spriteID'),
+                self._lang.get('QBetterListWidget.replaceOrNew')
             ],
             170,
             Qt.AlignmentFlag.AlignCenter
@@ -139,7 +139,7 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         print(error)
 
     def _refresh_sprites_and_actors_found_item(self, actor_name: str, actor_id: int, sprite_id: int, replace: bool) -> None:
-        self._sprite_list.add_item([actor_name, str(actor_id), str(sprite_id) if sprite_id > -1 else '-', self._lang.get_data('QBetterListWidget.replace') if replace else self._lang.get_data('QBetterListWidget.new')], None, [Qt.AlignmentFlag.AlignLeft, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter])
+        self._sprite_list.add_item([actor_name, str(actor_id), str(sprite_id) if sprite_id > -1 else '-', self._lang.get('QBetterListWidget.replace') if replace else self._lang.get('QBetterListWidget.new')], None, [Qt.AlignmentFlag.AlignLeft, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter])
 
     def terminate_task(self) -> None:
         if self._sprites_and_actors_worker is not None:

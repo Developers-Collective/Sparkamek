@@ -41,7 +41,7 @@ class ExternalData(BaseItemData):
 
         self._content_frame.grid_layout.setColumnStretch(3, 1)
 
-        self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get_data('QNamedLineEdit.title'))
+        self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title'))
         self._property_last_frame.title_lineedit.setText(self._data.title)
         self._property_last_frame.title_lineedit.line_edit.textChanged.connect(self._title_changed)
         self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title_lineedit, 0, 0)
@@ -53,7 +53,7 @@ class ExternalData(BaseItemData):
                     try: self._files.append(os.path.splitext(os.path.basename(file))[0])
                     except: pass
 
-        self._property_last_frame.type_combobox = QNamedComboBox(None, self._sublang.get_data('QNamedComboBox.type'))
+        self._property_last_frame.type_combobox = QNamedComboBox(None, self._sublang.get('QNamedComboBox.type'))
         self._property_last_frame.type_combobox.combo_box.addItems(self._files)
         if self._data.type in self._files: self._property_last_frame.type_combobox.combo_box.setCurrentIndex(self._files.index(self._data.type))
         self._property_last_frame.type_combobox.combo_box.currentIndexChanged.connect(self._type_changed)

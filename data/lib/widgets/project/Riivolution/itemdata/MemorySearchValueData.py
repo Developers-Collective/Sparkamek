@@ -41,7 +41,7 @@ class MemorySearchValueData(BaseSubItemData):
 
         self._back_button = QPushButton()
         self._back_button.setIcon(self._back_icon)
-        self._back_button.setText(self._lang.get_data('QPushButton.back'))
+        self._back_button.setText(self._lang.get('QPushButton.back'))
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
@@ -54,29 +54,29 @@ class MemorySearchValueData(BaseSubItemData):
         frame.scroll_layout.addWidget(subframe, 1, 0)
 
 
-        self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.original'), True)
-        self._original_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.original'))
+        self._original_hexspinbox = QNamedHexSpinBox(None, self._lang.get('PropertyWidget.QNamedHexSpinBox.original'), True)
+        self._original_hexspinbox.setToolTip(self._lang.get('PropertyWidget.QToolTip.original'))
         self._original_hexspinbox.set_range(0, 0xFFFFFFFFFFFFFFFF)
         self._original_hexspinbox.set_value(self._data.original)
         self._original_hexspinbox.value_changed.connect(self._original_changed)
         subframe.grid_layout.addWidget(self._original_hexspinbox, 0, 0)
 
-        self._value_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.value'), True)
-        self._value_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.value'))
+        self._value_hexspinbox = QNamedHexSpinBox(None, self._lang.get('PropertyWidget.QNamedHexSpinBox.value'), True)
+        self._value_hexspinbox.setToolTip(self._lang.get('PropertyWidget.QToolTip.value'))
         self._value_hexspinbox.set_range(0, 0xFFFFFFFFFFFFFFFF)
         self._value_hexspinbox.set_value(self._data.value)
         self._value_hexspinbox.value_changed.connect(self._value_changed)
         subframe.grid_layout.addWidget(self._value_hexspinbox, 1, 0)
 
-        self._align_spinbox = QNamedSpinBox(None, self._lang.get_data('PropertyWidget.QNamedSpinBox.align'))
-        self._align_spinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.align'))
+        self._align_spinbox = QNamedSpinBox(None, self._lang.get('PropertyWidget.QNamedSpinBox.align'))
+        self._align_spinbox.setToolTip(self._lang.get('PropertyWidget.QToolTip.align'))
         self._align_spinbox.set_range(1, 65535)
         self._align_spinbox.set_value(self._data.align)
         self._align_spinbox.value_changed.connect(self._align_changed)
         subframe.grid_layout.addWidget(self._align_spinbox, 2, 0)
 
-        self._comment_lineedit = QNamedTextEdit(None, '', self._lang.get_data('PropertyWidget.QNamedTextEdit.comment'))
-        self._comment_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.comment'))
+        self._comment_lineedit = QNamedTextEdit(None, '', self._lang.get('PropertyWidget.QNamedTextEdit.comment'))
+        self._comment_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.comment'))
         self._comment_lineedit.setText(self._data.comment)
         self._comment_lineedit.text_changed.connect(self._comment_changed)
         subframe.grid_layout.addWidget(self._comment_lineedit, 3, 0)
@@ -96,7 +96,7 @@ class MemorySearchValueData(BaseSubItemData):
         self._type_label.setText(f'{self.type}' + (f' • {comment}' if comment else ''))
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace('%s', f'0x{self._data.original:X}', 1).replace('%s', f'0x{self._data.value:X}', 1).replace('%s', f'{self._data.align:X}', 1)
+        s = self._lang.get('QLabel.text').replace('%s', f'0x{self._data.original:X}', 1).replace('%s', f'0x{self._data.value:X}', 1).replace('%s', f'{self._data.align:X}', 1)
         self._text_label.setText(s)
 
 

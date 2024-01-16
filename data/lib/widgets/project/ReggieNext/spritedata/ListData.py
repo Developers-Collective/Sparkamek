@@ -41,7 +41,7 @@ class ListData(BaseItemData):
 
         self._content_frame.grid_layout.setColumnStretch(2, 1)
 
-        self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get_data('QNamedLineEdit.title'))
+        self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title'))
         self._property_last_frame.title_lineedit.setText(self._data.title)
         self._property_last_frame.title_lineedit.line_edit.textChanged.connect(self._title_changed)
         self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title_lineedit, 0, 0)
@@ -55,7 +55,7 @@ class ListData(BaseItemData):
         self._property_last_frame.items_draglist.moved.connect(self.move_item)
         bottom_frame.grid_layout.addWidget(self._property_last_frame.items_draglist, 0, 0)
 
-        add_item_button = QPushButton(self._sublang.get_data('QPushButton.add'))
+        add_item_button = QPushButton(self._sublang.get('QPushButton.add'))
         add_item_button.setIcon(self._add_icon)
         add_item_button.setProperty('color', 'main')
         add_item_button.setCursor(Qt.CursorShape.PointingHandCursor)

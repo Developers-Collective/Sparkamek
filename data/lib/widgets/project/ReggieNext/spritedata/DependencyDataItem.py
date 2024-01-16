@@ -40,7 +40,7 @@ class DependencyDataItem(QDragListItem):
         self.grid_layout.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
         left_frame.grid_layout.setColumnStretch(2, 1)
 
-        self._id_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.spriteID'))
+        self._id_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.spriteID'))
         self._id_spinbox.spin_box.valueChanged.connect(self._id_changed)
         self._id_spinbox.setRange(0, 2147483647) # profileID is u32 (2^32 - 1) but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 2^31 sprites lmao
         self._id_spinbox.spin_box.setValue(data.sprite)

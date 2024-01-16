@@ -71,7 +71,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
-        self._create_button = QPushButton(self._lang.get_data('QPushButton.create'))
+        self._create_button = QPushButton(self._lang.get('QPushButton.create'))
         self._create_button.setIcon(self._create_icon)
         self._create_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._create_button.setProperty('icon-padding', True)
@@ -79,7 +79,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._create_button.clicked.connect(self._create)
         topframe.grid_layout.addWidget(self._create_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._delete_button = QPushButton(self._lang.get_data('QPushButton.delete'))
+        self._delete_button = QPushButton(self._lang.get('QPushButton.delete'))
         self._delete_button.setIcon(self._delete_icon)
         self._delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._delete_button.setProperty('icon-padding', True)
@@ -94,7 +94,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
 
-        self._import_button = QPushButton(self._lang.get_data('QPushButton.import'))
+        self._import_button = QPushButton(self._lang.get('QPushButton.import'))
         self._import_button.setIcon(self._import_icon)
         self._import_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._import_button.setProperty('icon-padding', True)
@@ -102,7 +102,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._import_button.clicked.connect(self._import)
         topframe.grid_layout.addWidget(self._import_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._export_button = QPushButton(self._lang.get_data('QPushButton.export'))
+        self._export_button = QPushButton(self._lang.get('QPushButton.export'))
         self._export_button.setIcon(self._export_icon)
         self._export_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._export_button.setProperty('icon-padding', True)
@@ -117,7 +117,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 2, 0, Qt.AlignmentFlag.AlignTop)
 
-        self._reset_button = QPushButton(self._lang.get_data('QPushButton.reset'))
+        self._reset_button = QPushButton(self._lang.get('QPushButton.reset'))
         self._reset_button.setIcon(self._reset_icon)
         self._reset_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._reset_button.setProperty('icon-padding', True)
@@ -126,7 +126,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._reset_button.setEnabled(False)
         topframe.grid_layout.addWidget(self._reset_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._clear_button = QPushButton(self._lang.get_data('QPushButton.clear'))
+        self._clear_button = QPushButton(self._lang.get('QPushButton.clear'))
         self._clear_button.setIcon(self._clear_icon)
         self._clear_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._clear_button.setProperty('icon-padding', True)
@@ -214,7 +214,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         path = QFileDialog.getOpenFileName(
             parent = self,
             dir = self._path,
-            caption = self._lang.get_data('QFileDialog.import'),
+            caption = self._lang.get('QFileDialog.import'),
             filter = 'XML (*.xml)'
         )[0]
 
@@ -232,7 +232,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
             for i, s in enumerate(ls, 1):
                 sprite = Sprite(s)
                 sprite.id = self._sprite_list_dock_widget.sprites.get_next_free_id()
-                fixed_sprite = ImportDialog(self._app.window, self._lang.get_data('ImportDialog'), sprite, i, len_ls).exec()
+                fixed_sprite = ImportDialog(self._app.window, self._lang.get('ImportDialog'), sprite, i, len_ls).exec()
 
                 if not fixed_sprite: return
                 self._sprite_list_dock_widget.import_item(fixed_sprite)
@@ -254,7 +254,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         path = QFileDialog.getSaveFileName(
             parent = self,
             dir = self._path,
-            caption = self._lang.get_data('QFileDialog.export'),
+            caption = self._lang.get('QFileDialog.export'),
             filter = 'XML (*.xml)'
         )[0]
 

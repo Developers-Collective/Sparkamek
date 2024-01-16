@@ -53,19 +53,19 @@ class SpriteWidget(QGridWidget):
         self._top_info_widget.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(self._top_info_widget, 0, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.generalInfo'))
+        label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         self._top_info_widget.grid_layout.addWidget(label, 0, 0, 1, 2)
 
-        self._id_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.spriteID'))
+        self._id_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.spriteID'))
         self._id_spinbox.spin_box.valueChanged.connect(self._id_changed)
         self._id_spinbox.setRange(0, 2147483647) # profileID is u32 (2^32 - 1) but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 2^31 sprites lmao
         self._id_spinbox.setValue(0)
         self._id_spinbox.setProperty('wide', True)
         self._top_info_widget.grid_layout.addWidget(self._id_spinbox, 1, 0)
 
-        self._name_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.name'))
+        self._name_lineedit = QNamedLineEdit(None, '', self._lang.get('QNamedLineEdit.name'))
         self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
         self._top_info_widget.grid_layout.addWidget(self._name_lineedit, 1, 1)
 
@@ -85,15 +85,15 @@ class SpriteWidget(QGridWidget):
         toggle_topframe.grid_layout.setSpacing(8)
         toggle_and_comment_frame.grid_layout.addWidget(toggle_topframe, 0, 0)
 
-        self._asmhacks_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.asmhacks'), False, True)
+        self._asmhacks_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.asmhacks'), False, True)
         self._asmhacks_toggle.toggle_button.toggled.connect(self._asmhacks_changed)
         toggle_topframe.grid_layout.addWidget(self._asmhacks_toggle, 0, 0)
 
-        self._sizehacks_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.sizehacks'), False, True)
+        self._sizehacks_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.sizehacks'), False, True)
         self._sizehacks_toggle.toggle_button.toggled.connect(self._sizehacks_changed)
         toggle_topframe.grid_layout.addWidget(self._sizehacks_toggle, 0, 1)
 
-        self._yoshi_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.yoshi'), False, True)
+        self._yoshi_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.yoshi'), False, True)
         self._yoshi_toggle.toggle_button.toggled.connect(self._yoshi_changed)
         toggle_topframe.grid_layout.addWidget(self._yoshi_toggle, 0, 2)
 
@@ -103,16 +103,16 @@ class SpriteWidget(QGridWidget):
         comment_middleframe.grid_layout.setSpacing(8)
         toggle_and_comment_frame.grid_layout.addWidget(comment_middleframe, 1, 0)
 
-        self._notes_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.notes'))
+        self._notes_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.notes'))
         self._notes_textedit.text_edit.textChanged.connect(self._notes_changed)
         comment_middleframe.grid_layout.addWidget(self._notes_textedit, 0, 0)
 
-        self._yoshinotes_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.yoshinotes'))
+        self._yoshinotes_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.yoshinotes'))
         self._yoshinotes_textedit.text_edit.textChanged.connect(self._yoshinotes_changed)
         comment_middleframe.grid_layout.addWidget(self._yoshinotes_textedit, 0, 1)
 
 
-        self._advancednotes_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.advancednotes'))
+        self._advancednotes_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.advancednotes'))
         self._advancednotes_textedit.text_edit.textChanged.connect(self._advancednotes_changed)
         comment_middleframe.grid_layout.addWidget(self._advancednotes_textedit, 0, 2)
 
@@ -122,7 +122,7 @@ class SpriteWidget(QGridWidget):
         self._dependencies_widget.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(self._dependencies_widget, 1, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.dependencies'))
+        label = QLabel(self._lang.get('QLabel.dependencies'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         self._dependencies_widget.grid_layout.addWidget(label, 0, 0)
@@ -139,7 +139,7 @@ class SpriteWidget(QGridWidget):
         required_frame.grid_layout.setSpacing(8)
         dependencies_bottom_frame.grid_layout.addWidget(required_frame, 1, 0, Qt.AlignmentFlag.AlignTop)
 
-        label = QLabel(self._lang.get_data('QLabel.required'))
+        label = QLabel(self._lang.get('QLabel.required'))
         label.setProperty('brighttitle', True)
         required_frame.grid_layout.addWidget(label, 0, 0)
 
@@ -147,7 +147,7 @@ class SpriteWidget(QGridWidget):
         self._required_draglist.moved.connect(self._required_entry_moved)
         required_frame.grid_layout.addWidget(self._required_draglist, 1, 0)
 
-        self._add_required_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_required_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_required_entry_button.setIcon(self._add_entry_icon)
         self._add_required_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_required_entry_button.setProperty('color', 'main')
@@ -160,7 +160,7 @@ class SpriteWidget(QGridWidget):
         suggested_frame.grid_layout.setSpacing(8)
         dependencies_bottom_frame.grid_layout.addWidget(suggested_frame, 1, 1, Qt.AlignmentFlag.AlignTop)
 
-        label = QLabel(self._lang.get_data('QLabel.suggested'))
+        label = QLabel(self._lang.get('QLabel.suggested'))
         label.setProperty('brighttitle', True)
         suggested_frame.grid_layout.addWidget(label, 0, 0)
 
@@ -168,7 +168,7 @@ class SpriteWidget(QGridWidget):
         self._suggested_draglist.moved.connect(self._suggested_entry_moved)
         suggested_frame.grid_layout.addWidget(self._suggested_draglist, 1, 0)
 
-        self._add_suggested_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_suggested_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_suggested_entry_button.setIcon(self._add_entry_icon)
         self._add_suggested_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_suggested_entry_button.setProperty('color', 'main')
@@ -181,7 +181,7 @@ class SpriteWidget(QGridWidget):
         self._settings_widget.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(self._settings_widget, 2, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.settings'))
+        label = QLabel(self._lang.get('QLabel.settings'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         self._settings_widget.grid_layout.addWidget(label, 0, 0)
@@ -190,7 +190,7 @@ class SpriteWidget(QGridWidget):
         self._settings_draglist.moved.connect(self._settings_entry_moved)
         self._settings_widget.grid_layout.addWidget(self._settings_draglist, 1, 0)
 
-        self._add_settings_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_settings_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_settings_entry_button.setIcon(self._add_entry_icon)
         self._add_settings_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_settings_entry_button.setProperty('color', 'main')
@@ -260,7 +260,7 @@ class SpriteWidget(QGridWidget):
                 self._suggested_draglist.add_item(item)
 
             for child in sprite.children:
-                item = ItemDataFactory.get_data(child.name)(child, self._path)
+                item = ItemDataFactory.get(child.name)(child, self._path)
 
                 self._settings_draglist.add_item(item)
                 item.selected.connect(self._entry_selected)
@@ -277,7 +277,7 @@ class SpriteWidget(QGridWidget):
                 used_settings |= child.nybbles.convert2int()
 
         s = f'{used_settings:016X}'
-        self._used_settings_label.setText(self._lang.get_data('QLabel.usedSettings').replace('%s', f'{s[:4]} {s[4:8]} {s[8:12]} {s[12:16]}'))
+        self._used_settings_label.setText(self._lang.get('QLabel.usedSettings').replace('%s', f'{s[:4]} {s[4:8]} {s[8:12]} {s[12:16]}'))
 
 
     def _settings_entry_moved(self, from_: int, to_: int) -> None:
@@ -304,7 +304,7 @@ class SpriteWidget(QGridWidget):
     def _add_settings_entry(self) -> None:
         if self._sprite is None: return
 
-        lang = self._lang.get_data('QMenu.addEntry')
+        lang = self._lang.get('QMenu.addEntry')
         send_param = lambda k: lambda: self._add_settings_entry_clicked(k)
 
         menu = QMenu(self)
@@ -313,7 +313,7 @@ class SpriteWidget(QGridWidget):
         actions_add_entry = []
 
         for item_t in ItemDataFactory.get_all():
-            action_add_entry = QAction(lang.get_data(f'QAction.add{item_t.child_cls.name.title()}'))
+            action_add_entry = QAction(lang.get(f'QAction.add{item_t.child_cls.name.title()}'))
             action_add_entry.setIcon(self._add_item_entry_icon)
             action_add_entry.triggered.connect(send_param(item_t.child_cls.name))
             actions_add_entry.append(action_add_entry)
@@ -326,7 +326,7 @@ class SpriteWidget(QGridWidget):
 
 
     def _add_settings_entry_clicked(self, key: str) -> None:
-        cls_ = ItemDataFactory.get_data(key)
+        cls_ = ItemDataFactory.get(key)
         if cls_ is None: return
 
         item = cls_(cls_.child_cls.create(), self._path)

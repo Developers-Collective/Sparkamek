@@ -32,13 +32,13 @@ class EntryListItem(QDragListItem):
         self.grid_layout.setSpacing(8)
 
 
-        self._value_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.value'))
+        self._value_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.value'))
         self._value_spinbox.setRange(0, 2147483647) # 16^16 - 1 but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 16^16 entries lmao
         self._value_spinbox.setValue(self._data.value)
         self._value_spinbox.spin_box.valueChanged.connect(self._value_changed)
         self.grid_layout.addWidget(self._value_spinbox, 0, 0)
 
-        self._item_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.item'))
+        self._item_lineedit = QNamedLineEdit(None, '', self._lang.get('QNamedLineEdit.item'))
         self._item_lineedit.setText(str(self._data.item))
         self._item_lineedit.line_edit.textChanged.connect(self._item_changed)
         self.grid_layout.addWidget(self._item_lineedit, 0, 1)

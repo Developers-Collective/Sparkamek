@@ -120,7 +120,7 @@ class BaseItemData(QDragListItem):
         nybble_frame.grid_layout.setSpacing(8)
         self._property_frame.grid_layout.addWidget(nybble_frame, self._property_frame.grid_layout.rowCount(), 0)
 
-        label = QLabel(self._lang.get_data('QLabel.nybbleTitle'))
+        label = QLabel(self._lang.get('QLabel.nybbleTitle'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         nybble_frame.grid_layout.addWidget(label, 0, 0)
@@ -135,7 +135,7 @@ class BaseItemData(QDragListItem):
         self._property_frame.grid_layout.addWidget(required_nybbleval_frame, self._property_frame.grid_layout.rowCount(), 0)
 
 
-        label = QLabel(self._lang.get_data('QLabel.propertyTitle'))
+        label = QLabel(self._lang.get('QLabel.propertyTitle'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         self._property_frame.grid_layout.addWidget(label, self._property_frame.grid_layout.rowCount(), 0)
@@ -151,12 +151,12 @@ class BaseItemData(QDragListItem):
         comment_frame.grid_layout.setSpacing(8)
         self._property_frame.grid_layout.addWidget(comment_frame, self._property_frame.grid_layout.rowCount(), 0)
 
-        self._property_frame._comment_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.comment'))
+        self._property_frame._comment_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.comment'))
         self._property_frame._comment_textedit.setText(self._data.comment)
         self._property_frame._comment_textedit.text_edit.textChanged.connect(self._comment_changed)
         comment_frame.grid_layout.addWidget(self._property_frame._comment_textedit, 0, 0)
 
-        self._property_frame._comment2_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.comment2'))
+        self._property_frame._comment2_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.comment2'))
         self._property_frame._comment2_textedit.setText(self._data.comment2)
         self._property_frame._comment2_textedit.text_edit.textChanged.connect(self._comment2_changed)
         comment_frame.grid_layout.addWidget(self._property_frame._comment2_textedit, 0, 1)
@@ -168,12 +168,12 @@ class BaseItemData(QDragListItem):
         self._property_frame.grid_layout.addWidget(advanced_frame, self._property_frame.grid_layout.rowCount(), 0)
 
 
-        self._property_frame.advanced_togglebutton = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.advanced'))
+        self._property_frame.advanced_togglebutton = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.advanced'))
         self._property_frame.advanced_togglebutton.setChecked(self._data.advanced)
         self._property_frame.advanced_togglebutton.toggle_button.stateChanged.connect(self._advanced_changed)
         advanced_frame.grid_layout.addWidget(self._property_frame.advanced_togglebutton, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._property_frame.advancedcomment_textedit = QNamedTextEdit(None, '', self._lang.get_data('QNamedTextEdit.advancedcomment'))
+        self._property_frame.advancedcomment_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.advancedcomment'))
         if not data.advanced: self._property_frame.advancedcomment_textedit.hide()
         self._property_frame.advancedcomment_textedit.setText(self._data.advancedcomment)
         self._property_frame.advancedcomment_textedit.text_edit.textChanged.connect(self._advancedcomment_changed)
@@ -186,10 +186,10 @@ class BaseItemData(QDragListItem):
 
 
     def _update_title_text(self) -> None:
-        s = [self._lang.get_data('QLabel.requiredNybbleValue').replace('%s', reqnybble.nybbles.export(), 1).replace('%s', reqnybble.values.export(), 1) for reqnybble in self._data.requirednybblevals]
+        s = [self._lang.get('QLabel.requiredNybbleValue').replace('%s', reqnybble.nybbles.export(), 1).replace('%s', reqnybble.values.export(), 1) for reqnybble in self._data.requirednybblevals]
 
         if s:
-            t = self._lang.get_data('QLabel.requiredNybbles').replace('%s', ' | '.join(s))
+            t = self._lang.get('QLabel.requiredNybbles').replace('%s', ' | '.join(s))
             self._type_label.setText(f'{self.type} • {t}')
 
         else: self._type_label.setText(self.type)
@@ -197,10 +197,10 @@ class BaseItemData(QDragListItem):
     def _update_nybbles_settings_text(self) -> None:
         l = self._data.nybbles.export().split('-')
         if len(l) == 1: l = l[0]
-        else: l = self._lang.get_data('QLabel.nybbleRange').replace('%s', l[0], 1).replace('%s', l[1], 1)
+        else: l = self._lang.get('QLabel.nybbleRange').replace('%s', l[0], 1).replace('%s', l[1], 1)
 
-        self._nybbles_label.setText(self._lang.get_data('QLabel.nybbles').replace('%s', l))
-        self._settings_label.setText(self._lang.get_data('QLabel.settings').replace('%s', self._data.nybbles.convert2hex_formatted()))
+        self._nybbles_label.setText(self._lang.get('QLabel.nybbles').replace('%s', l))
+        self._settings_label.setText(self._lang.get('QLabel.settings').replace('%s', self._data.nybbles.convert2hex_formatted()))
 
     def _delete(self) -> None:
         self.deleted.emit(self)

@@ -49,12 +49,12 @@ class DualBoxData(BaseItemData):
 
         self._content_frame.grid_layout.setColumnStretch(4, 1)
 
-        self._property_last_frame.title1_lineedit = QNamedLineEdit(None, '', self._sublang.get_data('QNamedLineEdit.title1'))
+        self._property_last_frame.title1_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title1'))
         self._property_last_frame.title1_lineedit.setText(self._data.title1)
         self._property_last_frame.title1_lineedit.line_edit.textChanged.connect(self._title1_changed)
         self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title1_lineedit, 0, 0)
 
-        self._property_last_frame.title2_lineedit = QNamedLineEdit(None, '', self._sublang.get_data('QNamedLineEdit.title2'))
+        self._property_last_frame.title2_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title2'))
         self._property_last_frame.title2_lineedit.setText(self._data.title2)
         self._property_last_frame.title2_lineedit.line_edit.textChanged.connect(self._title2_changed)
         self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title2_lineedit, 0, 1)

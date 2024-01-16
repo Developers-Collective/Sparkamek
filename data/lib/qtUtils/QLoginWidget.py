@@ -22,18 +22,18 @@ class QLoginWidget(QGridFrame):
         self.grid_layout.setSpacing(20)
         self.setFixedSize(300, 200)
 
-        self._username = QNamedLineEdit(None, '', lang.get_data('QNamedLineEdit.username'))
+        self._username = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.username'))
         self._username.line_edit.setProperty('small', True)
         self._username.setText(username)
         self.grid_layout.addWidget(self._username, 0, 0)
 
-        self._password = QNamedLineEdit(None, '', lang.get_data('QNamedLineEdit.password'))
+        self._password = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.password'))
         self._password.line_edit.setEchoMode(QLineEdit.EchoMode.Password)
         self._password.setText(password)
         self.grid_layout.addWidget(self._password, 1, 0)
 
         if remember_checkbox:
-            self._remember = QNamedToggleButton(None, lang.get_data('QNamedToggleButton.remember'), False, True)
+            self._remember = QNamedToggleButton(None, lang.get('QNamedToggleButton.remember'), False, True)
             self._remember.setChecked(remember)
             self.grid_layout.addWidget(self._remember, 2, 0)
             self.grid_layout.setAlignment(self._remember, Qt.AlignmentFlag.AlignRight)

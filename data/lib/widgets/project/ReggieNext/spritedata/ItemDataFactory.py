@@ -34,7 +34,7 @@ class ItemDataFactory:
         ItemDataFactory._data[data.child_cls.name] = data
 
     @staticmethod
-    def get_data(name: str) -> type[BaseItemData]:
+    def get(name: str) -> type[BaseItemData]:
         return ItemDataFactory._data.get(name, BaseItemData)
 
     @staticmethod

@@ -56,18 +56,18 @@ class WiiDiscWidget(QGridWidget):
         self._top_info_widget.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(self._top_info_widget, 0, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.generalInfo'))
+        label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         self._top_info_widget.grid_layout.addWidget(label, 0, 0, 1, 2)
 
-        self._root_lineedit = QNamedLineEdit(None, '', self._lang.get_data('QNamedLineEdit.root'))
-        self._root_lineedit.setToolTip(self._lang.get_data('QToolTip.root'))
+        self._root_lineedit = QNamedLineEdit(None, '', self._lang.get('QNamedLineEdit.root'))
+        self._root_lineedit.setToolTip(self._lang.get('QToolTip.root'))
         self._root_lineedit.line_edit.textChanged.connect(self._root_changed)
         self._top_info_widget.grid_layout.addWidget(self._root_lineedit, 1, 0)
 
-        self._version_spinbox = QNamedSpinBox(None, self._lang.get_data('QNamedSpinBox.version'))
-        self._version_spinbox.setToolTip(self._lang.get_data('QToolTip.version'))
+        self._version_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.version'))
+        self._version_spinbox.setToolTip(self._lang.get('QToolTip.version'))
         self._version_spinbox.spin_box.valueChanged.connect(self._version_changed)
         self._version_spinbox.setRange(1, 1)
         self._version_spinbox.setValue(1)
@@ -91,7 +91,7 @@ class WiiDiscWidget(QGridWidget):
         frame.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(frame, 3, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.patches'))
+        label = QLabel(self._lang.get('QLabel.patches'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         frame.grid_layout.addWidget(label, 0, 0)
@@ -100,7 +100,7 @@ class WiiDiscWidget(QGridWidget):
         self._patch_draglist.moved.connect(self._patch_entry_moved)
         frame.grid_layout.addWidget(self._patch_draglist, 1, 0)
 
-        self._add_patch_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_patch_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_patch_entry_button.setIcon(self._add_entry_icon)
         self._add_patch_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_patch_entry_button.setProperty('color', 'main')

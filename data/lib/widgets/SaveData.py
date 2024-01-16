@@ -76,16 +76,16 @@ class SaveData(QSaveData):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = QSettingsDialog._text_group(lang.get_data('QLabel.checkForUpdates.title'), lang.get_data('QLabel.checkForUpdates.description'))
+        label = QSettingsDialog._text_group(lang.get('QLabel.checkForUpdates.title'), lang.get('QLabel.checkForUpdates.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        widget.check_for_updates_combobox = QNamedComboBox(None, lang.get_data('QNamedComboBox.checkForUpdates.title'))
+        widget.check_for_updates_combobox = QNamedComboBox(None, lang.get('QNamedComboBox.checkForUpdates.title'))
         widget.check_for_updates_combobox.combo_box.addItems([
-            lang.get_data('QNamedComboBox.checkForUpdates.values.never'),
-            lang.get_data('QNamedComboBox.checkForUpdates.values.daily'),
-            lang.get_data('QNamedComboBox.checkForUpdates.values.weekly'),
-            lang.get_data('QNamedComboBox.checkForUpdates.values.monthly'),
-            lang.get_data('QNamedComboBox.checkForUpdates.values.atLaunch')
+            lang.get('QNamedComboBox.checkForUpdates.values.never'),
+            lang.get('QNamedComboBox.checkForUpdates.values.daily'),
+            lang.get('QNamedComboBox.checkForUpdates.values.weekly'),
+            lang.get('QNamedComboBox.checkForUpdates.values.monthly'),
+            lang.get('QNamedComboBox.checkForUpdates.values.atLaunch')
         ])
         widget.check_for_updates_combobox.combo_box.setCurrentIndex(self.check_for_updates)
         root_frame.grid_layout.addWidget(widget.check_for_updates_combobox, root_frame.grid_layout.count(), 0)
@@ -109,11 +109,11 @@ class SaveData(QSaveData):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        # label = QSettingsDialog.textGroup(lang.get_data('QLabel.startAtLaunch.title'), lang.get_data('QLabel.startAtLaunch.description'))
+        # label = QSettingsDialog.textGroup(lang.get('QLabel.startAtLaunch.title'), lang.get('QLabel.startAtLaunch.description'))
         # root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.start_at_launch_checkbox = QNamedToggleButton()
-        widget.start_at_launch_checkbox.setText(lang.get_data('QNamedToggleButton.startAtLaunch'))
+        widget.start_at_launch_checkbox.setText(lang.get('QNamedToggleButton.startAtLaunch'))
         widget.start_at_launch_checkbox.setChecked(self.start_at_launch)
         # root_frame.grid_layout.addWidget(widget.start_at_launch_checkbox, root_frame.grid_layout.count(), 0)
         # root_frame.grid_layout.setAlignment(widget.start_at_launch_checkbox, Qt.AlignmentFlag.AlignLeft)
@@ -125,11 +125,11 @@ class SaveData(QSaveData):
         # root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = QSettingsDialog._text_group(lang.get_data('QLabel.minimizeToTray.title'), lang.get_data('QLabel.minimizeToTray.description'))
+        label = QSettingsDialog._text_group(lang.get('QLabel.minimizeToTray.title'), lang.get('QLabel.minimizeToTray.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.minimize_to_tray_checkbox = QNamedToggleButton()
-        widget.minimize_to_tray_checkbox.setText(lang.get_data('QNamedToggleButton.minimizeToTray'))
+        widget.minimize_to_tray_checkbox.setText(lang.get('QNamedToggleButton.minimizeToTray'))
         widget.minimize_to_tray_checkbox.setChecked(self.minimize_to_tray)
         root_frame.grid_layout.addWidget(widget.minimize_to_tray_checkbox, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(widget.minimize_to_tray_checkbox, Qt.AlignmentFlag.AlignLeft)
@@ -141,14 +141,14 @@ class SaveData(QSaveData):
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = QSettingsDialog._text_group(lang.get_data('QLabel.compactPaths.title'), lang.get_data('QLabel.compactPaths.description'))
+        label = QSettingsDialog._text_group(lang.get('QLabel.compactPaths.title'), lang.get('QLabel.compactPaths.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        widget.compact_paths_combobox = QNamedComboBox(None, lang.get_data('QNamedComboBox.compactPaths.title'))
+        widget.compact_paths_combobox = QNamedComboBox(None, lang.get('QNamedComboBox.compactPaths.title'))
         widget.compact_paths_combobox.combo_box.addItems([
-            lang.get_data('QNamedComboBox.compactPaths.values.auto'),
-            lang.get_data('QNamedComboBox.compactPaths.values.enabled'),
-            lang.get_data('QNamedComboBox.compactPaths.values.disabled')
+            lang.get('QNamedComboBox.compactPaths.values.auto'),
+            lang.get('QNamedComboBox.compactPaths.values.enabled'),
+            lang.get('QNamedComboBox.compactPaths.values.disabled')
         ])
         widget.compact_paths_combobox.combo_box.setCurrentIndex(self.compact_paths)
         root_frame.grid_layout.addWidget(widget.compact_paths_combobox, root_frame.grid_layout.count(), 0)
@@ -188,19 +188,19 @@ class SaveData(QSaveData):
         root_frame.grid_layout.addWidget(buttonframe, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(buttonframe, Qt.AlignmentFlag.AlignTop)
 
-        button = QPushButton(lang.get_data('QPushButton.checkAll'))
+        button = QPushButton(lang.get('QPushButton.checkAll'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.setProperty('color', 'main')
         button.clicked.connect(lambda: check_all(True))
         buttonframe.grid_layout.addWidget(button, 0, buttonframe.grid_layout.count())
 
-        button = QPushButton(lang.get_data('QPushButton.uncheckAll'))
+        button = QPushButton(lang.get('QPushButton.uncheckAll'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.setProperty('color', 'main')
         button.clicked.connect(lambda: check_all(False))
         buttonframe.grid_layout.addWidget(button, 0, buttonframe.grid_layout.count())
 
-        button = QPushButton(lang.get_data('QPushButton.invertAll'))
+        button = QPushButton(lang.get('QPushButton.invertAll'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.setProperty('color', 'main')
         button.clicked.connect(lambda: invert_all())
@@ -220,11 +220,11 @@ class SaveData(QSaveData):
             frame.setFixedHeight(1)
             subframe.grid_layout.addWidget(frame, subframe.grid_layout.count(), 0)
 
-            label = QSettingsDialog._text_group(lang.get_data(f'QLabel.{key}.title'), lang.get_data(f'QLabel.{key}.description'))
+            label = QSettingsDialog._text_group(lang.get(f'QLabel.{key}.title'), lang.get(f'QLabel.{key}.description'))
             subframe.grid_layout.addWidget(label, subframe.grid_layout.count(), 0)
 
             w = QNamedToggleButton()
-            w.setText(lang.get_data(f'QNamedToggleButton.{key}'))
+            w.setText(lang.get(f'QNamedToggleButton.{key}'))
             w.setChecked(checked)
             subframe.grid_layout.addWidget(w, subframe.grid_layout.count(), 0)
             subframe.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
@@ -259,12 +259,12 @@ class SaveData(QSaveData):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = QSettingsDialog._text_group(lang.get_data('QLabel.devkitPPCPath.title'), lang.get_data('QLabel.devkitPPCPath.description'))
+        label = QSettingsDialog._text_group(lang.get('QLabel.devkitPPCPath.title'), lang.get('QLabel.devkitPPCPath.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         widget.devkitppc_folder_button = QFileButton(
             None,
-            lang.get_data('QFileButton.devkitPPCPath'),
+            lang.get('QFileButton.devkitPPCPath'),
             self.devkitppc_path,
             f'{self.get_icon_dir()}filebutton/folder.png',
             QFiles.Dialog.ExistingDirectory

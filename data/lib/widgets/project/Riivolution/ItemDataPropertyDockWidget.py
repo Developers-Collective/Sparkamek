@@ -13,7 +13,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
         ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.ItemDataPropertyDockWidget')
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
-        super().__init__(self._lang.get_data('title').replace('%s', str(None)))
+        super().__init__(self._lang.get('title').replace('%s', str(None)))
 
         self._root = QScrollableGridWidget()
         self._root.setProperty('wide', True)
@@ -27,7 +27,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
         self.update_title(None)
 
     def update_title(self, type: str | None) -> None:
-        self.setWindowTitle(self._lang.get_data('title').replace('%s', f'{type}') if type else self._lang.get_data('title').replace('%s', str(None)))
+        self.setWindowTitle(self._lang.get('title').replace('%s', f'{type}') if type else self._lang.get('title').replace('%s', str(None)))
 
     def set_widget(self, widget: QGridWidget | None) -> None:
         self.update_title(widget.type if widget else None)

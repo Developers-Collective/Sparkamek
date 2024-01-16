@@ -60,7 +60,7 @@ class QLangData:
             self._data[key] = value
 
 
-    def get(self, path: str) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:
+    def get(self, path: str, default: Union[str, 'QLangData', None] = None) -> Union[str, 'QLangData', list[Union[str, 'QLangData']]]:
         keys = path.split('.')
         data = self
 
@@ -68,6 +68,7 @@ class QLangData:
             try: data = data[key]
             except KeyError as e: raise Exception(f'Cannot find {e.args[0]} of {path} in {self._current_file}')
 
+        if default is not None and isinstance(data, self.NoTranslation): return default
         return data
 
 

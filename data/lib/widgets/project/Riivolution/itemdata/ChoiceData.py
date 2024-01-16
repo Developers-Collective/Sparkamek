@@ -53,7 +53,7 @@ class ChoiceData(BaseSubItemData):
 
         self._back_button = QPushButton()
         self._back_button.setIcon(self._back_icon)
-        self._back_button.setText(self._lang.get_data('QPushButton.back'))
+        self._back_button.setText(self._lang.get('QPushButton.back'))
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
@@ -65,13 +65,13 @@ class ChoiceData(BaseSubItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         frame.scroll_layout.addWidget(subframe, 1, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.generalInfo'))
+        label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
 
-        self._name_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.name'))
-        self._name_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.name'))
+        self._name_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.name'))
+        self._name_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.name'))
         self._name_lineedit.line_edit.setText(self._data.name_)
         self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
         subframe.grid_layout.addWidget(self._name_lineedit, 1, 0)
@@ -84,7 +84,7 @@ class ChoiceData(BaseSubItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         frame.scroll_layout.addWidget(subframe, 2, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.patches'))
+        label = QLabel(self._lang.get('QLabel.patches'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
@@ -93,7 +93,7 @@ class ChoiceData(BaseSubItemData):
         self._patchref_draglist.moved.connect(self._patchref_entry_moved)
         subframe.grid_layout.addWidget(self._patchref_draglist, 1, 0)
 
-        self._add_patchref_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_patchref_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_patchref_entry_button.setIcon(self._add_entry_icon)
         self._add_patchref_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_patchref_entry_button.setProperty('color', 'main')
@@ -135,7 +135,7 @@ class ChoiceData(BaseSubItemData):
 
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace('%s', self._data.name_, 1).replace('%s', str(len(self._data.patchref_children)), 1)
+        s = self._lang.get('QLabel.text').replace('%s', self._data.name_, 1).replace('%s', str(len(self._data.patchref_children)), 1)
         self._optionname_label.setText(s)
         self._name_lineedit.line_edit.setText(self._data.name_)
 

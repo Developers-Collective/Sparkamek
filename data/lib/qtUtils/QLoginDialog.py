@@ -41,14 +41,14 @@ class QLoginDialog(QDialog):
         right_buttons.grid_layout.setSpacing(16)
         right_buttons.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        button = QPushButton(lang.get_data('QPushButton.cancel'))
+        button = QPushButton(lang.get('QPushButton.cancel'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.clicked.connect(self.reject)
         button.setProperty('color', 'white')
         button.setProperty('transparent', True)
         right_buttons.grid_layout.addWidget(button, 0, 0)
 
-        button = QPushButton(lang.get_data('QPushButton.login'))
+        button = QPushButton(lang.get('QPushButton.login'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.clicked.connect(self.accept)
         button.setProperty('color', 'main')

@@ -67,19 +67,19 @@ class PatchData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         frame.scroll_layout.addWidget(subframe, 0, 0, 1, 2)
 
-        label = QLabel(self._lang.get_data('QLabel.generalInfo'))
+        label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
 
-        self._id_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.id'))
-        self._id_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.id'))
+        self._id_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.id'))
+        self._id_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.id'))
         self._id_lineedit.line_edit.setText(self._data.id)
         self._id_lineedit.line_edit.textChanged.connect(self._id_changed)
         subframe.grid_layout.addWidget(self._id_lineedit, 1, 0)
 
-        self._root_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.root'))
-        self._root_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.root'))
+        self._root_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.root'))
+        self._root_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.root'))
         self._root_lineedit.line_edit.setText(self._data.root)
         self._root_lineedit.line_edit.textChanged.connect(self._root_changed)
         subframe.grid_layout.addWidget(self._root_lineedit, 2, 0)
@@ -103,7 +103,7 @@ class PatchData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         leftframe.grid_layout.addWidget(subframe, 0, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.files'))
+        label = QLabel(self._lang.get('QLabel.files'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
@@ -112,7 +112,7 @@ class PatchData(BaseItemData):
         self._file_draglist.moved.connect(self._file_entry_moved)
         subframe.grid_layout.addWidget(self._file_draglist, 1, 0)
 
-        self._add_file_entry_button = QPushButton(self._lang.get_data('QPushButton.addFile'))
+        self._add_file_entry_button = QPushButton(self._lang.get('QPushButton.addFile'))
         self._add_file_entry_button.setIcon(self._add_entry_icon)
         self._add_file_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_file_entry_button.setProperty('color', 'main')
@@ -128,7 +128,7 @@ class PatchData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         rightframe.grid_layout.addWidget(subframe, 0, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.folders'))
+        label = QLabel(self._lang.get('QLabel.folders'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
@@ -137,7 +137,7 @@ class PatchData(BaseItemData):
         self._folder_draglist.moved.connect(self._folder_entry_moved)
         subframe.grid_layout.addWidget(self._folder_draglist, 1, 0)
 
-        self._add_folder_entry_button = QPushButton(self._lang.get_data('QPushButton.addFolder'))
+        self._add_folder_entry_button = QPushButton(self._lang.get('QPushButton.addFolder'))
         self._add_folder_entry_button.setIcon(self._add_entry_icon)
         self._add_folder_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_folder_entry_button.setProperty('color', 'main')
@@ -153,7 +153,7 @@ class PatchData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         leftframe.grid_layout.addWidget(subframe, 1, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.savegames'))
+        label = QLabel(self._lang.get('QLabel.savegames'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
@@ -162,7 +162,7 @@ class PatchData(BaseItemData):
         self._savegame_draglist.moved.connect(self._savegame_entry_moved)
         subframe.grid_layout.addWidget(self._savegame_draglist, 1, 0)
 
-        self._add_savegame_entry_button = QPushButton(self._lang.get_data('QPushButton.addSavegame'))
+        self._add_savegame_entry_button = QPushButton(self._lang.get('QPushButton.addSavegame'))
         self._add_savegame_entry_button.setIcon(self._add_entry_icon)
         self._add_savegame_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_savegame_entry_button.setProperty('color', 'main')
@@ -176,7 +176,7 @@ class PatchData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         leftframe.grid_layout.addWidget(subframe, 2, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.memories'))
+        label = QLabel(self._lang.get('QLabel.memories'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
@@ -185,7 +185,7 @@ class PatchData(BaseItemData):
         self._memory_draglist.moved.connect(self._memory_entry_moved)
         subframe.grid_layout.addWidget(self._memory_draglist, 1, 0)
 
-        self._add_memory_entry_button = QPushButton(self._lang.get_data('QPushButton.addMemory'))
+        self._add_memory_entry_button = QPushButton(self._lang.get('QPushButton.addMemory'))
         self._add_memory_entry_button.setIcon(self._add_entry_icon)
         self._add_memory_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_memory_entry_button.setProperty('color', 'main')
@@ -266,7 +266,7 @@ class PatchData(BaseItemData):
 
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace(
+        s = self._lang.get('QLabel.text').replace(
             '%s', self._data.id, 1
         ).replace(
             '%s', str(
@@ -379,7 +379,7 @@ class PatchData(BaseItemData):
         self._send_data()
 
     def _add_memory_entry(self) -> None:
-        lang = self._lang.get_data('QMenu.addEntry')
+        lang = self._lang.get('QMenu.addEntry')
         send_param = lambda k: lambda: self._add_memory_entry_clicked(k)
 
         menu = QMenu(self)
@@ -388,7 +388,7 @@ class PatchData(BaseItemData):
         actions_add_entry = []
 
         for memory_item_t in MemoryDataFactory.get_all():
-            action_add_entry = QAction(lang.get_data(f'QAction.add{memory_item_t.child_cls.key.title()}'))
+            action_add_entry = QAction(lang.get(f'QAction.add{memory_item_t.child_cls.key.title()}'))
             action_add_entry.setIcon(self._add_memory_entry_icon)
             action_add_entry.triggered.connect(send_param(memory_item_t.child_cls.key))
             actions_add_entry.append(action_add_entry)
@@ -400,7 +400,7 @@ class PatchData(BaseItemData):
         self._send_data()
 
     def _add_memory_entry_clicked(self, key: str) -> None:
-        cls_ = MemoryDataFactory.get_data(key)
+        cls_ = MemoryDataFactory.get(key)
         if cls_ is None: return
 
         m = cls_.child_cls.create()

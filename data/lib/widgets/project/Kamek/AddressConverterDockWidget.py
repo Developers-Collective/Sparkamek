@@ -27,7 +27,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
 
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
-        super().__init__(self._lang.get_data('title').replace('%s', name))
+        super().__init__(self._lang.get('title').replace('%s', name))
 
         self._name = name
         self._icon = icon
@@ -61,7 +61,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
             (['C'] if data.get('generateCN', None) else [])
         )
 
-        translated_regions = [self._lang.get_data('QNamedComboBox.region.values').get(region, region).replace('%s', region) for region in self._regions]
+        translated_regions = [self._lang.get('QNamedComboBox.region.values').get(region, region).replace('%s', region) for region in self._regions]
 
 
         frame = QGridWidget()
@@ -71,21 +71,21 @@ class AddressConverterDockWidget(QSavableDockWidget):
         frame.grid_layout.setColumnStretch(5, 1)
 
 
-        left_groupbox = QGridGroupBox(self._lang.get_data('QGridGroupBox.input.title'))
+        left_groupbox = QGridGroupBox(self._lang.get('QGridGroupBox.input.title'))
         left_groupbox.setProperty('QDockWidget', True)
         left_groupbox.grid_layout.setContentsMargins(64, 16, 64, 16)
         left_groupbox.grid_layout.setSpacing(8)
         frame.grid_layout.addWidget(left_groupbox, 0, 0)
         left_groupbox.grid_layout.setRowStretch(2, 1)
 
-        self._input_combobox = QNamedComboBox(None, self._lang.get_data('QGridGroupBox.input.QNamedComboBox.region.title'))
+        self._input_combobox = QNamedComboBox(None, self._lang.get('QGridGroupBox.input.QNamedComboBox.region.title'))
         self._input_combobox.setCursor(Qt.CursorShape.PointingHandCursor)
         self._input_combobox.addItems(translated_regions)
         self._input_combobox.setCurrentIndex(0)
         left_groupbox.grid_layout.addWidget(self._input_combobox, 0, 0)
         self._input_combobox.combo_box.currentIndexChanged.connect(self._convert)
 
-        self._input_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('QGridGroupBox.input.QNamedHexSpinBox.address'))
+        self._input_hexspinbox = QNamedHexSpinBox(None, self._lang.get('QGridGroupBox.input.QNamedHexSpinBox.address'))
         self._input_hexspinbox.set_range(0, 0x80999999)
         self._input_hexspinbox.set_value(0x80000000)
         left_groupbox.grid_layout.addWidget(self._input_hexspinbox, 1, 0)
@@ -96,14 +96,14 @@ class AddressConverterDockWidget(QSavableDockWidget):
         frame.grid_layout.addWidget(convert_direction_button_left, 0, 1)
 
 
-        middle_groupbox = QGridGroupBox(self._lang.get_data('QGridGroupBox.default.title'))
+        middle_groupbox = QGridGroupBox(self._lang.get('QGridGroupBox.default.title'))
         middle_groupbox.setProperty('QDockWidget', True)
         middle_groupbox.grid_layout.setContentsMargins(64, 16, 64, 16)
         middle_groupbox.grid_layout.setSpacing(8)
         frame.grid_layout.addWidget(middle_groupbox, 0, 2)
         middle_groupbox.grid_layout.setRowStretch(2, 1)
 
-        self._middle_combobox = QNamedComboBox(None, self._lang.get_data('QGridGroupBox.default.QNamedComboBox.region.title'))
+        self._middle_combobox = QNamedComboBox(None, self._lang.get('QGridGroupBox.default.QNamedComboBox.region.title'))
         self._middle_combobox.setCursor(Qt.CursorShape.ForbiddenCursor)
         self._middle_combobox.addItems([translated_regions[0]])
         self._middle_combobox.setCurrentIndex(0)
@@ -115,7 +115,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
         row_frame.grid_layout.setSpacing(8)
         middle_groupbox.grid_layout.addWidget(row_frame, 1, 0)
 
-        self._middle_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('QGridGroupBox.default.QNamedHexSpinBox.address'))
+        self._middle_hexspinbox = QNamedHexSpinBox(None, self._lang.get('QGridGroupBox.default.QNamedHexSpinBox.address'))
         self._middle_hexspinbox.set_range(0, 0x80999999)
         self._middle_hexspinbox.set_value(0x80000000)
         row_frame.grid_layout.addWidget(self._middle_hexspinbox, 0, 0)
@@ -129,14 +129,14 @@ class AddressConverterDockWidget(QSavableDockWidget):
         frame.grid_layout.addWidget(convert_direction_button_right, 0, 3)
 
 
-        right_groupbox = QGridGroupBox(self._lang.get_data('QGridGroupBox.output.title'))
+        right_groupbox = QGridGroupBox(self._lang.get('QGridGroupBox.output.title'))
         right_groupbox.setProperty('QDockWidget', True)
         right_groupbox.grid_layout.setContentsMargins(64, 16, 64, 16)
         right_groupbox.grid_layout.setSpacing(8)
         frame.grid_layout.addWidget(right_groupbox, 0, 4)
         right_groupbox.grid_layout.setRowStretch(2, 1)
 
-        self._output_combobox = QNamedComboBox(None, self._lang.get_data('QGridGroupBox.output.QNamedComboBox.region.title'))
+        self._output_combobox = QNamedComboBox(None, self._lang.get('QGridGroupBox.output.QNamedComboBox.region.title'))
         self._output_combobox.setCursor(Qt.CursorShape.PointingHandCursor)
         self._output_combobox.addItems(translated_regions)
         self._output_combobox.setCurrentIndex(0)
@@ -148,7 +148,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
         row_frame.grid_layout.setSpacing(8)
         right_groupbox.grid_layout.addWidget(row_frame, 1, 0)
 
-        self._output_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('QGridGroupBox.output.QNamedHexSpinBox.address'))
+        self._output_hexspinbox = QNamedHexSpinBox(None, self._lang.get('QGridGroupBox.output.QNamedHexSpinBox.address'))
         self._output_hexspinbox.set_range(0, 0x80999999)
         self._output_hexspinbox.set_value(0x80000000)
         self._output_hexspinbox.hex_spinbox.setReadOnly(True)
@@ -187,7 +187,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
             self._middle_icon_widget.icon = AddressConverterDockWidget._warning_icon
 
             self._app.show_alert(
-                self._lang.get_data('QSystemTrayIcon.showMessage.inputOverlap').replace('%s', f'{input_address:X}', 1),
+                self._lang.get('QSystemTrayIcon.showMessage.inputOverlap').replace('%s', f'{input_address:X}', 1),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -205,7 +205,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
             error = True
 
             self._app.show_alert(
-                self._lang.get_data('QSystemTrayIcon.showMessage.outputOverlap').replace('%s', f'{output_address:X}', 1).replace('%s', output_region, 1),
+                self._lang.get('QSystemTrayIcon.showMessage.outputOverlap').replace('%s', f'{output_address:X}', 1).replace('%s', output_region, 1),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -217,7 +217,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
             self._output_icon_widget.icon = AddressConverterDockWidget._warning_icon
 
             self._app.show_alert(
-                self._lang.get_data('QSystemTrayIcon.showMessage.noChange').replace('%s', f'{input_address:X}', 1).replace('%s', output_region, 1),
+                self._lang.get('QSystemTrayIcon.showMessage.noChange').replace('%s', f'{input_address:X}', 1).replace('%s', output_region, 1),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,

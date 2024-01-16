@@ -36,7 +36,7 @@ class CheckBoxData(BaseItemData):
 
         self._content_frame.grid_layout.setColumnStretch(2, 1)
 
-        self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get_data('QNamedLineEdit.title'))
+        self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title'))
         self._property_last_frame.title_lineedit.setText(self._data.title)
         self._property_last_frame.title_lineedit.line_edit.textChanged.connect(self._title_changed)
         self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title_lineedit, 0, 0)

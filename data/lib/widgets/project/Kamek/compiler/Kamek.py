@@ -124,11 +124,11 @@ class DyLinkCreator:
         target_struct_pack = struct.Struct('>I').pack
 
         rel_data = map(lambda x: rel_struct_pack((x[0] << 24) | x[2], x[1]), self._relocs)
-        target_data = map(target_struct_pack, self._targets)
+        target = map(target_struct_pack, self._targets)
 
         header = header_struct.pack(b'NewerREL', 12 + (len(self._relocs) * 8))
 
-        return header + b''.join(rel_data) + b''.join(target_data)
+        return header + b''.join(rel_data) + b''.join(target)
 
 
 

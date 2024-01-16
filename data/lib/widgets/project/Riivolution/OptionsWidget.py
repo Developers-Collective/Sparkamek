@@ -46,7 +46,7 @@ class OptionsWidget(QGridWidget):
         frame.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(frame, 0, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.options'))
+        label = QLabel(self._lang.get('QLabel.options'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         frame.grid_layout.addWidget(label, 2, 0)
@@ -55,7 +55,7 @@ class OptionsWidget(QGridWidget):
         self._section_draglist.moved.connect(self._section_entry_moved)
         frame.grid_layout.addWidget(self._section_draglist, 3, 0)
 
-        self._add_section_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_section_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_section_entry_button.setIcon(self._add_entry_icon)
         self._add_section_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_section_entry_button.setProperty('color', 'main')

@@ -48,7 +48,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
-        self._load_button = QPushButton(self._lang.get_data('QPushButton.load'))
+        self._load_button = QPushButton(self._lang.get('QPushButton.load'))
         self._load_button.setIcon(self._load_icon)
         self._load_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._load_button.setProperty('icon-padding', True)
@@ -56,7 +56,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
         self._load_button.clicked.connect(self._load)
         topframe.grid_layout.addWidget(self._load_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._save_button = QPushButton(self._lang.get_data('QPushButton.save'))
+        self._save_button = QPushButton(self._lang.get('QPushButton.save'))
         self._save_button.setIcon(self._save_icon)
         self._save_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._save_button.setProperty('icon-padding', True)
@@ -70,7 +70,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
 
-        label = QLabel(self._lang.get_data('QLabel.description')
+        label = QLabel(self._lang.get('QLabel.description')
             .replace('%s', f'<a href="https://riivolution.github.io/wiki/Patch_Format/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">Riivolution Patch Format Wiki</a>', 1)
             .replace('%s', f'<a href="https://riivolution.github.io/wiki/RiiFS/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">RiiFS Wiki</a>', 1)
         )

@@ -22,7 +22,7 @@ class SymbolsDockWidget(QSavableDockWidget):
         SymbolsDockWidget._search_icon = app.get_icon('lineedit/search', True, QSaveData.IconMode.Local)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
-        super().__init__(self._lang.get_data('title').replace('%s', name))
+        super().__init__(self._lang.get('title').replace('%s', name))
 
         self._name = name
         self._icon = icon
@@ -48,21 +48,21 @@ class SymbolsDockWidget(QSavableDockWidget):
         topframe.grid_layout.addWidget(topleftframe, 0, 0, Qt.AlignmentFlag.AlignLeft)
         topleftframe.grid_layout.setColumnStretch(1, 0)
 
-        self._search_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.searchBy.title'))
+        self._search_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.searchBy.title'))
         self._search_combobox.combo_box.addItems([
-            self._lang.get_data('QNamedComboBox.searchBy.values.address'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.name'),
-            self._lang.get_data('QNamedComboBox.searchBy.values.raw')
+            self._lang.get('QNamedComboBox.searchBy.values.address'),
+            self._lang.get('QNamedComboBox.searchBy.values.name'),
+            self._lang.get('QNamedComboBox.searchBy.values.raw')
         ])
         self._search_combobox.combo_box.setCurrentIndex(1)
         self._search_combobox.combo_box.currentIndexChanged.connect(self._search_by_changed)
         topleftframe.grid_layout.addWidget(self._search_combobox, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._address_mode_combobox = QNamedComboBox(None, self._lang.get_data('QNamedComboBox.addressMode.title'))
+        self._address_mode_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.addressMode.title'))
         self._address_mode_combobox.combo_box.addItems([
-            self._lang.get_data('QNamedComboBox.addressMode.values.contains'),
-            self._lang.get_data('QNamedComboBox.addressMode.values.greaterOrEqual'),
-            self._lang.get_data('QNamedComboBox.addressMode.values.lessOrEqual')
+            self._lang.get('QNamedComboBox.addressMode.values.contains'),
+            self._lang.get('QNamedComboBox.addressMode.values.greaterOrEqual'),
+            self._lang.get('QNamedComboBox.addressMode.values.lessOrEqual')
         ])
         self._address_mode_combobox.combo_box.setCurrentIndex(1)
         self._address_mode_combobox.combo_box.currentIndexChanged.connect(self._address_mode_changed)
@@ -75,19 +75,19 @@ class SymbolsDockWidget(QSavableDockWidget):
         topframe.grid_layout.addWidget(toprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
         toprightframe.grid_layout.setColumnStretch(1, 0)
 
-        case_sensitive_togge = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.caseSensitive'), False)
+        case_sensitive_togge = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.caseSensitive'), False)
         case_sensitive_togge.toggle_button.toggled.connect(self.case_sensitive_toggled)
         toprightframe.grid_layout.addWidget(case_sensitive_togge, 0, 0)
 
-        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get_data('QIconLineEdit.search'))
+        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get('QIconLineEdit.search'))
         self._searchbar.textChanged.connect(self.text_changed)
         toprightframe.grid_layout.addWidget(self._searchbar, 0, 1)
 
         self._list = QBetterListWidget(
             [
-                self._lang.get_data('QBetterListWidget.address'),
-                self._lang.get_data('QBetterListWidget.name'),
-                self._lang.get_data('QBetterListWidget.raw')
+                self._lang.get('QBetterListWidget.address'),
+                self._lang.get('QBetterListWidget.name'),
+                self._lang.get('QBetterListWidget.raw')
             ],
             200,
             Qt.AlignmentFlag.AlignCenter

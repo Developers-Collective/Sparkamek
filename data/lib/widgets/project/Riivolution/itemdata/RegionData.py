@@ -30,8 +30,8 @@ class RegionData(BaseItemData):
         frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
         self._property_frame.grid_layout.addWidget(frame, 0, 0)
 
-        self._regiontype_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.type'))
-        self._regiontype_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.type'))
+        self._regiontype_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.type'))
+        self._regiontype_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.type'))
         self._regiontype_lineedit.line_edit.setText(self._data.type)
         self._regiontype_lineedit.line_edit.textChanged.connect(self._type_changed)
         self._regiontype_lineedit.line_edit.setMaxLength(1)
@@ -41,7 +41,7 @@ class RegionData(BaseItemData):
 
 
     def _update_text(self) -> None:
-        self._regiontype_label.setText(self._lang.get_data('QLabel.type').replace('%s', self._data.type))
+        self._regiontype_label.setText(self._lang.get('QLabel.type').replace('%s', self._data.type))
         self._regiontype_lineedit.line_edit.setText(self._data.type)
 
 

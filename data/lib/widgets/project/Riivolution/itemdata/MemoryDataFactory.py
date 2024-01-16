@@ -38,7 +38,7 @@ class MemoryDataFactory:
         MemoryDataFactory._data[data.child_cls.key] = data
 
     @staticmethod
-    def get_data(name: str) -> type[BaseSubItemData]:
+    def get(name: str) -> type[BaseSubItemData]:
         return MemoryDataFactory._data.get(name, BaseSubItemData)
 
     @staticmethod

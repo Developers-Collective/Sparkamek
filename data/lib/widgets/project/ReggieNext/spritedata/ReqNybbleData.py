@@ -34,7 +34,7 @@ class ReqNybbleData(QGridWidget):
         self.grid_layout.setSpacing(8)
 
 
-        label = QLabel(self._lang.get_data('QLabel.title'))
+        label = QLabel(self._lang.get('QLabel.title'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         self.grid_layout.addWidget(label, 0, 0)

@@ -54,13 +54,13 @@ class SectionData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         frame.scroll_layout.addWidget(subframe, 0, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.generalInfo'))
+        label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
 
-        self._name_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.name'))
-        self._name_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.name'))
+        self._name_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.name'))
+        self._name_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.name'))
         self._name_lineedit.line_edit.setText(self._data.name_)
         self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
         subframe.grid_layout.addWidget(self._name_lineedit, 1, 0)
@@ -73,7 +73,7 @@ class SectionData(BaseItemData):
         subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         frame.scroll_layout.addWidget(subframe, 1, 0)
 
-        label = QLabel(self._lang.get_data('QLabel.options'))
+        label = QLabel(self._lang.get('QLabel.options'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
         subframe.grid_layout.addWidget(label, 0, 0)
@@ -82,7 +82,7 @@ class SectionData(BaseItemData):
         self._option_draglist.moved.connect(self._option_entry_moved)
         subframe.grid_layout.addWidget(self._option_draglist, 1, 0)
 
-        self._add_option_entry_button = QPushButton(self._lang.get_data('QPushButton.addEntry'))
+        self._add_option_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_option_entry_button.setIcon(self._add_entry_icon)
         self._add_option_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_option_entry_button.setProperty('color', 'main')
@@ -126,7 +126,7 @@ class SectionData(BaseItemData):
 
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace('%s', self._data.name_, 1).replace('%s', str(len(self._data.option_children)), 1)
+        s = self._lang.get('QLabel.text').replace('%s', self._data.name_, 1).replace('%s', str(len(self._data.option_children)), 1)
         self._sectionname_label.setText(s)
         self._name_lineedit.line_edit.setText(self._data.name_)
 

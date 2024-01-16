@@ -41,7 +41,7 @@ class MemoryValueFileData(BaseSubItemData):
 
         self._back_button = QPushButton()
         self._back_button.setIcon(self._back_icon)
-        self._back_button.setText(self._lang.get_data('QPushButton.back'))
+        self._back_button.setText(self._lang.get('QPushButton.back'))
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
@@ -54,21 +54,21 @@ class MemoryValueFileData(BaseSubItemData):
         frame.scroll_layout.addWidget(subframe, 1, 0)
 
 
-        self._offset_hexspinbox = QNamedHexSpinBox(None, self._lang.get_data('PropertyWidget.QNamedHexSpinBox.offset'))
-        self._offset_hexspinbox.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.offset'))
+        self._offset_hexspinbox = QNamedHexSpinBox(None, self._lang.get('PropertyWidget.QNamedHexSpinBox.offset'))
+        self._offset_hexspinbox.setToolTip(self._lang.get('PropertyWidget.QToolTip.offset'))
         self._offset_hexspinbox.set_range(0, 0xFFFFFFFF)
         self._offset_hexspinbox.set_value(self._data.offset)
         self._offset_hexspinbox.value_changed.connect(self._offset_changed)
         subframe.grid_layout.addWidget(self._offset_hexspinbox, 0, 0)
 
-        self._valuefile_lineedit = QNamedLineEdit(None, '', self._lang.get_data('PropertyWidget.QNamedLineEdit.valuefile'))
-        self._valuefile_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.valuefile'))
+        self._valuefile_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.valuefile'))
+        self._valuefile_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.valuefile'))
         self._valuefile_lineedit.setText(self._data.valuefile)
         self._valuefile_lineedit.text_changed.connect(self._valuefile_changed)
         subframe.grid_layout.addWidget(self._valuefile_lineedit, 0, 1)
 
-        self._comment_lineedit = QNamedTextEdit(None, '', self._lang.get_data('PropertyWidget.QNamedTextEdit.comment'))
-        self._comment_lineedit.setToolTip(self._lang.get_data('PropertyWidget.QToolTip.comment'))
+        self._comment_lineedit = QNamedTextEdit(None, '', self._lang.get('PropertyWidget.QNamedTextEdit.comment'))
+        self._comment_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.comment'))
         self._comment_lineedit.setText(self._data.comment)
         self._comment_lineedit.text_changed.connect(self._comment_changed)
         subframe.grid_layout.addWidget(self._comment_lineedit, 1, 0, 1, 2)
@@ -88,7 +88,7 @@ class MemoryValueFileData(BaseSubItemData):
         self._type_label.setText(f'{self.type}' + (f' • {comment}' if comment else ''))
 
     def _update_text(self) -> None:
-        s = self._lang.get_data('QLabel.text').replace('%s', f'0x{self._data.offset:X}', 1).replace('%s', self._data.valuefile, 1)
+        s = self._lang.get('QLabel.text').replace('%s', f'0x{self._data.offset:X}', 1).replace('%s', self._data.valuefile, 1)
         self._text_label.setText(s)
 
 

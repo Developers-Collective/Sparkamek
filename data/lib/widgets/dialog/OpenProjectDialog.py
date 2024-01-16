@@ -65,20 +65,20 @@ class OpenProjectDialog(QDialog):
         right_buttons.grid_layout.setSpacing(16)
         right_buttons.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        self._cancel_button = QPushButton(self._lang.get_data('QPushButton.cancel'))
+        self._cancel_button = QPushButton(self._lang.get('QPushButton.cancel'))
         self._cancel_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._cancel_button.clicked.connect(self.new_reject)
         self._cancel_button.setProperty('color', 'white')
         self._cancel_button.setProperty('transparent', True)
         right_buttons.grid_layout.addWidget(self._cancel_button, 0, 0)
 
-        self._load_button = QPushButton(self._lang.get_data('QPushButton.load'))
+        self._load_button = QPushButton(self._lang.get('QPushButton.load'))
         self._load_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._load_button.clicked.connect(self.accept)
         self._load_button.setProperty('color', 'main')
         right_buttons.grid_layout.addWidget(self._load_button, 0, 1)
 
-        self.setWindowTitle(self._lang.get_data('title.' + ('edit' if data else 'open')))
+        self.setWindowTitle(self._lang.get('title.' + ('edit' if data else 'open')))
 
         self._root = QSlidingStackedWidget()
         self._root.set_orientation(Qt.Orientation.Horizontal)
@@ -127,7 +127,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_general(self) -> QWidget:
-        lang = self._lang.get_data('QSlidingStackedWidget.general')
+        lang = self._lang.get('QSlidingStackedWidget.general')
 
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(30)
@@ -138,7 +138,7 @@ class OpenProjectDialog(QDialog):
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
 
-        label = QLabel(lang.get_data('QLabel.title'))
+        label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
         topframe.grid_layout.addWidget(label, 0, 0)
@@ -155,10 +155,10 @@ class OpenProjectDialog(QDialog):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.name.title'), lang.get_data('QLabel.name.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.name.title'), lang.get('QLabel.name.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        self.name_entry = QNamedLineEdit(None, '', lang.get_data('QNamedLineEdit.name'))
+        self.name_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.name'))
         self.name_entry.setText(self._data['name'] if self._data else 'Project')
         root_frame.grid_layout.addWidget(self.name_entry, root_frame.grid_layout.count(), 0)
 
@@ -168,7 +168,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_icon(self) -> QWidget:
-        lang = self._lang.get_data('QSlidingStackedWidget.icon')
+        lang = self._lang.get('QSlidingStackedWidget.icon')
 
         self.raw_icon = self._data['icon'] if self._data else os.path.abspath('./data/icons/questionMark.svg')
 
@@ -181,7 +181,7 @@ class OpenProjectDialog(QDialog):
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
 
-        label = QLabel(lang.get_data('QLabel.title'))
+        label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
         topframe.grid_layout.addWidget(label, 0, 0)
@@ -202,14 +202,14 @@ class OpenProjectDialog(QDialog):
         widget.top.grid_layout.setContentsMargins(0, 0, 0, 0)
         root_frame.grid_layout.addWidget(widget.top, root_frame.grid_layout.count(), 0)
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.icon.title'), lang.get_data('QLabel.icon.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.icon.title'), lang.get('QLabel.icon.description'))
         widget.top.grid_layout.addWidget(label, 0, 0, 1, 2)
 
-        widget.top.icon_group = self.icon_with_text(self.raw_icon, lang.get_data('QLabel.currentIcon'))
+        widget.top.icon_group = self.icon_with_text(self.raw_icon, lang.get('QLabel.currentIcon'))
         widget.top.grid_layout.addWidget(widget.top.icon_group, 1, 0)
 
         self.icon_button = QFileButton(
-            self, lang.get_data('QFileButton.icon'),
+            self, lang.get('QFileButton.icon'),
             self.raw_icon,
             self._open_image_icon,
             QFiles.Dialog.OpenFileName,
@@ -226,7 +226,7 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.predefinedIcons.title'), lang.get_data('QLabel.predefinedIcons.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.predefinedIcons.title'), lang.get('QLabel.predefinedIcons.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
 
@@ -250,7 +250,7 @@ class OpenProjectDialog(QDialog):
     def _menu_loader(self) -> QWidget:
         loader_data: dict = self._data['data'].get(ProjectKeys.Loader.value, None) if self._data else None
 
-        lang = self._lang.get_data('QSlidingStackedWidget.loader')
+        lang = self._lang.get('QSlidingStackedWidget.loader')
 
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(30)
@@ -261,7 +261,7 @@ class OpenProjectDialog(QDialog):
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
 
-        label = QLabel(lang.get_data('QLabel.title'))
+        label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
         topframe.grid_layout.addWidget(label, 0, 0)
@@ -278,13 +278,13 @@ class OpenProjectDialog(QDialog):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.loaderFile.title'), lang.get_data('QLabel.loaderFile.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.loaderFile.title'), lang.get('QLabel.loaderFile.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         kw = ('edit' if loader_data else 'open') + 'LoaderFile'
         l = {
-            "title": lang.get_data(f'QFileButton.{kw}.title'),
-            "dialog": lang.get_data(f'QFileButton.{kw}.dialog')
+            "title": lang.get(f'QFileButton.{kw}.title'),
+            "dialog": lang.get(f'QFileButton.{kw}.dialog')
         }
 
         self.loader_file_button = QFileButton(
@@ -306,13 +306,13 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.outputFile.title'), lang.get_data('QLabel.outputFile.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.outputFile.title'), lang.get('QLabel.outputFile.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         kw = ('edit' if loader_data else 'open') + 'OutputFile'
         l = {
-            "title": lang.get_data(f'QFileButton.{kw}.title'),
-            "dialog": lang.get_data(f'QFileButton.{kw}.dialog')
+            "title": lang.get(f'QFileButton.{kw}.title'),
+            "dialog": lang.get(f'QFileButton.{kw}.dialog')
         }
 
         self.loader_output_file_button = QFileButton(
@@ -335,7 +335,7 @@ class OpenProjectDialog(QDialog):
     def _menu_kamek(self) -> QWidget:
         kamek_data: dict = self._data['data'].get(ProjectKeys.Kamek.value, None) if self._data else None
 
-        lang = self._lang.get_data('QSlidingStackedWidget.kamek')
+        lang = self._lang.get('QSlidingStackedWidget.kamek')
 
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(30)
@@ -346,7 +346,7 @@ class OpenProjectDialog(QDialog):
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
 
-        label = QLabel(lang.get_data('QLabel.title'))
+        label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', 16)
         topframe.grid_layout.addWidget(label, 0, 0)
@@ -356,7 +356,7 @@ class OpenProjectDialog(QDialog):
         frame.setFixedHeight(4)
         topframe.grid_layout.addWidget(frame, 1, 0)
 
-        label = QLabel(lang.get_data('QLabel.resources').replace('%s', f'<a href="{self._kamek_resouces_link}" style=\"color: {self._color_link.hex}; text-decoration: none;\">Horizon Wiki</a>'))
+        label = QLabel(lang.get('QLabel.resources').replace('%s', f'<a href="{self._kamek_resouces_link}" style=\"color: {self._color_link.hex}; text-decoration: none;\">Horizon Wiki</a>'))
         label.setProperty('brighttitle', True)
         label.setOpenExternalLinks(True)
         label.setProperty('margin-left', 16)
@@ -374,12 +374,12 @@ class OpenProjectDialog(QDialog):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.kamekFile.title'), lang.get_data('QLabel.kamekFile.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.kamekFile.title'), lang.get('QLabel.kamekFile.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         l = {
-            "title": lang.get_data(f'QFileButton.kamekFile'),
-            "dialog": lang.get_data(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get_data(f'QFileButton.kamekFile'))
+            "title": lang.get(f'QFileButton.kamekFile'),
+            "dialog": lang.get(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get(f'QFileButton.kamekFile'))
         }
 
         self.kamek_file_button = QFileButton(
@@ -401,10 +401,10 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.buildFolder.title'), lang.get_data('QLabel.buildFolder.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.buildFolder.title'), lang.get('QLabel.buildFolder.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        self.kamek_build_folder_entry = QNamedLineEdit(None, '', lang.get_data('QNamedLineEdit.buildFolder'))
+        self.kamek_build_folder_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.buildFolder'))
         self.kamek_build_folder_entry.setText(kamek_data.get('build', None) if kamek_data else 'Build')
         if self.kamek_build_folder_entry.text() == '': self.kamek_build_folder_entry.setText('Build')
         root_frame.grid_layout.addWidget(self.kamek_build_folder_entry, root_frame.grid_layout.count(), 0)
@@ -416,12 +416,12 @@ class OpenProjectDialog(QDialog):
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.outputFolder.title'), lang.get_data('QLabel.outputFolder.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.outputFolder.title'), lang.get('QLabel.outputFolder.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         l = {
-            "title": lang.get_data(f'QFileButton.outputFolder'),
-            "dialog": lang.get_data(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get_data(f'QFileButton.outputFolder'))
+            "title": lang.get(f'QFileButton.outputFolder'),
+            "dialog": lang.get(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get(f'QFileButton.outputFolder'))
         }
 
         self.kamek_output_folder = QFileButton(
@@ -442,11 +442,11 @@ class OpenProjectDialog(QDialog):
             frame.setFixedHeight(1)
             root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
-            label = OpenProjectDialog._text_group(lang.get_data(f'QLabel.{key}.title'), lang.get_data(f'QLabel.{key}.description'))
+            label = OpenProjectDialog._text_group(lang.get(f'QLabel.{key}.title'), lang.get(f'QLabel.{key}.description'))
             root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
             w = QNamedToggleButton()
-            w.setText(lang.get_data(f'QNamedToggleButton.{key}'))
+            w.setText(lang.get(f'QNamedToggleButton.{key}'))
             w.setChecked(checked)
             root_frame.grid_layout.addWidget(w, root_frame.grid_layout.count(), 0)
             root_frame.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
@@ -471,11 +471,11 @@ class OpenProjectDialog(QDialog):
         frame.setFixedHeight(1)
         root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
 
-        label = OpenProjectDialog._text_group(lang.get_data(f'QLabel.nintendoDriverMode.title'), lang.get_data(f'QLabel.nintendoDriverMode.description'))
+        label = OpenProjectDialog._text_group(lang.get(f'QLabel.nintendoDriverMode.title'), lang.get(f'QLabel.nintendoDriverMode.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         self._nintendo_driver_mode_toggle = QNamedToggleButton()
-        self._nintendo_driver_mode_toggle.setText(lang.get_data(f'QNamedToggleButton.nintendoDriverMode'))
+        self._nintendo_driver_mode_toggle.setText(lang.get(f'QNamedToggleButton.nintendoDriverMode'))
         self._nintendo_driver_mode_toggle.setChecked(kamek_data.get('nintendoDriverMode', False) if kamek_data else False)
         root_frame.grid_layout.addWidget(self._nintendo_driver_mode_toggle, root_frame.grid_layout.count(), 0)
         root_frame.grid_layout.setAlignment(self._nintendo_driver_mode_toggle, Qt.AlignmentFlag.AlignLeft)
@@ -488,7 +488,7 @@ class OpenProjectDialog(QDialog):
     def _menu_reggienext(self) -> QWidget:
         reggienext_data: dict = self._data['data'].get(ProjectKeys.ReggieNext.value, None) if self._data else None
 
-        lang = self._lang.get_data('QSlidingStackedWidget.reggieNext')
+        lang = self._lang.get('QSlidingStackedWidget.reggieNext')
 
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(30)
@@ -499,7 +499,7 @@ class OpenProjectDialog(QDialog):
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
 
-        label = QLabel(lang.get_data('QLabel.title'))
+        label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
         topframe.grid_layout.addWidget(label, 0, 0)
@@ -516,13 +516,13 @@ class OpenProjectDialog(QDialog):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.reggieNextFolder.title'), lang.get_data('QLabel.reggieNextFolder.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.reggieNextFolder.title'), lang.get('QLabel.reggieNextFolder.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         kw = ('edit' if reggienext_data else 'open') + 'ReggieNextFolder'
         l = {
-            "title": lang.get_data(f'QFileButton.{kw}.title'),
-            "dialog": lang.get_data(f'QFileButton.{kw}.dialog')
+            "title": lang.get(f'QFileButton.{kw}.title'),
+            "dialog": lang.get(f'QFileButton.{kw}.dialog')
         }
 
         self.reggie_folder_button = QFileButton(
@@ -544,7 +544,7 @@ class OpenProjectDialog(QDialog):
     def _menu_riivolution(self) -> QWidget:
         riivolution_data: dict = self._data['data'].get(ProjectKeys.Riivolution.value, None) if self._data else None
 
-        lang = self._lang.get_data('QSlidingStackedWidget.riivolution')
+        lang = self._lang.get('QSlidingStackedWidget.riivolution')
 
         widget = QScrollableGridWidget()
         widget.scroll_layout.setSpacing(30)
@@ -555,7 +555,7 @@ class OpenProjectDialog(QDialog):
         topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.scroll_layout.addWidget(topframe, widget.scroll_layout.count(), 0)
 
-        label = QLabel(lang.get_data('QLabel.title'))
+        label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
         topframe.grid_layout.addWidget(label, 0, 0)
@@ -572,13 +572,13 @@ class OpenProjectDialog(QDialog):
         widget.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
-        label = OpenProjectDialog._text_group(lang.get_data('QLabel.riivolutionFile.title'), lang.get_data('QLabel.riivolutionFile.description'))
+        label = OpenProjectDialog._text_group(lang.get('QLabel.riivolutionFile.title'), lang.get('QLabel.riivolutionFile.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         kw = ('edit' if riivolution_data else 'open') + 'RiivolutionFile'
         l = {
-            "title": lang.get_data(f'QFileButton.{kw}.title'),
-            "dialog": lang.get_data(f'QFileButton.{kw}.dialog')
+            "title": lang.get(f'QFileButton.{kw}.title'),
+            "dialog": lang.get(f'QFileButton.{kw}.dialog')
         }
 
         self.riivolution_file_button = QFileButton(
@@ -684,14 +684,14 @@ class OpenProjectDialog(QDialog):
 
     def _update_keywords(self) -> None:
         if self._root.current_index < self._root.count() - 1:
-            self._load_button.setText(self._lang.get_data('QPushButton.next'))
+            self._load_button.setText(self._lang.get('QPushButton.next'))
         else:
-            self._load_button.setText(self._lang.get_data('QPushButton.load'))
+            self._load_button.setText(self._lang.get('QPushButton.load'))
 
         if self._root.current_index == 0:
-            self._cancel_button.setText(self._lang.get_data('QPushButton.cancel'))
+            self._cancel_button.setText(self._lang.get('QPushButton.cancel'))
         else:
-            self._cancel_button.setText(self._lang.get_data('QPushButton.back'))
+            self._cancel_button.setText(self._lang.get('QPushButton.back'))
 
     def _get_loader(self) -> dict | None:
         if self.loader_file_button.path() in self._forbidden_paths: return None

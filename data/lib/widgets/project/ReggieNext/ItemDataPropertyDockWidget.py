@@ -18,7 +18,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
         SpriteListLoaderWorker.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
-        super().__init__(self._lang.get_data('title').replace('%s', str(None)))
+        super().__init__(self._lang.get('title').replace('%s', str(None)))
 
         self._root = QScrollableGridWidget()
         self._root.setProperty('wide', True)
@@ -30,7 +30,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
         self.setWidget(self._root)
 
     def update_title(self, sprite: Sprite) -> None:
-        self.setWindowTitle(self._lang.get_data('title').replace('%s', f'[{sprite.id}] {sprite.sprite_name}') if sprite else self._lang.get_data('title').replace('%s', str(None)))
+        self.setWindowTitle(self._lang.get('title').replace('%s', f'[{sprite.id}] {sprite.sprite_name}') if sprite else self._lang.get('title').replace('%s', str(None)))
 
     def set_widget(self, widget: QGridWidget | None) -> None:
         while self._root.scroll_widget.layout().count():

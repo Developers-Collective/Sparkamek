@@ -12,7 +12,7 @@ class ImportDialog(QDialog):
     def __init__(self, parent = None , lang: QLangData = {}, sprite: Sprite = None, i: int = 1, length: int = 1):
         super().__init__(parent)
 
-        self.setWindowTitle(lang.get_data('title').replace('%s', sprite.sprite_name, 1).replace('%s', str(i), 1).replace('%s', str(length), 1))
+        self.setWindowTitle(lang.get('title').replace('%s', sprite.sprite_name, 1).replace('%s', str(i), 1).replace('%s', str(length), 1))
 
         self._sprite = sprite.copy()
 
@@ -26,10 +26,10 @@ class ImportDialog(QDialog):
         self._root.grid_layout.addWidget(frame, 0, 0)
         self._root.grid_layout.setAlignment(frame, Qt.AlignmentFlag.AlignTop)
 
-        label = ImportDialog._text_group(lang.get_data('QLabel.spriteID.title'), lang.get_data('QLabel.spriteID.description'))
+        label = ImportDialog._text_group(lang.get('QLabel.spriteID.title'), lang.get('QLabel.spriteID.description'))
         frame.grid_layout.addWidget(label, frame.grid_layout.count(), 0)
 
-        self._sprite_id_spinbox = QNamedSpinBox(None, lang.get_data('QNamedSpinBox.spriteID'))
+        self._sprite_id_spinbox = QNamedSpinBox(None, lang.get('QNamedSpinBox.spriteID'))
         self._sprite_id_spinbox.set_range(0, 2147483647) # profileID is u32 (2^32 - 1) but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 2^31 sprites lmao)
         self._sprite_id_spinbox.set_value(sprite.id)
         frame.grid_layout.addWidget(self._sprite_id_spinbox, frame.grid_layout.count(), 0)
@@ -46,14 +46,14 @@ class ImportDialog(QDialog):
         right_buttons.grid_layout.setSpacing(16)
         right_buttons.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        button = QPushButton(lang.get_data('QPushButton.cancel'))
+        button = QPushButton(lang.get('QPushButton.cancel'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.clicked.connect(self.reject)
         button.setProperty('color', 'white')
         button.setProperty('transparent', True)
         right_buttons.grid_layout.addWidget(button, 0, 0)
 
-        button = QPushButton(lang.get_data('QPushButton.import'))
+        button = QPushButton(lang.get('QPushButton.import'))
         button.setCursor(Qt.CursorShape.PointingHandCursor)
         button.clicked.connect(self.accept)
         button.setProperty('color', 'main')

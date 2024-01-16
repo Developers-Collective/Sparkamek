@@ -84,7 +84,7 @@ class KamekWidget(SubProjectWidgetBase):
         frame.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignTop)
 
-        self._compile_button = QPushButton(self._lang.get_data('QPushButton.compile'))
+        self._compile_button = QPushButton(self._lang.get('QPushButton.compile'))
         self._compile_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._compile_button.setIcon(self._compile_icon)
         self._compile_button.clicked.connect(self._compile)
@@ -92,14 +92,14 @@ class KamekWidget(SubProjectWidgetBase):
         self._compile_button.setProperty('icon-padding', True)
         frame.grid_layout.addWidget(self._compile_button, 0, 0, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        self._complete_view_toggle = QNamedToggleButton(None, self._lang.get_data('QNamedToggleButton.showCompleteLogs'))
+        self._complete_view_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.showCompleteLogs'))
         self._complete_view_toggle.toggle_button.toggled.connect(self._switch_logs_view)
         frame.grid_layout.addWidget(self._complete_view_toggle, 0, 1, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
         self._logs_slide_widget = QSlidingStackedWidget()
         self._root.scroll_layout.addWidget(self._logs_slide_widget, 1, 0)
 
-        self._simple_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get_data('QNamedTextBrowser.simpleLogs'))
+        self._simple_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get('QNamedTextBrowser.simpleLogs'))
         self._simple_logs_textbrowser.setReadOnly(True)
         self._simple_logs_textbrowser.text_browser.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextSelectableByMouse |
@@ -108,7 +108,7 @@ class KamekWidget(SubProjectWidgetBase):
         self._simple_logs_textbrowser.text_browser.setOpenExternalLinks(True)
         self._logs_slide_widget.addWidget(self._simple_logs_textbrowser)
 
-        self._complete_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get_data('QNamedTextBrowser.completeLogs'))
+        self._complete_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get('QNamedTextBrowser.completeLogs'))
         self._complete_logs_textbrowser.setReadOnly(True)
         self._complete_logs_textbrowser.text_browser.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextSelectableByMouse |
@@ -131,7 +131,7 @@ class KamekWidget(SubProjectWidgetBase):
     def _compile(self) -> None:
         if self._compile_thread is None:
             self._compile_button.setIcon(self._stop_icon)
-            self._compile_button.setText(self._lang.get_data('QPushButton.stop'))
+            self._compile_button.setText(self._lang.get('QPushButton.stop'))
 
             self._simple_logs_textbrowser.clear()
             self._complete_logs_textbrowser.clear()
@@ -146,14 +146,14 @@ class KamekWidget(SubProjectWidgetBase):
 
         else:
             self._compile_button.setIcon(self._compile_icon)
-            self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
+            self._compile_button.setText(self._lang.get('QPushButton.compile'))
 
             if self._compile_thread.isRunning(): self._compile_thread.terminate()
             self._compile_thread = None
 
     def _compile_done(self, missing_symbols: bool) -> None:
         self._compile_button.setIcon(self._compile_icon)
-        self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
+        self._compile_button.setText(self._lang.get('QPushButton.compile'))
 
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
@@ -177,7 +177,7 @@ class KamekWidget(SubProjectWidgetBase):
 
     def _compile_error(self, error: str) -> None:
         self._compile_button.setIcon(self._compile_icon)
-        self._compile_button.setText(self._lang.get_data('QPushButton.compile'))
+        self._compile_button.setText(self._lang.get('QPushButton.compile'))
 
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
@@ -200,7 +200,7 @@ class KamekWidget(SubProjectWidgetBase):
         self._logs_slide_widget.slide_in_index(int(value))
 
     def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
-        l = self._lang.get_data(f'QNamedTextBrowser.{log_type.name.lower()}')
+        l = self._lang.get(f'QNamedTextBrowser.{log_type.name.lower()}')
         if invisible:
             l = '<span>' + '&nbsp;' * (len(l) + 2) * 2 + '</span>'
 

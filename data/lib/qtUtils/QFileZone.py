@@ -45,12 +45,12 @@ class QFileZone(QGridFrame):
         widget.grid_layout.setContentsMargins(0, 0, 0, 0)
         widget.grid_layout.setSpacing(5)
 
-        label = QLabel(lang.get_data('QLabel.dragAndDrop' + ('File' if type == QFiles.Dialog.OpenFileName else 'Files' if type == QFiles.Dialog.OpenFileNames else 'Directory')))
+        label = QLabel(lang.get('QLabel.dragAndDrop' + ('File' if type == QFiles.Dialog.OpenFileName else 'Files' if type == QFiles.Dialog.OpenFileNames else 'Directory')))
         label.setProperty('class', 'h2')
         widget.grid_layout.addWidget(label, 0, 0)
         widget.grid_layout.setAlignment(label, Qt.AlignmentFlag.AlignCenter)
 
-        label = QLinkLabel(lang.get_data('QLinkLabel.select' + ('File' if type == QFiles.Dialog.OpenFileName else 'Files' if type == QFiles.Dialog.OpenFileNames else 'Directory')))
+        label = QLinkLabel(lang.get('QLinkLabel.select' + ('File' if type == QFiles.Dialog.OpenFileName else 'Files' if type == QFiles.Dialog.OpenFileNames else 'Directory')))
         label.setProperty('class', 'bold')
         label.clicked.connect(self._clicked)
         widget.grid_layout.addWidget(label, 1, 0)
@@ -84,11 +84,11 @@ class QFileZone(QGridFrame):
 
         match action:
             case 'file':
-                path = QFileDialog.getOpenFileName(self, dir = self._dir, filter = self._filter, caption = self._lang.get_data('QFileDialog.file'))[0]
+                path = QFileDialog.getOpenFileName(self, dir = self._dir, filter = self._filter, caption = self._lang.get('QFileDialog.file'))[0]
             case 'files':
-                path = QFileDialog.getOpenFileNames(self, dir = self._dir, filter = self._filter, caption = self._lang.get_data('QFileDialog.files'))[0]
+                path = QFileDialog.getOpenFileNames(self, dir = self._dir, filter = self._filter, caption = self._lang.get('QFileDialog.files'))[0]
             case 'directory':
-                path = QFileDialog.getExistingDirectory(self, dir = self._dir, caption = self._lang.get_data('QFileDialog.directory'))[0]
+                path = QFileDialog.getExistingDirectory(self, dir = self._dir, caption = self._lang.get('QFileDialog.directory'))[0]
 
         if not path: return
 

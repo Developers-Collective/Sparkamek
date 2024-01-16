@@ -38,7 +38,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         SpriteListLoaderWorker.init(app)
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
-        super().__init__(self._lang.get_data('title').replace('%s', name))
+        super().__init__(self._lang.get('title').replace('%s', name))
 
         self._name = name
         self._icon = icon
@@ -65,7 +65,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         topframe.grid_layout.setSpacing(8)
         self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
-        self._load_button = QPushButton(self._lang.get_data('QPushButton.load'))
+        self._load_button = QPushButton(self._lang.get('QPushButton.load'))
         self._load_button.setIcon(self._load_icon)
         self._load_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._load_button.setProperty('icon-padding', True)
@@ -73,7 +73,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._load_button.clicked.connect(self._load)
         topframe.grid_layout.addWidget(self._load_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._save_button = QPushButton(self._lang.get_data('QPushButton.save'))
+        self._save_button = QPushButton(self._lang.get('QPushButton.save'))
         self._save_button.setIcon(self._save_icon)
         self._save_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._save_button.setProperty('icon-padding', True)
@@ -82,15 +82,15 @@ class SpriteListDockWidget(QSavableDockWidget):
         topframe.grid_layout.addWidget(self._save_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
-        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get_data('QIconLineEdit.search'))
+        self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get('QIconLineEdit.search'))
         self._searchbar.textChanged.connect(self.text_changed)
         self._root.scroll_layout.addWidget(self._searchbar, 1, 0, Qt.AlignmentFlag.AlignTop)
 
 
         self._list = QBetterListWidget(
             [
-                self._lang.get_data('QBetterListWidget.spriteID'),
-                self._lang.get_data('QBetterListWidget.name')
+                self._lang.get('QBetterListWidget.spriteID'),
+                self._lang.get('QBetterListWidget.name')
             ],
             100,
             Qt.AlignmentFlag.AlignCenter
