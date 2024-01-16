@@ -1,7 +1,8 @@
 {
     "info": {
         "name": "Français",
-        "version": "07e7e931",
+        "version": "07e81583",
+        "author": "Synel",
         "description": "Langage français pour l'application Sparkamek."
     },
     "root": {
