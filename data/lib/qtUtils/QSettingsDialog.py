@@ -3,6 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QDialog, QFrame, QLabel, QGridLayout, QWidget, QPushButton, QFileDialog
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QStandardItem, QStandardItemModel
 from typing import Callable
 from data.lib.qtUtils.QGridFrame import QGridFrame
 
@@ -15,6 +16,7 @@ from .QSidePanelWidget import QSidePanelWidget
 from .QNamedComboBox import QNamedComboBox
 from .QFileExplorer import QFileExplorer
 from .QSlidingStackedWidget import QSlidingStackedWidget
+from .QComboBoxItemModel import QComboBoxItemModel
 #----------------------------------------------------------------------
 
     # Class
@@ -23,9 +25,13 @@ class _QData:
         def __init__(self, lang_folder: str, lang_path: str) -> None:
             with open(f'{lang_folder}/{lang_path}', encoding = 'utf-8') as infile:
                 data = json.load(infile)
-                self.display_name = data['info']['name']
-                self.version = data['info']['version']
-                self.desc = data['info']['description']
+                info: dict = data['info']
+
+                self.display_name = info.get('name', '???')
+                self.version = info.get('version', 'v1.0')
+                self.author = info.get('author', '???')
+                self.description = info.get('description', '')
+
                 self.filename = '.'.join(lang_path.split('.')[:-1])
 
 
@@ -33,9 +39,13 @@ class _QData:
         def __init__(self, themes_folder: str, theme_path: str) -> None:
             with open(f'{themes_folder}/{theme_path}', encoding = 'utf-8') as infile:
                 data = json.load(infile)
-                self.display_name = data['info']['name']
-                self.version = data['info']['version']
-                self.desc = data['info']['description']
+                info: dict = data['info']
+
+                self.display_name = info.get('name', '???')
+                self.version = info.get('version', 'v1.0')
+                self.author = info.get('author', '???')
+                self.desc = info.get('description', '')
+
                 self.filename = '.'.join(theme_path.split('.')[:-1])
                 self.variants = data['qss']
 
@@ -140,7 +150,16 @@ class QSettingsDialog(QDialog):
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
         self.lang_dropdown = QNamedComboBox(None, lang_data.get('QNamedComboBox.language'))
-        self.lang_dropdown.combo_box.addItems(list(lang.display_name for lang in self._data.lang))
+        lang_model: QComboBoxItemModel = QComboBoxItemModel()
+
+        for lang in self._data.lang:
+            lang_model.add_item(
+                lang.display_name,
+                f'{lang.display_name} ({lang.version})\nby {lang.author}'
+            )
+
+        lang_model.bind(self.lang_dropdown.combo_box)
+
         i = 0
         for lang_id in range(len(self._data.lang)):
             if self._data.lang[lang_id].filename == current_lang: i = lang_id
