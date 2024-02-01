@@ -85,6 +85,10 @@
                     "title": "Kamek Build Folder",
                     "description": "The folder where the project will be built (usually named \"Build\").\nWARNING: This folder will be deleted before each compilation !"
                 },
+                "copyType": {
+                    "title": "Copy Type",
+                    "description": "The type of copy that will be used to move the project after each compilation.\nIf unsure, leave this option to \"Move\"."
+                },
                 "outputFolder": {
                     "title": "Kamek Output Folder",
                     "description": "The folder where the project will be moved after each compilation (usually named \"NewerRes\")."
@@ -152,6 +156,21 @@
                 "generateKR": "Generate KR Version",
                 "generateCN": "Generate CN Version",
                 "nintendoDriverMode": "Nintendo Driver Mode"
+            },
+            "QNamedComboBox": {
+                "copyType": {
+                    "title": "Copy Type",
+                    "items": {
+                        "copy": {
+                            "title": "Copy",
+                            "description": "Copy the project files to the output folder, leaving the build folder untouched."
+                        },
+                        "move": {
+                            "title": "Move",
+                            "description": "Move the project files to the output folder, leaving the build folder empty."
+                        }
+                    }
+                }
             }
         },
         "reggieNext": {

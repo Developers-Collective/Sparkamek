@@ -10,6 +10,7 @@ from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
 from .AddressConverterDockWidget import AddressConverterDockWidget
 from .CompilerWorker import CompilerWorker
+from .CopyType import CopyType
 from ..LogType import LogType
 #----------------------------------------------------------------------
 
@@ -44,6 +45,7 @@ class KamekWidget(SubProjectWidgetBase):
 
         dockwidgets = data.get('dockwidgets', {})
         self._build_folder = data.get('buildFolder', None)
+        self._copy_type = CopyType(data.get('copyType', 1))
         self._output_folder = data.get('outputFolder', None)
         self._generate_pal_v1 = data.get('generatePALv1', True) or data.get('generatePAL', True)
         self._generate_pal_v2 = data.get('generatePALv2', False) or data.get('generatePAL', False)
@@ -136,7 +138,7 @@ class KamekWidget(SubProjectWidgetBase):
             self._simple_logs_textbrowser.clear()
             self._complete_logs_textbrowser.clear()
 
-            self._compile_thread = CompilerWorker(self._data, self._devkitppc_path)
+            self._compile_thread = CompilerWorker(self._data, self._devkitppc_path, self._copy_type)
             self._compile_thread.done.connect(self._compile_done)
             self._compile_thread.error.connect(self._compile_error)
             self._compile_thread.log_simple.connect(self._log_simple)
@@ -240,6 +242,7 @@ class KamekWidget(SubProjectWidgetBase):
         return super().export() | {
             'buildFolder': self._build_folder,
             'outputFolder': self._output_folder,
+            'copyType': self._copy_type.value,
             'generatePALv1': self._generate_pal_v1,
             'generatePALv2': self._generate_pal_v2,
             'generateNTSCv1': self._generate_ntsc_v1,
