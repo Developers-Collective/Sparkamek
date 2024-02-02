@@ -1,7 +1,8 @@
 #----------------------------------------------------------------------
 
-    # Libraries
-from .SubProjectWidgetBase import SubProjectWidgetBase
-from .Wii import *
-from .ProjectKeys import ProjectKeys
+    # Class
+class NSMBW:
+    Loader = 'wii.sme.loader'
+    Kamek = 'wii.sme.kamek'
+    ReggieNext = 'wii.sme.reggieNext'
 #----------------------------------------------------------------------

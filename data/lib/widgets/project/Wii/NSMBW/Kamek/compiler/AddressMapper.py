@@ -4,8 +4,8 @@
 from PySide6.QtCore import Signal, QObject
 import dataclasses, typing, re, yaml, os
 
-from ...LogType import LogType
-from ...ProjectException import ProjectException
+from .....LogType import LogType
+from .....ProjectException import ProjectException
 from .KamekConstants import KamekConstants
 #----------------------------------------------------------------------
 

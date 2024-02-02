@@ -3,16 +3,16 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QSystemTrayIcon
 from PySide6.QtCore import Qt
-from ..SubProjectWidgetBase import SubProjectWidgetBase
-from ..LogType import LogType
+from ....SubProjectWidgetBase import SubProjectWidgetBase
+from ....LogType import LogType
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from ..NSMBW import NSMBW
 from .CompilerWorker import CompilerWorker
 #----------------------------------------------------------------------
-    
+
     # Class
 class LoaderWidget(SubProjectWidgetBase):
-    type: ProjectKeys = ProjectKeys.Loader
+    type: str = NSMBW.Loader
 
     _compile_icon = None
     _stop_icon = None

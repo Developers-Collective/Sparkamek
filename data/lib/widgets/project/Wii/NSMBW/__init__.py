@@ -1,7 +1,8 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .SubProjectWidgetBase import SubProjectWidgetBase
-from .Wii import *
-from .ProjectKeys import ProjectKeys
+from .NSMBW import *
+from .Loader import *
+from .Kamek import *
+from .ReggieNext import *
 #----------------------------------------------------------------------

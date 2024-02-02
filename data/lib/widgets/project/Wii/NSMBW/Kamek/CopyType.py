@@ -1,7 +1,11 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .SubProjectWidgetBase import SubProjectWidgetBase
-from .Wii import *
-from .ProjectKeys import ProjectKeys
+from enum import Enum
+#----------------------------------------------------------------------
+
+    # Class
+class CopyType(Enum):
+    Copy = 0
+    Move = 1
 #----------------------------------------------------------------------

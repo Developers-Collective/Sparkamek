@@ -1,13 +1,11 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from enum import StrEnum
+from .NSMBW.NSMBW import NSMBW as WiiSME
 #----------------------------------------------------------------------
 
     # Class
-class ProjectKeys(StrEnum):
-    Loader = 'loader'
-    Kamek = 'kamek'
-    ReggieNext = 'reggieNext'
-    Riivolution = 'riivolution'
+class Wii:
+    Riivolution = 'wii.riivolution'
+    SME = WiiSME
 #----------------------------------------------------------------------

@@ -67,4 +67,5 @@ from .QBetterToolTip import QBetterToolTip
 from .QMarkDownWidget import QMarkDownWidget
 from .QWhatsNewWidget import QWhatsNewWidget
 from .QWhatsNewDialog import QWhatsNewDialog
+from .QComboBoxItemModel import QComboBoxItemModel
 #----------------------------------------------------------------------

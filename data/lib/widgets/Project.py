@@ -74,7 +74,7 @@ class Project(QGridWidget):
         self._tabs: dict[int, Project.TabInfo] = {}
 
         for w in self._projects:
-            tab = w.type.value
+            tab = w.type
             widget = QWidget()
             widget.setFixedHeight(1)
             i = self._notebook.addTab(widget, self._lang['QTabWidget'][tab])
@@ -123,11 +123,11 @@ class Project(QGridWidget):
 
         for k in ProjectType.get_all_keys():
             if k == self._projects[index].type:
-                dct[k.value] = self._projects[index].export()
+                dct[k] = self._projects[index].export()
                 if len(self._projects) > index + 1: index += 1
 
             else:
-                dct[k.value] = None
+                dct[k] = None
 
         return {
             'name': self._name,
@@ -135,7 +135,7 @@ class Project(QGridWidget):
             'data':
                 {
                     type: project.export() for type, project in [
-                        (p.type.value, p) for p in self._projects
+                        (p.type, p) for p in self._projects
                     ]
                 }
             }
@@ -153,7 +153,7 @@ class Project(QGridWidget):
         actions_showInExplorer = []
 
         for p in self._projects:
-            action_showInExplorer = QAction(lang['QAction'][f'show{p.type.value[0].upper() + p.type.value[1:]}InExplorer'])
+            action_showInExplorer = QAction(lang['QAction'][f'show{p.type[0].upper() + p.type[1:]}InExplorer'])
             action_showInExplorer.setIcon(self._show_in_explorer_icon)
             action_showInExplorer.triggered.connect(send_param(p))
             actions_showInExplorer.append(action_showInExplorer)

@@ -20,16 +20,4 @@ class KamekConstants:
             path = KamekConstants.GlobalVersionsNSMBW
 
         return path
-
-    LocalErrorsNSMBW = '/tools/versions-nsmbw-errors/'
-    GlobalErrorsNSMBW = os.path.abspath('./data/game/SMN/versions/versions-nsmbw-errors/')
-
-    @staticmethod
-    def get_errors_nsmbw(cwd: str) -> str:
-        path = f'{cwd}{KamekConstants.LocalErrorsNSMBW}'
-
-        if not os.path.exists(path):
-            path = KamekConstants.GlobalErrorsNSMBW
-
-        return path
 #----------------------------------------------------------------------

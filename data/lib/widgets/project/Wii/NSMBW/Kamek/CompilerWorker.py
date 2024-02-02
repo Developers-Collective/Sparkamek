@@ -7,8 +7,9 @@ from pathlib import Path
 from shutil import copyfile
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
-from ..LogType import LogType
-from ..ProjectException import ProjectException
+from ....LogType import LogType
+from ....ProjectException import ProjectException
+from .CopyType import CopyType
 from .compiler import *
 #----------------------------------------------------------------------
 
@@ -26,11 +27,12 @@ class CompilerWorker(QThread):
     def init(app: QBaseApplication) -> None:
         CompilerWorker._color_link = app.COLOR_LINK
 
-    def __init__(self, data: dict, devkitppc_path: str) -> None:
+    def __init__(self, data: dict, devkitppc_path: str, copy_type: CopyType) -> None:
         super(CompilerWorker, self).__init__()
 
         self._data = data
         self._devkitppc_path = f'{devkitppc_path}/'
+        self._copy_type = copy_type
 
         path = os.path.abspath(data['path']).replace('\\', '/')
 
@@ -271,9 +273,15 @@ class CompilerWorker(QThread):
             if not os.path.isdir(path):
                 os.makedirs(path)
 
-            for file in self._build_folder.iterdir():
-                if file.is_file():
-                    copyfile(file, Path(self._cwd) / path / file.name)
+            if self._copy_type == CopyType.Copy:
+                for file in self._build_folder.iterdir():
+                    if file.is_file():
+                        copyfile(file, Path(self._cwd) / path / file.name)
+
+            elif self._copy_type == CopyType.Move:
+                for file in self._build_folder.iterdir():
+                    if file.is_file():
+                        file.replace(Path(self._cwd) / path / file.name)
 
 
         s = f'Compilation finished in {timeit.default_timer() - start_time:.2f} seconds.'

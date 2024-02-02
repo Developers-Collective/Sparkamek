@@ -4,14 +4,14 @@
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from ..NSMBW import NSMBW
 from .items import ID, Region
 from .itemdata import RegionData
 #----------------------------------------------------------------------
 
     # Class
 class IDWidget(QGridWidget):
-    type: ProjectKeys = ProjectKeys.ReggieNext
+    type: str = NSMBW.ReggieNext
 
     data_changed = Signal()
     property_entry_selected = Signal(QGridWidget or None)

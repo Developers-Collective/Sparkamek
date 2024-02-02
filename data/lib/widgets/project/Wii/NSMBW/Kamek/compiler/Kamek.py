@@ -10,8 +10,8 @@ from .CannotFindFunctionException import CannotFindFunctionException
 from .MatchingFuncSymbol import MatchingFuncSymbol
 from .FuncSymbol import FuncSymbol
 
-from ...LogType import LogType
-from ...ProjectException import ProjectException
+from .....LogType import LogType
+from .....ProjectException import ProjectException
 #----------------------------------------------------------------------
 
 #   Setup

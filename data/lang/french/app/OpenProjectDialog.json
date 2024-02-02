@@ -89,6 +89,10 @@
                     "title": "Dossier de Sortie Kamek",
                     "description": "Le dossier où seront placés les fichiers une fois compilés (généralement nommé \"NewerRes\")."
                 },
+                "copyType": {
+                    "title": "Type de Copie",
+                    "description": "Détermine comment Sparkamek doit copier les fichiers de sortie de Kamek.\n\nSi vous ne savez pas quoi choisir, laissez cette option sur \"Déplacer\"."
+                },
                 "generatePALv1": {
                     "title": "Générer la Version PAL v1",
                     "description": "Détermine si Sparkamek doit générer une version Européeene (EU • Revision 1) du projet."
@@ -152,6 +156,21 @@
                 "generateKR": "Générer la Version KR",
                 "generateCN": "Générer la Version CN",
                 "nintendoDriverMode": "Mode Nintendo Driver"
+            },
+            "QNamedComboBox": {
+                "copyType": {
+                    "title": "Type de Copie",
+                    "items": {
+                        "copy": {
+                            "title": "Copier",
+                            "description": "Copie les fichiers de sortie de Kamek dans le dossier de sortie du projet, laissant le dossier de sortie de Kamek intact."
+                        },
+                        "move": {
+                            "title": "Déplacer",
+                            "description": "Déplace les fichiers de sortie de Kamek dans le dossier de sortie du projet, supprimant le dossier de sortie de Kamek."
+                        }
+                    }
+                }
             }
         },
         "reggieNext": {

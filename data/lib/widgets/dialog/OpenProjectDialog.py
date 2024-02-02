@@ -3,8 +3,8 @@
     # Libraries
 from PySide6.QtWidgets import QDialog, QFrame, QLabel, QGridLayout, QWidget, QPushButton
 from PySide6.QtCore import Qt, QSize
-from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform, QLangData, QComboBoxItemModel
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 
 import os
 #----------------------------------------------------------------------
@@ -248,7 +248,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_loader(self) -> QWidget:
-        loader_data: dict = self._data['data'].get(ProjectKeys.Loader.value, None) if self._data else None
+        loader_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.Loader, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.loader')
 
@@ -333,7 +333,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_kamek(self) -> QWidget:
-        kamek_data: dict = self._data['data'].get(ProjectKeys.Kamek.value, None) if self._data else None
+        kamek_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.Kamek, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.kamek')
 
@@ -382,7 +382,7 @@ class OpenProjectDialog(QDialog):
             "dialog": lang.get(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get(f'QFileButton.kamekFile'))
         }
 
-        self.kamek_file_button = QFileButton(
+        self._kamek_file_button = QFileButton(
             None,
             l,
             kamek_data.get('path', None) if kamek_data else None,
@@ -390,9 +390,9 @@ class OpenProjectDialog(QDialog):
             QFiles.Dialog.OpenFileName,
             'All supported files (*.yaml *.yml);;YAML (*.yaml *.yml)'
         )
-        self.kamek_file_button.setFixedWidth(350)
-        root_frame.grid_layout.addWidget(self.kamek_file_button, root_frame.grid_layout.count(), 0)
-        root_frame.grid_layout.setAlignment(self.kamek_file_button, Qt.AlignmentFlag.AlignLeft)
+        self._kamek_file_button.setFixedWidth(350)
+        root_frame.grid_layout.addWidget(self._kamek_file_button, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(self._kamek_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
         frame = QFrame()
@@ -404,10 +404,35 @@ class OpenProjectDialog(QDialog):
         label = OpenProjectDialog._text_group(lang.get('QLabel.buildFolder.title'), lang.get('QLabel.buildFolder.description'))
         root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
 
-        self.kamek_build_folder_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.buildFolder'))
-        self.kamek_build_folder_entry.setText(kamek_data.get('build', None) if kamek_data else 'Build')
-        if self.kamek_build_folder_entry.text() == '': self.kamek_build_folder_entry.setText('Build')
-        root_frame.grid_layout.addWidget(self.kamek_build_folder_entry, root_frame.grid_layout.count(), 0)
+        self._kamek_build_folder_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.buildFolder'))
+        self._kamek_build_folder_entry.setText(kamek_data.get('build', None) if kamek_data else 'Build')
+        if self._kamek_build_folder_entry.text() == '': self._kamek_build_folder_entry.setText('Build')
+        root_frame.grid_layout.addWidget(self._kamek_build_folder_entry, root_frame.grid_layout.count(), 0)
+
+
+        frame = QFrame()
+        frame.setProperty('border-top', True)
+        frame.setFixedHeight(1)
+        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+
+
+        label = OpenProjectDialog._text_group(lang.get('QLabel.copyType.title'), lang.get('QLabel.copyType.description'))
+        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+
+        copy_type_model: QComboBoxItemModel = QComboBoxItemModel()
+
+        self._kamek_copy_type_combo_box = QNamedComboBox(None, lang.get('QNamedComboBox.copyType.title'))
+        copy_type_model.add_item(
+            lang.get('QNamedComboBox.copyType.items.copy.title'),
+            lang.get('QNamedComboBox.copyType.items.copy.title') + '\n' + lang.get('QNamedComboBox.copyType.items.copy.description'),
+        )
+        copy_type_model.add_item(
+            lang.get('QNamedComboBox.copyType.items.move.title'),
+            lang.get('QNamedComboBox.copyType.items.move.title') + '\n' + lang.get('QNamedComboBox.copyType.items.move.description'),
+        )
+        copy_type_model.bind(self._kamek_copy_type_combo_box.combo_box)
+        self._kamek_copy_type_combo_box.setCurrentIndex(kamek_data.get('copyType', 1))
+        root_frame.grid_layout.addWidget(self._kamek_copy_type_combo_box, root_frame.grid_layout.count(), 0)
 
 
         frame = QFrame()
@@ -424,16 +449,17 @@ class OpenProjectDialog(QDialog):
             "dialog": lang.get(f'QFileButton.pattern.' + ('edit' if kamek_data else 'open')).replace('%s', lang.get(f'QFileButton.outputFolder'))
         }
 
-        self.kamek_output_folder = QFileButton(
+
+        self._kamek_output_folder = QFileButton(
             None,
             l,
             kamek_data.get('outputFolder') if kamek_data else None,
             self._open_folder_icon,
             QFiles.Dialog.ExistingDirectory
         )
-        self.kamek_output_folder.setFixedWidth(350)
-        root_frame.grid_layout.addWidget(self.kamek_output_folder, root_frame.grid_layout.count(), 0)
-        root_frame.grid_layout.setAlignment(self.kamek_output_folder, Qt.AlignmentFlag.AlignLeft)
+        self._kamek_output_folder.setFixedWidth(350)
+        root_frame.grid_layout.addWidget(self._kamek_output_folder, root_frame.grid_layout.count(), 0)
+        root_frame.grid_layout.setAlignment(self._kamek_output_folder, Qt.AlignmentFlag.AlignLeft)
 
 
         def generate_version(key: str, checked: bool) -> QNamedToggleButton:
@@ -486,7 +512,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_reggienext(self) -> QWidget:
-        reggienext_data: dict = self._data['data'].get(ProjectKeys.ReggieNext.value, None) if self._data else None
+        reggienext_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.ReggieNext, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.reggieNext')
 
@@ -542,7 +568,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_riivolution(self) -> QWidget:
-        riivolution_data: dict = self._data['data'].get(ProjectKeys.Riivolution.value, None) if self._data else None
+        riivolution_data: dict = self._data['data'].get(ProjectKeys.Wii.Riivolution, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.riivolution')
 
@@ -702,9 +728,9 @@ class OpenProjectDialog(QDialog):
         }
     
     def _get_kamek(self) -> dict | None:
-        if self.kamek_file_button.path() in self._forbidden_paths: return None
+        if self._kamek_file_button.path() in self._forbidden_paths: return None
 
-        build_folder = self.kamek_build_folder_entry.text() if self.kamek_build_folder_entry.text() else 'Build'
+        build_folder = self._kamek_build_folder_entry.text() if self._kamek_build_folder_entry.text() else 'Build'
         new_build_folder = ''
         for c in build_folder:
             o = ord(c)
@@ -720,9 +746,10 @@ class OpenProjectDialog(QDialog):
         if new_build_folder == '': new_build_folder = 'Build'
 
         return {
-            'path': self.kamek_file_button.path(),
+            'path': self._kamek_file_button.path(),
             'buildFolder': new_build_folder,
-            'outputFolder': self.kamek_output_folder.path() if self.kamek_output_folder.path() not in self._forbidden_paths else None,
+            'copyType': self._kamek_copy_type_combo_box.currentIndex(),
+            'outputFolder': self._kamek_output_folder.path() if self._kamek_output_folder.path() not in self._forbidden_paths else None,
             'generatePALv1': self._kamek_generate_pal_v1_toggle.isChecked(),
             'generatePALv2': self._kamek_generate_pal_v2_toggle.isChecked(),
             'generateNTSCv1': self._kamek_generate_ntsc_v1_toggle.isChecked(),
@@ -756,10 +783,10 @@ class OpenProjectDialog(QDialog):
                 'name': self.name_entry.text() if self.name_entry.text() else 'Project',
                 'icon': self.icon_button.path() if self.icon_button.path() not in self._forbidden_paths else None,
                 'data': {
-                    ProjectKeys.Loader.value: self._get_loader(),
-                    ProjectKeys.Kamek.value: self._get_kamek(),
-                    ProjectKeys.ReggieNext.value: self._get_reggienext(),
-                    ProjectKeys.Riivolution.value: self._get_riivolution()
+                    ProjectKeys.Wii.SME.Loader: self._get_loader(),
+                    ProjectKeys.Wii.SME.Kamek: self._get_kamek(),
+                    ProjectKeys.Wii.SME.ReggieNext: self._get_reggienext(),
+                    ProjectKeys.Wii.Riivolution: self._get_riivolution()
                 }
             }
             return data if any(data['data'].values()) else None

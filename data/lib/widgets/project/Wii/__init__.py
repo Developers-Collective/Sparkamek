@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .SubProjectWidgetBase import SubProjectWidgetBase
-from .Wii import *
-from .ProjectKeys import ProjectKeys
+from .Riivolution import *
+from .Wii import Wii
+from .NSMBW import *
 #----------------------------------------------------------------------

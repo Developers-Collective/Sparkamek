@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Signal, Qt
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from ..NSMBW import NSMBW
 from .items import WiiDisc, Patch
 from .IDWidget import IDWidget
 from .OptionsWidget import OptionsWidget
@@ -15,7 +15,7 @@ from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 
     # Class
 class WiiDiscWidget(QGridWidget):
-    type: ProjectKeys = ProjectKeys.ReggieNext
+    type: str = NSMBW.ReggieNext
 
     _app: QBaseApplication = None
 
