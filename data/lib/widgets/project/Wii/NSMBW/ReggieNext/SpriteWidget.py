@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QPushButton, QLabel, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QAction
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton, QLangData
-from data.lib.widgets.project.ProjectKeys import ProjectKeys
+from ..NSMBW import NSMBW
 from .sprites.Sprite import Sprite
 from .sprites.Dependency import Required, Suggested
 from .spritedata import *
@@ -14,7 +14,7 @@ from .spritedata.ItemDataFactory import ItemDataFactory
 
     # Class
 class SpriteWidget(QGridWidget):
-    type: ProjectKeys = ProjectKeys.Wii.SME.ReggieNext
+    type: str = NSMBW.ReggieNext
 
     _app: QBaseApplication = None
 

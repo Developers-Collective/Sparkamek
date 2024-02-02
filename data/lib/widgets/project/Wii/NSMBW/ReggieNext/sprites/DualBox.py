@@ -2,7 +2,7 @@
 
     # Libraries
 from data.lib.storage import XMLNode
-from data.lib.widgets.project.ReggieNext.sprites.BaseItem import BaseItem
+from data.lib.widgets.project.Wii.NSMBW.ReggieNext.sprites.BaseItem import BaseItem
 from .BaseItem import BaseItem
 #----------------------------------------------------------------------
 

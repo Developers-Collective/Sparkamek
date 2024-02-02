@@ -2,9 +2,6 @@
 
     # Libraries
 from .SubProjectWidgetBase import SubProjectWidgetBase
-from .Loader import *
-from .Kamek import *
-from .ReggieNext import *
-from .Riivolution import *
+from .Wii import *
 from .ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------

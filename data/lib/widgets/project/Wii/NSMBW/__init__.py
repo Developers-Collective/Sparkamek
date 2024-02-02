@@ -1,5 +1,8 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .SME import SME
+from .NSMBW import *
+from .Loader import *
+from .Kamek import *
+from .ReggieNext import *
 #----------------------------------------------------------------------

@@ -5,7 +5,7 @@ from PySide6.QtCore import Signal, QThread
 import os, subprocess, shutil, sys
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
-from ..LogType import LogType
+from ....LogType import LogType
 #----------------------------------------------------------------------
 
 #   Setup

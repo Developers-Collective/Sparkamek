@@ -19,11 +19,11 @@ class ProjectType:
         ]
 
     @staticmethod
-    def get_all_keys() -> list[ProjectKeys]:
+    def get_all_keys() -> list[str]:
         return [project.type for project in ProjectType.get_all()]
 
     @staticmethod
-    def get_by_type(type: ProjectKeys) -> type[SubProjectWidgetBase] | None:
+    def get_by_type(type: str) -> type[SubProjectWidgetBase] | None:
         for project in ProjectType.get_all():
             if project.type == type:
                 return project

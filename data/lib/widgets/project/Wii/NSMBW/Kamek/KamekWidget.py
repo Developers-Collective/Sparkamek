@@ -4,19 +4,19 @@
 from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
 from data.lib.qtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QLangData
-from ..SubProjectWidgetBase import SubProjectWidgetBase
-from data.lib.widgets.project.ProjectKeys import ProjectKeys
+from ....SubProjectWidgetBase import SubProjectWidgetBase
+from ..NSMBW import NSMBW
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
 from .AddressConverterDockWidget import AddressConverterDockWidget
 from .CompilerWorker import CompilerWorker
 from .CopyType import CopyType
-from ..LogType import LogType
+from ....LogType import LogType
 #----------------------------------------------------------------------
 
     # Class
 class KamekWidget(SubProjectWidgetBase):
-    type: ProjectKeys = ProjectKeys.Wii.SME.Kamek
+    type: str = NSMBW.Kamek
 
     _compile_icon = None
     _stop_icon = None

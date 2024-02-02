@@ -7,8 +7,8 @@ from pathlib import Path
 from shutil import copyfile
 
 from data.lib.qtUtils import QBaseApplication, QUtilsColor
-from ..LogType import LogType
-from ..ProjectException import ProjectException
+from ....LogType import LogType
+from ....ProjectException import ProjectException
 from .CopyType import CopyType
 from .compiler import *
 #----------------------------------------------------------------------

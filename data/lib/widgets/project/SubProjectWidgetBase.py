@@ -2,12 +2,11 @@
 
     # Libraries
 from data.lib.qtUtils import QSubScrollableGridMainWindow, QBaseApplication, QSaveData
-from data.lib.widgets.project.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------
 
     # Class
 class SubProjectWidgetBase(QSubScrollableGridMainWindow):
-    type: ProjectKeys = None
+    type: str = None
 
     def init(app: QBaseApplication) -> None:
         pass
