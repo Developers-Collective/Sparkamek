@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QDialog, QFrame, QLabel, QGridLayout, QWidget, QPushButton
 from PySide6.QtCore import Qt, QSize
 from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform, QLangData, QComboBoxItemModel
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 
 import os
 #----------------------------------------------------------------------
@@ -248,7 +248,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_loader(self) -> QWidget:
-        loader_data: dict = self._data['data'].get(ProjectKeys.Loader.value, None) if self._data else None
+        loader_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.Loader, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.loader')
 
@@ -333,7 +333,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_kamek(self) -> QWidget:
-        kamek_data: dict = self._data['data'].get(ProjectKeys.Kamek.value, None) if self._data else None
+        kamek_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.Kamek, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.kamek')
 
@@ -512,7 +512,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_reggienext(self) -> QWidget:
-        reggienext_data: dict = self._data['data'].get(ProjectKeys.ReggieNext.value, None) if self._data else None
+        reggienext_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.ReggieNext, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.reggieNext')
 
@@ -568,7 +568,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_riivolution(self) -> QWidget:
-        riivolution_data: dict = self._data['data'].get(ProjectKeys.Riivolution.value, None) if self._data else None
+        riivolution_data: dict = self._data['data'].get(ProjectKeys.Wii.Riivolution, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.riivolution')
 
@@ -783,10 +783,10 @@ class OpenProjectDialog(QDialog):
                 'name': self.name_entry.text() if self.name_entry.text() else 'Project',
                 'icon': self.icon_button.path() if self.icon_button.path() not in self._forbidden_paths else None,
                 'data': {
-                    ProjectKeys.Loader.value: self._get_loader(),
-                    ProjectKeys.Kamek.value: self._get_kamek(),
-                    ProjectKeys.ReggieNext.value: self._get_reggienext(),
-                    ProjectKeys.Riivolution.value: self._get_riivolution()
+                    ProjectKeys.Wii.SME.Loader: self._get_loader(),
+                    ProjectKeys.Wii.SME.Kamek: self._get_kamek(),
+                    ProjectKeys.Wii.SME.ReggieNext: self._get_reggienext(),
+                    ProjectKeys.Wii.Riivolution: self._get_riivolution()
                 }
             }
             return data if any(data['data'].values()) else None

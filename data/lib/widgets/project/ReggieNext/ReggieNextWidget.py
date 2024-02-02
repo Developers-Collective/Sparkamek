@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QDockWidget, QPushButton, QFileDialog
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 from .SpriteListDockWidget import SpriteListDockWidget
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget
 from .SpriteWidget import SpriteWidget
@@ -17,7 +17,7 @@ import os
 
     # Class
 class ReggieNextWidget(SubProjectWidgetBase):
-    type: ProjectKeys = ProjectKeys.ReggieNext
+    type: ProjectKeys = ProjectKeys.Wii.SME.ReggieNext
 
     _clear_icon = None
     _reset_icon = None

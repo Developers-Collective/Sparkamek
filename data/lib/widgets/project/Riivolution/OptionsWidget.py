@@ -4,14 +4,14 @@
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 from .items import Options, Section
 from .itemdata import SectionData
 #----------------------------------------------------------------------
 
     # Class
 class OptionsWidget(QGridWidget):
-    type: ProjectKeys = ProjectKeys.ReggieNext
+    type: ProjectKeys = ProjectKeys.Wii.SME.ReggieNext
 
     data_changed = Signal()
     property_entry_selected = Signal(QGridWidget or None)

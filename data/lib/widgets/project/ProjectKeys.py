@@ -1,13 +1,10 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from enum import StrEnum
+from .Wii import Wii as WiiProject
 #----------------------------------------------------------------------
 
     # Class
-class ProjectKeys(StrEnum):
-    Loader = 'loader'
-    Kamek = 'kamek'
-    ReggieNext = 'reggieNext'
-    Riivolution = 'riivolution'
+class ProjectKeys:
+    Wii = WiiProject
 #----------------------------------------------------------------------

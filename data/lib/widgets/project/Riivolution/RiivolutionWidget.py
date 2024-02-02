@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QPushButton, QDockWidget, QLabel
 from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 from data.lib.storage.xml import XML
 from .WiiDiscWidget import WiiDiscWidget
 from .items import WiiDisc
@@ -15,7 +15,7 @@ import os
 
     # Class
 class RiivolutionWidget(SubProjectWidgetBase):
-    type: ProjectKeys = ProjectKeys.Riivolution
+    type: ProjectKeys = ProjectKeys.Wii.Riivolution
 
     _load_icon = None
     _save_icon = None

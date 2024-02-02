@@ -2,7 +2,6 @@
 
     # Libraries
 from .project import *
-from .ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------
 
     # Class

@@ -6,13 +6,13 @@ from PySide6.QtCore import Qt
 from ..SubProjectWidgetBase import SubProjectWidgetBase
 from ..LogType import LogType
 from data.lib.qtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 from .CompilerWorker import CompilerWorker
 #----------------------------------------------------------------------
     
     # Class
 class LoaderWidget(SubProjectWidgetBase):
-    type: ProjectKeys = ProjectKeys.Loader
+    type: ProjectKeys = ProjectKeys.Wii.SME.Loader
 
     _compile_icon = None
     _stop_icon = None

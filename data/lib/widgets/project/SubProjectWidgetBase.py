@@ -2,7 +2,7 @@
 
     # Libraries
 from data.lib.qtUtils import QSubScrollableGridMainWindow, QBaseApplication, QSaveData
-from data.lib.widgets.ProjectKeys import ProjectKeys
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------
 
     # Class
