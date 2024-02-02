@@ -16,7 +16,7 @@
         "root": "Used as the root for all paths used within this XML.",
         "version": "Riivolution v1.0 only supports XMLs with a version of 1."
     },
-    "IDWidget": "#ref: app/projects/RiivolutionWidget/IDWidget",
-    "OptionsWidget": "#ref: app/projects/RiivolutionWidget/OptionsWidget",
-    "PatchData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchData"
+    "IDWidget": "#ref: app/projects/Wii/RiivolutionWidget/IDWidget",
+    "OptionsWidget": "#ref: app/projects/Wii/RiivolutionWidget/OptionsWidget",
+    "PatchData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/PatchData"
 }

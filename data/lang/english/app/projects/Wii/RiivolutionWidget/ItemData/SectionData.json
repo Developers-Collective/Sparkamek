@@ -14,6 +14,6 @@
         "QToolTip": {
             "name": "The name of the section as it should show up in Riivolution."
         },
-        "OptionData": "#ref: app/projects/RiivolutionWidget/ItemData/OptionData"
+        "OptionData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/OptionData"
     }
 }

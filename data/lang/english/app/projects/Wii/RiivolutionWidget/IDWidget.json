@@ -20,5 +20,5 @@
         "disc": "One byte specifying the disc number of the game. This is usually 0, but may be 1 for the second disc of a multi-disc game - like Tales of Symphonia - and so on.",
         "version": "Another byte specifying the disc version. This is again usually 0, but may be increased for game reprints."
     },
-    "RegionData": "#ref: app/projects/RiivolutionWidget/ItemData/RegionData"
+    "RegionData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/RegionData"
 }

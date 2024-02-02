@@ -15,6 +15,6 @@
         "QToolTip": {
             "name": "Il s'agit du nom du choix tel qu'il apparaîtra dans Riivolution."
         },
-        "PatchRefData": "#ref: app/projects/RiivolutionWidget/ItemData/PatchRefData"
+        "PatchRefData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/PatchRefData"
     }
 }

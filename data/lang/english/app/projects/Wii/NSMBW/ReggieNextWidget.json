@@ -34,7 +34,7 @@
         "import": "Sparkamek > Reggie Next > Import a Sprite",
         "export": "Sparkamek > Reggie Next > Export a Sprite"
     },
-    "SpriteListDockWidget": "#ref: app/projects/ReggieNextWidget/SpriteListDockWidget",
-    "SpriteWidget": "#ref: app/projects/ReggieNextWidget/SpriteWidget",
-    "ItemDataPropertyDockWidget": "#ref: app/projects/ReggieNextWidget/ItemDataPropertyDockWidget"
+    "SpriteListDockWidget": "#ref: app/projects/Wii/NSMBW/ReggieNextWidget/SpriteListDockWidget",
+    "SpriteWidget": "#ref: app/projects/Wii/NSMBW/ReggieNextWidget/SpriteWidget",
+    "ItemDataPropertyDockWidget": "#ref: app/projects/Wii/NSMBW/ReggieNextWidget/ItemDataPropertyDockWidget"
 }

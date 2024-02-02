@@ -14,7 +14,7 @@
         "info": "Info",
         "success": "Success"
     },
-    "SpritesAndActorsDockWidget": "#ref: app/projects/KamekWidget/SpritesAndActorsDockWidget",
-    "SymbolsDockWidget": "#ref: app/projects/KamekWidget/SymbolsDockWidget",
-    "AddressConverterDockWidget": "#ref: app/projects/KamekWidget/AddressConverterDockWidget"
+    "SpritesAndActorsDockWidget": "#ref: app/projects/Wii/NSMBW/KamekWidget/SpritesAndActorsDockWidget",
+    "SymbolsDockWidget": "#ref: app/projects/Wii/NSMBW/KamekWidget/SymbolsDockWidget",
+    "AddressConverterDockWidget": "#ref: app/projects/Wii/NSMBW/KamekWidget/AddressConverterDockWidget"
 }

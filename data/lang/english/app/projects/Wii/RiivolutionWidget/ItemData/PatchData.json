@@ -18,10 +18,10 @@
             "id": "ID",
             "root": "Root"
         },
-        "FileData": "#ref: app/projects/RiivolutionWidget/ItemData/FileData",
-        "FolderData": "#ref: app/projects/RiivolutionWidget/ItemData/FolderData",
-        "SaveGameData": "#ref: app/projects/RiivolutionWidget/ItemData/SaveGameData",
-        "MemoryData": "#ref: app/projects/RiivolutionWidget/ItemData/MemoryData",
+        "FileData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/FileData",
+        "FolderData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/FolderData",
+        "SaveGameData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/SaveGameData",
+        "MemoryData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/MemoryData",
         "QToolTip": {
             "id": "This is the id that a choice will reference in order to enable the patch.",
             "root": "This can set the root path for all items in this patch."

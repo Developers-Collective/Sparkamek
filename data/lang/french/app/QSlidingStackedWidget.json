@@ -8,10 +8,7 @@
     "mainMenu": {
         "projects": {
             "QTabWidget": {
-                "loader": "Loader",
-                "kamek": "Kamek",
-                "reggieNext": "Reggie Next",
-                "riivolution": "Riivolution / Jeu"
+                "wii": "#ref: app/projects/Wii/QTabWidget"
             },
             "QMenu": {
                 "more": {
@@ -26,10 +23,10 @@
                     }
                 }
             },
-            "LoaderWidget": "#ref: app/projects/LoaderWidget",
-            "KamekWidget": "#ref: app/projects/KamekWidget",
-            "ReggieNextWidget": "#ref: app/projects/ReggieNextWidget",
-            "RiivolutionWidget": "#ref: app/projects/RiivolutionWidget"
+            "LoaderWidget": "#ref: app/projects/Wii/NSMBW/LoaderWidget",
+            "KamekWidget": "#ref: app/projects/Wii/NSMBW/KamekWidget",
+            "ReggieNextWidget": "#ref: app/projects/Wii/NSMBW/ReggieNextWidget",
+            "RiivolutionWidget": "#ref: app/projects/Wii/RiivolutionWidget"
         }
     }
 }

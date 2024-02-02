@@ -21,6 +21,6 @@
             "name": "Le nom de l'option qui sera affiché dans Riivolution.",
             "default": "L'index du choix par défaut qui sera sélectionné lorsque le programme démarre. Une fois que l'utilisateur a sauvegardé ses paramètres (lancé un jeu), ceci est ignoré et le dernier choix utilisé est sélectionné.\nL'index est basé sur 1, car le mettre à 0 est désactivé (c'est la valeur par défaut lorsqu'il n'est pas spécifié)."
         },
-        "ChoiceData": "#ref: app/projects/RiivolutionWidget/ItemData/ChoiceData"
+        "ChoiceData": "#ref: app/projects/Wii/RiivolutionWidget/ItemData/ChoiceData"
     }
 }
