@@ -248,7 +248,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_loader(self) -> QWidget:
-        loader_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.Loader, None) if self._data else None
+        loader_data: dict = self._data['data'].get(ProjectKeys.Wii.NSMBW.Loader, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.loader')
 
@@ -333,7 +333,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_kamek(self) -> QWidget:
-        kamek_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.Kamek, None) if self._data else None
+        kamek_data: dict = self._data['data'].get(ProjectKeys.Wii.NSMBW.Kamek, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.kamek')
 
@@ -512,7 +512,7 @@ class OpenProjectDialog(QDialog):
 
 
     def _menu_reggienext(self) -> QWidget:
-        reggienext_data: dict = self._data['data'].get(ProjectKeys.Wii.SME.ReggieNext, None) if self._data else None
+        reggienext_data: dict = self._data['data'].get(ProjectKeys.Wii.NSMBW.ReggieNext, None) if self._data else None
 
         lang = self._lang.get('QSlidingStackedWidget.reggieNext')
 
@@ -783,9 +783,9 @@ class OpenProjectDialog(QDialog):
                 'name': self.name_entry.text() if self.name_entry.text() else 'Project',
                 'icon': self.icon_button.path() if self.icon_button.path() not in self._forbidden_paths else None,
                 'data': {
-                    ProjectKeys.Wii.SME.Loader: self._get_loader(),
-                    ProjectKeys.Wii.SME.Kamek: self._get_kamek(),
-                    ProjectKeys.Wii.SME.ReggieNext: self._get_reggienext(),
+                    ProjectKeys.Wii.NSMBW.Loader: self._get_loader(),
+                    ProjectKeys.Wii.NSMBW.Kamek: self._get_kamek(),
+                    ProjectKeys.Wii.NSMBW.ReggieNext: self._get_reggienext(),
                     ProjectKeys.Wii.Riivolution: self._get_riivolution()
                 }
             }

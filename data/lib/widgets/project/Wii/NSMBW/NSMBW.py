@@ -2,7 +2,7 @@
 
     # Class
 class NSMBW:
-    Loader = 'wii.sme.loader'
-    Kamek = 'wii.sme.kamek'
-    ReggieNext = 'wii.sme.reggieNext'
+    Loader = 'wii.nsmbw.loader'
+    Kamek = 'wii.nsmbw.kamek'
+    ReggieNext = 'wii.nsmbw.reggieNext'
 #----------------------------------------------------------------------

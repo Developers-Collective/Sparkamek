@@ -1,11 +1,11 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .NSMBW.NSMBW import NSMBW as WiiSME
+from .NSMBW.NSMBW import NSMBW as WiiNSMBW
 #----------------------------------------------------------------------
 
     # Class
 class Wii:
     Riivolution = 'wii.riivolution'
-    SME = WiiSME
+    NSMBW = WiiNSMBW
 #----------------------------------------------------------------------
