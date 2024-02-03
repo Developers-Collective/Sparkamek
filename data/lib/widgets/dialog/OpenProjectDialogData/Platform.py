@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QGridFrame, QBaseApplication, QLangData, QIconWidget
+from data.lib.qtUtils import QGridFrame, QBaseApplication, QLangData, QIconWidget, QBetterToolTip
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import Signal, QSize
 from PySide6.QtGui import QMouseEvent, Qt
@@ -9,6 +9,7 @@ from data.lib.utils import AbstractTypeFactory
 #----------------------------------------------------------------------
 
     # Class
+@QBetterToolTip
 class Platform(QGridFrame):
     _lang: QLangData = QLangData.NoTranslation()
 
@@ -34,10 +35,10 @@ class Platform(QGridFrame):
         self.grid_layout.addWidget(self._icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
 
         self._title = QLabel(self._lang.get(f'platform.{key}') if key else self._lang.get('platform.unknown'))
-        # self._title.setWordWrap(True)
-        self._title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._title.setProperty('h', 3)
         self.grid_layout.addWidget(self._title, 1, 0, Qt.AlignmentFlag.AlignCenter)
+
+        self.setToolTip(self._title.text())
 
         self.grid_layout.setRowStretch(2, 1)
 

@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QGridFrame, QIconWidget, QBaseApplication, QLangData
+from data.lib.qtUtils import QGridFrame, QIconWidget, QBaseApplication, QLangData, QBetterToolTip
 from PySide6.QtCore import Qt, QSize, Signal
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel
@@ -9,6 +9,7 @@ from .GameInfo import GameInfo
 #----------------------------------------------------------------------
 
     # Class
+@QBetterToolTip
 class Game(QGridFrame):
     _lang: QLangData = QLangData.NoTranslation()
 
@@ -34,10 +35,10 @@ class Game(QGridFrame):
         self.grid_layout.addWidget(self._icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
 
         self._title = QLabel(self._lang.get(f'game.{key}.title') if key else self._lang.get('game.unknown'))
-        # self._title.setWordWrap(True)
-        self._title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._title.setProperty('h', 3)
         self.grid_layout.addWidget(self._title, 1, 0, Qt.AlignmentFlag.AlignCenter)
+
+        self.setToolTip(self._title.text())
 
         self.grid_layout.setRowStretch(2, 1)
 
