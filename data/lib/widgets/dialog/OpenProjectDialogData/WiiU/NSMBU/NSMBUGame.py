@@ -2,21 +2,21 @@
 
     # Libraries
 from data.lib.qtUtils import QBaseApplication
-from ..Platform import Platform
-from ..PlatformFactory import PlatformFactory
-from .SwitchGameFactory import SwitchGameFactory
+from ...Game import Game
+from ..WiiUGameFactory import WiiUGameFactory
+from .NSMBU import NSMBU
 #----------------------------------------------------------------------
 
     # Class
-class SwitchPlatform(Platform):
+class NSMBUGame(Game):
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        SwitchGameFactory.init(app)
+        NSMBU.init(app)
 
     def __init__(self) -> None:
-        super().__init__('Switch', './data/icons/utils/Switch/icon.svg', SwitchGameFactory)
+        super().__init__('WiiU.NSMBU', './data/icons/utils/WiiU/NSMBU/icon.svg', NSMBU)
 #----------------------------------------------------------------------
 
     # Register
-PlatformFactory.register('Switch', SwitchPlatform)
+WiiUGameFactory.register('WiiU.NSMBU', NSMBUGame)
 #----------------------------------------------------------------------

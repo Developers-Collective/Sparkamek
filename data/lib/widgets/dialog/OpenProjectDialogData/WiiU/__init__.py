@@ -2,4 +2,5 @@
 
     # Libraries
 from .WiiUPlatform import WiiUPlatform
+from .NSMBU import *
 #----------------------------------------------------------------------

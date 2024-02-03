@@ -1,6 +1,5 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .SwitchPlatform import SwitchPlatform
-from .SMBWonder import *
+from .NSMBUGame import NSMBUGame
 #----------------------------------------------------------------------

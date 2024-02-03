@@ -30,12 +30,16 @@ class Platform(QGridFrame):
         self.grid_layout.setSpacing(8)
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        self._icon = QIconWidget(None, icon, QSize(64, 64), False)
+        self._icon = QIconWidget(None, icon, QSize(120, 80), False)
         self.grid_layout.addWidget(self._icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
 
         self._title = QLabel(self._lang.get(f'platform.{key}') if key else self._lang.get('platform.unknown'))
+        # self._title.setWordWrap(True)
+        self._title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._title.setProperty('h', 3)
         self.grid_layout.addWidget(self._title, 1, 0, Qt.AlignmentFlag.AlignCenter)
+
+        self.grid_layout.setRowStretch(2, 1)
 
         self.setProperty('PlatformButton', True)
         self.setCursor(Qt.CursorShape.PointingHandCursor)

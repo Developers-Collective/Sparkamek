@@ -2,21 +2,21 @@
 
     # Libraries
 from data.lib.qtUtils import QBaseApplication
-from ..Platform import Platform
-from ..PlatformFactory import PlatformFactory
-from .SwitchGameFactory import SwitchGameFactory
+from ...Game import Game
+from ..SwitchGameFactory import SwitchGameFactory
+from .SMBWonder import SMBWonder
 #----------------------------------------------------------------------
 
     # Class
-class SwitchPlatform(Platform):
+class SMBWonderGame(Game):
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        SwitchGameFactory.init(app)
+        SMBWonder.init(app)
 
     def __init__(self) -> None:
-        super().__init__('Switch', './data/icons/utils/Switch/icon.svg', SwitchGameFactory)
+        super().__init__('Switch.SMBWonder', './data/icons/utils/Switch/SMBWonder/icon.svg', SMBWonder)
 #----------------------------------------------------------------------
 
     # Register
-PlatformFactory.register('Switch', SwitchPlatform)
+SwitchGameFactory.register('Switch.SMBWonder', SMBWonderGame)
 #----------------------------------------------------------------------

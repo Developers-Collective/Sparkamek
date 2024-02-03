@@ -1,7 +1,10 @@
 {
-    "Wii": "#ref: app/OpenProjectDialog/game/Wii",
-    "WiiU": "#ref: app/OpenProjectDialog/game/WiiU",
     "Switch": "#ref: app/OpenProjectDialog/game/Switch",
+    "WiiU": "#ref: app/OpenProjectDialog/game/WiiU",
+    "Wii": "#ref: app/OpenProjectDialog/game/Wii",
     "3DS": "#ref: app/OpenProjectDialog/game/3DS",
-    "DS": "#ref: app/OpenProjectDialog/game/DS"
+    "DS": "#ref: app/OpenProjectDialog/game/DS",
+    "N64": "#ref: app/OpenProjectDialog/game/N64",
+    "GCN": "#ref: app/OpenProjectDialog/game/GCN",
+    "unknown": "Inconnu"
 }

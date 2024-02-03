@@ -170,3 +170,9 @@ tmp.py
 vscode/
 data/icons/SparkamekOLD.svg
 tmp/
+
+# I'll focus on Wii, Wii U and Switch for now, I'll add the rest later
+data/icons/utils/N64/**
+data/icons/utils/GCN/**
+data/icons/utils/DS/**
+data/icons/utils/3DS/**
