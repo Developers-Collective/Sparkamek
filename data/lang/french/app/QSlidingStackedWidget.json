@@ -13,10 +13,7 @@
             "QMenu": {
                 "more": {
                     "QAction": {
-                        "showLoaderInExplorer": "Afficher le Loader dans l'Explorateur de Fichiers",
-                        "showKamekInExplorer": "Afficher Kamek dans l'Explorateur de Fichiers",
-                        "showReggieNextInExplorer": "Afficher Reggie Next dans l'Explorateur de Fichiers",
-                        "showRiivolutionInExplorer": "Afficher Riivolution dans l'Explorateur de Fichiers",
+                        "showInExplorer": "#ref: app/projects/showInExplorer",
                         "resetDockWidgets": "Réinitialiser les Widgets de la Barre Latérale",
                         "edit": "Éditer...",
                         "remove": "Supprimer"

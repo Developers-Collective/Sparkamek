@@ -1,8 +1,8 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PyQt6.QtWidgets import QLabel, QFrame
-from PyQt6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QFrame
+from PySide6.QtCore import Qt
 from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QNamedLineEdit, QNamedComboBox, QComboBoxItemModel, QNamedToggleButton, QFiles, QBaseApplication, QUtilsColor, QPlatform
 from data.lib.widgets.project import ProjectKeys
 from ...BaseWidget import BaseWidget
@@ -21,7 +21,7 @@ class KamekWidget(BaseWidget):
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        KamekWidget._lang = app.get_lang_data('OpenProjectDialog.Wii.NSMBW.Kamek')
+        KamekWidget._lang = app.get_lang_data('OpenProjectDialog.game.Wii.NSMBW.kamek')
         KamekWidget._color_link = app.COLOR_LINK
         KamekWidget._open_file_icon = f'{app.save_data.get_icon_dir()}filebutton/file.png'
         KamekWidget._open_folder_icon = f'{app.save_data.get_icon_dir()}filebutton/folder.png'
@@ -45,7 +45,7 @@ class KamekWidget(BaseWidget):
 
         kamek_data: dict = data['data'].get(ProjectKeys.Wii.NSMBW.Kamek, None) if data else None
 
-        lang = self._lang.get('QSlidingStackedWidget.kamek')
+        lang = self._lang
 
         self.scroll_layout.setSpacing(30)
         self.scroll_layout.setContentsMargins(0, 0, 16, 0)

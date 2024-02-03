@@ -1,22 +1,31 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PySide6.QtWidgets import QDialog, QFrame, QLabel, QGridLayout, QWidget, QPushButton
-from PySide6.QtCore import Qt, QSize
-from data.lib.qtUtils import QGridFrame, QGridWidget, QSlidingStackedWidget, QScrollableGridWidget, QFileButton, QFiles, QBaseApplication, QNamedComboBox, QNamedToggleButton, QNamedLineEdit, QFlowScrollableWidget, QIconWidget, QUtilsColor, QPlatform, QLangData, QComboBoxItemModel
-from data.lib.widgets.project.ProjectKeys import ProjectKeys
+from PySide6.QtWidgets import QDialog, QGridLayout, QPushButton
+from PySide6.QtCore import Qt
+from enum import IntEnum
 
-import os
+from data.lib.qtUtils import QGridFrame, QGridWidget, QBaseApplication, QLangData, QProgressIndicatorWidget, QProgressIndicator
+
+from .OpenProjectDialogData.Common import BaseMenu, MenuGeneral, MenuIcon, MenuPlatform, MenuGame, MenuGameInfo
+from .OpenProjectDialogData.Platform import Platform
+from .OpenProjectDialogData.Game import Game
+from .OpenProjectDialogData.GameInfo import GameInfo
 #----------------------------------------------------------------------
 
     # Class
 class OpenProjectDialog(QDialog):
+    class Menus(IntEnum):
+        General = 0
+        Icon = 1
+        Platform = 2
+        Game = 3
+        GameInfo = 4
+
+
     _lang: QLangData = QLangData.NoTranslation()
 
     _open_image_icon: str = ''
-
-
-    _icon_path = os.path.abspath('./data/icons/sample/')
 
     _forbidden_paths = (
         None,
@@ -29,6 +38,15 @@ class OpenProjectDialog(QDialog):
     def init(app: QBaseApplication) -> None:
         OpenProjectDialog._lang = app.get_lang_data('OpenProjectDialog')
         OpenProjectDialog._open_image_icon = f'{app.save_data.get_icon_dir()}filebutton/image.png'
+
+        Platform.init(app)
+        Game.init(app)
+        GameInfo.init(app)
+
+        MenuGeneral.init(app)
+        MenuIcon.init(app)
+        MenuPlatform.init(app)
+        MenuGame.init(app)
 
 
     def __init__(self, parent = None, data: dict = None) -> None:
@@ -59,32 +77,30 @@ class OpenProjectDialog(QDialog):
 
         self.setWindowTitle(self._lang.get('title.' + ('edit' if data else 'open')))
 
-        self._root = QSlidingStackedWidget()
-        self._root.set_orientation(Qt.Orientation.Horizontal)
-        self._pages = {}
-
         root_frame = QGridFrame()
-        root_frame.grid_layout.addWidget(self._root, 0, 0)
         root_frame.grid_layout.setSpacing(0)
-        root_frame.grid_layout.setContentsMargins(16, 16, 16, 16)
+        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        # self._pages['general'] = self._menu_general()
-        # self._root.addWidget(self._pages['general'])
+        self._menus: dict[OpenProjectDialog.Menus, BaseMenu] = {
+            OpenProjectDialog.Menus.General: MenuGeneral(self._data),
+            OpenProjectDialog.Menus.Icon: MenuIcon(self._data),
+            OpenProjectDialog.Menus.Platform: MenuPlatform(self._data),
+            OpenProjectDialog.Menus.Game: MenuGame(self._data),
+            OpenProjectDialog.Menus.GameInfo: MenuGameInfo(self._data),
+        }
 
-        # self._pages['icon'] = self._menu_icon()
-        # self._root.addWidget(self._pages['icon'])
+        self._progress_indicator_widget = QProgressIndicatorWidget(
+            None,
+            QProgressIndicator.Direction.Top2Bottom,
+            False,
+            content_margins = (0, 0, 0, 0),
+        )
+        for menu in self._menus.values():
+            menu.can_continue_changed.connect(self._update_continue)
+            self._progress_indicator_widget.add_widget(menu)
 
-        # self._pages['loader'] = self._menu_loader()
-        # self._root.addWidget(self._pages['loader'])
-
-        # self._pages['kamek'] = self._menu_kamek()
-        # self._root.addWidget(self._pages['kamek'])
-
-        # self._pages['reggienext'] = self._menu_reggienext()
-        # self._root.addWidget(self._pages['reggienext'])
-
-        # self._pages['riivolution'] = self._menu_riivolution()
-        # self._root.addWidget(self._pages['riivolution'])
+        root_frame.grid_layout.addWidget(self._progress_indicator_widget, 0, 0)
+        self._progress_indicator_widget.set_current_index(0)
 
         self._frame = QGridFrame()
         self._frame.grid_layout.addWidget(right_buttons, 0, 0)
@@ -102,34 +118,68 @@ class OpenProjectDialog(QDialog):
         self._layout.addWidget(self._frame, 1, 0)
 
         self.setLayout(self._layout)
+        self._menus[OpenProjectDialog.Menus.General].update_continue()
+        self._update_keywords()
+
+
+    @property
+    def _current_index(self) -> int:
+        return self._progress_indicator_widget.current_index()
+
+    @_current_index.setter
+    def _current_index(self, value: int) -> None:
+        self._progress_indicator_widget.set_current_index(value)
         self._update_keywords()
 
 
     def accept(self) -> None:
-        if self._root.current_index == self._root.count() - 1:
+        if self._current_index == self._progress_indicator_widget.count() - 1:
             return super().accept()
-        self._root.slide_in_next()
+
+        if self._current_index == OpenProjectDialog.Menus.Platform:
+            if self._menus[OpenProjectDialog.Menus.Platform].selected_platform is None:
+                return
+
+            factory = self._menus[OpenProjectDialog.Menus.Platform].selected_platform.game_factory
+            self._menus[OpenProjectDialog.Menus.Game].set_factory(factory)
+
+        elif self._current_index == OpenProjectDialog.Menus.Game:
+            if self._menus[OpenProjectDialog.Menus.Game].selected_game is None:
+                return
+
+            game = self._menus[OpenProjectDialog.Menus.Game].selected_game
+            self._menus[OpenProjectDialog.Menus.GameInfo].set_game(game.game_info(self._data))
+
+        self._current_index = self._current_index + 1
+        self._menus[self._current_index].update_continue()
         self._update_keywords()
 
+
     def new_reject(self) -> None:
-        if self._root.current_index == 0:
+        if self._current_index == 0:
             return self.reject()
-        self._root.slide_in_previous()
+        self._current_index = self._current_index - 1
+        self._menus[self._current_index].update_continue()
         self._update_keywords()
+
 
     def reject(self) -> None:
         return super().reject()
 
+
     def _update_keywords(self) -> None:
-        if self._root.current_index < self._root.count() - 1:
+        if self._current_index < self._progress_indicator_widget.count() - 1:
             self._load_button.setText(self._lang.get('QPushButton.next'))
         else:
             self._load_button.setText(self._lang.get('QPushButton.load'))
 
-        if self._root.current_index == 0:
+        if self._current_index == 0:
             self._cancel_button.setText(self._lang.get('QPushButton.cancel'))
         else:
             self._cancel_button.setText(self._lang.get('QPushButton.back'))
+
+    def _update_continue(self, can_continue: bool) -> None:
+        self._load_button.setEnabled(can_continue)
 
 
     def exec(self) -> dict | None:

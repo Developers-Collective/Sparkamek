@@ -6,3 +6,23 @@ QWidget[BaseItemData=true] QLabel {
 QWidget[color='blue'] QWidget[BaseItemData=true][color='main'] QLabel[checked=true], QWidget[BaseItemData=true][color='blue'] QLabel[checked=true] {
 	color: #1B80FC;
 }
+
+QFrame[PlatformButton=true], QFrame[GameButton=true] {
+	border: 2px solid transparent;
+	border-radius: 16px;
+	background-color: #262626;
+	padding: 8px;
+}
+
+QFrame[PlatformButton=true][checked=false]:hover, QFrame[GameButton=true][checked=false]:hover {
+	border: 2px solid #991B80FC;
+}
+
+QFrame[PlatformButton=true]:hover:disabled, QFrame[GameButton=true]:hover:disabled {
+	border: 2px solid transparent;
+}
+
+QFrame[PlatformButton=true][checked=true], QFrame[GameButton=true][checked=true] {
+	background-color: #3c3c3c;
+	border: 2px solid #1B80FC;
+}

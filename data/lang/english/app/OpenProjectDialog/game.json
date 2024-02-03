@@ -1,0 +1,7 @@
+{
+    "Wii": "#ref: app/OpenProjectDialog/game/Wii",
+    "WiiU": "#ref: app/OpenProjectDialog/game/WiiU",
+    "Switch": "#ref: app/OpenProjectDialog/game/Switch",
+    "3DS": "#ref: app/OpenProjectDialog/game/3DS",
+    "DS": "#ref: app/OpenProjectDialog/game/DS"
+}

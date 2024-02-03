@@ -8,8 +8,11 @@ from .Singleton import Singleton
 class AbstractFactory(metaclass = Singleton):
     '''Abstract Factory class.'''
 
+    _type: type = None
+
     def __init__(self) -> None:
-        self._data = {}
+        self._registry: dict = {}
+        self._type = self.__class__
 
 
     @classmethod
@@ -20,25 +23,8 @@ class AbstractFactory(metaclass = Singleton):
             key (str): The key to register the class.
             cls (type): The class to register.
         '''
-        AbstractFactory()._data[key] = cls
-
-
-    @classmethod
-    def create(cls, key: str, *args, **kwargs) -> object:
-        '''Create an instance of a class.
-
-        Args:
-            key (str): The key to create the class.
-            *args: The arguments to pass to the class.
-            **kwargs: The keyword arguments to pass to the class.
-
-        Returns:
-            object: The instance of the class.
-        '''
-        cls = AbstractFactory()._data.get(key, None)
-        if cls:
-            return cls(*args, **kwargs)
-        return None
+        if cls_._type == None: cls_._type = cls_
+        cls_._type()._registry[key] = cls
 
 
     @classmethod
@@ -51,7 +37,8 @@ class AbstractFactory(metaclass = Singleton):
         Returns:
             object: The class.
         '''
-        return AbstractFactory()._data.get(key, None)
+        if cls._type == None: cls._type = cls
+        return cls._type()._registry.get(key, None)
 
 
     def __contains__(self, key: str) -> bool:
@@ -63,7 +50,7 @@ class AbstractFactory(metaclass = Singleton):
         Returns:
             bool: True if the key is in the factory, otherwise False.
         '''
-        return key in AbstractFactory()._data
+        return key in self._registry
     
 
     def __delitem__(self, key: str) -> None:
@@ -72,5 +59,5 @@ class AbstractFactory(metaclass = Singleton):
         Args:
             key (str): The key to delete.
         '''
-        del AbstractFactory()._data[key]
+        del self._registry[key]
 #----------------------------------------------------------------------------------------------------

@@ -68,4 +68,6 @@ from .QMarkDownWidget import QMarkDownWidget
 from .QWhatsNewWidget import QWhatsNewWidget
 from .QWhatsNewDialog import QWhatsNewDialog
 from .QComboBoxItemModel import QComboBoxItemModel
+from .QProgressIndicator import QProgressIndicator, QProgressIndicatorItem
+from .QProgressIndicatorWidget import QProgressIndicatorWidget
 #----------------------------------------------------------------------

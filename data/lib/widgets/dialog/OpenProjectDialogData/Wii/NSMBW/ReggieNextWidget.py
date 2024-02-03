@@ -1,8 +1,8 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PyQt6.QtWidgets import QLabel, QFrame
-from PyQt6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QFrame
+from PySide6.QtCore import Qt
 from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication, QLangData
 from data.lib.widgets.project import ProjectKeys
 from ...BaseWidget import BaseWidget
@@ -17,7 +17,7 @@ class ReggieNextWidget(BaseWidget):
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        ReggieNextWidget._lang = app.get_lang_data('OpenProjectDialog.Wii.NSMBW.ReggieNext')
+        ReggieNextWidget._lang = app.get_lang_data('OpenProjectDialog.game.Wii.NSMBW.reggieNext')
         ReggieNextWidget._open_folder_icon = f'{app.save_data.get_icon_dir()}filebutton/folder.png'
 
 
@@ -26,7 +26,7 @@ class ReggieNextWidget(BaseWidget):
 
         reggienext_data: dict = data['data'].get(ProjectKeys.Wii.NSMBW.ReggieNext, None) if data else None
 
-        lang = self._lang.get('QSlidingStackedWidget.reggieNext')
+        lang = self._lang
 
         self.scroll_layout.setSpacing(30)
         self.scroll_layout.setContentsMargins(0, 0, 16, 0)

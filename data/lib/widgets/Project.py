@@ -153,7 +153,7 @@ class Project(QGridWidget):
         actions_showInExplorer = []
 
         for p in self._projects:
-            action_showInExplorer = QAction(lang['QAction'][f'show{p.type[0].upper() + p.type[1:]}InExplorer'])
+            action_showInExplorer = QAction(lang['QAction'][f'showInExplorer.{p.type}'])
             action_showInExplorer.setIcon(self._show_in_explorer_icon)
             action_showInExplorer.triggered.connect(send_param(p))
             actions_showInExplorer.append(action_showInExplorer)

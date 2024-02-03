@@ -1,0 +1,22 @@
+{
+    "riivolution": {
+        "QLabel": {
+            "title": "Riivolution",
+            "riivolutionFile": {
+                "title": "Fichier Riivolution",
+                "description": "Le fichier Riivolution du projet (généralement nommé \"NewerSMBW.xml\")."
+            }
+        },
+        "QFileButton": {
+            "openRiivolutionFile": {
+                "title": "Fichier Riivolution",
+                "dialog": "Sparkamek > Ouvrir un Projet > Fichier Riivolution"
+            },
+            "editRiivolutionFile": {
+                "title": "Fichier Riivolution",
+                "dialog": "Sparkamek > Éditer un Projet > Fichier Riivolution"
+            }
+        }
+    },
+    "NSMBW": "#ref: app/OpenProjectDialog/game/Wii/NSMBW"
+}

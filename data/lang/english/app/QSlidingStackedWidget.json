@@ -13,10 +13,7 @@
             "QMenu": {
                 "more": {
                     "QAction": {
-                        "showLoaderInExplorer": "Show Loader in File Explorer",
-                        "showKamekInExplorer": "Show Kamek in File Explorer",
-                        "showReggieNextInExplorer": "Show Reggie Next in File Explorer",
-                        "showRiivolutionInExplorer": "Show Riivolution in File Explorer",
+                        "showInExplorer": "#ref: app/projects/showInExplorer",
                         "resetDockWidgets": "Reset Dock Widgets",
                         "edit": "Edit...",
                         "remove": "Remove"

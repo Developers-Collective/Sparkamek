@@ -1,8 +1,8 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PyQt6.QtWidgets import QLabel, QFrame
-from PyQt6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QFrame
+from PySide6.QtCore import Qt
 from data.lib.qtUtils import QGridFrame, QFileButton, QFiles, QBaseApplication, QLangData
 from data.lib.widgets.project import ProjectKeys
 from ...BaseWidget import BaseWidget
@@ -17,7 +17,7 @@ class LoaderWidget(BaseWidget):
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        LoaderWidget._lang = app.get_lang_data('OpenProjectDialog.Wii.NSMBW.Loader')
+        LoaderWidget._lang = app.get_lang_data('OpenProjectDialog.game.Wii.NSMBW.loader')
         LoaderWidget._open_file_icon = f'{app.save_data.get_icon_dir()}filebutton/file.png'
 
 
@@ -26,7 +26,7 @@ class LoaderWidget(BaseWidget):
 
         loader_data: dict = data['data'].get(ProjectKeys.Wii.NSMBW.Loader, None) if data else None
 
-        lang = self._lang.get('QSlidingStackedWidget.loader')
+        lang = self._lang
 
         self.scroll_layout.setSpacing(30)
         self.scroll_layout.setContentsMargins(0, 0, 16, 0)

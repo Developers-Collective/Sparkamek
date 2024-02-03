@@ -1,29 +1,28 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PyQt6.QtWidgets import QLabel, QFrame
-from PyQt6.QtCore import Qt
-from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QNamedLineEdit, QNamedComboBox, QComboBoxItemModel, QNamedToggleButton, QFiles, QBaseApplication, QUtilsColor, QPlatform
-from ..BaseWidget import BaseWidget
+from PySide6.QtWidgets import QLabel, QFrame
+from PySide6.QtCore import Qt
+from data.lib.qtUtils import QLangData, QGridFrame, QNamedLineEdit, QBaseApplication
+from .BaseMenu import BaseMenu
 #----------------------------------------------------------------------
 
     # Class
-class MenuGeneral(BaseWidget):
+class MenuGeneral(BaseMenu):
     _lang: QLangData = QLangData.NoTranslation()
 
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        MenuGeneral._lang = app.get_lang_data('OpenProjectDialog.general')
+        MenuGeneral._lang = app.get_lang_data('OpenProjectDialog.QSlidingStackedWidget.general')
 
 
     def __init__(self, data: dict) -> None:
         super().__init__()
 
-        lang = self._lang.get('QSlidingStackedWidget.general')
+        lang = self._lang
 
         self.scroll_layout.setSpacing(30)
-        self.scroll_layout.setContentsMargins(0, 0, 16, 0)
 
         topframe = QGridFrame()
         topframe.grid_layout.setSpacing(8)
@@ -53,4 +52,9 @@ class MenuGeneral(BaseWidget):
         self.name_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.name'))
         self.name_entry.setText(data['name'] if data else 'Project')
         root_frame.grid_layout.addWidget(self.name_entry, root_frame.grid_layout.count(), 0)
+        self.name_entry.text_changed.connect(self.update_continue)
+
+
+    def update_continue(self, *args, **kwargs) -> None:
+        self.can_continue_changed.emit(self.name_entry.text() != '')
 #----------------------------------------------------------------------

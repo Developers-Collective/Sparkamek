@@ -1,38 +1,38 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PyQt6.QtWidgets import QLabel, QFrame
-from PyQt6.QtCore import Qt, QSize
+from PySide6.QtWidgets import QLabel, QFrame
+from PySide6.QtCore import Qt, QSize
 from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication, QFlowScrollableWidget, QIconWidget
-from ..BaseWidget import BaseWidget
+from .BaseMenu import BaseMenu
 import os
 #----------------------------------------------------------------------
 
     # Class
-class MenuIcon(BaseWidget):
+class MenuIcon(BaseMenu):
     _lang: QLangData = QLangData.NoTranslation()
 
     _open_image_icon: str = ''
 
-
+    _icon_path = os.path.abspath('./data/icons/sample/')
     _icon_size = 64
 
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
-        MenuIcon._lang = app.get_lang_data('OpenProjectDialog.icon')
+        MenuIcon._lang = app.get_lang_data('OpenProjectDialog.QSlidingStackedWidget.icon')
         MenuIcon._open_image_icon = f'{app.save_data.get_icon_dir()}filebutton/image.png'
 
 
     def __init__(self, data: dict) -> None:
         super().__init__()
 
-        lang = self._lang.get('QSlidingStackedWidget.icon')
+        lang = self._lang
 
         self.raw_icon = data['icon'] if data else os.path.abspath('./data/icons/questionMark.svg')
 
         self.scroll_layout.setSpacing(30)
-        self.scroll_layout.setContentsMargins(0, 0, 0, 0)
+        self.scroll_layout.setContentsMargins(16, 16, 16, 16)
 
         topframe = QGridFrame()
         topframe.grid_layout.setSpacing(8)

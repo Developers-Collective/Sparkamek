@@ -1,8 +1,8 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from PyQt6.QtWidgets import QLabel, QFrame
-from PyQt6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QFrame
+from PySide6.QtCore import Qt
 from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication
 from data.lib.widgets.project import ProjectKeys
 from ..BaseWidget import BaseWidget
@@ -21,7 +21,7 @@ class RiivolutionWidget(BaseWidget):
     def init(app: QBaseApplication) -> None:
         if RiivolutionWidget._has_been_initialized: return
 
-        RiivolutionWidget._lang = app.get_lang_data('OpenProjectDialog.Wii.Riivolution')
+        RiivolutionWidget._lang = app.get_lang_data('OpenProjectDialog.game.Wii.riivolution')
         RiivolutionWidget._color_link = app.COLOR_LINK
         RiivolutionWidget._open_file_icon = f'{app.save_data.get_icon_dir()}filebutton/file.png'
 
@@ -33,7 +33,7 @@ class RiivolutionWidget(BaseWidget):
 
         riivolution_data: dict = data['data'].get(ProjectKeys.Wii.Riivolution, None) if data else None
 
-        lang = self._lang.get('QSlidingStackedWidget.riivolution')
+        lang = self._lang
 
         self.scroll_layout.setSpacing(30)
         self.scroll_layout.setContentsMargins(0, 0, 16, 0)

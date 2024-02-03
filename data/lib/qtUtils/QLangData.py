@@ -25,6 +25,7 @@ class QLangData(QObject):
 
 
         def get(self, *args, **kwargs) -> 'QLangData.NoTranslation':
+            print('Data not found:', args[0])
             return self
 
 
