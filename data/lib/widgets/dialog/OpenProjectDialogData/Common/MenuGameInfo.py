@@ -32,4 +32,8 @@ class MenuGameInfo(BaseMenu):
 
     def update_continue(self, *args, **kwargs) -> None:
         self.can_continue_changed.emit(True)
+
+
+    def export(self) -> dict:
+        return self._widget.export() if self._widget else {}
 #----------------------------------------------------------------------

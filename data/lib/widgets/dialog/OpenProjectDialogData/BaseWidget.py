@@ -61,6 +61,6 @@ class BaseWidget(QScrollableGridWidget):
         return widget
 
 
-    def get(self) -> dict | None:
+    def export(self) -> dict | None:
         return None
 #----------------------------------------------------------------------

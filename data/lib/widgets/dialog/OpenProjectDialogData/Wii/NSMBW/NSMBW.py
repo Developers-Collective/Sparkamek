@@ -7,6 +7,7 @@ from .LoaderWidget import LoaderWidget
 from .ReggieNextWidget import ReggieNextWidget
 from ..RiivolutionWidget import RiivolutionWidget
 from ...GameInfo import GameInfo
+from data.lib.widgets.project.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------
 
     # Class
@@ -35,4 +36,15 @@ class NSMBW(GameInfo):
         self.add_widget(self._loader_widget, self._lang.get('NSMBW.loader.QLabel.title'))
         self.add_widget(self._reggienext_widget, self._lang.get('NSMBW.reggieNext.QLabel.title'))
         self.add_widget(self._riivolution_widget, self._lang.get('riivolution.QLabel.title'))
+
+
+    def export(self) -> dict:
+        return {
+            'data': {
+                ProjectKeys.Wii.NSMBW.Loader: self._kamek_widget.export(),
+                ProjectKeys.Wii.NSMBW.Kamek: self._loader_widget.export(),
+                ProjectKeys.Wii.NSMBW.ReggieNext: self._reggienext_widget.export(),
+                ProjectKeys.Wii.Riivolution: self._riivolution_widget.export()
+            }
+        }
 #----------------------------------------------------------------------

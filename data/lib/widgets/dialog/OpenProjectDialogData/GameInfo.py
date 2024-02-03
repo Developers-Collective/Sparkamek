@@ -15,4 +15,8 @@ class GameInfo(QSidePanelWidget):
 
     def __init__(self) -> None:
         super().__init__(None, 200, QSlidingStackedWidget.Direction.Bottom2Top, (16, 16, 16, 16))
+
+
+    def export(self) -> dict:
+        return {}
 #----------------------------------------------------------------------

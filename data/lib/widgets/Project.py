@@ -45,10 +45,10 @@ class Project(QGridWidget):
             cls.init(app)
 
 
-    def __init__(self, project: dict = None, name: str = '', icon: str = '') -> None:
+    def __init__(self, project: dict = None, name: str = '', icon: str = '', platform: str = '', game: str = '') -> None:
         super().__init__()
 
-        self._load_project(project, name, icon)
+        self._load_project(project, name, icon, platform, game)
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
         self.grid_layout.setSpacing(0)
@@ -98,19 +98,21 @@ class Project(QGridWidget):
         self._more_button.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
         top_frame.grid_layout.addWidget(self._more_button, 0, 0, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
-    def rebuild(self, project: dict, name: str, icon: str) -> None:
+    def rebuild(self, project: dict, name: str, icon: str, platform: str, game: str) -> None:
         while self.grid_layout.count() > 0:
             w = self.grid_layout.itemAt(0).widget()
             if w:
                 self.grid_layout.removeWidget(w)
                 w.deleteLater()
 
-        self._load_project(project, name, icon)
+        self._load_project(project, name, icon, platform, game)
         self._build()
 
-    def _load_project(self, project: dict, name: str, icon: str) -> None:
+    def _load_project(self, project: dict, name: str, icon: str, platform: str, game: str) -> None:
         self._name = name
         self._icon = icon
+        self._platform = platform
+        self._game = game
         self._projects: list[SubProjectWidgetBase] = []
 
         for cls in ProjectType.get_all():
@@ -132,6 +134,8 @@ class Project(QGridWidget):
         return {
             'name': self._name,
             'icon': self._icon,
+            'platform': self._platform,
+            'game': self._game,
             'data':
                 {
                     type: project.export() for type, project in [

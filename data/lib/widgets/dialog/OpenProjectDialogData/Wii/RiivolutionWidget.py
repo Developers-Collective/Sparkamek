@@ -82,7 +82,7 @@ class RiivolutionWidget(BaseWidget):
         root_frame.grid_layout.setAlignment(self.riivolution_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
-    def get(self) -> dict | None:
+    def export(self) -> dict | None:
         if self.riivolution_file_button.path() in self._forbidden_paths: return None
 
         return {

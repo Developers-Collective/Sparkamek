@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt
 from data.lib.qtUtils import QLangData, QGridFrame, QBaseApplication, QFlowScrollableWidget
 from data.lib.utils import AbstractTypeFactory
 from .BaseMenu import BaseMenu
-from ..Platform import Platform
+from ..Game import Game
 #----------------------------------------------------------------------
 
     # Class
@@ -73,7 +73,7 @@ class MenuGame(BaseMenu):
 
 
     @property
-    def selected_game(self) -> Platform | None:
+    def selected_game(self) -> Game | None:
         for p in self._games:
             if p.checked:
                 return p

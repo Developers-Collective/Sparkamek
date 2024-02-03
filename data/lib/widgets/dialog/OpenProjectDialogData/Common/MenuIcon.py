@@ -128,4 +128,10 @@ class MenuIcon(BaseMenu):
     def _icon_file_button_path_changed(self, path: str = None) -> None:
         if not path: return
         self._update(path)
+
+
+    def export(self) -> dict:
+        return {
+            'icon': self.icon_button.path() if self.icon_button.path() not in self._forbidden_paths else None
+        }
 #----------------------------------------------------------------------

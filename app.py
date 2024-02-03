@@ -255,7 +255,13 @@ class Application(QBaseApplication):
         send_param_remove = lambda i: lambda: self.remove_project(i)
 
         for index, project in enumerate(self.save_data.projects):
-            p = Project(project = project['data'], name = project['name'], icon = project['icon'])
+            p = Project(
+                project = project['data'],
+                name = project['name'],
+                icon = project['icon'],
+                platform = project.get('platform', None),
+                game = project.get('game', None)
+            )
             self.projects.append(p)
             self.sidepanelwidget.add_widget(p, project['name'], project['icon'])
             p.edit_clicked.connect(send_param_edit(index))
@@ -295,7 +301,7 @@ class Application(QBaseApplication):
         self.sidepanelwidget.sidepanel.item_at(index).text = result['name']
         self.sidepanelwidget.sidepanel.update()
 
-        self.projects[index].rebuild(result['data'], result['name'], result['icon'])
+        self.projects[index].rebuild(result['data'], result['name'], result['icon'], result.get('platform'), result.get('game'))
 
         self.save()
 

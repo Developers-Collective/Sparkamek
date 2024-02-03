@@ -18,5 +18,5 @@ class NSMBWGame(Game):
 #----------------------------------------------------------------------
 
     # Register
-WiiGameFactory.register('NSMBW', NSMBWGame)
+WiiGameFactory.register('Wii.NSMBW', NSMBWGame)
 #----------------------------------------------------------------------

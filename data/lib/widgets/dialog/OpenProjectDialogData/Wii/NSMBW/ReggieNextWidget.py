@@ -74,7 +74,7 @@ class ReggieNextWidget(BaseWidget):
         root_frame.grid_layout.setAlignment(self.reggie_folder_button, Qt.AlignmentFlag.AlignLeft)
 
 
-    def get(self) -> dict | None:
+    def export(self) -> dict | None:
         if self.reggie_folder_button.path() in self._forbidden_paths: return None
 
         return {

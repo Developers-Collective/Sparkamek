@@ -216,7 +216,7 @@ class KamekWidget(BaseWidget):
         root_frame.grid_layout.setAlignment(self._nintendo_driver_mode_toggle, Qt.AlignmentFlag.AlignLeft)
 
 
-    def get(self) -> dict | None:
+    def export(self) -> dict | None:
         if self._kamek_file_button.path() in self._forbidden_paths: return None
 
         build_folder = self._kamek_build_folder_entry.text() if self._kamek_build_folder_entry.text() else 'Build'

@@ -103,7 +103,7 @@ class LoaderWidget(BaseWidget):
         root_frame.grid_layout.setAlignment(self.loader_output_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
-    def get(self) -> dict | None:
+    def export(self) -> dict | None:
         if self.loader_file_button.path() in self._forbidden_paths: return None
 
         return {

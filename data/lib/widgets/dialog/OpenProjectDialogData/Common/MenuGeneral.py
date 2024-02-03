@@ -57,4 +57,10 @@ class MenuGeneral(BaseMenu):
 
     def update_continue(self, *args, **kwargs) -> None:
         self.can_continue_changed.emit(self.name_entry.text() != '')
+
+
+    def export(self) -> dict:
+        return {
+            'name': self.name_entry.text() if self.name_entry.text() else 'Project'
+        }
 #----------------------------------------------------------------------
