@@ -25,7 +25,7 @@ class IDWidget(QGridWidget):
     def init(app: QBaseApplication) -> None:
         IDWidget._app = app
 
-        IDWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.IDWidget')
+        IDWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.IDWidget')
         IDWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
         RegionData.init(app)

@@ -29,7 +29,7 @@ class WiiDiscWidget(QGridWidget):
     def init(app: QBaseApplication) -> None:
         WiiDiscWidget._app = app
 
-        WiiDiscWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget')
+        WiiDiscWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget')
         WiiDiscWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
         WiiDiscWidget._add_item_entry_icon = app.get_icon('popup/addItem.png', True, QSaveData.IconMode.Local)
 

@@ -25,7 +25,7 @@ class OptionsWidget(QGridWidget):
     def init(app: QBaseApplication) -> None:
         OptionsWidget._app = app
 
-        OptionsWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget')
+        OptionsWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.OptionsWidget')
         OptionsWidget._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
         SectionData.init(app)

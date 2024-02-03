@@ -10,7 +10,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.ItemDataPropertyDockWidget')
+        ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.ItemDataPropertyDockWidget')
 
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(self._lang.get('title').replace('%s', str(None)))

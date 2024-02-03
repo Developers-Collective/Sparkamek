@@ -1,0 +1,5 @@
+{
+    "LoaderWidget": "#ref: app/projects/Wii/NSMBW/LoaderWidget",
+    "KamekWidget": "#ref: app/projects/Wii/NSMBW/KamekWidget",
+    "ReggieNextWidget": "#ref: app/projects/Wii/NSMBW/ReggieNextWidget"
+}

@@ -23,7 +23,7 @@ class LoaderWidget(SubProjectWidgetBase):
     _bracket_color = QUtilsColor.from_hex('#dddddd')
 
     def init(app: QBaseApplication) -> None:
-        LoaderWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.LoaderWidget')
+        LoaderWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.LoaderWidget')
         LoaderWidget._compile_icon = app.get_icon('pushbutton/play.png', True, QSaveData.IconMode.Local)
         LoaderWidget._stop_icon = app.get_icon('pushbutton/stop.png', True, QSaveData.IconMode.Local)
 

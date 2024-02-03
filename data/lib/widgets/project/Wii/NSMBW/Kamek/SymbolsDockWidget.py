@@ -17,7 +17,7 @@ class SymbolsDockWidget(QSavableDockWidget):
     _bracket_color = QUtilsColor.from_hex('#dddddd')
 
     def init(app: QBaseApplication) -> None:
-        SymbolsDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.SymbolsDockWidget')
+        SymbolsDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.KamekWidget.SymbolsDockWidget')
 
         SymbolsDockWidget._search_icon = app.get_icon('lineedit/search', True, QSaveData.IconMode.Local)
 

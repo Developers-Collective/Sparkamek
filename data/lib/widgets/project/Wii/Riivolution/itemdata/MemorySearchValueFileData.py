@@ -18,7 +18,7 @@ class MemorySearchValueFileData(BaseSubItemData):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        MemorySearchValueFileData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.MemoryData.MemorySearchValueFileData')
+        MemorySearchValueFileData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.MemoryData.MemorySearchValueFileData')
 
         MemorySearchValueFileData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
 

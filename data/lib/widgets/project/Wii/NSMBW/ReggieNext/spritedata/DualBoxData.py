@@ -20,11 +20,11 @@ class DualBoxData(BaseItemData):
     _icon_size = QSize(16, 16)
 
     def init(app: QBaseApplication) -> None:
-        DualBoxData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.DualBoxData')
+        DualBoxData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.DualBoxData')
         DualBoxData._dualbox_icon = app.get_icon('baseitemdata/dualbox.png', True, QSaveData.IconMode.Local)
         DualBoxData._dualbox_selected_icon = app.get_icon('baseitemdata/dualboxSelected.png', True, QSaveData.IconMode.Local)
 
-        DualBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{DualBox.name}')
+        DualBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.type.{DualBox.name}')
 
     def __init__(self, data: DualBox, path: str) -> None:
         super().__init__(data, path)

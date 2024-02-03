@@ -15,7 +15,7 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        SpritesAndActorsDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.SpritesAndActorsDockWidget')
+        SpritesAndActorsDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.KamekWidget.SpritesAndActorsDockWidget')
         SpritesAndActorsDockWidget._refresh_icon = app.get_icon('pushbutton/refresh.png', True, QSaveData.IconMode.Local)
         SpritesAndActorsDockWidget._search_icon = app.get_icon('lineedit/search', True, QSaveData.IconMode.Local)
 

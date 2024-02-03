@@ -16,7 +16,7 @@ class EntryListItem(QDragListItem):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        EntryListItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ListData.EntryListItem')
+        EntryListItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.ListData.EntryListItem')
         EntryListItem._delete_icon = app.get_icon('pushbutton/deleteBig.png', True, QSaveData.IconMode.Local)
 
     def __init__(self, data: Entry) -> None:

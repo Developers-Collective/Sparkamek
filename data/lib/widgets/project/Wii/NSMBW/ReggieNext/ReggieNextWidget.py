@@ -29,7 +29,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        ReggieNextWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget')
+        ReggieNextWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget')
         ReggieNextWidget._clear_icon = app.get_icon('pushbutton/clear.png', True, QSaveData.IconMode.Local)
         ReggieNextWidget._reset_icon = app.get_icon('pushbutton/reset.png', True, QSaveData.IconMode.Local)
         ReggieNextWidget._import_icon = app.get_icon('pushbutton/import.png', True, QSaveData.IconMode.Local)

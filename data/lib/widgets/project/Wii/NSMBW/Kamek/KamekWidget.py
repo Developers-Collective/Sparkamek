@@ -27,7 +27,7 @@ class KamekWidget(SubProjectWidgetBase):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        KamekWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget')
+        KamekWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.KamekWidget')
         KamekWidget._compile_icon = app.get_icon('pushbutton/play.png', True, QSaveData.IconMode.Local)
         KamekWidget._stop_icon = app.get_icon('pushbutton/stop.png', True, QSaveData.IconMode.Local)
 

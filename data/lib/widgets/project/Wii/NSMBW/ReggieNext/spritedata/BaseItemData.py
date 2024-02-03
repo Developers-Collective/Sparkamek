@@ -27,7 +27,7 @@ class BaseItemData(QDragListItem):
     _delete_icon = None
 
     def init(app: QBaseApplication) -> None:
-        BaseItemData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.BaseItemData')
+        BaseItemData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.BaseItemData')
         BaseItemData._delete_icon = app.get_icon('pushbutton/deleteBig.png', True, QSaveData.IconMode.Local)
 
         BaseItemData._normal_color = app.qss.search(

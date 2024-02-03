@@ -19,10 +19,10 @@ class CheckBoxData(BaseItemData):
     _icon_size = QSize(24, 24)
 
     def init(app: QBaseApplication) -> None:
-        CheckBoxData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.CheckBoxData')
+        CheckBoxData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.CheckBoxData')
         CheckBoxData._checkbox_icon = app.get_icon('baseitemdata/checkbox.png', True, QSaveData.IconMode.Local)
 
-        CheckBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{CheckBox.name}')
+        CheckBoxData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.type.{CheckBox.name}')
 
     def __init__(self, data: CheckBox, path: str) -> None:
         super().__init__(data, path)

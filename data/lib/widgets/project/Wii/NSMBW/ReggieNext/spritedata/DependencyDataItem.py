@@ -18,7 +18,7 @@ class DependencyDataItem(QDragListItem):
     _delete_icon = None
 
     def init(app: QBaseApplication) -> None:
-        DependencyDataItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.DependencyDataItem')
+        DependencyDataItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.DependencyDataItem')
         DependencyDataItem._delete_icon = app.get_icon('pushbutton/deleteBig.png', True, QSaveData.IconMode.Local)
 
     def __init__(self, data: Required | Suggested) -> None:

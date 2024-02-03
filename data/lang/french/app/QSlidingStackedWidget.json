@@ -20,10 +20,7 @@
                     }
                 }
             },
-            "LoaderWidget": "#ref: app/projects/Wii/NSMBW/LoaderWidget",
-            "KamekWidget": "#ref: app/projects/Wii/NSMBW/KamekWidget",
-            "ReggieNextWidget": "#ref: app/projects/Wii/NSMBW/ReggieNextWidget",
-            "RiivolutionWidget": "#ref: app/projects/Wii/RiivolutionWidget"
+            "projectWidget": "#ref: app/projects/projectWidget"
         }
     }
 }

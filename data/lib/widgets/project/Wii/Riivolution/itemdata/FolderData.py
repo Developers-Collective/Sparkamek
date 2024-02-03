@@ -18,7 +18,7 @@ class FolderData(BaseSubItemData):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        FolderData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.FolderData')
+        FolderData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.PatchData.PropertyWidget.FolderData')
 
         FolderData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)
 

@@ -29,7 +29,7 @@ class PatchData(BaseItemData):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        PatchData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.PatchData')
+        PatchData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.PatchData')
 
         PatchData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
         PatchData._add_memory_entry_icon = app.get_icon('popup/addMemory.png', True, QSaveData.IconMode.Local)

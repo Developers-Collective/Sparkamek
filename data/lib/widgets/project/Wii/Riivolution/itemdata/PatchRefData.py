@@ -14,7 +14,7 @@ class PatchRefData(BaseItemData):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        PatchRefData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData.PropertyWidget.ChoiceData.PropertyWidget.PatchRefData')
+        PatchRefData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData.PropertyWidget.ChoiceData.PropertyWidget.PatchRefData')
 
     def __init__(self, data: PatchRef, path: str) -> None:
         super().__init__(data, path)

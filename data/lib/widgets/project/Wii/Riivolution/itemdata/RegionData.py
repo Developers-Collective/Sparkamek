@@ -15,7 +15,7 @@ class RegionData(BaseItemData):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        RegionData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.IDWidget.RegionData')
+        RegionData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.IDWidget.RegionData')
 
     def __init__(self, data: Region, path: str) -> None:
         super().__init__(data, path)

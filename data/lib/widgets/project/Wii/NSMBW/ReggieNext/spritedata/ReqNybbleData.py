@@ -19,7 +19,7 @@ class ReqNybbleData(QGridWidget):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        ReqNybbleData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ReqNybbleData')
+        ReqNybbleData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.ReqNybbleData')
         ReqNybbleData._add_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
         ReqNybbleDataItem.init(app)

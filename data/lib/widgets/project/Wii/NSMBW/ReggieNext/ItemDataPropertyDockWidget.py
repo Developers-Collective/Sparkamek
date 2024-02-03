@@ -12,7 +12,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.ItemDataPropertyDockWidget')
+        ItemDataPropertyDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.ItemDataPropertyDockWidget')
 
         SpriteListLoaderWorker.init(app)
 

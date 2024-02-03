@@ -24,7 +24,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
 
     def init(app: QBaseApplication) -> None:
         RiivolutionWidget._app = app
-        RiivolutionWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget')
+        RiivolutionWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget')
 
         RiivolutionWidget._load_icon = app.get_icon('pushbutton/load.png', True, QSaveData.IconMode.Local)
         RiivolutionWidget._save_icon = app.get_icon('pushbutton/save.png', True, QSaveData.IconMode.Local)

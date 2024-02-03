@@ -19,10 +19,10 @@ class ValueData(BaseItemData):
     _icon_size = QSize(24, 24)
 
     def init(app: QBaseApplication) -> None:
-        ValueData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ValueData')
+        ValueData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.ValueData')
         ValueData._value_icon = app.get_icon('baseitemdata/value.png', True, QSaveData.IconMode.Local)
 
-        ValueData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{Value.name}')
+        ValueData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.type.{Value.name}')
 
     def __init__(self, data: Value, path: str) -> None:
         super().__init__(data, path)

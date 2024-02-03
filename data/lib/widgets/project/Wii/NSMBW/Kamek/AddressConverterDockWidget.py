@@ -18,7 +18,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        AddressConverterDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.KamekWidget.AddressConverterDockWidget')
+        AddressConverterDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.KamekWidget.AddressConverterDockWidget')
 
         AddressConverterDockWidget._error_icon = app.get_icon('raw/error.png', True, QSaveData.IconMode.Local)
         AddressConverterDockWidget._warning_icon = app.get_icon('raw/warning.png', True, QSaveData.IconMode.Local)

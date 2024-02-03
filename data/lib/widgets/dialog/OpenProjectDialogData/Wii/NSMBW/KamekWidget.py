@@ -140,7 +140,7 @@ class KamekWidget(BaseWidget):
             lang.get('QNamedComboBox.copyType.items.move.title') + '\n' + lang.get('QNamedComboBox.copyType.items.move.description'),
         )
         copy_type_model.bind(self._kamek_copy_type_combo_box.combo_box)
-        self._kamek_copy_type_combo_box.setCurrentIndex(kamek_data.get('copyType', 1))
+        self._kamek_copy_type_combo_box.setCurrentIndex(kamek_data.get('copyType', 1) if kamek_data else 1)
         root_frame.grid_layout.addWidget(self._kamek_copy_type_combo_box, root_frame.grid_layout.count(), 0)
 
 

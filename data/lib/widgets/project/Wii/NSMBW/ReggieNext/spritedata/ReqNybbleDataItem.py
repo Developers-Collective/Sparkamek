@@ -18,7 +18,7 @@ class ReqNybbleDataItem(QDragListItem):
     _delete_icon = None
 
     def init(app: QBaseApplication) -> None:
-        ReqNybbleDataItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ReqNybbleData.ReqNybbleDataItem')
+        ReqNybbleDataItem._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.ReqNybbleData.ReqNybbleDataItem')
         ReqNybbleDataItem._delete_icon = app.get_icon('pushbutton/deleteBig.png', True, QSaveData.IconMode.Local)
 
     def __init__(self, data: ReqNybble) -> None:

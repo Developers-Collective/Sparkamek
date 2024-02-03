@@ -21,11 +21,11 @@ class ListData(BaseItemData):
     _icon_size = QSize(24, 24)
 
     def init(app: QBaseApplication) -> None:
-        ListData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ListData')
+        ListData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.ListData')
         ListData._list_icon = app.get_icon('baseitemdata/list.png', True, QSaveData.IconMode.Local)
         ListData._add_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
 
-        ListData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{List.name}')
+        ListData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.type.{List.name}')
 
         EntryListItem.init(app)
 

@@ -29,7 +29,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
     def init(app: QBaseApplication) -> None:
         SpriteListDockWidget._app = app
-        SpriteListDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteListDockWidget')
+        SpriteListDockWidget._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteListDockWidget')
 
         SpriteListDockWidget._search_icon = app.get_icon('lineedit/search.png', True, QSaveData.IconMode.Local)
         SpriteListDockWidget._load_icon = app.get_icon('pushbutton/load.png', True, QSaveData.IconMode.Local)

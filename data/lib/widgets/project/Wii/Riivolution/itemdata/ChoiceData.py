@@ -21,7 +21,7 @@ class ChoiceData(BaseSubItemData):
     _lang: QLangData = QLangData.NoTranslation()
 
     def init(app: QBaseApplication) -> None:
-        ChoiceData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData.PropertyWidget.ChoiceData')
+        ChoiceData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.RiivolutionWidget.WiiDiscWidget.OptionsWidget.SectionData.PropertyWidget.OptionData.PropertyWidget.ChoiceData')
 
         ChoiceData._add_entry_icon = app.get_icon('pushbutton/add.png', True, QSaveData.IconMode.Local)
         ChoiceData._back_icon = app.get_icon('pushbutton/back.png', True, QSaveData.IconMode.Local)

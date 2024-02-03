@@ -20,10 +20,10 @@ class ExternalData(BaseItemData):
     _icon_size = QSize(24, 24)
 
     def init(app: QBaseApplication) -> None:
-        ExternalData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.SpriteWidget.ExternalData')
+        ExternalData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.ExternalData')
         ExternalData._external_icon = app.get_icon('baseitemdata/external.png', True, QSaveData.IconMode.Local)
 
-        ExternalData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.ReggieNextWidget.type.{External.name}')
+        ExternalData.type = app.get_lang_data(f'QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.type.{External.name}')
 
     def __init__(self, data: External, path: str) -> None:
         super().__init__(data, path)
