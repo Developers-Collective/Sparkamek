@@ -61,6 +61,9 @@ class Application(QBaseApplication):
         self.logs_dialog: QLogsDialog = QLogsDialog(self.window)
         self.save_data.warning_received.connect(self.logs_dialog.add_warning)
 
+        for msg in self.save_data.get_and_clear_preload_warnings():
+            self.logs_dialog.add_warning(msg)
+
         Project.init(self)
         OpenProjectDialog.init(self)
 
