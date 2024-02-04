@@ -14,7 +14,7 @@ class SMBWonderGame(Game):
         SMBWonder.init(app)
 
     def __init__(self) -> None:
-        super().__init__('Switch.SMBWonder', './data/icons/utils/Switch/SMBWonder/icon.svg', SMBWonder)
+        super().__init__('Switch.SMBWonder', './data/icons/utils/Switch/SMBWonder/icon.png', SMBWonder)
 #----------------------------------------------------------------------
 
     # Register
