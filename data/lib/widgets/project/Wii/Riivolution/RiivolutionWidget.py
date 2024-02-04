@@ -135,7 +135,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
                 f.write(s)
 
             self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.RiivolutionWidget.successfullySaved.message'),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.RiivolutionWidget.successfullySaved.message'),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -144,7 +144,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
 
         except Exception as e:
             self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.RiivolutionWidget.errorWhileSaving.message').replace('%s', str(e)),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.RiivolutionWidget.errorWhileSaving.message').replace('%s', str(e)),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,

@@ -239,7 +239,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         except Exception as e:
             return self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileImportingSprite.message').replace('%s', str(e)),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.errorWhileImportingSprite.message').replace('%s', str(e)),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -268,7 +268,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
                 f.write(f'\t{sprite.export().export()}')
 
             return self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.successfullyExportedSprite.message').replace('%s', sprite.sprite_name),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.successfullyExportedSprite.message').replace('%s', sprite.sprite_name),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -277,7 +277,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         except Exception as e:
             return self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileExportingSprite.message').replace('%s', str(e)),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.errorWhileExportingSprite.message').replace('%s', str(e)),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -325,7 +325,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._save_current_sprite()
         if not self._sprite_list_dock_widget.sprites.children:
             return self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.cantSaveEmptyData.message'),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.cantSaveEmptyData.message'),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -343,7 +343,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
                 f.write(s)
 
             self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.successfullySaved.message'),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.successfullySaved.message'),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -352,7 +352,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         except Exception as e:
             self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileSaving.message').replace('%s', str(e)),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.errorWhileSaving.message').replace('%s', str(e)),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,

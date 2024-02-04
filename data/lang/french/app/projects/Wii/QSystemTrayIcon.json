@@ -1,0 +1,13 @@
+{
+    "RiivolutionWidget": {
+        "successfullySaved": {
+            "title": "Info Riivolution",
+            "message": "Riivolution • Données enregistrées avec succès !"
+        },
+        "errorWhileSaving": {
+            "title": "Erreur Riivolution",
+            "message": "Riivolution • Une erreur est survenue lors de l'enregistrement des données !\nErreur: %s"
+        }
+    },
+    "NSMBW": "#ref: app/projects/Wii/NSMBW/QSystemTrayIcon"
+}

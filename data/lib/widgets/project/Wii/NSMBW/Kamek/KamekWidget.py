@@ -164,13 +164,13 @@ class KamekWidget(SubProjectWidgetBase):
         b = self._app.save_data.kamek_compile_missing_symbols_notif if missing_symbols else self._app.save_data.kamek_compile_done_notif
 
         if b: self._app.sys_tray.showMessage(
-            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.KamekWidget.compile{k}.title').replace('%s', self._name),
-            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.KamekWidget.compile{k}.message'),
+            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compile{k}.title').replace('%s', self._name),
+            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compile{k}.message'),
             QSystemTrayIcon.MessageIcon.Information,
             self._app.MESSAGE_DURATION
         )
         self._app.show_alert(
-            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.KamekWidget.compile{k}.message'),
+            self._app.get_lang_data(f'QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compile{k}.message'),
             raise_duration = self._app.ALERT_RAISE_DURATION,
             pause_duration = self._app.ALERT_PAUSE_DURATION,
             fade_duration = self._app.ALERT_FADE_DURATION,
@@ -185,13 +185,13 @@ class KamekWidget(SubProjectWidgetBase):
         self._compile_thread = None
 
         if self._app.save_data.kamek_compile_error_notif: self._app.sys_tray.showMessage(
-            self._app.get_lang_data('QSystemTrayIcon.showMessage.KamekWidget.compileError.title').replace('%s', self._name),
-            self._app.get_lang_data('QSystemTrayIcon.showMessage.KamekWidget.compileError.message'),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compileError.title').replace('%s', self._name),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compileError.message'),
             QSystemTrayIcon.MessageIcon.Critical,
             self._app.MESSAGE_DURATION
         )
         self._app.show_alert(
-            self._app.get_lang_data('QSystemTrayIcon.showMessage.KamekWidget.compileError.message'),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compileError.message'),
             raise_duration = self._app.ALERT_RAISE_DURATION,
             pause_duration = self._app.ALERT_PAUSE_DURATION,
             fade_duration = self._app.ALERT_FADE_DURATION,

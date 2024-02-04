@@ -163,7 +163,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
         except Exception as e:
             self._app.show_alert(
-                self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.warningWhileLoadingSprite.message').replace('%s', str(e)),
+                self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.warningWhileLoadingSprite.message').replace('%s', str(e)),
                 raise_duration = self._app.ALERT_RAISE_DURATION,
                 pause_duration = self._app.ALERT_PAUSE_DURATION,
                 fade_duration = self._app.ALERT_FADE_DURATION,
@@ -180,7 +180,7 @@ class SpriteListDockWidget(QSavableDockWidget):
 
     def _load_error(self, error: str) -> None:
         self._app.show_alert(
-            self._app.get_lang_data('QSystemTrayIcon.showMessage.ReggieNextWidget.errorWhileLoading.message').replace('%s', str(error)),
+            self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.ReggieNextWidget.errorWhileLoading.message').replace('%s', str(error)),
             raise_duration = self._app.ALERT_RAISE_DURATION,
             pause_duration = self._app.ALERT_PAUSE_DURATION,
             fade_duration = self._app.ALERT_FADE_DURATION,
