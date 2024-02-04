@@ -55,13 +55,16 @@ class Application(QBaseApplication):
 
         self.load_colors()
 
-        Project.init(self)
-        OpenProjectDialog.init(self)
         QLogsList.init(self)
         QLogsDialog.init(self)
 
         self.logs_dialog: QLogsDialog = QLogsDialog(self.window)
         self.save_data.warning_received.connect(self.logs_dialog.add_warning)
+
+        Project.init(self)
+        OpenProjectDialog.init(self)
+
+        self.save_data.fix()
 
         self.create_widgets()
         self.update_title()
@@ -82,6 +85,13 @@ class Application(QBaseApplication):
                     if deltatime > timedelta(weeks = 4): self.check_updates()
 
         self.window.setMinimumSize(int(self.primaryScreen().size().width() * (8 / 15)), int(self.primaryScreen().size().height() * (14 / 27))) # 128x71 -> 1022x568
+
+        if self.save_data.version < Info.build:
+            self.save_data.version = Info.build
+            self.save_data.save()
+            if os.path.exists('./changelog.md'):
+                self._whatsnew = DelayedSignal(250, lambda: QWhatsNewDialog(self.window, './changelog.md').exec())
+                self._whatsnew()
 
 
 

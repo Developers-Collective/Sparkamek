@@ -18,7 +18,9 @@
         "QLogsList": {
             "messages": "Messages"
         },
-        "QSlidingStackedWidget": "#ref: app/QSlidingStackedWidget"
+        "QSlidingStackedWidget": "#ref: app/QSlidingStackedWidget",
+        "QWhatsNewWidget": "#ref: app/QWhatsNewWidget",
+        "QWhatsNewDialog": "#ref: app/QWhatsNewDialog"
     },
     "OpenProjectDialog": "#ref: app/OpenProjectDialog",
     "QSettingsDialog": "#ref: app/QSettingsDialog",

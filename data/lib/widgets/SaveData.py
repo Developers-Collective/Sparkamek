@@ -36,6 +36,8 @@ class SaveData(QSaveData):
         self.loader_compile_done_notif = True
         self.loader_compile_error_notif = True
 
+        self.version = '0' * 8
+
         self.projects = []
 
         match self.platform:
@@ -327,6 +329,8 @@ class SaveData(QSaveData):
 
     def _save_extra_data(self) -> dict:
         return {
+            'version': self.version,
+
             'checkForUpdates': self.check_for_updates,
             'lastCheckForUpdates': self.last_check_for_updates.strftime(self.dateformat),
 
@@ -347,9 +351,12 @@ class SaveData(QSaveData):
             'devkitPPCPath': self.devkitppc_path
         }
 
+
     def _load_extra_data(self, extra_data: dict = ..., reload: list = [], reload_all: bool = False) -> bool:
         exc = suppress(Exception)
         res = False
+
+        with exc: self.version = extra_data['version']
 
         with exc: self.check_for_updates = extra_data['checkForUpdates']
 
@@ -373,7 +380,28 @@ class SaveData(QSaveData):
 
         return res
 
+
     def _export_extra_data(self) -> dict:
         dct = self._save_extra_data()
         return dct
+
+
+    def _fix_07e8158b(self) -> None:
+        for project in self.projects:
+            if not (data := project.get('data')): continue
+
+            if 'kamek' in data: data['wii.nsmbw.kamek'] = data.pop('kamek')
+            if 'loader' in data: data['wii.nsmbw.loader'] = data.pop('loader')
+            if 'reggieNext' in data: data['wii.nsmbw.reggieNext'] = data.pop('reggieNext')
+            if 'riivolution' in data: data['wii.riivolution'] = data.pop('riivolution')
+
+            project.update({
+                'platform': 'Wii',
+                'game': 'Wii.NSMBW',
+            })
+
+
+    def fix(self) -> None:
+        # Fix save data if needed (for example, if a key was renamed) • This is for retrocompatibility
+        if self.version <= '07e8158b': self._fix_07e8158b()
 #----------------------------------------------------------------------
