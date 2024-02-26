@@ -53,6 +53,10 @@
         "QSystemTrayIcon",
         "QAlert",
         "QBetterToolTip",
-        "QProgressIndicator"
+        "QProgressIndicator",
+        "QBetterGraphicsView",
+        "QBetterGraphicsItemWidget",
+        "QNodeGraphicsItemWidgetField",
+        "QNodeGraphicsItemWidget"
     ]
 }
