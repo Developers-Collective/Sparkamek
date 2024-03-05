@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QPushButton, QLabel, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedTextEdit, QNamedLineEdit, QNamedSpinBox, QNamedToggleButton, QLangData
 from ..NSMBW import NSMBW
 from .sprites.Sprite import Sprite
 from .sprites.Dependency import Required, Suggested

@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QDialog, QPushButton, QLabel
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QGridFrame, QLangData, QGridWidget, QNamedSpinBox
+from data.lib.QtUtils import QGridFrame, QLangData, QGridWidget, QNamedSpinBox
 from .sprites import Sprite
 #----------------------------------------------------------------------
 

@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedTextEdit, QGridWidget, QSaveData, QNamedHexSpinBox, QNamedSpinBox, QScrollableGridFrame, QLangData
+from data.lib.QtUtils import QBaseApplication, QNamedTextEdit, QGridWidget, QSaveData, QNamedHexSpinBox, QNamedSpinBox, QScrollableGridFrame, QLangData
 from ..items.MemorySearchValue import MemorySearchValue
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------

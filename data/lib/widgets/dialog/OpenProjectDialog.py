@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QDialog, QGridLayout, QPushButton
 from PySide6.QtCore import Qt
 from enum import IntEnum
 
-from data.lib.qtUtils import QGridFrame, QGridWidget, QBaseApplication, QLangData, QProgressIndicatorWidget, QProgressIndicator
+from data.lib.QtUtils import QGridFrame, QGridWidget, QBaseApplication, QLangData, QProgressIndicatorWidget, QProgressIndicator
 
 from .OpenProjectDialogData.Common import BaseMenu, MenuGeneral, MenuIcon, MenuPlatform, MenuGame, MenuGameInfo
 from .OpenProjectDialogData.Platform import Platform

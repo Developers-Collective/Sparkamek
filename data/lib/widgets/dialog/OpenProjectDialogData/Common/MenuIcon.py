@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QFrame
 from PySide6.QtCore import Qt, QSize
-from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication, QFlowScrollableWidget, QIconWidget
+from data.lib.QtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication, QFlowScrollableWidget, QIconWidget
 from .BaseMenu import BaseMenu
 import os
 #----------------------------------------------------------------------

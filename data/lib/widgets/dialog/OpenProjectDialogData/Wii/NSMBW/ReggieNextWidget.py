@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QFrame
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication, QLangData
+from data.lib.QtUtils import QLangData, QGridFrame, QFileButton, QFiles, QBaseApplication, QLangData
 from data.lib.widgets.project import ProjectKeys
 from ...BaseWidget import BaseWidget
 #----------------------------------------------------------------------

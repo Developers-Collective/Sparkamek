@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import QSize, Qt
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget, QDragList
+from data.lib.QtUtils import QGridWidget, QBaseApplication, QSaveData, QNamedLineEdit, QIconWidget, QDragList
 from .BaseItemData import BaseItemData
 from .EntryListItem import EntryListItem
 from ..sprites.List import List, Entry

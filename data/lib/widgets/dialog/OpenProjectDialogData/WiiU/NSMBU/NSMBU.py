@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication, QLangData
+from data.lib.QtUtils import QBaseApplication, QLangData
 from ...GameInfo import GameInfo
 from data.lib.widgets.project.ProjectKeys import ProjectKeys
 #----------------------------------------------------------------------

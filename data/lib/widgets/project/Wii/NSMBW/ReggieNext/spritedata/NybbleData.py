@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import Signal
-from data.lib.qtUtils import QGridWidget, QBaseApplication, QNamedComboBox, QLangData
+from data.lib.QtUtils import QGridWidget, QBaseApplication, QNamedComboBox, QLangData
 from ..sprites.NybbleRange import NybbleRange
 from ..sprites.Nybble import Nybble
 #----------------------------------------------------------------------

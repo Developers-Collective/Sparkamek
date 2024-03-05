@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication
+from data.lib.QtUtils import QBaseApplication
 from ...Game import Game
 from ..WiiGameFactory import WiiGameFactory
 from .NSMBW import NSMBW

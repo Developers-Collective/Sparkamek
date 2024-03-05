@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QGridFrame, QIconWidget, QBaseApplication, QLangData, QBetterToolTip
+from data.lib.QtUtils import QGridFrame, QIconWidget, QBaseApplication, QLangData, QBetterToolTip
 from PySide6.QtCore import Qt, QSize, Signal
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel

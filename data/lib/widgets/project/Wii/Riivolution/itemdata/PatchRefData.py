@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QLangData
+from data.lib.QtUtils import QBaseApplication, QNamedLineEdit, QLangData
 from ..items.PatchRef import PatchRef
 from .BaseItemData import BaseItemData
 #----------------------------------------------------------------------

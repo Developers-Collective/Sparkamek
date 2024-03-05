@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QPushButton, QDockWidget, QLabel
 from PySide6.QtCore import Qt
 from ...SubProjectWidgetBase import SubProjectWidgetBase
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
 from ..Wii import Wii
 from data.lib.storage.xml import XML
 from .WiiDiscWidget import WiiDiscWidget

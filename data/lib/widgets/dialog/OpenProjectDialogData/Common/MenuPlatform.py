@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QFrame
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QLangData, QGridFrame, QBaseApplication, QFlowScrollableWidget
+from data.lib.QtUtils import QLangData, QGridFrame, QBaseApplication, QFlowScrollableWidget
 from .BaseMenu import BaseMenu
 from ..PlatformFactory import PlatformFactory
 from ..Platform import Platform

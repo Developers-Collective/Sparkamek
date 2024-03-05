@@ -9,7 +9,7 @@ from .PlatformType import PlatformType
 from datetime import datetime
 from contextlib import suppress
 
-from data.lib.qtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QBaseApplication, QColorSet
+from data.lib.QtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QBaseApplication, QColorSet
 #----------------------------------------------------------------------
 
     # Class

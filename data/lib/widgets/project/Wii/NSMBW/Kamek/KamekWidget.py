@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QLangData
+from data.lib.QtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QLangData
 from ....SubProjectWidgetBase import SubProjectWidgetBase
 from ..NSMBW import NSMBW
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget

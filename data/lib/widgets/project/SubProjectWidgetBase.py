@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QSubScrollableGridMainWindow, QBaseApplication, QSaveData
+from data.lib.QtUtils import QSubScrollableGridMainWindow, QBaseApplication, QSaveData
 #----------------------------------------------------------------------
 
     # Class

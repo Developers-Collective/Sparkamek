@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QScrollableGridWidget, QGridWidget, QIconWidget
+from data.lib.QtUtils import QScrollableGridWidget, QGridWidget, QIconWidget
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtWidgets import QLabel
 #----------------------------------------------------------------------

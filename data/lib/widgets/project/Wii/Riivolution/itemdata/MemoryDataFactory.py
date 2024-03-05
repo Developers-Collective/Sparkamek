@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication
+from data.lib.QtUtils import QBaseApplication
 from .BaseSubItemData import BaseSubItemData
 from .MemoryValueData import MemoryValueData
 from .MemoryValueFileData import MemoryValueFileData

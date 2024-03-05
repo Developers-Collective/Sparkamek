@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedSpinBox, QLangData
+from data.lib.QtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedSpinBox, QLangData
 from ..sprites.ReqNybble import ReqNybble
 from .NybbleData import NybbleData
 #----------------------------------------------------------------------

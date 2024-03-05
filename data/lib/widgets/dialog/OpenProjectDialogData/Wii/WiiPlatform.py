@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication
+from data.lib.QtUtils import QBaseApplication
 from ..Platform import Platform
 from ..PlatformFactory import PlatformFactory
 from .WiiGameFactory import WiiGameFactory

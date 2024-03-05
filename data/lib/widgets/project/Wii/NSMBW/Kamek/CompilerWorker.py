@@ -6,7 +6,7 @@ import os, yaml, sys, difflib, timeit
 from pathlib import Path
 from shutil import copyfile
 
-from data.lib.qtUtils import QBaseApplication, QUtilsColor
+from data.lib.QtUtils import QBaseApplication, QUtilsColor
 from ....LogType import LogType
 from ....ProjectException import ProjectException
 from .CopyType import CopyType

@@ -2,7 +2,7 @@
 
     # Libraries
 from PySide6.QtWidgets import QFrame
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QLangData
+from data.lib.QtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QLangData
 from .SpriteListLoaderWorker import SpriteListLoaderWorker
 from .sprites import *
 #----------------------------------------------------------------------

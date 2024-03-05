@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QBaseApplication, QSaveData, QNamedLineEdit, QDragListItem, QNamedSpinBox, QLangData
+from data.lib.QtUtils import QBaseApplication, QSaveData, QNamedLineEdit, QDragListItem, QNamedSpinBox, QLangData
 from ..sprites.Entry import Entry
 #----------------------------------------------------------------------
 

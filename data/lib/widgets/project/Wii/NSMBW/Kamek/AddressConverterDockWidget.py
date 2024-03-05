@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QLabel
 from PySide6.QtCore import Qt, QSize
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedComboBox, QGridGroupBox, QNamedHexSpinBox, QIconWidget, QLangData
+from data.lib.QtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedComboBox, QGridGroupBox, QNamedHexSpinBox, QIconWidget, QLangData
 from .compiler import AddressMapperController, AddressMapper, KamekConstants
 import os
 #----------------------------------------------------------------------

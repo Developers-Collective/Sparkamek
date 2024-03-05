@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QLabel
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QLangData
 from ..NSMBW import NSMBW
 from .items import Options, Section
 from .itemdata import SectionData

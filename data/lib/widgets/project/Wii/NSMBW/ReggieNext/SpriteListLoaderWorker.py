@@ -4,7 +4,7 @@
 from PySide6.QtCore import Signal, QThread
 import os, traceback
 
-from data.lib.qtUtils import QBaseApplication
+from data.lib.QtUtils import QBaseApplication
 from data.lib.storage import XML
 from .sprites import *
 #----------------------------------------------------------------------

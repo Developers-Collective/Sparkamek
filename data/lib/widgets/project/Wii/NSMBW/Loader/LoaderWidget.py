@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QPushButton, QSystemTrayIcon
 from PySide6.QtCore import Qt
 from ....SubProjectWidgetBase import SubProjectWidgetBase
 from ....LogType import LogType
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
 from ..NSMBW import NSMBW
 from .CompilerWorker import CompilerWorker
 #----------------------------------------------------------------------

@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, DelayedSignal, QBetterSortFilterProxyModel, QLangData
+from data.lib.QtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QGridWidget, QIconLineEdit, QUtilsColor, QBetterListWidget, QSaveData, DelayedSignal, QBetterSortFilterProxyModel, QLangData
 from .SpriteListLoaderWorker import SpriteListLoaderWorker
 from .sprites import *
 #----------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
     # Libraries
 from PySide6.QtWidgets import QLabel
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QScrollableGridFrame, QLangData
+from data.lib.QtUtils import QBaseApplication, QNamedLineEdit, QScrollableGridFrame, QLangData
 from ..items.Region import Region
 from .BaseItemData import BaseItemData
 #----------------------------------------------------------------------

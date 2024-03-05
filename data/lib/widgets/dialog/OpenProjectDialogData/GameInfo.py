@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QSidePanelWidget, QSlidingStackedWidget, QBaseApplication, QLangData
+from data.lib.QtUtils import QSidePanelWidget, QSlidingStackedWidget, QBaseApplication, QLangData
 #----------------------------------------------------------------------
 
     # Class

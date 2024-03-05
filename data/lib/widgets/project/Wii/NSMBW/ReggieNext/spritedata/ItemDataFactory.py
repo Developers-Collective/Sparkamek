@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication
+from data.lib.QtUtils import QBaseApplication
 from .BaseItemData import BaseItemData
 from . import *
 #----------------------------------------------------------------------

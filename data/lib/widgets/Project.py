@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QTabWidget, QSizePolicy, QWidget, QPushButton, QMenu
 from PySide6.QtCore import Qt, Signal, QPoint
 from PySide6.QtGui import QIcon, QAction
-from data.lib.qtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication, QSaveData, QLangData
+from data.lib.QtUtils import QGridWidget, QSlidingStackedWidget, QBaseApplication, QSaveData, QLangData
 from .ProjectType import ProjectType
 from .project import *
 

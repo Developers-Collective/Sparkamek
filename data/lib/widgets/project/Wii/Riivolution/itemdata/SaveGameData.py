@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData, QScrollableGridFrame, QLangData
+from data.lib.QtUtils import QBaseApplication, QNamedLineEdit, QNamedToggleButton, QGridWidget, QSaveData, QScrollableGridFrame, QLangData
 from ..items.SaveGame import SaveGame
 from .BaseSubItemData import BaseSubItemData
 #----------------------------------------------------------------------

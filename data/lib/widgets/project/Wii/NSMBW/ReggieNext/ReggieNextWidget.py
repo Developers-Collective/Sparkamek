@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QDockWidget, QPushButton, QFileDialog
 from PySide6.QtCore import Qt
 from ....SubProjectWidgetBase import SubProjectWidgetBase
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QSaveData, QLangData
 from ..NSMBW import NSMBW
 from .SpriteListDockWidget import SpriteListDockWidget
 from .ItemDataPropertyDockWidget import ItemDataPropertyDockWidget

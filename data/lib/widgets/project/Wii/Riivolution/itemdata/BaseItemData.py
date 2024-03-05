@@ -4,7 +4,7 @@
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
-from data.lib.qtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QssSelector
+from data.lib.QtUtils import QDragListItem, QGridWidget, QBaseApplication, QSaveData, QNamedTextEdit, QNamedToggleButton, QssSelector
 from ..items.IBaseItem import IBaseItem
 #----------------------------------------------------------------------
 

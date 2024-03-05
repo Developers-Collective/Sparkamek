@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.qtUtils import QBaseApplication, QLangData
+from data.lib.QtUtils import QBaseApplication, QLangData
 from .KamekWidget import KamekWidget
 from .LoaderWidget import LoaderWidget
 from .ReggieNextWidget import ReggieNextWidget

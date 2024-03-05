@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QAction
-from data.lib.qtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame, QLangData
+from data.lib.QtUtils import QBaseApplication, QNamedLineEdit, QSlidingStackedWidget, QGridWidget, QSaveData, QDragList, QScrollableGridFrame, QLangData
 from ..items.Patch import Patch
 from .BaseItemData import BaseItemData
 from .FileData import FileData

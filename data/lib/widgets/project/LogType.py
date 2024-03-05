@@ -2,7 +2,7 @@
 
     # Libraries
 from enum import Enum
-from data.lib.qtUtils import QUtilsColor
+from data.lib.QtUtils import QUtilsColor
 #----------------------------------------------------------------------
 
     # Class

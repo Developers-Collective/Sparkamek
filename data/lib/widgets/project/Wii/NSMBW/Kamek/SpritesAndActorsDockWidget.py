@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QFrame, QPushButton, QLabel
 from PySide6.QtCore import Qt, QSortFilterProxyModel
-from data.lib.qtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QUtilsColor, QIconLineEdit, QNamedComboBox, QBetterListWidget, QLangData
+from data.lib.QtUtils import QScrollableGridWidget, QBaseApplication, QSavableDockWidget, QSaveData, QGridWidget, QNamedToggleButton, QUtilsColor, QIconLineEdit, QNamedComboBox, QBetterListWidget, QLangData
 from .sprites_and_actors.SpritesAndActorsWorker import SpritesAndActorsWorker
 #----------------------------------------------------------------------
 

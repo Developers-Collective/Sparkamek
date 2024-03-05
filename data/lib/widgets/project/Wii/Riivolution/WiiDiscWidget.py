@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel, QPushButton
 from PySide6.QtCore import Signal, Qt
-from data.lib.qtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QSaveData, QDragList, QNamedLineEdit, QNamedSpinBox, QLangData
 from ..NSMBW import NSMBW
 from .items import WiiDisc, Patch
 from .IDWidget import IDWidget
