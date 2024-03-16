@@ -1,4 +1,4 @@
-# Sparkamek Rel-07e82a18
+# Sparkamek Rel-07e83f83
 
 ## New
 - Kamek build copy settings -> allows you to choose if the build folder should be cleaned after copying the files

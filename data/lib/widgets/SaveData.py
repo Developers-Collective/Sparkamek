@@ -36,6 +36,8 @@ class SaveData(QSaveData):
 
         self.projects = []
 
+        self._raw_init_data = None
+
         match self.platform:
             case PlatformType.Windows:
                 self.devkitppc_path = 'C:/devkitPro/devkitPPC/bin/'
@@ -379,6 +381,8 @@ class SaveData(QSaveData):
 
         with exc: self.devkitppc_path = extra_data['devkitPPCPath']
 
+        if not self._raw_init_data: self._raw_init_data = extra_data.copy()
+
         return res
 
 
@@ -400,6 +404,19 @@ class SaveData(QSaveData):
                 'platform': 'Wii',
                 'game': 'Wii.NSMBW',
             })
+
+        kamek_compile_done_notif = self._raw_init_data.get('kamekCompileDoneNotif', True)
+        kamek_compile_missing_symbols_notif = self._raw_init_data.get('kamekCompileMissingSymbolsNotif', True)
+        kamek_compile_error_notif = self._raw_init_data.get('kamekCompileErrorNotif', True)
+
+        NotificationManager.get('wii.nsmbw.kamek')['compileDone'] = kamek_compile_done_notif
+        NotificationManager.get('wii.nsmbw.kamek')['compileMissingSymbols'] = kamek_compile_missing_symbols_notif
+        NotificationManager.get('wii.nsmbw.kamek')['compileError'] = kamek_compile_error_notif
+
+        loader_compile_done_notif = self._raw_init_data.get('loaderCompileDoneNotif', True)
+        loader_compile_error_notif = self._raw_init_data.get('loaderCompileErrorNotif', True)
+        NotificationManager.get('wii.nsmbw.loader')['compileDone'] = loader_compile_done_notif
+        NotificationManager.get('wii.nsmbw.loader')['compileError'] = loader_compile_error_notif
 
 
     def fix(self) -> None:
