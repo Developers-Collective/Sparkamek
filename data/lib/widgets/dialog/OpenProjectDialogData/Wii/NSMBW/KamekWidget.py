@@ -236,9 +236,11 @@ class KamekWidget(BaseWidget):
 
         return {
             'path': self._kamek_file_button.path(),
+
             'buildFolder': new_build_folder,
             'copyType': self._kamek_copy_type_combo_box.currentIndex(),
             'outputFolder': self._kamek_output_folder.path() if self._kamek_output_folder.path() not in self._forbidden_paths else None,
+
             'generatePALv1': self._kamek_generate_pal_v1_toggle.isChecked(),
             'generatePALv2': self._kamek_generate_pal_v2_toggle.isChecked(),
             'generateNTSCv1': self._kamek_generate_ntsc_v1_toggle.isChecked(),
@@ -248,6 +250,7 @@ class KamekWidget(BaseWidget):
             'generateTW': self._kamek_generate_tw_toggle.isChecked(),
             'generateKR': self._kamek_generate_kr_toggle.isChecked(),
             'generateCN': self._kamek_generate_cn_toggle.isChecked(),
-            'nintendoDriverMode': self._nintendo_driver_mode_toggle.isChecked()
+
+            'nintendoDriverMode': self._nintendo_driver_mode_toggle.isChecked(),
         }
 #----------------------------------------------------------------------

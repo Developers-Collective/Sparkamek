@@ -1,0 +1,4 @@
+{
+    "kamek": "#ref: app/projects/Wii/NSMBW/KamekWidget/QSettingsDialog",
+    "loader": "#ref: app/projects/Wii/NSMBW/LoaderWidget/QSettingsDialog"
+}

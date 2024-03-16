@@ -10,6 +10,7 @@ from datetime import datetime
 from contextlib import suppress
 
 from data.lib.QtUtils import QFiles, QSaveData, QGridFrame, QScrollableGridWidget, QSettingsDialog, QFileButton, QNamedComboBox, QNamedToggleButton, QUtilsColor, QBaseApplication, QColorSet
+from .NotificationManager import NotificationManager
 #----------------------------------------------------------------------
 
     # Class
@@ -30,11 +31,6 @@ class SaveData(QSaveData):
         self.compact_paths = 0
 
         self.goes_to_tray_notif = True
-        self.kamek_compile_done_notif = True
-        self.kamek_compile_missing_symbols_notif = True
-        self.kamek_compile_error_notif = True
-        self.loader_compile_done_notif = True
-        self.loader_compile_error_notif = True
 
         self.version = '0' * 8
 
@@ -237,11 +233,11 @@ class SaveData(QSaveData):
             frame.setFixedHeight(1)
             subframe.grid_layout.addWidget(frame, subframe.grid_layout.count(), 0)
 
-            label = QSettingsDialog._text_group(lang.get(f'QLabel.{key}.title'), lang.get(f'QLabel.{key}.description'))
+            label = QSettingsDialog._text_group(lang.get(f'{key}.QLabel.title'), lang.get(f'{key}.QLabel.description'))
             subframe.grid_layout.addWidget(label, subframe.grid_layout.count(), 0)
 
             w = QNamedToggleButton()
-            w.setText(lang.get(f'QNamedToggleButton.{key}'))
+            w.setText(lang.get(f'{key}.QNamedToggleButton'))
             w.setChecked(checked)
             subframe.grid_layout.addWidget(w, subframe.grid_layout.count(), 0)
             subframe.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
@@ -252,11 +248,13 @@ class SaveData(QSaveData):
 
 
         widget.goes_to_tray_notif_checkbox = generate_notif('goesToTray', self.goes_to_tray_notif)
-        widget.kamek_compile_done_notif_checkbox = generate_notif('kamekCompileDone', self.kamek_compile_done_notif)
-        widget.kamek_compile_missing_symbols_notif_checkbox = generate_notif('kamekCompileMissingSymbols', self.kamek_compile_missing_symbols_notif)
-        widget.kamek_compile_error_notif_checkbox = generate_notif('kamekCompileError', self.kamek_compile_error_notif)
-        widget.loader_compile_done_notif_checkbox = generate_notif('loaderCompileDone', self.loader_compile_done_notif)
-        widget.loader_compile_error_notif_checkbox = generate_notif('loaderCompileError', self.loader_compile_error_notif)
+        widget.notif_states = {}
+
+        for key in NotificationManager.get_all():
+            widget.notif_states[key] = {}
+
+            for notif in NotificationManager.get(key).keys():
+                widget.notif_states[key][notif] = generate_notif(f'game.{key}.{notif}', True)
 
         return widget
 
@@ -305,11 +303,10 @@ class SaveData(QSaveData):
         self._developer_mode = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.interface.title')].developer_mode_checkbox.isChecked()
 
         self.goes_to_tray_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].goes_to_tray_notif_checkbox.isChecked()
-        self.kamek_compile_done_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_done_notif_checkbox.isChecked()
-        self.kamek_compile_missing_symbols_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_missing_symbols_notif_checkbox.isChecked()
-        self.kamek_compile_error_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].kamek_compile_error_notif_checkbox.isChecked()
-        self.loader_compile_done_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].loader_compile_done_notif_checkbox.isChecked()
-        self.loader_compile_error_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].loader_compile_error_notif_checkbox.isChecked()
+
+        for key in NotificationManager.get_all():
+            for notif in NotificationManager.get(key).keys():
+                NotificationManager.get(key)[notif] = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].notif_states[key][notif].isChecked()
 
         self.devkitppc_path = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.paths.title')].devkitppc_folder_button.path()
 
@@ -328,6 +325,11 @@ class SaveData(QSaveData):
 
 
     def _save_extra_data(self) -> dict:
+        notifs = {}
+
+        for key in NotificationManager.get_all():
+            notifs[key] = {notif: NotificationManager.get(key)[notif] for notif in NotificationManager.get(key).keys()}
+
         return {
             'version': self.version,
 
@@ -340,15 +342,12 @@ class SaveData(QSaveData):
             'compactPaths': self.compact_paths,
 
             'goesToTrayNotif': self.goes_to_tray_notif,
-            'kamekCompileDoneNotif': self.kamek_compile_done_notif,
-            'kamekCompileMissingSymbolsNotif': self.kamek_compile_missing_symbols_notif,
-            'kamekCompileErrorNotif': self.kamek_compile_error_notif,
-            'loaderCompileDoneNotif': self.loader_compile_done_notif,
-            'loaderCompileErrorNotif': self.loader_compile_error_notif,
 
             'projects': self.projects,
 
-            'devkitPPCPath': self.devkitppc_path
+            'devkitPPCPath': self.devkitppc_path,
+
+            'notifications': notifs,
         }
 
 
@@ -368,11 +367,13 @@ class SaveData(QSaveData):
         with exc: self.compact_paths = extra_data['compactPaths']
 
         with exc: self.goes_to_tray_notif = extra_data['goesToTrayNotif']
-        with exc: self.kamek_compile_done_notif = extra_data['kamekCompileDoneNotif']
-        with exc: self.kamek_compile_missing_symbols_notif = extra_data['kamekCompileMissingSymbolsNotif']
-        with exc: self.kamek_compile_error_notif = extra_data['kamekCompileErrorNotif']
-        with exc: self.loader_compile_done_notif = extra_data['loaderCompileDoneNotif']
-        with exc: self.loader_compile_error_notif = extra_data['loaderCompileErrorNotif']
+
+        with exc:
+            notifs = extra_data['notifications']
+
+            for key in notifs:
+                for notif in notifs[key]:
+                    NotificationManager.get(key)[notif] = notifs[key][notif]
 
         with exc: self.projects = extra_data['projects']
 

@@ -4,6 +4,7 @@
 from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
 from data.lib.QtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QLangData
+from data.lib.widgets.NotificationManager import NotificationManager
 from ....SubProjectWidgetBase import SubProjectWidgetBase
 from ..NSMBW import NSMBW
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
@@ -160,8 +161,10 @@ class KamekWidget(SubProjectWidgetBase):
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
 
+        notifs = NotificationManager.get(f'{KamekWidget.type}')
+
         k = 'MissingSymbols' if missing_symbols else 'Done'
-        b = self._app.save_data.kamek_compile_missing_symbols_notif if missing_symbols else self._app.save_data.kamek_compile_done_notif
+        b = notifs.get('compileMissingSymbols', False) if missing_symbols else notifs.get('compileDone', False)
 
         if b: self._app.sys_tray.showMessage(
             self._app.get_lang_data(f'QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compile{k}.title').replace('%s', self._name),
@@ -184,7 +187,9 @@ class KamekWidget(SubProjectWidgetBase):
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
 
-        if self._app.save_data.kamek_compile_error_notif: self._app.sys_tray.showMessage(
+        notifs = NotificationManager.get(f'{KamekWidget.type}')
+
+        if notifs.get('compileError', False): self._app.sys_tray.showMessage(
             self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compileError.title').replace('%s', self._name),
             self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.KamekWidget.compileError.message'),
             QSystemTrayIcon.MessageIcon.Critical,
@@ -243,6 +248,7 @@ class KamekWidget(SubProjectWidgetBase):
             'buildFolder': self._build_folder,
             'outputFolder': self._output_folder,
             'copyType': self._copy_type.value,
+
             'generatePALv1': self._generate_pal_v1,
             'generatePALv2': self._generate_pal_v2,
             'generateNTSCv1': self._generate_ntsc_v1,
@@ -252,6 +258,7 @@ class KamekWidget(SubProjectWidgetBase):
             'generateKR': self._generate_kr,
             'generateTW': self._generate_tw,
             'generateCN': self._generate_cn,
+
             'nintendoDriverMode': self._nintendo_driver_mode,
         }
 
@@ -273,4 +280,15 @@ class KamekWidget(SubProjectWidgetBase):
     def settings_updated(self, settings: QSaveData) -> None:
         self._devkitppc_path = settings.devkitppc_path
         return super().settings_updated(settings)
+#----------------------------------------------------------------------
+
+    # Setup
+NotificationManager.register(
+    f'{KamekWidget.type}',
+    {
+        'compileDone': True,
+        'compileMissingSymbols': True,
+        'compileError': True,
+    }
+)
 #----------------------------------------------------------------------

@@ -3,9 +3,10 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QSystemTrayIcon
 from PySide6.QtCore import Qt
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
+from data.lib.widgets.NotificationManager import NotificationManager
 from ....SubProjectWidgetBase import SubProjectWidgetBase
 from ....LogType import LogType
-from data.lib.QtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
 from ..NSMBW import NSMBW
 from .CompilerWorker import CompilerWorker
 #----------------------------------------------------------------------
@@ -37,6 +38,11 @@ class LoaderWidget(SubProjectWidgetBase):
         self._data = data
 
         self._output_file = self._data.get('outputFile', None)
+
+        notifs = data.get('notifications', {})
+
+        self._compile_done_notif = notifs.get('compileDone', True)
+        self._compile_error_notif = notifs.get('compileError', True)
 
         self._compile_thread = None
 
@@ -107,7 +113,7 @@ class LoaderWidget(SubProjectWidgetBase):
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
 
-        if self._app.save_data.loader_compile_done_notif: self._app.sys_tray.showMessage(
+        if self._compile_done_notif: self._app.sys_tray.showMessage(
             self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.LoaderWidget.compileDone.title').replace('%s', self._name),
             self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.LoaderWidget.compileDone.message'),
             QSystemTrayIcon.MessageIcon.Information,
@@ -128,7 +134,7 @@ class LoaderWidget(SubProjectWidgetBase):
         if self._compile_thread.isRunning(): self._compile_thread.terminate()
         self._compile_thread = None
 
-        if self._app.save_data.loader_compile_error_notif: self._app.sys_tray.showMessage(
+        if self._compile_error_notif: self._app.sys_tray.showMessage(
             self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.LoaderWidget.compileError.title').replace('%s', self._name),
             self._app.get_lang_data('QSystemTrayIcon.showMessage.game.Wii.NSMBW.LoaderWidget.compileError.message'),
             QSystemTrayIcon.MessageIcon.Critical,
@@ -176,4 +182,14 @@ class LoaderWidget(SubProjectWidgetBase):
         return super().export() | {
             'outputFile': self._output_file,
         }
+#----------------------------------------------------------------------
+
+    # Setup
+NotificationManager.register(
+    f'{LoaderWidget.type}',
+    {
+        'compileDone': True,
+        'compileError': True,
+    }
+)
 #----------------------------------------------------------------------
