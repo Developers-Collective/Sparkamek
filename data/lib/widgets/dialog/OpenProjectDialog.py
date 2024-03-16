@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QDialog, QGridLayout, QPushButton
 from PySide6.QtCore import Qt
 from enum import IntEnum
 
-from data.lib.QtUtils import QGridFrame, QGridWidget, QBaseApplication, QLangData, QProgressIndicatorWidget, QProgressIndicator
+from data.lib.QtUtils import QGridFrame, QGridWidget, QBaseApplication, QLangData, QProgressIndicatorWidget, QDirection
 
 from .OpenProjectDialogData.Common import BaseMenu, MenuGeneral, MenuIcon, MenuPlatform, MenuGame, MenuGameInfo
 from .OpenProjectDialogData.Platform import Platform
@@ -113,7 +113,7 @@ class OpenProjectDialog(QDialog):
 
         self._progress_indicator_widget = QProgressIndicatorWidget(
             None,
-            QProgressIndicator.Direction.Top2Bottom,
+            QDirection.Top2Bottom,
             False,
             content_margins = (0, 0, 0, 0),
         )
