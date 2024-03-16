@@ -254,7 +254,7 @@ class SaveData(QSaveData):
             widget.notif_states[key] = {}
 
             for notif in NotificationManager.get(key).keys():
-                widget.notif_states[key][notif] = generate_notif(f'game.{key}.{notif}', True)
+                widget.notif_states[key][notif] = generate_notif(f'game.{key}.{notif}', NotificationManager.get(key)[notif])
 
         return widget
 
