@@ -391,7 +391,7 @@ class SaveData(QSaveData):
         return dct
 
 
-    def _fix_07e8158b(self) -> None:
+    def _fix_07e83f83(self) -> None:
         for project in self.projects:
             if not (data := project.get('data')): continue
 
@@ -421,5 +421,5 @@ class SaveData(QSaveData):
 
     def fix(self) -> None:
         # Fix save data if needed (for example, if a key was renamed) • This is for retrocompatibility
-        if self.version <= '07e8158b': self._fix_07e8158b()
+        if self.version <= '07e83f83': self._fix_07e83f83()
 #----------------------------------------------------------------------
