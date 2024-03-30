@@ -10,7 +10,7 @@ class Info:
     def __new__(cls) -> None:
         return None
 
-    build: str = '07e83f83'
+    build: str = '07e83ff6'
     version: str = 'Experimental'
 
     application_name: str = 'Sparkamek'
@@ -33,4 +33,6 @@ class Info:
     )
 
     icon_path: str = './data/icons/Sparkamek.svg'
+
+    github_link: str = 'https://github.com/Synell/Sparkamek'
 #----------------------------------------------------------------------
