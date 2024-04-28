@@ -16,6 +16,9 @@ class BaseItem(implements(IBaseSprite)):
         reqnybs = str(data.get_attribute('requirednybble', ''))
         requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
 
+        reqblocks = str(data.get_attribute('requiredblock', ''))
+        requiredblocks = [int(s.strip()) for s in reqblocks.split(',')] if reqblocks else []
+
         reqvals = str(data.get_attribute('requiredval', '')).split(',')
         requiredvals: list[list[int], list[int, int]] = []
         if reqvals == ['']: reqvals = []
@@ -32,11 +35,14 @@ class BaseItem(implements(IBaseSprite)):
         self._requirednybblevals: list[ReqNybble] = []
         for i in range(len(requirednybbles)):
             val = requiredvals[i] if i < len(requiredvals) else [1]
-            self._requirednybblevals.append(ReqNybble(requirednybbles[i], val))
+            block = requiredblocks[i] if i < len(requiredblocks) else None
+            self._requirednybblevals.append(ReqNybble(requirednybbles[i], val, block))
 
         bits = data.get_attribute('bits', '')
         if bits: self._nybbles = NybbleRange.from_bits(bits)
         else: self._nybbles = NybbleRange(data.get_attribute('nybble', ''))
+
+        self._block: int | None = data.get_attribute('block', 0)
 
         self._comment = data.get_attribute('comment', '')
         self._comment2 = data.get_attribute('comment2', '')
@@ -52,6 +58,15 @@ class BaseItem(implements(IBaseSprite)):
     @property
     def nybbles(self) -> NybbleRange:
         return self._nybbles
+
+
+    @property
+    def block(self) -> int:
+        return self._block
+
+    @block.setter
+    def block(self, value: int) -> None:
+        self._block = value
 
 
     @property
@@ -112,4 +127,56 @@ class BaseItem(implements(IBaseSprite)):
     @staticmethod
     def create() -> 'BaseItem':
         return BaseItem(XMLNode('BaseItem', attributes = {'nybble': 1}))
+
+
+    def convert_to_extended(self) -> None:
+        if self._nybbles.start.n >= 9 and self._nybbles.end.n >= 9:
+            self._block = 2
+            self._nybbles.start.n -= 8
+            self._nybbles.end.n -= 8
+
+        elif self._nybbles.start.n <= 8 and self._nybbles.end.n <= 8:
+            self._block = 1
+
+        else:
+            if self._nybbles.start.n >= 8:
+                self._nybbles.start.n -= 8
+
+            if self._nybbles.end.n >= 8:
+                self._nybbles.end.n -= 8
+
+            self._block = 1
+
+        for nybble in self._requirednybblevals:
+            if nybble.nybbles.start.n >= 9 and nybble.nybbles.end.n >= 9:
+                nybble.block = 2
+                nybble.nybbles.start.n -= 8
+                nybble.nybbles.end.n -= 8
+
+            elif nybble.nybbles.start.n <= 8 and nybble.nybbles.end.n <= 8:
+                nybble.block = 1
+
+            else:
+                if nybble.nybbles.start.n >= 8:
+                    nybble.nybbles.start.n -= 8
+
+                if nybble.nybbles.end.n >= 8:
+                    nybble.nybbles.end.n -= 8
+
+                nybble.block = 1
+
+
+    def convert_to_normal(self) -> None:
+        if self._block == 2:
+            self._nybbles.start.n += 8
+            self._nybbles.end.n += 8
+
+        self._block = 0
+
+        for nybble in self._requirednybblevals:
+            if nybble.block == 1:
+                nybble.nybbles.start.n += 8
+                nybble.nybbles.end.n += 8
+
+            nybble.block = 0
 #----------------------------------------------------------------------

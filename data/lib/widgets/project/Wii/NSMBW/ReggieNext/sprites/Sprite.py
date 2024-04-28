@@ -31,6 +31,8 @@ class Sprite(implements(IBaseSprite)):
         self._advancednotes = data.get_attribute('advancednotes', '')
         self._phonebook = data.get_attribute('phonebook', '') # TF is this?
 
+        self._extended = self._bool_filter(data.get_attribute('extended', False))
+
         dependency = data.get_first_child('dependency')
         self._dependency = Dependency(dependency) if dependency else Dependency(XMLNode('dependency', {}, [], None))
         self._children: list[BaseItem] = []
@@ -118,6 +120,20 @@ class Sprite(implements(IBaseSprite)):
     @phonebook.setter
     def phonebook(self, value: str) -> None:
         self._phonebook = value
+
+
+    @property
+    def extended(self) -> bool:
+        return self._extended
+
+    @extended.setter
+    def extended(self, value: bool) -> None:
+        if self._extended == value: return
+        self._extended = value
+
+        for child in self._children:
+            if value: child.convert_to_extended()
+            else: child.convert_to_normal()
 
 
     @property
