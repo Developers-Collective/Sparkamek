@@ -10,10 +10,21 @@ from .BaseItem import BaseItem
 class CheckBox(BaseItem):
     name: str = 'checkbox'
 
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
-        self.title = data.get_attribute('title', '')
+        self._title = data.get_attribute('title', '')
+
+
+    @property
+    def title(self) -> str:
+        return self._title
+
+    @title.setter
+    def title(self, value: str) -> None:
+        self._title = value
+
 
     def export(self) -> XMLNode:
         sup = super().export()
@@ -21,14 +32,16 @@ class CheckBox(BaseItem):
         return XMLNode(
             self.name,
             (
-                ({'title': self.title} if self.title else {})
+                ({'title': self._title} if self._title else {})
             ) | sup.attributes,
             sup.children,
             sup.value
         )
 
+
     def copy(self) -> 'CheckBox':
         return CheckBox(self.export())
+
 
     @staticmethod
     def create() -> 'CheckBox':

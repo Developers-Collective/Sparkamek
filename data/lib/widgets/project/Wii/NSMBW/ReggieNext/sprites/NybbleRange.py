@@ -8,8 +8,8 @@ from .Nybble import Nybble
 class NybbleRange:
     def __init__(self, data: str | int | float | None) -> None:
         if data == '' or data == None:
-            self.start = None
-            self.end = None
+            self._start = None
+            self._end = None
             return
 
         if isinstance(data, float): data = str(data)
@@ -17,22 +17,40 @@ class NybbleRange:
         info = data.split('-')
 
         if len(info) == 2:
-            self.start = Nybble(info[0])
-            self.end = Nybble(info[1])
+            self._start = Nybble(info[0])
+            self._end = Nybble(info[1])
 
         else:
-            self.start = Nybble(info[0])
-            self.end = None
+            self._start = Nybble(info[0])
+            self._end = None
+
+
+    @property
+    def start(self) -> Nybble:
+        return self._start
+
+    @start.setter
+    def start(self, value: Nybble) -> None:
+        self._start = value
+
+
+    @property
+    def end(self) -> Nybble | None:
+        return self._end
+
+    @end.setter
+    def end(self, value: Nybble | None) -> None:
+        self._end = value
 
 
     def export(self) -> str:
-        if self.start == None:
+        if self._start == None:
             return ''
 
-        if self.end == None:
-            return self.start.export()
+        if self._end == None:
+            return self._start.export()
         
-        return f'{self.start.export()}-{self.end.export()}'
+        return f'{self._start.export()}-{self._end.export()}'
 
     def copy(self) -> 'NybbleRange':
         return NybbleRange(self.export())
@@ -54,12 +72,14 @@ class NybbleRange:
     def convert2int(self) -> int:
         settings = 0xFFFFFFFFFFFFFFFF
 
-        if self.end == None: return NybbleRange.nybblebit2int(settings, self.start.n, self.start.b, self.start.n, self.start.b)
-        return NybbleRange.nybblebit2int(settings, self.start.n, self.start.b, self.end.n, self.end.b)
+        if self._end == None: return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._start.n, self._start.b)
+        return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._end.n, self._end.b)
+
 
     def convert2hex_formatted(self) -> str:
         s = f'{self.convert2int():016X}'
         return f'{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}'
+
 
     @staticmethod
     def from_bits(bits: str) -> 'NybbleRange':

@@ -10,24 +10,46 @@ from .IBaseSprite import IBaseSprite
 class Entry(implements(IBaseSprite)):
     name: str = 'entry'
 
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__()
 
-        self.value = int(data.get_attribute('value', '0'))
-        self.item = data.value
+        self._value = int(data.get_attribute('value', '0'))
+        self._item = data.value
+
+
+    @property
+    def value(self) -> int:
+        return self._value
+
+    @value.setter
+    def value(self, value: int) -> None:
+        self._value = value
+
+
+    @property
+    def item(self) -> int:
+        return self._item
+
+    @item.setter
+    def item(self, value: int) -> None:
+        self._item = value
+
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
             (
-                ({'value': self.value} if self.value is not None else {})
+                ({'value': self._value} if self._value is not None else {})
             ),
             [],
-            self.item
+            self._item
         )
+
 
     def copy(self) -> 'Entry':
         return Entry(self.export())
+
 
     @staticmethod
     def create() -> 'Entry':

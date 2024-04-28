@@ -10,20 +10,33 @@ from .IBaseSprite import IBaseSprite
 class Required(implements(IBaseSprite)):
     name: str = 'required'
 
+
     def __init__(self, data: XMLNode) -> None:
         sprite = data.get_attribute('sprite')
-        self.sprite: int = int(sprite) if sprite != '' and sprite is not None else None
+        self._sprite: int = int(sprite) if sprite != '' and sprite is not None else None
+
+
+    @property
+    def sprite(self) -> int:
+        return self._sprite
+
+    @sprite.setter
+    def sprite(self, value: int) -> None:
+        self._sprite = value
+
 
     def export(self) -> XMLNode:
         return XMLNode(
             self.name,
             (
-                ({'sprite': self.sprite} if self.sprite is not None else {})
+                ({'sprite': self._sprite} if self._sprite is not None else {})
             )
-        ) if self.sprite is not None else None
+        ) if self._sprite is not None else None
+
 
     def copy(self) -> 'Required':
         return Required(self.export())
+
 
     @staticmethod
     def create() -> 'Required':

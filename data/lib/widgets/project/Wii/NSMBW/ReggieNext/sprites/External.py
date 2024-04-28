@@ -9,11 +9,31 @@ from .BaseItem import BaseItem
 class External(BaseItem):
     name: str = 'external'
 
+
     def __init__(self, data: XMLNode) -> None:
         super().__init__(data)
 
-        self.title = data.get_attribute('title', '')
-        self.type = data.get_attribute('type', '')
+        self._title = data.get_attribute('title', '')
+        self._type = data.get_attribute('type', '')
+
+
+    @property
+    def title(self) -> str:
+        return self._title
+
+    @title.setter
+    def title(self, value: str) -> None:
+        self._title = value
+
+
+    @property
+    def type(self) -> str:
+        return self._type
+
+    @type.setter
+    def type(self, value: str) -> None:
+        self._type = value
+
 
     def export(self) -> XMLNode:
         sup = super().export()
@@ -21,15 +41,17 @@ class External(BaseItem):
         return XMLNode(
             self.name,
             (
-                ({'title': self.title} if self.title else {}) |
-                ({'type': self.type} if self.type else {})
+                ({'title': self._title} if self._title else {}) |
+                ({'type': self._type} if self._type else {})
             ) | sup.attributes,
             sup.children,
             sup.value
         )
 
+
     def copy(self) -> 'External':
         return External(self.export())
+
 
     @staticmethod
     def create() -> 'External':

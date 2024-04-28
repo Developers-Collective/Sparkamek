@@ -17,57 +17,144 @@ from .External import External
 class Sprite(implements(IBaseSprite)):
     name: str = 'sprite'
 
+
     def __init__(self, data: XMLNode) -> None:
         self.id = data.get_attribute('id', 0)
         if not isinstance(self.id, int): self.id = 0
 
-        self.sprite_name = data.get_attribute('name', '')
-        self.asmhacks = self._bool_filter(data.get_attribute('asmhacks', False))
-        self.sizehacks = self._bool_filter(data.get_attribute('sizehacks', False))
-        self.noyoshi = self._bool_filter(data.get_attribute('noyoshi', False))
-        self.yoshinotes = data.get_attribute('yoshinotes', '')
-        self.notes = data.get_attribute('notes', '')
-        self.advancednotes = data.get_attribute('advancednotes', '')
-        self.phonebook = data.get_attribute('phonebook', '') # TF is this?
+        self._sprite_name = data.get_attribute('name', '')
+        self._asmhacks = self._bool_filter(data.get_attribute('asmhacks', False))
+        self._sizehacks = self._bool_filter(data.get_attribute('sizehacks', False))
+        self._noyoshi = self._bool_filter(data.get_attribute('noyoshi', False))
+        self._yoshinotes = data.get_attribute('yoshinotes', '')
+        self._notes = data.get_attribute('notes', '')
+        self._advancednotes = data.get_attribute('advancednotes', '')
+        self._phonebook = data.get_attribute('phonebook', '') # TF is this?
 
         dependency = data.get_first_child('dependency')
-        self.dependency = Dependency(dependency) if dependency else Dependency(XMLNode('dependency', {}, [], None))
-        self.children: list[BaseItem] = []
+        self._dependency = Dependency(dependency) if dependency else Dependency(XMLNode('dependency', {}, [], None))
+        self._children: list[BaseItem] = []
 
         for child in data.children:
             match child.name:
                 case 'dependency': continue
-                case 'dualbox': self.children.append(DualBox(child))
-                case 'checkbox': self.children.append(CheckBox(child))
-                case 'value': self.children.append(Value(child))
-                case 'list': self.children.append(List(child))
-                case 'external': self.children.append(External(child))
+                case 'dualbox': self._children.append(DualBox(child))
+                case 'checkbox': self._children.append(CheckBox(child))
+                case 'value': self._children.append(Value(child))
+                case 'list': self._children.append(List(child))
+                case 'external': self._children.append(External(child))
                 case _:
                     print(f'Unknown sprite child: {child}')
                     # raise ValueError(f'Unknown sprite child: {child}')
 
+
+    @property
+    def sprite_name(self) -> str:
+        return self._sprite_name
+
+    @sprite_name.setter
+    def sprite_name(self, value: str) -> None:
+        self._sprite_name = value
+
+
+    @property
+    def asmhacks(self) -> bool:
+        return self._asmhacks
+
+    @asmhacks.setter
+    def asmhacks(self, value: bool) -> None:
+        self._asmhacks = value
+
+
+    @property
+    def sizehacks(self) -> bool:
+        return self._sizehacks
+
+    @sizehacks.setter
+    def sizehacks(self, value: bool) -> None:
+        self._sizehacks = value
+
+
+    @property
+    def noyoshi(self) -> bool:
+        return self._noyoshi
+
+    @noyoshi.setter
+    def noyoshi(self, value: bool) -> None:
+        self._noyoshi = value
+
+
+    @property
+    def yoshinotes(self) -> str:
+        return self._yoshinotes
+
+    @yoshinotes.setter
+    def yoshinotes(self, value: str) -> None:
+        self._yoshinotes = value
+
+
+    @property
+    def notes(self) -> str:
+        return self._notes
+
+    @notes.setter
+    def notes(self, value: str) -> None:
+        self._notes = value
+
+
+    @property
+    def advancednotes(self) -> str:
+        return self._advancednotes
+
+    @advancednotes.setter
+    def advancednotes(self, value: str) -> None:
+        self._advancednotes = value
+
+
+    @property
+    def phonebook(self) -> str:
+        return self._phonebook
+
+    @phonebook.setter
+    def phonebook(self, value: str) -> None:
+        self._phonebook = value
+
+
+    @property
+    def dependency(self) -> Dependency:
+        return self._dependency
+
+
+    @property
+    def children(self) -> list[BaseItem]:
+        return self._children
+
+
     def _bool_filter(self, value: bool) -> bool:
         return True if value == 'True' else False if value == 'False' else bool(value)
+
 
     def export(self) -> XMLNode:
         return XMLNode(
             'sprite',
             (
                 {'id': self.id} |
-                {'name': self.sprite_name} |
-                ({'asmhacks': self.asmhacks} if self.asmhacks else {}) |
-                ({'sizehacks': self.sizehacks} if self.sizehacks else {}) |
-                ({'noyoshi': self.noyoshi} if self.noyoshi else {}) |
-                ({'yoshinotes': self.yoshinotes} if self.yoshinotes else {}) |
-                ({'notes': self.notes} if self.notes else {}) |
-                ({'advancednotes': self.advancednotes} if self.advancednotes else {}) |
-                ({'phonebook': self.phonebook} if self.phonebook else {})
+                {'name': self._sprite_name} |
+                ({'asmhacks': self._asmhacks} if self._asmhacks else {}) |
+                ({'sizehacks': self._sizehacks} if self._sizehacks else {}) |
+                ({'noyoshi': self._noyoshi} if self._noyoshi else {}) |
+                ({'yoshinotes': self._yoshinotes} if self._yoshinotes else {}) |
+                ({'notes': self._notes} if self._notes else {}) |
+                ({'advancednotes': self._advancednotes} if self._advancednotes else {}) |
+                ({'phonebook': self._phonebook} if self._phonebook else {})
             ),
-            ([self.dependency.export()] if self.dependency else []) + [c.export() for c in self.children]
+            ([self._dependency.export()] if self._dependency else []) + [c.export() for c in self._children]
         )
+
 
     def copy(self) -> 'Sprite':
         return Sprite(self.export())
+
 
     @staticmethod
     def create() -> 'Sprite':
