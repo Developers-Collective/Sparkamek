@@ -1,14 +1,14 @@
 {
     "compileDone": {
         "QLabel": {
-            "title": "Notification de Compilation Loader Terminée",
+            "title": "Wii ➜ NSMBW • Notification de Compilation Loader Terminée",
             "description": "Détermine si Sparkamek affiche une notification lorsqu'une compilation est terminée."
         },
         "QNamedToggleButton": "Compilation Loader Terminée"
     },
     "compileError": {
         "QLabel": {
-            "title": "Notification d'Erreur de Compilation Loader",
+            "title": "Wii ➜ NSMBW • Notification d'Erreur de Compilation Loader",
             "description": "Détermine si Sparkamek affiche une notification lorsqu'une erreur de compilation est survenue."
         },
         "QNamedToggleButton": "Erreur de Compilation Loader"

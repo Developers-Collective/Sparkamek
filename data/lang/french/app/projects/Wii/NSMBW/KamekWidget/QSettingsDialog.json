@@ -1,21 +1,21 @@
 {
     "compileDone": {
         "QLabel": {
-            "title": "Notification de Compilation Kamek Terminée",
+            "title": "Wii ➜ NSMBW • Notification de Compilation Kamek Terminée",
             "description": "Détermine si Sparkamek affiche une notification lorsqu'une compilation est terminée."
         },
         "QNamedToggleButton": "Compilation Kamek Terminée"
     },
     "compileMissingSymbols": {
         "QLabel": {
-            "title": "Notification de Symboles Manquants à la Compilation Kamek",
+            "title": "Wii ➜ NSMBW • Notification de Symboles Manquants à la Compilation Kamek",
             "description": "Détermine si Sparkamek affiche une notification lorsqu'il manque des symboles à la compilation."
         },
         "QNamedToggleButton": "Symboles Manquants à la Compilation Kamek"
     },
     "compileError": {
         "QLabel": {
-            "title": "Notification d'Erreur de Compilation Kamek",
+            "title": "Wii ➜ NSMBW • Notification d'Erreur de Compilation Kamek",
             "description": "Détermine si Sparkamek affiche une notification lorsqu'une erreur de compilation est survenue."
         },
         "QNamedToggleButton": "Erreur de Compilation Kamek"

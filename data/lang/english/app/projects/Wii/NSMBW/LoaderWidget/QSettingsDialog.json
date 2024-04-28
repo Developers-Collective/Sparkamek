@@ -1,14 +1,14 @@
 {
     "compileDone": {
         "QLabel": {
-            "title": "Loader Compile Done Notification",
+            "title": "Wii ➜ NSMBW • Loader Compile Done Notification",
             "description": "Determines if a notification will be sent when the loader finishes compiling."
         },
         "QNamedToggleButton": "Loader Compile Done"
     },
     "compileError": {
         "QLabel": {
-            "title": "Loader Compile Error Notification",
+            "title": "Wii ➜ NSMBW • Loader Compile Error Notification",
             "description": "Determines if a notification will be sent when the loader encounters an error while compiling."
         },
         "QNamedToggleButton": "Loader Compile Error"

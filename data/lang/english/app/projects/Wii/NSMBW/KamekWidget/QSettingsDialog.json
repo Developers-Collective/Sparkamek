@@ -1,21 +1,21 @@
 {
     "compileDone": {
         "QLabel": {
-            "title": "Kamek Compile Done Notification",
+            "title": "Wii ➜ NSMBW • Kamek Compile Done Notification",
             "description": "Determines if a notification will be sent when Kamek finishes compiling."
         },
         "QNamedToggleButton": "Kamek Compile Done"
     },
     "compileMissingSymbols": {
         "QLabel": {
-            "title": "Kamek Compile Missing Symbols Notification",
+            "title": "Wii ➜ NSMBW • Kamek Compile Missing Symbols Notification",
             "description": "Determines if a notification will be sent when Kamek encounters missing symbols while compiling."
         },
         "QNamedToggleButton": "Kamek Compile Missing Symbols"
     },
     "compileError": {
         "QLabel": {
-            "title": "Kamek Compile Error Notification",
+            "title": "Wii ➜ NSMBW • Kamek Compile Error Notification",
             "description": "Determines if a notification will be sent when Kamek encounters an error while compiling."
         },
         "QNamedToggleButton": "Kamek Compile Error"
