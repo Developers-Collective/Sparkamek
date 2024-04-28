@@ -146,6 +146,11 @@ class Sprite(implements(IBaseSprite)):
         return self._children
 
 
+    @property
+    def block_count(self) -> int:
+        return max(c.block for c in self._children)
+
+
     def _bool_filter(self, value: bool) -> bool:
         return True if value == 'True' else False if value == 'False' else bool(value)
 
@@ -162,7 +167,8 @@ class Sprite(implements(IBaseSprite)):
                 ({'yoshinotes': self._yoshinotes} if self._yoshinotes else {}) |
                 ({'notes': self._notes} if self._notes else {}) |
                 ({'advancednotes': self._advancednotes} if self._advancednotes else {}) |
-                ({'phonebook': self._phonebook} if self._phonebook else {})
+                ({'phonebook': self._phonebook} if self._phonebook else {}) |
+                ({'extended': self._extended} if self._extended else {})
             ),
             ([self._dependency.export()] if self._dependency else []) + [c.export() for c in self._children]
         )

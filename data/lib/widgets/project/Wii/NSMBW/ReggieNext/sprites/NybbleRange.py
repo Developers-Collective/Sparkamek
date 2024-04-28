@@ -57,28 +57,36 @@ class NybbleRange:
 
 
     @staticmethod
-    def nybblebit2int(settings: int, from_nybble: int | None, from_bit: int, to_nybble: int, to_bit: int | None) -> int:
+    def nybblebit2int(settings: int, from_nybble: int | None, from_bit: int, to_nybble: int, to_bit: int | None, block: int = 0) -> int:
         if from_bit is None: from_bit = 0
         if to_bit is None: to_bit = 3
 
-        first_bit_pos = 64 - (4 * to_nybble) + (3 - to_bit)
-        last_bit_pos = 64 - (4 * from_nybble) + (3 - from_bit)
+        size = 64 if block == 0 else 32
+
+        first_bit_pos = size - (4 * to_nybble) + (3 - to_bit)
+        last_bit_pos = size - (4 * from_nybble) + (3 - from_bit)
 
         fshit = int(pow(2, (last_bit_pos - first_bit_pos) + 1)) - 1
 
         return settings & (fshit << first_bit_pos)
 
 
-    def convert2int(self) -> int:
-        settings = 0xFFFFFFFFFFFFFFFF
+    def convert2int(self, block = 0) -> int:
+        settings = 0xFFFFFFFFFFFFFFFF if block == 0 else 0xFFFFFFFF
 
-        if self._end == None: return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._start.n, self._start.b)
-        return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._end.n, self._end.b)
+        if self._end == None: return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._start.n, self._start.b, block)
+        return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._end.n, self._end.b, block)
 
 
-    def convert2hex_formatted(self) -> str:
-        s = f'{self.convert2int():016X}'
-        return f'{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}'
+    def convert2hex_formatted(self, block: int) -> str:
+        if block == 0: s = f'{self.convert2int(block):016X}'
+        else: s = f'{self.convert2int(block):08X}'
+
+        formatted = ''
+        for i in range(0, len(s), 4):
+            formatted += f'{s[i:i + 4]} '
+
+        return formatted.strip()
 
 
     @staticmethod

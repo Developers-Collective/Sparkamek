@@ -65,7 +65,7 @@ class ReqNybbleData(QGridWidget):
     
 
     def _add(self) -> None:
-        data = ReqNybble(NybbleRange('1'), [0])
+        data = ReqNybble(NybbleRange('1'), [0], 0)
         self._data.append(data)
         item = ReqNybbleDataItem(data)
         item.data_changed.connect(self.data_changed.emit)
@@ -82,4 +82,9 @@ class ReqNybbleData(QGridWidget):
     def _moved(self, from_: int, to_: int) -> None:
         self._data.insert(to_, self._data.pop(from_))
         self.data_changed.emit()
+
+
+    def convert_to_extended(self, extended: bool) -> None:
+        for item in self._list.items:
+            item.convert_to_extended(extended)
 #----------------------------------------------------------------------

@@ -1,7 +1,6 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from data.lib.storage import XMLNode
 from .NybbleRange import NybbleRange
 from .ValueRange import ValueRange
 #----------------------------------------------------------------------

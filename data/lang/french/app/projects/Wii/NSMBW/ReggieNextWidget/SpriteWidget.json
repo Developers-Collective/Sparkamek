@@ -5,7 +5,8 @@
         "required": "Requis",
         "suggested": "Suggérés",
         "settings": "Paramètres",
-        "usedSettings": "Paramètres Utilisés: %s"
+        "usedSettings": "Paramètres Utilisés:\n%s",
+        "block": "Bloc %s: %s"
     },
     "QPushButton": {
         "addEntry": "Ajouter une Entrée"
@@ -24,7 +25,8 @@
     "QNamedToggleButton": {
         "asmhacks": "Support des ASM Hacks",
         "sizehacks": "Support des Hacks de Taille",
-        "yoshi": "Support de Yoshi"
+        "yoshi": "Support de Yoshi",
+        "extended": "Sprite Étendu"
     },
     "DependencyDataItem": {
         "QNamedSpinBox": {
@@ -45,12 +47,12 @@
     "BaseItemData": {
         "QLabel": {
             "nybbleRange": "%s à %s",
-            "nybbles": "Nybble(s): %s",
+            "nybbles": "Nybble(s): [%s] %s",
             "settings": "Paramètres: %s",
             "nybbleTitle": "Nybbles",
             "propertyTitle": "Autres Propriétés",
             "requiredNybbles": "Nybble(s) Requis: %s",
-            "requiredNybbleValue": "%s → %s"
+            "requiredNybbleValue": "[%s] %s ➜ %s"
         },
         "QNamedTextEdit": {
             "comment": "Commentaire",
@@ -67,6 +69,9 @@
             "firstNybbleBit": "Premier Nybble Bit",
             "lastNybble": "Dernier Nybble",
             "lastNybbleBit": "Dernier Nybble Bit"
+        },
+        "QNamedSpinBox": {
+            "block": "Bloc"
         }
     },
     "ReqNybbleData": {

@@ -97,6 +97,10 @@ class SpriteWidget(QGridWidget):
         self._yoshi_toggle.toggle_button.toggled.connect(self._yoshi_changed)
         toggle_topframe.grid_layout.addWidget(self._yoshi_toggle, 0, 2)
 
+        self._extended_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.extended'), False, True)
+        self._extended_toggle.toggle_button.toggled.connect(self._extended_changed)
+        toggle_topframe.grid_layout.addWidget(self._extended_toggle, 0, 3)
+
 
         comment_middleframe = QGridWidget()
         comment_middleframe.grid_layout.setContentsMargins(0, 0, 0, 0)
@@ -230,6 +234,7 @@ class SpriteWidget(QGridWidget):
             self._asmhacks_toggle.setChecked(False)
             self._sizehacks_toggle.setChecked(False)
             self._yoshi_toggle.setChecked(True)
+            self._extended_toggle.setChecked(False)
 
             self._notes_textedit.setText('')
             self._yoshinotes_textedit.setText('')
@@ -242,6 +247,7 @@ class SpriteWidget(QGridWidget):
             self._asmhacks_toggle.setChecked(sprite.asmhacks)
             self._sizehacks_toggle.setChecked(sprite.sizehacks)
             self._yoshi_toggle.setChecked(not sprite.noyoshi)
+            self._extended_toggle.setChecked(sprite.extended)
 
             self._notes_textedit.setText(sprite.notes)
             self._yoshinotes_textedit.setText(sprite.yoshinotes)
@@ -270,14 +276,27 @@ class SpriteWidget(QGridWidget):
         self._disable_send = False
 
 
+    @property
+    def block_count(self) -> int:
+        return self._sprite.block_count if self._sprite is not None else 0
+
+
     def _update_used_settings(self) -> None:
-        used_settings = 0
+        used_settings = [0 for _ in range(self.block_count + 1)]
         if self._sprite is not None:
             for child in self._sprite.children:
-                used_settings |= child.nybbles.convert2int()
+                used_settings[child.block] |= child.nybbles.convert2int(child.block)
 
-        s = f'{used_settings:016X}'
-        self._used_settings_label.setText(self._lang.get('QLabel.usedSettings').replace('%s', f'{s[:4]} {s[4:8]} {s[8:12]} {s[12:16]}'))
+        settings = [f'{used_settings[0]:016X}'] + [f'{used_setting:08X}' for used_setting in used_settings[1:]]
+        for i, setting in enumerate(settings):
+            s = ''
+            for j in range(0, len(setting), 4):
+                s += setting[j:j + 4] + ' '
+            setting = s.strip()
+
+            settings[i] = ' • ' + self._lang.get('QLabel.block').replace('%s', str(i), 1).replace('%s', setting, 1)
+
+        self._used_settings_label.setText(self._lang.get('QLabel.usedSettings').replace('%s', '\n'.join(settings)))
 
 
     def _settings_entry_moved(self, from_: int, to_: int) -> None:
@@ -417,6 +436,12 @@ class SpriteWidget(QGridWidget):
     def _yoshi_changed(self, state: bool) -> None:
         if self._sprite is None: return
         self._sprite.noyoshi = not state
+        self._send_data()
+
+    def _extended_changed(self, state: bool) -> None:
+        if self._sprite is None: return
+        self._sprite.extended = state
+        for item in self._settings_draglist.items: item.update_extended(state)
         self._send_data()
 
     def _notes_changed(self) -> None:

@@ -39,7 +39,7 @@ class ReqNybbleDataItem(QDragListItem):
         left_frame.grid_layout.setSpacing(8)
         self.grid_layout.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self._nybble_data = NybbleData(data.nybbles)
+        self._nybble_data = NybbleData(data)
         self._nybble_data.data_changed.connect(self.data_changed.emit)
         left_frame.grid_layout.addWidget(self._nybble_data, 0, 0)
 
@@ -96,4 +96,8 @@ class ReqNybbleDataItem(QDragListItem):
     def _to_value_changed(self, value: int) -> None:
         self._data.values.end = value
         self._fix_values()
+
+
+    def convert_to_extended(self, extended: bool) -> None:
+        self._nybble_data.convert_to_extended(extended)
 #----------------------------------------------------------------------

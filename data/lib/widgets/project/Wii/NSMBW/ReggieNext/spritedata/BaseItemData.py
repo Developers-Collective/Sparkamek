@@ -125,14 +125,14 @@ class BaseItemData(QDragListItem):
         label.setProperty('small', True)
         nybble_frame.grid_layout.addWidget(label, 0, 0)
 
-        self._property_frame._nybble_frame = NybbleData(self._data.nybbles)
+        self._property_frame._nybble_frame = NybbleData(self._data)
         self._property_frame._nybble_frame.data_changed.connect(self._nybble_changed)
         nybble_frame.grid_layout.addWidget(self._property_frame._nybble_frame, 1, 0)
 
 
-        required_nybbleval_frame = ReqNybbleData(self._data.requirednybblevals)
-        required_nybbleval_frame.data_changed.connect(self._reqnybble_changed)
-        self._property_frame.grid_layout.addWidget(required_nybbleval_frame, self._property_frame.grid_layout.rowCount(), 0)
+        self._required_nybbleval_frame = ReqNybbleData(self._data.requirednybblevals)
+        self._required_nybbleval_frame.data_changed.connect(self._reqnybble_changed)
+        self._property_frame.grid_layout.addWidget(self._required_nybbleval_frame, self._property_frame.grid_layout.rowCount(), 0)
 
 
         label = QLabel(self._lang.get('QLabel.propertyTitle'))
@@ -186,7 +186,13 @@ class BaseItemData(QDragListItem):
 
 
     def _update_title_text(self) -> None:
-        s = [self._lang.get('QLabel.requiredNybbleValue').replace('%s', reqnybble.nybbles.export(), 1).replace('%s', reqnybble.values.export(), 1) for reqnybble in self._data.requirednybblevals]
+        s = [
+            self._lang.get('QLabel.requiredNybbleValue')
+                .replace('%s', str(reqnybble.block), 1)
+                .replace('%s', reqnybble.nybbles.export(), 1)
+                .replace('%s', reqnybble.values.export(), 1)
+            for reqnybble in self._data.requirednybblevals
+        ]
 
         if s:
             t = self._lang.get('QLabel.requiredNybbles').replace('%s', ' | '.join(s))
@@ -197,10 +203,14 @@ class BaseItemData(QDragListItem):
     def _update_nybbles_settings_text(self) -> None:
         l = self._data.nybbles.export().split('-')
         if len(l) == 1: l = l[0]
-        else: l = self._lang.get('QLabel.nybbleRange').replace('%s', l[0], 1).replace('%s', l[1], 1)
+        else: l = (
+                self._lang.get('QLabel.nybbleRange')
+                    .replace('%s', l[0], 1)
+                    .replace('%s', l[1], 1)
+                )
 
-        self._nybbles_label.setText(self._lang.get('QLabel.nybbles').replace('%s', l))
-        self._settings_label.setText(self._lang.get('QLabel.settings').replace('%s', self._data.nybbles.convert2hex_formatted()))
+        self._nybbles_label.setText(self._lang.get('QLabel.nybbles').replace('%s', str(self._data.block), 1).replace('%s', l, 1))
+        self._settings_label.setText(self._lang.get('QLabel.settings').replace('%s', self._data.nybbles.convert2hex_formatted(self._data.block)))
 
     def _delete(self) -> None:
         self.deleted.emit(self)
@@ -243,6 +253,14 @@ class BaseItemData(QDragListItem):
         self.data_changed.emit()
 
     def _reqnybble_changed(self) -> None:
+        self._update_title_text()
+        self.data_changed.emit()
+
+
+    def update_extended(self, extended: bool) -> None:
+        self._property_frame._nybble_frame.convert_to_extended(extended)
+        self._required_nybbleval_frame.convert_to_extended(extended)
+        self._update_nybbles_settings_text()
         self._update_title_text()
         self.data_changed.emit()
 #----------------------------------------------------------------------

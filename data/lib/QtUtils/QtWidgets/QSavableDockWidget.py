@@ -56,7 +56,7 @@ class QSavableDockWidget(QDockWidget):
             if type(w) == str: w = main_window.findChild(QDockWidget, w, Qt.FindChildOption.FindDirectChildrenOnly)
             if w: main_window.tabifyDockWidget(self, w)
 
-        main_window.resizeDocks([self], [data['size'][0 if orientation == Qt.Orientation.Vertical else 1]], orientation)
+        # main_window.resizeDocks([self], [data['size'][0 if orientation == Qt.Orientation.Vertical else 1]], orientation)
         self.setVisible(data['visible'])
 
 

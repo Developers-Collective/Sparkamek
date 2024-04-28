@@ -13,11 +13,14 @@ class BaseItem(implements(IBaseSprite)):
     name: str = 'BaseItem'
 
     def __init__(self, data: XMLNode) -> None:
+        self._extended = False
+
         reqnybs = str(data.get_attribute('requirednybble', ''))
         requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
 
         reqblocks = str(data.get_attribute('requiredblock', ''))
         requiredblocks = [int(s.strip()) for s in reqblocks.split(',')] if reqblocks else []
+        if requiredblocks: self._extended = True
 
         reqvals = str(data.get_attribute('requiredval', '')).split(',')
         requiredvals: list[list[int], list[int, int]] = []
@@ -35,7 +38,7 @@ class BaseItem(implements(IBaseSprite)):
         self._requirednybblevals: list[ReqNybble] = []
         for i in range(len(requirednybbles)):
             val = requiredvals[i] if i < len(requiredvals) else [1]
-            block = requiredblocks[i] if i < len(requiredblocks) else None
+            block = requiredblocks[i] if i < len(requiredblocks) else 0
             self._requirednybblevals.append(ReqNybble(requirednybbles[i], val, block))
 
         bits = data.get_attribute('bits', '')
@@ -43,6 +46,7 @@ class BaseItem(implements(IBaseSprite)):
         else: self._nybbles = NybbleRange(data.get_attribute('nybble', ''))
 
         self._block: int | None = data.get_attribute('block', 0)
+        if self._block > 0: self._extended = True
 
         self._comment = data.get_attribute('comment', '')
         self._comment2 = data.get_attribute('comment2', '')
@@ -111,11 +115,13 @@ class BaseItem(implements(IBaseSprite)):
             (
                 ({'requirednybble': ','.join([nybble.nybbles.export() for nybble in self._requirednybblevals])} if self._requirednybblevals else {}) |
                 ({'requiredval': ','.join([r.values.export() for r in self._requirednybblevals])} if self._requirednybblevals else {}) |
+                ({'requiredblock': ','.join([str(r.block) for r in self._requirednybblevals])} if self._requirednybblevals and self._extended else {}) |
                 ({'nybble': self._nybbles.export()} if self._nybbles.export() else {}) |
                 ({'comment': self._comment} if self._comment else {}) |
                 ({'comment2': self._comment2} if self._comment2 else {}) |
                 ({'advanced': self._advanced} if self._advanced else {}) |
-                ({'advancedcomment': self._advancedcomment} if self._advancedcomment else {})
+                ({'advancedcomment': self._advancedcomment} if self._advancedcomment else {}) |
+                ({'block': self._block} if self._block else {})
             )
         )
 
@@ -130,53 +136,81 @@ class BaseItem(implements(IBaseSprite)):
 
 
     def convert_to_extended(self) -> None:
-        if self._nybbles.start.n >= 9 and self._nybbles.end.n >= 9:
-            self._block = 2
-            self._nybbles.start.n -= 8
-            self._nybbles.end.n -= 8
+        self._extended = True
 
-        elif self._nybbles.start.n <= 8 and self._nybbles.end.n <= 8:
+        if (
+            self._nybbles.start.n >= 5 and self._nybbles.start.n <= 12 and
+            ((not self._nybbles.end) or (self._nybbles.end.n >= 5 and self._nybbles.end.n <= 12))):
             self._block = 1
+            self._nybbles.start.n -= 4
+            if self._nybbles.end: self._nybbles.end.n -= 4
+
+        elif (
+            (self._nybbles.start.n <= 4 or self._nybbles.start.n >= 13) and
+            ((not self._nybbles.end) or (self._nybbles.end.n <= 4 or self._nybbles.end.n >= 13))):
+            self._block = 0
 
         else:
-            if self._nybbles.start.n >= 8:
-                self._nybbles.start.n -= 8
+            if self._nybbles.start.n >= 4 and self._nybbles.start.n <= 12:
+                self._nybbles.start.n -= 4
+                self._block = 1
 
-            if self._nybbles.end.n >= 8:
-                self._nybbles.end.n -= 8
+            if self._nybbles.end:
+                if self._block > 0:
+                    self._nybbles.end.n -= 4
+                    if self._nybbles.end.n >= 9: self._nybbles.end.n -= 4
 
-            self._block = 1
+                else:
+                    if self._nybbles.end.n >= 4 and self._nybbles.end.n <= 12:
+                        self._nybbles.end.n -= 4
+                        self._block = 1
+
+                if self._nybbles.end.n > self._nybbles.start.n:
+                    self._nybbles.start.n, self._nybbles.end.n = self._nybbles.end.n, self._nybbles.start.n
 
         for nybble in self._requirednybblevals:
-            if nybble.nybbles.start.n >= 9 and nybble.nybbles.end.n >= 9:
-                nybble.block = 2
-                nybble.nybbles.start.n -= 8
-                nybble.nybbles.end.n -= 8
-
-            elif nybble.nybbles.start.n <= 8 and nybble.nybbles.end.n <= 8:
+            if (
+                nybble.nybbles.start.n >= 5 and nybble.nybbles.start.n <= 12 and
+                ((not nybble.nybbles.end) or (nybble.nybbles.end.n >= 5 and nybble.nybbles.end.n <= 12))):
                 nybble.block = 1
+                nybble.nybbles.start.n -= 4
+                if nybble.nybbles.end: nybble.nybbles.end.n -= 4
+
+            elif (
+                (nybble.nybbles.start.n <= 4 or nybble.nybbles.start.n >= 13) and
+                ((not nybble.nybbles.end) or (nybble.nybbles.end.n <= 4 or nybble.nybbles.end.n >= 13))):
+                nybble.block = 0
 
             else:
-                if nybble.nybbles.start.n >= 8:
-                    nybble.nybbles.start.n -= 8
+                if nybble.nybbles.start.n >= 4 and nybble.nybbles.start.n <= 12:
+                    nybble.nybbles.start.n -= 4
+                    nybble.block = 1
 
-                if nybble.nybbles.end.n >= 8:
-                    nybble.nybbles.end.n -= 8
+                if nybble.nybbles.end:
+                    if nybble.block > 0:
+                        nybble.nybbles.end.n -= 4
+                        if nybble.nybbles.end.n >= 9: nybble.nybbles.end.n -= 4
 
-                nybble.block = 1
+                    else:
+                        if nybble.nybbles.end.n >= 4 and nybble.nybbles.end.n <= 12:
+                            nybble.nybbles.end.n -= 4
+                            nybble.block = 1
+
+                    if nybble.nybbles.end.n > nybble.nybbles.start.n:
+                        nybble.nybbles.start.n, nybble.nybbles.end.n = nybble.nybbles.end.n, nybble.nybbles.start.n
 
 
     def convert_to_normal(self) -> None:
-        if self._block == 2:
-            self._nybbles.start.n += 8
-            self._nybbles.end.n += 8
+        self._extended = False
 
-        self._block = 0
+        if self._block > 0:
+            self._nybbles.start.n += 4
+            if self._nybbles.end: self._nybbles.end.n += 4
+            self._block = 0
 
         for nybble in self._requirednybblevals:
-            if nybble.block == 1:
-                nybble.nybbles.start.n += 8
-                nybble.nybbles.end.n += 8
-
-            nybble.block = 0
+            if nybble.block > 0:
+                nybble.nybbles.start.n += 4
+                if nybble.nybbles.end: nybble.nybbles.end.n += 4
+                nybble.block = 0
 #----------------------------------------------------------------------
