@@ -3,6 +3,7 @@
     # Libraries
 from data.lib.storage import XMLNode
 from .BaseItem import BaseItem
+from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
 
     # Class
@@ -55,5 +56,9 @@ class External(BaseItem):
 
     @staticmethod
     def create() -> 'External':
-        return External(XMLNode('external', attributes = {'nybble': 1, 'title': 'New External', 'type': 'actors'}))
+        return External(XMLNode(External.name, attributes = {'nybble': 1, 'title': 'New External', 'type': 'actors'}))
+#----------------------------------------------------------------------
+
+    # Register Item
+ItemFabric.register(External)
 #----------------------------------------------------------------------

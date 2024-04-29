@@ -4,6 +4,7 @@
 from data.lib.storage import XMLNode
 from .BaseItem import BaseItem
 from .Entry import Entry
+from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
 
     # Class
@@ -51,5 +52,9 @@ class List(BaseItem):
 
     @staticmethod
     def create() -> 'List':
-        return List(XMLNode('list', attributes = {'nybble': 1, 'title': 'New List'}))
+        return List(XMLNode(List.name, attributes = {'nybble': 1, 'title': 'New List'}))
+#----------------------------------------------------------------------
+
+    # Register Item
+ItemFabric.register(List)
 #----------------------------------------------------------------------

@@ -1,6 +1,7 @@
 {
     "type": {
         "dualbox": "Dual Box / Radio Buttons",
+        "multidualbox": "Multiple Dual Boxes / Multiple Radio Buttons",
         "checkbox": "Checkbox",
         "value": "Entry Value",
         "list": "Drop Down List",

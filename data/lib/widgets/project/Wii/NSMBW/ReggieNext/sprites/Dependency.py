@@ -55,5 +55,5 @@ class Dependency(implements(IBaseSprite)):
 
     @staticmethod
     def create() -> 'Dependency':
-        return Dependency(XMLNode('dependency'))
+        return Dependency(XMLNode(Dependency.name))
 #----------------------------------------------------------------------

@@ -1,6 +1,7 @@
 {
     "type": {
         "dualbox": "Choix Unique / Boutons Radio",
+        "multidualbox": "Multiples Choix Uniques / Boutons Radio Multiples",
         "checkbox": "Case à Cocher",
         "value": "Valeur Saisie",
         "list": "Liste Déroulante",

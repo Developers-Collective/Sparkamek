@@ -13,6 +13,7 @@ class ItemDataFactory:
 
     _spritedatas: list[type[BaseItemData]] = [ # Too lazy to make it dynamic
         DualBoxData,
+        MultiDualBoxData,
         ValueData,
         CheckBoxData,
         ListData,

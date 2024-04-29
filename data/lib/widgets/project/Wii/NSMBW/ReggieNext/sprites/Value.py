@@ -3,6 +3,7 @@
     # Libraries
 from data.lib.storage import XMLNode
 from .BaseItem import BaseItem
+from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
 
     # Class
@@ -55,5 +56,9 @@ class Value(BaseItem):
 
     @staticmethod
     def create() -> 'Value':
-        return Value(XMLNode('value', attributes = {'nybble': 1, 'title': 'New Value'}))
+        return Value(XMLNode(Value.name, attributes = {'nybble': 1, 'title': 'New Value'}))
+#----------------------------------------------------------------------
+
+    # Register Item
+ItemFabric.register(Value)
 #----------------------------------------------------------------------

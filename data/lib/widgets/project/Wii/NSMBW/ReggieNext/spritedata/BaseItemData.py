@@ -209,8 +209,16 @@ class BaseItemData(QDragListItem):
                     .replace('%s', l[1], 1)
                 )
 
-        self._nybbles_label.setText(self._lang.get('QLabel.nybbles').replace('%s', str(self._data.block), 1).replace('%s', l, 1))
-        self._settings_label.setText(self._lang.get('QLabel.settings').replace('%s', self._data.nybbles.convert2hex_formatted(self._data.block)))
+        self._nybbles_label.setText(
+            self._lang.get('QLabel.nybbles')
+                .replace('%s', str(self._data.block), 1)
+                .replace('%s', l, 1)
+            )
+        self._settings_label.setText(
+            self._lang.get('QLabel.settings')
+                .replace('%s', str(self._data.block), 1)
+                .replace('%s', self._data.nybbles.convert2hex_formatted(self._data.block), 1)
+            )
 
     def _delete(self) -> None:
         self.deleted.emit(self)

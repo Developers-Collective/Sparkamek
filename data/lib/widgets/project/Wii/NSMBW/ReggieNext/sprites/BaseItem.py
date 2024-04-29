@@ -132,7 +132,7 @@ class BaseItem(implements(IBaseSprite)):
 
     @staticmethod
     def create() -> 'BaseItem':
-        return BaseItem(XMLNode('BaseItem', attributes = {'nybble': 1}))
+        return BaseItem(XMLNode(BaseItem.name, attributes = {'nybble': 1}))
 
 
     def convert_to_extended(self) -> None:

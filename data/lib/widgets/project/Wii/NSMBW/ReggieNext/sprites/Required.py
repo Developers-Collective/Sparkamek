@@ -40,5 +40,5 @@ class Required(implements(IBaseSprite)):
 
     @staticmethod
     def create() -> 'Required':
-        return Required(XMLNode('required', attributes = {'sprite': 0}))
+        return Required(XMLNode(Required.name, attributes = {'sprite': 0}))
 #----------------------------------------------------------------------

@@ -8,8 +8,8 @@ from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
 
     # Class
-class DualBox(BaseItem):
-    name: str = 'dualbox'
+class MultiDualBox(BaseItem):
+    name: str = 'multidualbox'
 
 
     def __init__(self, data: XMLNode) -> None:
@@ -51,15 +51,15 @@ class DualBox(BaseItem):
         )
 
 
-    def copy(self) -> 'DualBox':
-        return DualBox(self.export())
+    def copy(self) -> 'MultiDualBox':
+        return MultiDualBox(self.export())
 
 
     @staticmethod
-    def create() -> 'DualBox':
-        return DualBox(XMLNode(DualBox.name, attributes = {'nybble': 1, 'title1': 'New DualBox', 'title2': 'New DualBox'}))
+    def create() -> 'MultiDualBox':
+        return MultiDualBox(XMLNode(MultiDualBox.name, attributes = {'nybble': 1, 'title1': 'New MultiDualBox', 'title2': 'New MultiDualBox'}))
 #----------------------------------------------------------------------
 
     # Register Item
-ItemFabric.register(DualBox)
+ItemFabric.register(MultiDualBox)
 #----------------------------------------------------------------------

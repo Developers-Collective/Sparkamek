@@ -4,6 +4,7 @@
 from data.lib.storage import XMLNode
 from data.lib.widgets.project.Wii.NSMBW.ReggieNext.sprites.BaseItem import BaseItem
 from .BaseItem import BaseItem
+from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
 
     # Class
@@ -45,5 +46,9 @@ class CheckBox(BaseItem):
 
     @staticmethod
     def create() -> 'CheckBox':
-        return CheckBox(XMLNode('checkbox', attributes = {'nybble': 1, 'title': 'New Checkbox'}))
+        return CheckBox(XMLNode(CheckBox.name, attributes = {'nybble': 1, 'title': 'New Checkbox'}))
+#----------------------------------------------------------------------
+
+    # Register Item
+ItemFabric.register(CheckBox)
 #----------------------------------------------------------------------

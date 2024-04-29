@@ -53,5 +53,5 @@ class Entry(implements(IBaseSprite)):
 
     @staticmethod
     def create() -> 'Entry':
-        return Entry(XMLNode('entry', value = 'New Entry'))
+        return Entry(XMLNode(Entry.name, value = 'New Entry'))
 #----------------------------------------------------------------------

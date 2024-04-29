@@ -6,11 +6,7 @@ from data.lib.storage import XMLNode
 from .IBaseSprite import IBaseSprite
 from .BaseItem import BaseItem
 from .Dependency import Dependency
-from .DualBox import DualBox
-from .CheckBox import CheckBox
-from .Value import Value
-from .List import List
-from .External import External
+from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
 
     # Class
@@ -40,14 +36,14 @@ class Sprite(implements(IBaseSprite)):
         for child in data.children:
             match child.name:
                 case 'dependency': continue
-                case 'dualbox': self._children.append(DualBox(child))
-                case 'checkbox': self._children.append(CheckBox(child))
-                case 'value': self._children.append(Value(child))
-                case 'list': self._children.append(List(child))
-                case 'external': self._children.append(External(child))
                 case _:
-                    print(f'Unknown sprite child: {child}')
-                    # raise ValueError(f'Unknown sprite child: {child}')
+                    cls = ItemFabric.get(child.name)
+                    if cls:
+                        self._children.append(cls(child))
+
+                    else:
+                        print(f'Unknown sprite child: {child}')
+                        # raise ValueError(f'Unknown sprite child: {child}')
 
 
     @property

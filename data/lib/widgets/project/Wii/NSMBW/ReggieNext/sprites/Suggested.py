@@ -40,5 +40,5 @@ class Suggested(implements(IBaseSprite)):
 
     @staticmethod
     def create() -> 'Suggested':
-        return Suggested(XMLNode('suggested', attributes = {'sprite': 0}))
+        return Suggested(XMLNode(Suggested.name, attributes = {'sprite': 0}))
 #----------------------------------------------------------------------
