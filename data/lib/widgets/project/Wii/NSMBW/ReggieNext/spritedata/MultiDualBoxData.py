@@ -17,7 +17,7 @@ class MultiDualBoxData(BaseItemData):
 
     _multidualbox_icon = None
     _multidualbox_selected_icon = None
-    _icon_size = QSize(16, 16)
+    _icon_size = QSize(32, 16)
 
     def init(app: QBaseApplication) -> None:
         MultiDualBoxData._sublang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.MultiDualBoxData')
