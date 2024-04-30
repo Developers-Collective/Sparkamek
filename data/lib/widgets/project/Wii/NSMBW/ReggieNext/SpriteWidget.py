@@ -348,7 +348,10 @@ class SpriteWidget(QGridWidget):
         cls_ = ItemDataFactory.get(key)
         if cls_ is None: return
 
-        item = cls_(cls_.child_cls.create(), self._path)
+        inst = cls_.child_cls.create()
+        inst.parent = self._sprite
+
+        item = cls_(inst, self._path)
         item.selected.connect(self._entry_selected)
         item.deleted.connect(self._delete_settings_entry)
         item.data_changed.connect(self._send_data)

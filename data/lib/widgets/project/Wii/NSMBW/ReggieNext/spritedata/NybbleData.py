@@ -23,7 +23,6 @@ class NybbleData(QGridWidget):
         super().__init__()
 
         self._data = data
-        self._extended = False
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
         self.grid_layout.setSpacing(16)
@@ -35,9 +34,6 @@ class NybbleData(QGridWidget):
         self.grid_layout.addWidget(self._nybble_grid, 0, 0)
 
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
-        self._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, 17)])
-        self._first_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.n - 1)
-        self._first_nybble_combobox.combo_box.currentIndexChanged.connect(self._first_nybble_changed)
         self._nybble_grid.grid_layout.addWidget(self._first_nybble_combobox, 0, 0)
 
         label = QLabel('.')
@@ -55,9 +51,6 @@ class NybbleData(QGridWidget):
         self._nybble_grid.grid_layout.addWidget(label, 0, 3)
 
         self._last_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybble'))
-        self._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 17)])
-        if self._data.nybbles.end is not None: self._last_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.n if self._data.nybbles.end.n is not None else 0)
-        self._last_nybble_combobox.combo_box.currentIndexChanged.connect(self._last_nybble_changed)
         self._nybble_grid.grid_layout.addWidget(self._last_nybble_combobox, 0, 4)
 
         label = QLabel('.')
@@ -65,9 +58,6 @@ class NybbleData(QGridWidget):
         self._nybble_grid.grid_layout.addWidget(label, 0, 5)
 
         self._last_nybblebit_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybbleBit'))
-        self._last_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
-        if self._data.nybbles.end is not None: self._last_nybblebit_combobox.combo_box.setCurrentIndex((self._data.nybbles.end.b + 1) if self._data.nybbles.end.b is not None else 0)
-        self._last_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._last_nybblebit_changed)
         self._nybble_grid.grid_layout.addWidget(self._last_nybblebit_combobox, 0, 6)
 
 
@@ -79,11 +69,18 @@ class NybbleData(QGridWidget):
         self.grid_layout.addWidget(self._block_spinbox, 0, 1)
         self._block_spinbox.setVisible(False)
 
+        self._rebuild_nybbles(self.extended)
+
 
 
     @property
     def data(self) -> NybbleRange:
         return self._data
+
+
+    @property
+    def extended(self) -> bool:
+        return self._data.extended
 
 
     def _fix_nybbles(self) -> None:
@@ -136,14 +133,14 @@ class NybbleData(QGridWidget):
         self._first_nybble_combobox.deleteLater()
 
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
-        self._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, (9 if self._extended and self._data.block > 0 else 17))])
+        self._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
         self._first_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.n - 1)
         self._nybble_grid.grid_layout.addWidget(self._first_nybble_combobox, 0, 0)
 
         self._last_nybble_combobox.deleteLater()
 
         self._last_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybble'))
-        self._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, (9 if self._extended and self._data.block > 0 else 17))])
+        self._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
         if self._data.nybbles.end is not None: self._last_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.n if self._data.nybbles.end.n is not None else 0)
         self._nybble_grid.grid_layout.addWidget(self._last_nybble_combobox, 0, 4)
 
@@ -161,7 +158,6 @@ class NybbleData(QGridWidget):
 
 
     def convert_to_extended(self, extended: bool) -> None:
-        self._extended = extended
         self._rebuild_nybbles(extended)
 
 
@@ -170,7 +166,7 @@ class NybbleData(QGridWidget):
         self._data.block = value
 
         if (value == 0 and block_data > 0) or (value > 0 and block_data == 0):
-            self._rebuild_nybbles(self._extended)
+            self._rebuild_nybbles(self.extended)
 
         self.data_changed.emit()
 #----------------------------------------------------------------------

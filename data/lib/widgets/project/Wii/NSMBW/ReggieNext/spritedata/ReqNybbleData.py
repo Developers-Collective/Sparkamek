@@ -7,6 +7,7 @@ from PySide6.QtCore import Signal
 from data.lib.QtUtils import QGridWidget, QBaseApplication, QDragList, QSaveData, QLangData
 from ..sprites.ReqNybble import ReqNybble
 from ..sprites.NybbleRange import NybbleRange
+from ..sprites.Sprite import Sprite
 from .ReqNybbleDataItem import ReqNybbleDataItem
 #----------------------------------------------------------------------
 
@@ -24,10 +25,11 @@ class ReqNybbleData(QGridWidget):
 
         ReqNybbleDataItem.init(app)
 
-    def __init__(self, data: list[ReqNybble]) -> None:
+    def __init__(self, data: list[ReqNybble], parent_sprite: Sprite) -> None:
         super().__init__()
 
         self._data = data
+        self._parent_sprite = parent_sprite
 
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
@@ -66,6 +68,7 @@ class ReqNybbleData(QGridWidget):
 
     def _add(self) -> None:
         data = ReqNybble(NybbleRange('1'), [0], 0)
+        data.parent = self._parent_sprite
         self._data.append(data)
         item = ReqNybbleDataItem(data)
         item.data_changed.connect(self.data_changed.emit)

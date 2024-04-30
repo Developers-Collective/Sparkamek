@@ -39,7 +39,9 @@ class Sprite(implements(IBaseSprite)):
                 case _:
                     cls = ItemFabric.get(child.name)
                     if cls:
-                        self._children.append(cls(child))
+                        inst = cls(child)
+                        inst.parent = self
+                        self._children.append(inst)
 
                     else:
                         print(f'Unknown sprite child: {child}')

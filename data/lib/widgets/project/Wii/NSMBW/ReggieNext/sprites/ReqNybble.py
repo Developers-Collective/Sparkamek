@@ -3,6 +3,7 @@
     # Libraries
 from .NybbleRange import NybbleRange
 from .ValueRange import ValueRange
+from . import Sprite
 #----------------------------------------------------------------------
 
     # Class
@@ -10,9 +11,25 @@ class ReqNybble:
     def __init__(self, nybbles: NybbleRange, values: list[int] | list[int, int], block: int = 0) -> None:
         super().__init__()
 
+        self._parent: Sprite = None
+
         self._nybbles = nybbles
         self._values = ValueRange(values)
         self._block = block
+
+
+    @property
+    def parent(self) -> Sprite:
+        return self._parent
+
+    @parent.setter
+    def parent(self, value: Sprite) -> None:
+        self._parent = value
+
+
+    @property
+    def extended(self) -> bool:
+        return self._parent.extended
 
 
     @property

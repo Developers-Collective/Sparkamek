@@ -6,6 +6,7 @@ from data.lib.storage import XMLNode
 from .IBaseSprite import IBaseSprite
 from .NybbleRange import NybbleRange
 from .ReqNybble import ReqNybble
+from . import Sprite
 #----------------------------------------------------------------------
 
     # Class
@@ -13,14 +14,13 @@ class BaseItem(implements(IBaseSprite)):
     name: str = 'BaseItem'
 
     def __init__(self, data: XMLNode) -> None:
-        self._extended = False
+        self._parent: Sprite = None
 
         reqnybs = str(data.get_attribute('requirednybble', ''))
         requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
 
         reqblocks = str(data.get_attribute('requiredblock', ''))
         requiredblocks = [int(s.strip()) for s in reqblocks.split(',')] if reqblocks else []
-        if requiredblocks: self._extended = True
 
         reqvals = str(data.get_attribute('requiredval', '')).split(',')
         requiredvals: list[list[int], list[int, int]] = []
@@ -46,12 +46,27 @@ class BaseItem(implements(IBaseSprite)):
         else: self._nybbles = NybbleRange(data.get_attribute('nybble', ''))
 
         self._block: int | None = data.get_attribute('block', 0)
-        if self._block > 0: self._extended = True
 
         self._comment = data.get_attribute('comment', '')
         self._comment2 = data.get_attribute('comment2', '')
         self._advanced = bool(data.get_attribute('advanced', False))
         self._advancedcomment = data.get_attribute('advancedcomment', '')
+
+
+    @property
+    def parent(self) -> Sprite:
+        return self._parent
+
+    @parent.setter
+    def parent(self, value: Sprite) -> None:
+        self._parent = value
+        for nybble in self._requirednybblevals:
+            nybble.parent = value
+
+
+    @property
+    def extended(self) -> bool:
+        return self._parent.extended
 
 
     @property
@@ -115,7 +130,7 @@ class BaseItem(implements(IBaseSprite)):
             (
                 ({'requirednybble': ','.join([nybble.nybbles.export() for nybble in self._requirednybblevals])} if self._requirednybblevals else {}) |
                 ({'requiredval': ','.join([r.values.export() for r in self._requirednybblevals])} if self._requirednybblevals else {}) |
-                ({'requiredblock': ','.join([str(r.block) for r in self._requirednybblevals])} if self._requirednybblevals and self._extended else {}) |
+                ({'requiredblock': ','.join([str(r.block) for r in self._requirednybblevals])} if self._requirednybblevals and self.extended else {}) |
                 ({'nybble': self._nybbles.export()} if self._nybbles.export() else {}) |
                 ({'comment': self._comment} if self._comment else {}) |
                 ({'comment2': self._comment2} if self._comment2 else {}) |
@@ -136,8 +151,6 @@ class BaseItem(implements(IBaseSprite)):
 
 
     def convert_to_extended(self) -> None:
-        self._extended = True
-
         if (
             self._nybbles.start.n >= 5 and self._nybbles.start.n <= 12 and
             ((not self._nybbles.end) or (self._nybbles.end.n >= 5 and self._nybbles.end.n <= 12))):
@@ -201,8 +214,6 @@ class BaseItem(implements(IBaseSprite)):
 
 
     def convert_to_normal(self) -> None:
-        self._extended = False
-
         if self._block > 0:
             self._nybbles.start.n += 4
             if self._nybbles.end: self._nybbles.end.n += 4

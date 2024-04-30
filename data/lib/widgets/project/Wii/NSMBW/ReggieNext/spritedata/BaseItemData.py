@@ -130,7 +130,7 @@ class BaseItemData(QDragListItem):
         nybble_frame.grid_layout.addWidget(self._property_frame._nybble_frame, 1, 0)
 
 
-        self._required_nybbleval_frame = ReqNybbleData(self._data.requirednybblevals)
+        self._required_nybbleval_frame = ReqNybbleData(self._data.requirednybblevals, self._data.parent)
         self._required_nybbleval_frame.data_changed.connect(self._reqnybble_changed)
         self._property_frame.grid_layout.addWidget(self._required_nybbleval_frame, self._property_frame.grid_layout.rowCount(), 0)
 
