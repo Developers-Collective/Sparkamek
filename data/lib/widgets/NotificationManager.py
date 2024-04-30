@@ -22,6 +22,11 @@ class NotificationManager(AbstractFactory):
 
 
     @classmethod
+    def set(cls, key: str, data: dict) -> None:
+        NotificationManager()._registry[key] = data
+
+
+    @classmethod
     def get_all(cls) -> tuple[str]:
         return tuple(NotificationManager()._registry.keys())
 #----------------------------------------------------------------------

@@ -41,8 +41,8 @@ class NSMBW(GameInfo):
     def export(self) -> dict:
         return {
             'data': {
-                ProjectKeys.Wii.NSMBW.Loader: self._kamek_widget.export(),
-                ProjectKeys.Wii.NSMBW.Kamek: self._loader_widget.export(),
+                ProjectKeys.Wii.NSMBW.Kamek: self._kamek_widget.export(),
+                ProjectKeys.Wii.NSMBW.Loader: self._loader_widget.export(),
                 ProjectKeys.Wii.NSMBW.ReggieNext: self._reggienext_widget.export(),
                 ProjectKeys.Wii.Riivolution: self._riivolution_widget.export()
             }

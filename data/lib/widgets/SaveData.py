@@ -307,8 +307,12 @@ class SaveData(QSaveData):
         self.goes_to_tray_notif = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].goes_to_tray_notif_checkbox.isChecked()
 
         for key in NotificationManager.get_all():
+            d = {}
+
             for notif in NotificationManager.get(key).keys():
-                NotificationManager.get(key)[notif] = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].notif_states[key][notif].isChecked()
+                d[notif] = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.notification.title')].notif_states[key][notif].isChecked()
+
+            NotificationManager.set(key, d)
 
         self.devkitppc_path = extra_tabs[self.get_lang_data('QSettingsDialog.QSidePanel.paths.title')].devkitppc_folder_button.path()
 
@@ -374,8 +378,7 @@ class SaveData(QSaveData):
             notifs = extra_data['notifications']
 
             for key in notifs:
-                for notif in notifs[key]:
-                    NotificationManager.get(key)[notif] = notifs[key][notif]
+                NotificationManager.set(key, notifs[key])
 
         with exc: self.projects = extra_data['projects']
 
@@ -421,5 +424,5 @@ class SaveData(QSaveData):
 
     def fix(self) -> None:
         # Fix save data if needed (for example, if a key was renamed) • This is for retrocompatibility
-        if self.version <= '07e83ff6': self._fix_07e83ff6()
+        if self.version < '07e83ff6': self._fix_07e83ff6()
 #----------------------------------------------------------------------
