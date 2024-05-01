@@ -146,7 +146,7 @@ class Sprite(implements(IBaseSprite)):
 
     @property
     def block_count(self) -> int:
-        return max(c.block for c in self._children)
+        return max([c.block for c in self._children] + [0])
 
 
     def _bool_filter(self, value: bool) -> bool:

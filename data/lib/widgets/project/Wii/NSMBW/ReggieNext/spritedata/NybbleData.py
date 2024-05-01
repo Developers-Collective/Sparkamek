@@ -58,6 +58,9 @@ class NybbleData(QGridWidget):
         self._nybble_grid.grid_layout.addWidget(label, 0, 5)
 
         self._last_nybblebit_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybbleBit'))
+        self._last_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
+        if self._data.nybbles.end is not None: self._last_nybblebit_combobox.combo_box.setCurrentIndex((self._data.nybbles.end.b + 1) if self._data.nybbles.end.b is not None else 0)
+        self._last_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._last_nybblebit_changed)
         self._nybble_grid.grid_layout.addWidget(self._last_nybblebit_combobox, 0, 6)
 
 
