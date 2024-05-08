@@ -29,10 +29,22 @@ class AddressMapper(QObject):
 
     # base: 'AddressMapper' = None
 
-    def __init__(self, base: 'AddressMapper' = None) -> None:
+    def __init__(self, name: str, version: str, base: 'AddressMapper' = None) -> None:
         super(AddressMapper, self).__init__()
+        self._name = name
+        self._version = version
         self._mappings: list[AddressMapper.Mapping] = []
         self._base: AddressMapper = base
+
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+
+    @property
+    def version(self) -> str:
+        return self._version
 
 
     @property
@@ -56,6 +68,7 @@ class AddressMapper(QObject):
 
         self._mappings.append(new_mapping)
 
+
     def remap(self, input: int) -> int:
         if self.base is not None:
             input = self.base.remap(input)
@@ -67,6 +80,7 @@ class AddressMapper(QObject):
 
         return input
 
+
     def demap(self, input: int) -> int:
         for mapping in self._mappings:
             if (mapping.start + mapping.delta) <= input <= (mapping.end + mapping.delta):
@@ -77,6 +91,7 @@ class AddressMapper(QObject):
             input = self.base.demap(input)
 
         return input
+
 
     def demap_reverse(self, input: int) -> int:
         for mapping in self._mappings:
@@ -90,11 +105,35 @@ class AddressMapper(QObject):
 
         return input
 
+
     def items(self) -> list[Mapping]:
         return self._mappings.copy()
 
+
     def __str__(self) -> str:
         return '\n'.join([str(x) for x in self._mappings])
+
+
+    def inherits_from(self, other: 'AddressMapper | str | None') -> bool:
+        if other == 'unk': return False
+
+        if isinstance(other, AddressMapper) and self.base == other:
+            return True
+
+        if isinstance(other, str) and self.base and self.base.name == other:
+            return True
+
+        return self.base.inherits_from(other) if self.base else False
+
+
+    def is_or_inherits_from(self, other: 'AddressMapper | str | None') -> bool:
+        if isinstance(other, AddressMapper) and self == other:
+            return True
+
+        if isinstance(other, str) and self.name == other:
+            return True
+
+        return self.inherits_from(other)
 
 
 
@@ -110,6 +149,7 @@ class AddressMapperController(QObject):
 
         self._base_version = base_version
         self._version_ids = version_ids
+        self._reverse_version_ids = {v: k for k, v in version_ids.items()}
 
 
     @property
@@ -124,7 +164,7 @@ class AddressMapperController(QObject):
             raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">versions-nsmbw.txt</span>" at "{self._cwd}/tools"', LogType.Error)
 
         with open(path, 'r', encoding = 'utf-8') as infile:
-            try: mappers = AddressMapperController.read_version_info(infile)
+            try: mappers = AddressMapperController.read_version_info(infile, self._reverse_version_ids)
             except ValueError as e: raise ProjectException(str(e), LogType.Error)
             except ProjectException as e: raise e
 
@@ -143,8 +183,8 @@ class AddressMapperController(QObject):
 
 
     @staticmethod
-    def read_version_info(f: typing.TextIO) -> dict[str, AddressMapper]:
-        mappers = {'default': AddressMapper()}
+    def read_version_info(f: typing.TextIO, version_ids: dict) -> dict[str, AddressMapper]:
+        mappers = {'default': AddressMapper('default', 'default')}
 
         comment_regex = re.compile(r'^\s*#')
         empty_line_regex = re.compile(r'^\s*$')
@@ -169,7 +209,7 @@ class AddressMapperController(QObject):
                 if current_version_name in mappers:
                     raise ValueError(f'Versions file contains duplicate version name <span style="background-color: #55{LogType.Error.value.hex[1:]}">{current_version_name}</span>')
 
-                current_version = AddressMapper()
+                current_version = AddressMapper(version_ids.get(current_version_name, 'unk'), current_version_name)
                 mappers[current_version_name] = current_version
                 continue
 
@@ -224,22 +264,22 @@ class AddressMapperController(QObject):
             f.writelines(new)
 
 
-    def _work_on_hook(self, hook: dict, name: str, mapper: AddressMapper) -> None:
+    def _work_on_hook(self, hook: dict, mapper: AddressMapper) -> None:
         error = 'Missing hook type'
         try:
             t = hook['type']
 
             if t == 'patch':
                 error = 'Missing address'
-                hook[f'addr_{name}'] = mapper.remap(hook[f'addr_{self._base_version}'])
+                hook[f'addr_{mapper.name}'] = mapper.remap(hook[f'addr_{self._base_version}'])
 
             elif t == 'branch_insn' or t == 'add_func_pointer':
                 error = 'Missing source address'
-                hook[f'src_addr_{name}'] = mapper.remap(hook[f'src_addr_{self._base_version}'])
+                hook[f'src_addr_{mapper.name}'] = mapper.remap(hook[f'src_addr_{self._base_version}'])
 
                 if f'target_func_{self._base_version}' in hook:
                     error = 'Missing target function'
-                    hook[f'target_func_{name}'] = mapper.remap(hook[f'target_func_{self._base_version}'])
+                    hook[f'target_func_{mapper.name}'] = mapper.remap(hook[f'target_func_{self._base_version}'])
 
             elif t == 'nop_insn':
                 error = 'Missing area'
@@ -251,10 +291,13 @@ class AddressMapperController(QObject):
                 else:
                     new_area = mapper.remap(area)
 
-                hook[f'area_{name}'] = new_area
+                hook[f'area_{mapper.name}'] = new_area
+
+            else:
+                raise KeyError()
 
         except KeyError:
-            ret = (f'Key Error <span style="background-color: #55{LogType.Error.value.hex[1:]}">{error}</span> in {name}', LogType.Error, False)
+            ret = (f'Key Error <span style="background-color: #55{LogType.Error.value.hex[1:]}">{error}</span> in {mapper.name}', LogType.Error, False)
             self.log_simple.emit(*ret)
             self.log_complete.emit(*ret)
 
@@ -277,11 +320,29 @@ class AddressMapperController(QObject):
 
             raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{LogType.Error.value.hex[1:]}">{src}</span>\n{error_msg}\n{error_highlight}', LogType.Error)
 
+        for hook in m.get('hooks', []):
+            exclude = hook.get('exclude', [])
+            if isinstance(exclude, str): exclude = [exclude]
+
+            exclude_inherit = hook.get('exclude_inherit', [])
+            if isinstance(exclude_inherit, str): exclude_inherit = [exclude_inherit]
+            for e in exclude_inherit:
+                for mp in mappers.values():
+                    if mp.is_or_inherits_from(e):
+                        if mp.name not in exclude:
+                            exclude.append(mp.name)
+
+            if exclude: hook['exclude'] = exclude
+            if exclude_inherit: del hook['exclude_inherit']
+
         for x_id, txt_id in self._version_ids.items():
             mapper = mappers[txt_id]
             if 'hooks' in m:
                 for hook in m['hooks']:
-                    self._work_on_hook(hook, x_id, mapper)
+                    if x_id in hook.get('exclude', []):
+                        continue
+
+                    self._work_on_hook(hook, mapper)
 
         with open(f'{self._cwd}/{dest}', 'w') as f:
             f.write(yaml.dump(m))
@@ -323,7 +384,7 @@ class AddressMapperController(QObject):
                 if base_key:
                     base = new_mappers[base_key[0]]
 
-            new_mappers[version] = AddressMapper(base)
+            new_mappers[version] = AddressMapper(address_mapper.name, version, base)
 
             for mapping in address_mapper.items():
                 new_mappers[version].add_mapping(mapping.start + mapping.delta, mapping.end + mapping.delta, -mapping.delta)
