@@ -173,9 +173,20 @@ class AddressConverterDockWidget(QSavableDockWidget):
         input_address = self._input_hexspinbox.value()
         error: bool = False
 
+        version_ids = {
+            'P2': 'pal2',
+            'E1': 'ntsc',
+            'E2': 'ntsc2',
+            'J1': 'jpn',
+            'J2': 'jpn2',
+            'K': 'kor',
+            'W': 'twn',
+            'C': 'chn',
+        }
+
         if not self._base_address_mapper:
             with open(self._address_mapper_path, 'r', encoding='utf-8') as infile:
-                self._base_address_mapper = AddressMapperController.read_version_info(infile)
+                self._base_address_mapper = AddressMapperController.read_version_info(infile, version_ids)
 
         if not self._other_address_mapper:
             self._other_address_mapper = AddressMapperController.revert_mappers(self._base_address_mapper)
