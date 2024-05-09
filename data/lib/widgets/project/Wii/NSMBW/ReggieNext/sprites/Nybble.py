@@ -47,6 +47,6 @@ class Nybble:
     def from_bits(bits: str) -> 'Nybble':
         bits_int = int(bits)
 
-        nybble, bit = divmod(bits_int, 4)
-        return Nybble(f'{nybble + 1}' + (f'.{bit + 1}' if bit != 0 else ''))
+        nybble, bit = divmod(bits_int - 1, 4)
+        return Nybble(f'{nybble + 1}.{bit + 1}')
 #----------------------------------------------------------------------

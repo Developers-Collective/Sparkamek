@@ -16,8 +16,11 @@ class BaseItem(implements(IBaseSprite)):
     def __init__(self, data: XMLNode) -> None:
         self._parent: Sprite = None
 
-        reqnybs = str(data.get_attribute('requirednybble', ''))
-        requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
+        if (reqbits := str(data.get_attribute('requiredbit', ''))):
+            requirednybbles = [NybbleRange.from_bits(r) for r in reqbits.split(',') if r.strip()]
+        else:
+            reqnybs = str(data.get_attribute('requirednybble', ''))
+            requirednybbles = [NybbleRange(r) for r in reqnybs.split(',') if r.strip()] if reqnybs else []
 
         reqblocks = str(data.get_attribute('requiredblock', ''))
         requiredblocks = [int(s.strip()) for s in reqblocks.split(',')] if reqblocks else []
@@ -41,8 +44,7 @@ class BaseItem(implements(IBaseSprite)):
             block = requiredblocks[i] if i < len(requiredblocks) else 0
             self._requirednybblevals.append(ReqNybble(requirednybbles[i], val, block))
 
-        bits = data.get_attribute('bits', '')
-        if bits: self._nybbles = NybbleRange.from_bits(bits)
+        if (bits := data.get_attribute('bit', '')): self._nybbles = NybbleRange.from_bits(bits)
         else: self._nybbles = NybbleRange(data.get_attribute('nybble', ''))
 
         self._block: int | None = data.get_attribute('block', 0)
