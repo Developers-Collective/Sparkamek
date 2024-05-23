@@ -3,6 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import Signal
+from enum import Flag
 from data.lib.QtUtils import QGridWidget, QBaseApplication, QNamedComboBox, QLangData, QNamedSpinBox
 from ..sprites.NybbleRange import NybbleRange
 from ..sprites.Nybble import Nybble
@@ -12,6 +13,16 @@ from ..sprites.ReqNybble import ReqNybble
 
     # Class
 class NybbleData(QGridWidget):
+    class Type(Flag):
+        None_ = 0
+
+        Nybble = 1 << 0
+        Bit = 1 << 1
+        Block = 1 << 2
+
+        All = Nybble | Bit | Block
+
+
     data_changed = Signal()
 
     _lang: QLangData = QLangData.NoTranslation()
@@ -19,10 +30,11 @@ class NybbleData(QGridWidget):
     def init(app: QBaseApplication) -> None:
         NybbleData._lang = app.get_lang_data('QMainWindow.QSlidingStackedWidget.mainMenu.projects.projectWidget.Wii.NSMBW.ReggieNextWidget.SpriteWidget.NybbleData')
 
-    def __init__(self, data: BaseItem | ReqNybble) -> None:
+    def __init__(self, data: BaseItem | ReqNybble, type: Type = Type.All) -> None:
         super().__init__()
 
         self._data = data
+        self._type = type
 
         self.grid_layout.setContentsMargins(0, 0, 0, 0)
         self.grid_layout.setSpacing(16)
@@ -42,7 +54,6 @@ class NybbleData(QGridWidget):
 
         self._first_nybblebit_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybbleBit'))
         self._first_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
-        self._first_nybblebit_combobox.combo_box.setCurrentIndex((self._data.nybbles.start.b + 1) if self._data.nybbles.start.b is not None else 0)
         self._first_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._first_nybblebit_changed)
         self._nybble_grid.grid_layout.addWidget(self._first_nybblebit_combobox, 0, 2)
 
@@ -59,7 +70,6 @@ class NybbleData(QGridWidget):
 
         self._last_nybblebit_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybbleBit'))
         self._last_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
-        if self._data.nybbles.end is not None: self._last_nybblebit_combobox.combo_box.setCurrentIndex((self._data.nybbles.end.b + 1) if self._data.nybbles.end.b is not None else 0)
         self._last_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._last_nybblebit_changed)
         self._nybble_grid.grid_layout.addWidget(self._last_nybblebit_combobox, 0, 6)
 
@@ -137,27 +147,63 @@ class NybbleData(QGridWidget):
 
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
         self._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
-        self._first_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.n - 1)
         self._nybble_grid.grid_layout.addWidget(self._first_nybble_combobox, 0, 0)
+        if not (self._type & NybbleData.Type.Nybble):
+            self._first_nybble_combobox.setCurrentIndex(0)
+            self._first_nybble_combobox.setDisabled(True)
+
+        elif self._data.nybbles.start is not None:
+            self._first_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.n - 1)
+
+        else:
+            self._first_nybble_combobox.combo_box.setCurrentIndex(0)
 
         self._last_nybble_combobox.deleteLater()
 
         self._last_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybble'))
         self._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
-        if self._data.nybbles.end is not None: self._last_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.n if self._data.nybbles.end.n is not None else 0)
         self._nybble_grid.grid_layout.addWidget(self._last_nybble_combobox, 0, 4)
+        if not (self._type & NybbleData.Type.Nybble):
+            self._last_nybble_combobox.setCurrentIndex(self._last_nybble_combobox.combo_box.count() - 1)
+            self._last_nybble_combobox.setDisabled(True)
 
-        try:
-            self._first_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.n - 1)
-            self._last_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.n if self._data.nybbles.end is not None else 0)
+        elif self._data.nybbles.end is not None:
+            self._last_nybble_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.n if self._data.nybbles.end.n is not None else 0)
 
-        except: pass
+        else:
+            self._last_nybble_combobox.combo_box.setCurrentIndex(0)
+
+        if not (self._type & NybbleData.Type.Bit) or not (self._type & NybbleData.Type.Nybble):
+            self._first_nybblebit_combobox.setCurrentIndex(0)
+            self._first_nybblebit_combobox.setDisabled(True)
+
+        elif self._data.nybbles.start is not None:
+            self._first_nybblebit_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.b + 1 if self._data.nybbles.start.b is not None else 0)
+
+        else:
+            self._first_nybblebit_combobox.combo_box.setCurrentIndex(0)
+
+        if not (self._type & NybbleData.Type.Bit) or not (self._type & NybbleData.Type.Nybble):
+            self._last_nybblebit_combobox.setCurrentIndex(0)
+            self._last_nybblebit_combobox.setDisabled(True)
+
+        elif self._data.nybbles.end is not None:
+            self._last_nybblebit_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.b + 1 if self._data.nybbles.end.b is not None else 0)
+
+        else:
+            self._last_nybblebit_combobox.combo_box.setCurrentIndex(0)
 
         self._first_nybble_combobox.combo_box.currentIndexChanged.connect(self._first_nybble_changed)
         self._last_nybble_combobox.combo_box.currentIndexChanged.connect(self._last_nybble_changed)
 
         self._block_spinbox.setVisible(show_block)
-        self._block_spinbox.setValue(self._data.block if self._data.block else 0)
+
+        if not (self._type & NybbleData.Type.Block):
+            self._block_spinbox.setValue(0)
+            self._block_spinbox.setDisabled(True)
+
+        else:
+            self._block_spinbox.setValue(self._data.block if self._data.block else 0)
 
 
     def convert_to_extended(self, extended: bool) -> None:

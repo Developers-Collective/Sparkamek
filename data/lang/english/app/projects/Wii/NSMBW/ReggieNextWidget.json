@@ -5,7 +5,10 @@
         "checkbox": "Checkbox",
         "value": "Entry Value",
         "list": "Drop Down List",
-        "external": "Value Selector from a File (External)"
+        "external": "Value Selector from a File (External)",
+        "hexvalue": "Hexadecimal Value",
+        "dynamicblockvalues": "Dynamic Block Values",
+        "unknown": "Unknown"
     },
     "QPushButton": {
         "clear": "Clear",

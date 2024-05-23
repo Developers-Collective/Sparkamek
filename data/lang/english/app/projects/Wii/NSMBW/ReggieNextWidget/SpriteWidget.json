@@ -41,7 +41,9 @@
                 "addCheckbox": "Add Checkbox",
                 "addValue": "Add Entry Value",
                 "addList": "Add Drop Down List",
-                "addExternal": "Add Value Selector from a File (External)"
+                "addExternal": "Add Value Selector from a File (External)",
+                "addHexvalue": "Add Hex Value",
+                "addDynamicblockvalues": "Add Dynamic Block Values"
             }
         }
     },
@@ -131,6 +133,16 @@
         },
         "QNamedComboBox": {
             "type": "Type"
+        }
+    },
+    "HexValueData": {
+        "QNamedLineEdit": {
+            "title": "Title"
+        }
+    },
+    "DynamicBlockValuesData": {
+        "QNamedLineEdit": {
+            "title": "Title"
         }
     }
 }

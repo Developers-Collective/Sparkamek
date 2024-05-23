@@ -18,6 +18,10 @@ class ItemDataFactory:
         CheckBoxData,
         ListData,
         ExternalData,
+        HexValueData,
+        DynamicBlockValuesData,
+
+        UnknownData,
     ]
 
     def __new__(cls) -> None:
@@ -40,5 +44,8 @@ class ItemDataFactory:
 
     @staticmethod
     def get_all() -> list[type[BaseItemData]]:
-        return ItemDataFactory._data.values()
+        data = list(ItemDataFactory._data.values())
+        data.remove(UnknownData) # UnknownData is not a 'real' data
+
+        return data
 #----------------------------------------------------------------------

@@ -5,7 +5,10 @@
         "checkbox": "Case à Cocher",
         "value": "Valeur Saisie",
         "list": "Liste Déroulante",
-        "external": "Sélecteur de Données d'un Fichier (External)"
+        "external": "Sélecteur de Données d'un Fichier (External)",
+        "hexvalue": "Valeur Hexadécimale",
+        "dynamicblockvalues": "Valeurs Dynamiques de Blocs",
+        "unknown": "Inconnu"
     },
     "QPushButton": {
         "clear": "Effacer",

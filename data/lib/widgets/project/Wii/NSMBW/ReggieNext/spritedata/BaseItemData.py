@@ -14,6 +14,7 @@ from .ReqNybbleData import ReqNybbleData
 class BaseItemData(QDragListItem):
     type: str = 'BaseItem'
     child_cls: BaseItem = BaseItem
+    nybble_type: NybbleData.Type = NybbleData.Type.All
 
     _normal_color = '#FFFFFF'
     _checked_color = '#FFFFFF'
@@ -125,7 +126,7 @@ class BaseItemData(QDragListItem):
         label.setProperty('small', True)
         nybble_frame.grid_layout.addWidget(label, 0, 0)
 
-        self._property_frame._nybble_frame = NybbleData(self._data)
+        self._property_frame._nybble_frame = NybbleData(self._data, self.nybble_type)
         self._property_frame._nybble_frame.data_changed.connect(self._nybble_changed)
         nybble_frame.grid_layout.addWidget(self._property_frame._nybble_frame, 1, 0)
 

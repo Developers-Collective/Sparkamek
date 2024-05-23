@@ -72,6 +72,8 @@ class NybbleRange:
 
 
     def convert2int(self, block = 0) -> int:
+        if self._start == None: return 0
+
         settings = 0xFFFFFFFFFFFFFFFF if block == 0 else 0xFFFFFFFF
 
         if self._end == None: return NybbleRange.nybblebit2int(settings, self._start.n, self._start.b, self._start.n, self._start.b, block)

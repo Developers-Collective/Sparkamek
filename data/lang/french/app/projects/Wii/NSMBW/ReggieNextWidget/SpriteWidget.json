@@ -41,7 +41,9 @@
                 "addCheckbox": "Ajouter une Case à Cocher",
                 "addValue": "Ajouter une Valeur Saisie",
                 "addList": "Ajouter une Liste Déroulante",
-                "addExternal": "Ajouter un Sélecteur de Données d'un Fichier (External)"
+                "addExternal": "Ajouter un Sélecteur de Données d'un Fichier (External)",
+                "addHexvalue": "Ajouter une Valeur Hexadécimale",
+                "addDynamicblockvalues": "Ajouter des Valeurs Dynamiques de Bloc"
             }
         }
     },
@@ -131,6 +133,16 @@
         },
         "QNamedComboBox": {
             "type": "Type"
+        }
+    },
+    "HexValueData": {
+        "QNamedLineEdit": {
+            "title": "Titre"
+        }
+    },
+    "DynamicBlockValuesData": {
+        "QNamedLineEdit": {
+            "title": "Titre"
         }
     }
 }

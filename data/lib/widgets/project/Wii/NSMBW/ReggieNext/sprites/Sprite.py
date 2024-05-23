@@ -5,6 +5,7 @@ from interface import implements
 from data.lib.storage import XMLNode
 from .IBaseSprite import IBaseSprite
 from .BaseItem import BaseItem
+from .Unknown import Unknown
 from .Dependency import Dependency
 from .ItemFabric import ItemFabric
 #----------------------------------------------------------------------
@@ -44,6 +45,10 @@ class Sprite(implements(IBaseSprite)):
                         self._children.append(inst)
 
                     else:
+                        inst = Unknown(child)
+                        inst.parent = self
+                        self._children.append(inst)
+
                         print(f'Unknown sprite child: {child}')
                         # raise ValueError(f'Unknown sprite child: {child}')
 
