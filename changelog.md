@@ -1,7 +1,10 @@
-# [07e83ff6] - 2024-03-30
+# [07e87f08] - 2024-06-01
 
 ## New
 - Kamek build copy settings -> allows you to choose if the build folder should be cleaned after copying the files (Feature #14)
+- What's new dialog -> shows the changes of the current version
+- NSMBW Reggie module now supports extended sprites (Feature #21)
+- NSMBW Reggie module now supports "Hex value", "Dynamic Block Values" and "Multi-dualbox" options
 
 ## Changes
 - Author of a language is now shown in the language list
