@@ -1,3 +1,10 @@
+# [07e87f41] - 2024-06-08
+
+## Hotfix
+- Reggie nybble bits are not longer messed up due to the new extended sprites support
+
+--------------------------------
+
 # [07e87f08] - 2024-06-01
 
 ## New

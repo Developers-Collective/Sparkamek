@@ -87,7 +87,7 @@ class NybbleData(QGridWidget):
 
 
     @property
-    def data(self) -> NybbleRange:
+    def data(self) -> BaseItem | ReqNybble:
         return self._data
 
 
@@ -179,29 +179,27 @@ class NybbleData(QGridWidget):
             self._last_nybble_combobox.combo_box.setCurrentIndex(0)
 
         if not (self._type & NybbleData.Type.Bit) or not (self._type & NybbleData.Type.Nybble):
-            print('Setting first nybble bit to 0')
+            if self._data.nybbles.start is not None: self._data.nybbles.start.b = None
             self._first_nybblebit_combobox.setCurrentIndex(0)
             self._first_nybblebit_combobox.setDisabled(True)
 
         elif self._data.nybbles.start is not None:
-            print('Setting first nybble bit to', self._data.nybbles.start.b + 1 if self._data.nybbles.start.b is not None else 0)
             self._first_nybblebit_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.b + 1 if self._data.nybbles.start.b is not None else 0)
 
         else:
-            print('Setting first nybble bit to 0²')
+            if self._data.nybbles.start is not None: self._data.nybbles.start.b = None
             self._first_nybblebit_combobox.combo_box.setCurrentIndex(0)
 
         if not (self._type & NybbleData.Type.Bit) or not (self._type & NybbleData.Type.Nybble):
-            print('Setting last nybble bit to 0')
+            if self._data.nybbles.end is not None: self._data.nybbles.end.b = None
             self._last_nybblebit_combobox.setCurrentIndex(0)
             self._last_nybblebit_combobox.setDisabled(True)
 
         elif self._data.nybbles.end is not None:
-            print('Setting last nybble bit to', self._data.nybbles.end.b + 1 if self._data.nybbles.end.b is not None else 0)
             self._last_nybblebit_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.b + 1 if self._data.nybbles.end.b is not None else 0)
 
         else:
-            print('Setting last nybble bit to 0²')
+            if self._data.nybbles.end is not None: self._data.nybbles.end.b = None
             self._last_nybblebit_combobox.combo_box.setCurrentIndex(0)
 
         self._first_nybble_combobox.combo_box.currentIndexChanged.connect(self._first_nybble_changed)

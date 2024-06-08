@@ -21,6 +21,8 @@ class QWhatsNewWidget(QGridFrame):
             'bug fixes': 'fixed',
             'bugfix': 'fixed',
             'bugfixes': 'fixed',
+            'hotfix': 'fixed',
+            'hotfixes': 'fixed',
             'bug': 'fixed',
             'bugs': 'fixed',
             'crash fix': 'fixed',
