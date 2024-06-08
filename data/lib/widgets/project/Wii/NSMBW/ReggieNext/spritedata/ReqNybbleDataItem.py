@@ -81,7 +81,7 @@ class ReqNybbleDataItem(QDragListItem):
 
 
     def _fix_values(self) -> None:
-        if self.data.values.start > self._data.values.end:
+        if self._data.values.start > self._data.values.end:
             self._data.values.start, self._data.values.end = self._data.values.end, self._data.values.start
 
         self._from_value_spinbox.setValue(self._data.values.start)

@@ -148,6 +148,7 @@ class NybbleData(QGridWidget):
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
         self._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
         self._nybble_grid.grid_layout.addWidget(self._first_nybble_combobox, 0, 0)
+
         if not (self._type & NybbleData.Type.Nybble):
             self._first_nybble_combobox.setCurrentIndex(0)
             self._first_nybble_combobox.setDisabled(True)
@@ -163,6 +164,7 @@ class NybbleData(QGridWidget):
         self._last_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybble'))
         self._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
         self._nybble_grid.grid_layout.addWidget(self._last_nybble_combobox, 0, 4)
+
         if not (self._type & NybbleData.Type.Nybble):
             self._last_nybble_combobox.setCurrentIndex(self._last_nybble_combobox.combo_box.count() - 1)
             self._last_nybble_combobox.setDisabled(True)
