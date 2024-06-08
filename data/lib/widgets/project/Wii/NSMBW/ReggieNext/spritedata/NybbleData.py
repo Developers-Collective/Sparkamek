@@ -143,6 +143,9 @@ class NybbleData(QGridWidget):
 
 
     def _rebuild_nybbles(self, show_block: bool) -> None:
+        self._first_nybblebit_combobox.combo_box.blockSignals(True)
+        self._last_nybblebit_combobox.combo_box.blockSignals(True)
+
         self._first_nybble_combobox.deleteLater()
 
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
@@ -176,23 +179,29 @@ class NybbleData(QGridWidget):
             self._last_nybble_combobox.combo_box.setCurrentIndex(0)
 
         if not (self._type & NybbleData.Type.Bit) or not (self._type & NybbleData.Type.Nybble):
+            print('Setting first nybble bit to 0')
             self._first_nybblebit_combobox.setCurrentIndex(0)
             self._first_nybblebit_combobox.setDisabled(True)
 
         elif self._data.nybbles.start is not None:
+            print('Setting first nybble bit to', self._data.nybbles.start.b + 1 if self._data.nybbles.start.b is not None else 0)
             self._first_nybblebit_combobox.combo_box.setCurrentIndex(self._data.nybbles.start.b + 1 if self._data.nybbles.start.b is not None else 0)
 
         else:
+            print('Setting first nybble bit to 0²')
             self._first_nybblebit_combobox.combo_box.setCurrentIndex(0)
 
         if not (self._type & NybbleData.Type.Bit) or not (self._type & NybbleData.Type.Nybble):
+            print('Setting last nybble bit to 0')
             self._last_nybblebit_combobox.setCurrentIndex(0)
             self._last_nybblebit_combobox.setDisabled(True)
 
         elif self._data.nybbles.end is not None:
+            print('Setting last nybble bit to', self._data.nybbles.end.b + 1 if self._data.nybbles.end.b is not None else 0)
             self._last_nybblebit_combobox.combo_box.setCurrentIndex(self._data.nybbles.end.b + 1 if self._data.nybbles.end.b is not None else 0)
 
         else:
+            print('Setting last nybble bit to 0²')
             self._last_nybblebit_combobox.combo_box.setCurrentIndex(0)
 
         self._first_nybble_combobox.combo_box.currentIndexChanged.connect(self._first_nybble_changed)
@@ -206,6 +215,9 @@ class NybbleData(QGridWidget):
 
         else:
             self._block_spinbox.setValue(self._data.block if self._data.block else 0)
+
+        self._first_nybblebit_combobox.combo_box.blockSignals(False)
+        self._last_nybblebit_combobox.combo_box.blockSignals(False)
 
 
     def convert_to_extended(self, extended: bool) -> None:
