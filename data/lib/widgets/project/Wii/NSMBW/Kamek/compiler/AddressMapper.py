@@ -248,7 +248,7 @@ class AddressMapperController(QObject):
 
     def _do_mapfile(self, src: str, dest: str, mapper: AddressMapper) -> None:
         new = []
-        with open(f'{self._cwd}/{src}') as f:
+        with open(f'{self._cwd}/{src}', 'r', encoding = 'utf-8') as f:
             mapfile = [x.rstrip() for x in f]
 
         for line in mapfile:
@@ -260,7 +260,7 @@ class AddressMapperController(QObject):
 
             new.append(line + '\n')
 
-        with open(f'{self._cwd}/{dest}', 'w') as f:
+        with open(f'{self._cwd}/{dest}', 'w', encoding = 'utf-8') as f:
             f.writelines(new)
 
 
@@ -304,7 +304,7 @@ class AddressMapperController(QObject):
 
     def _do_module(self, src: str, dest: str, mappers: dict[str, AddressMapper]) -> None:
         try:
-            with open(f'{self._cwd}/{src}') as f:
+            with open(f'{self._cwd}/{src}', 'r', encoding = 'utf-8') as f:
                 m = yaml.safe_load(f.read())
 
         except FileNotFoundError as e:
@@ -347,13 +347,13 @@ class AddressMapperController(QObject):
 
                     self._work_on_hook(hook, mapper)
 
-        with open(f'{self._cwd}/{dest}', 'w') as f:
+        with open(f'{self._cwd}/{dest}', 'w', encoding = 'utf-8') as f:
             f.write(yaml.dump(m))
 
 
     def _do_project(self, f: str, already_done: set, mappers: dict[str, AddressMapper]) -> None:
         try:
-            with open(f) as infile:
+            with open(f, 'r', encoding = 'utf-8') as infile:
                 proj = yaml.safe_load(infile.read())
 
         except FileNotFoundError as e:

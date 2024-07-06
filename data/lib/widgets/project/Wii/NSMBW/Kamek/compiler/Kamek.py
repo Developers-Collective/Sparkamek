@@ -290,7 +290,7 @@ class KamekBuilder:
         fasthack_content: list[str] = None
 
         if self._controller.config.fast_hack:
-            with open(f'{self._controller.cwd}/{self._fast_cpp_path}', 'r') as infile:
+            with open(f'{self._controller.cwd}/{self._fast_cpp_path}', 'r', encoding = 'utf8') as infile:
                 fasthack_content = infile.read().replace('\r', '').split('\n')
 
 
@@ -687,7 +687,7 @@ class KamekBuilder:
 
         self._symbols = []
 
-        with open(self._current_map_file, 'r') as file:
+        with open(self._current_map_file, 'r', encoding = 'utf8') as file:
 
             for line in file:
                 if '__text_start' in line:
@@ -819,12 +819,12 @@ class KamekBuilder:
             self._patches.append(patch)
 
         # generate a Riivolution patch
-        with open(f'{self._out_dir}/{nice_name}_riiv.xml', 'w') as riiv:
+        with open(f'{self._out_dir}/{nice_name}_riiv.xml', 'w', encoding='utf-8') as riiv:
             for patch in self._patches:
                 riiv.write(self._controller.generate_riiv_mempatch(*patch) + '\n')
 
         # generate an Ocarina patch
-        with open(f'{self._out_dir}/{nice_name}_ocarina.txt', 'w') as ocarina:
+        with open(f'{self._out_dir}/{nice_name}_ocarina.txt', 'w', encoding='utf-8') as ocarina:
             for patch in self._patches:
                 ocarina.write(self._controller.generate_ocarina_patch(*patch) + '\n')
 
@@ -911,7 +911,7 @@ class KamekController(QObject):
 
 
     def _read_configs(self, config_path: str) -> dict:
-        with open(config_path, 'r') as f:
+        with open(config_path, 'r', encoding = 'utf8') as f:
             data = f.read()
 
         return yaml.safe_load(data)
