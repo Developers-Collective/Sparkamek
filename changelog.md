@@ -1,3 +1,10 @@
+# [07e89439] - 2024-07-07
+
+## Hotfix
+- UTF-8 encoding with special characters causing a compile error in some cases
+
+--------------------------------
+
 # [07e87f41] - 2024-06-08
 
 ## Hotfix
