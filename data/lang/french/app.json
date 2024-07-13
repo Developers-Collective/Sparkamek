@@ -27,5 +27,11 @@
     "QMessageBox": "#ref: app/QMessageBox",
     "QAbout": "#ref: app/QAbout",
     "QMenu": "#ref: app/QMenu",
-    "QSystemTrayIcon": "#ref: app/QSystemTrayIcon"
+    "QSystemTrayIcon": "#ref: app/QSystemTrayIcon",
+    "QTerminalModel": {
+        "error": "Erreur",
+        "warning": "Avertissement",
+        "info": "Info",
+        "success": "Succès"
+    }
 }

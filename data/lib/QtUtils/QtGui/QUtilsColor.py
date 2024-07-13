@@ -53,6 +53,8 @@ class QUtilsColor:
     @dispatch(str)
     def __init__(self, color: str) -> None:
         color = color.replace('#', '')
+        if len(color) == 3: color = ''.join([c * 2 for c in color])
+
         self._red = int(color[0:2], 16)
         self._green = int(color[2:4], 16)
         self._blue = int(color[4:6], 16)
