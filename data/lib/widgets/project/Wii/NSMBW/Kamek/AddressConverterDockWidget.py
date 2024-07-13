@@ -39,7 +39,7 @@ class AddressConverterDockWidget(QSavableDockWidget):
         self._root.setMinimumWidth(200)
         self._root.setMinimumHeight(100)
         self._root.setFrameShape(QFrame.Shape.NoFrame)
-        self._root.scroll_widget.setProperty('QDockWidget', True)
+        self._root.widget_.setProperty('QDockWidget', True)
         self.setObjectName('addressConverter')
         self.setWidget(self._root)
 
@@ -65,97 +65,97 @@ class AddressConverterDockWidget(QSavableDockWidget):
 
 
         frame = QGridWidget()
-        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.setSpacing(32)
-        self._root.scroll_layout.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignTop)
-        frame.grid_layout.setColumnStretch(5, 1)
+        frame.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.setSpacing(32)
+        self._root.layout_.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignTop)
+        frame.layout_.setColumnStretch(5, 1)
 
 
         left_groupbox = QGridGroupBox(self._lang.get('QGridGroupBox.input.title'))
         left_groupbox.setProperty('QDockWidget', True)
-        left_groupbox.grid_layout.setContentsMargins(64, 16, 64, 16)
-        left_groupbox.grid_layout.setSpacing(8)
-        frame.grid_layout.addWidget(left_groupbox, 0, 0)
-        left_groupbox.grid_layout.setRowStretch(2, 1)
+        left_groupbox.layout_.setContentsMargins(64, 16, 64, 16)
+        left_groupbox.layout_.setSpacing(8)
+        frame.layout_.addWidget(left_groupbox, 0, 0)
+        left_groupbox.layout_.setRowStretch(2, 1)
 
         self._input_combobox = QNamedComboBox(None, self._lang.get('QGridGroupBox.input.QNamedComboBox.region.title'))
         self._input_combobox.setCursor(Qt.CursorShape.PointingHandCursor)
         self._input_combobox.addItems(translated_regions)
         self._input_combobox.setCurrentIndex(0)
-        left_groupbox.grid_layout.addWidget(self._input_combobox, 0, 0)
+        left_groupbox.layout_.addWidget(self._input_combobox, 0, 0)
         self._input_combobox.combo_box.currentIndexChanged.connect(self._convert)
 
         self._input_hexspinbox = QNamedHexSpinBox(None, self._lang.get('QGridGroupBox.input.QNamedHexSpinBox.address'))
         self._input_hexspinbox.set_range(0, 0x80999999)
         self._input_hexspinbox.set_value(0x80000000)
-        left_groupbox.grid_layout.addWidget(self._input_hexspinbox, 1, 0)
+        left_groupbox.layout_.addWidget(self._input_hexspinbox, 1, 0)
         self._input_hexspinbox.hex_spinbox.value_changed.connect(self._convert)
 
 
         convert_direction_button_left = QIconWidget(None, AddressConverterDockWidget._right_arrow_icon, QSize(32, 32), False)
-        frame.grid_layout.addWidget(convert_direction_button_left, 0, 1)
+        frame.layout_.addWidget(convert_direction_button_left, 0, 1)
 
 
         middle_groupbox = QGridGroupBox(self._lang.get('QGridGroupBox.default.title'))
         middle_groupbox.setProperty('QDockWidget', True)
-        middle_groupbox.grid_layout.setContentsMargins(64, 16, 64, 16)
-        middle_groupbox.grid_layout.setSpacing(8)
-        frame.grid_layout.addWidget(middle_groupbox, 0, 2)
-        middle_groupbox.grid_layout.setRowStretch(2, 1)
+        middle_groupbox.layout_.setContentsMargins(64, 16, 64, 16)
+        middle_groupbox.layout_.setSpacing(8)
+        frame.layout_.addWidget(middle_groupbox, 0, 2)
+        middle_groupbox.layout_.setRowStretch(2, 1)
 
         self._middle_combobox = QNamedComboBox(None, self._lang.get('QGridGroupBox.default.QNamedComboBox.region.title'))
         self._middle_combobox.setCursor(Qt.CursorShape.ForbiddenCursor)
         self._middle_combobox.addItems([translated_regions[0]])
         self._middle_combobox.setCurrentIndex(0)
-        middle_groupbox.grid_layout.addWidget(self._middle_combobox, 0, 0)
+        middle_groupbox.layout_.addWidget(self._middle_combobox, 0, 0)
         self._middle_combobox.combo_box.setDisabled(True)
 
         row_frame = QGridWidget()
-        row_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        row_frame.grid_layout.setSpacing(8)
-        middle_groupbox.grid_layout.addWidget(row_frame, 1, 0)
+        row_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        row_frame.layout_.setSpacing(8)
+        middle_groupbox.layout_.addWidget(row_frame, 1, 0)
 
         self._middle_hexspinbox = QNamedHexSpinBox(None, self._lang.get('QGridGroupBox.default.QNamedHexSpinBox.address'))
         self._middle_hexspinbox.set_range(0, 0x80999999)
         self._middle_hexspinbox.set_value(0x80000000)
-        row_frame.grid_layout.addWidget(self._middle_hexspinbox, 0, 0)
+        row_frame.layout_.addWidget(self._middle_hexspinbox, 0, 0)
         self._middle_hexspinbox.hex_spinbox.setReadOnly(True)
 
         self._middle_icon_widget = QIconWidget(None, AddressConverterDockWidget._success_icon, QSize(32, 32), False)
-        row_frame.grid_layout.addWidget(self._middle_icon_widget, 0, 1)
+        row_frame.layout_.addWidget(self._middle_icon_widget, 0, 1)
 
 
         convert_direction_button_right = QIconWidget(None, AddressConverterDockWidget._right_arrow_icon, QSize(32, 32), False)
-        frame.grid_layout.addWidget(convert_direction_button_right, 0, 3)
+        frame.layout_.addWidget(convert_direction_button_right, 0, 3)
 
 
         right_groupbox = QGridGroupBox(self._lang.get('QGridGroupBox.output.title'))
         right_groupbox.setProperty('QDockWidget', True)
-        right_groupbox.grid_layout.setContentsMargins(64, 16, 64, 16)
-        right_groupbox.grid_layout.setSpacing(8)
-        frame.grid_layout.addWidget(right_groupbox, 0, 4)
-        right_groupbox.grid_layout.setRowStretch(2, 1)
+        right_groupbox.layout_.setContentsMargins(64, 16, 64, 16)
+        right_groupbox.layout_.setSpacing(8)
+        frame.layout_.addWidget(right_groupbox, 0, 4)
+        right_groupbox.layout_.setRowStretch(2, 1)
 
         self._output_combobox = QNamedComboBox(None, self._lang.get('QGridGroupBox.output.QNamedComboBox.region.title'))
         self._output_combobox.setCursor(Qt.CursorShape.PointingHandCursor)
         self._output_combobox.addItems(translated_regions)
         self._output_combobox.setCurrentIndex(0)
-        right_groupbox.grid_layout.addWidget(self._output_combobox, 0, 0)
+        right_groupbox.layout_.addWidget(self._output_combobox, 0, 0)
         self._output_combobox.combo_box.currentIndexChanged.connect(self._convert)
 
         row_frame = QGridWidget()
-        row_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        row_frame.grid_layout.setSpacing(8)
-        right_groupbox.grid_layout.addWidget(row_frame, 1, 0)
+        row_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        row_frame.layout_.setSpacing(8)
+        right_groupbox.layout_.addWidget(row_frame, 1, 0)
 
         self._output_hexspinbox = QNamedHexSpinBox(None, self._lang.get('QGridGroupBox.output.QNamedHexSpinBox.address'))
         self._output_hexspinbox.set_range(0, 0x80999999)
         self._output_hexspinbox.set_value(0x80000000)
         self._output_hexspinbox.hex_spinbox.setReadOnly(True)
-        row_frame.grid_layout.addWidget(self._output_hexspinbox, 0, 0)
+        row_frame.layout_.addWidget(self._output_hexspinbox, 0, 0)
 
         self._output_icon_widget = QIconWidget(None, AddressConverterDockWidget._success_icon, QSize(32, 32), False)
-        row_frame.grid_layout.addWidget(self._output_icon_widget, 0, 1)
+        row_frame.layout_.addWidget(self._output_icon_widget, 0, 1)
 
 
     @property

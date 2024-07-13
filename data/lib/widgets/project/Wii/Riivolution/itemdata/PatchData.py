@@ -47,162 +47,162 @@ class PatchData(BaseItemData):
 
         self._patchid_label = QLabel()
         self._patchid_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._patchid_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._patchid_label, 0, 0)
 
         self._child_pages = QSlidingStackedWidget()
         self._child_pages.set_orientation(Qt.Orientation.Horizontal)
-        self._property_frame.grid_layout.addWidget(self._child_pages, 0, 0)
+        self._property_frame.layout_.addWidget(self._child_pages, 0, 0)
 
 
         frame = QScrollableGridFrame()
         frame.set_all_property('transparent', True)
-        frame.scroll_layout.setSpacing(30)
-        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
+        frame.layout_.setSpacing(30)
+        frame.layout_.setContentsMargins(0, 0, 10, 0)
 
         self._child_pages.addWidget(frame)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.scroll_layout.addWidget(subframe, 0, 0, 1, 2)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.addWidget(subframe, 0, 0, 1, 2)
 
         label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        subframe.grid_layout.addWidget(label, 0, 0)
+        subframe.layout_.addWidget(label, 0, 0)
 
         self._id_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.id'))
         self._id_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.id'))
         self._id_lineedit.line_edit.setText(self._data.id)
         self._id_lineedit.line_edit.textChanged.connect(self._id_changed)
-        subframe.grid_layout.addWidget(self._id_lineedit, 1, 0)
+        subframe.layout_.addWidget(self._id_lineedit, 1, 0)
 
         self._root_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.root'))
         self._root_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.root'))
         self._root_lineedit.line_edit.setText(self._data.root)
         self._root_lineedit.line_edit.textChanged.connect(self._root_changed)
-        subframe.grid_layout.addWidget(self._root_lineedit, 2, 0)
+        subframe.layout_.addWidget(self._root_lineedit, 2, 0)
 
-        subframe.grid_layout.setRowStretch(3, 1)
+        subframe.layout_.setRowStretch(3, 1)
 
 
         leftframe = QGridWidget()
-        leftframe.grid_layout.setSpacing(30)
-        leftframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.scroll_layout.addWidget(leftframe, 1, 0)
+        leftframe.layout_.setSpacing(30)
+        leftframe.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.addWidget(leftframe, 1, 0)
 
         rightframe = QGridWidget()
-        rightframe.grid_layout.setSpacing(30)
-        rightframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.scroll_layout.addWidget(rightframe, 1, 1)
+        rightframe.layout_.setSpacing(30)
+        rightframe.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.addWidget(rightframe, 1, 1)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        leftframe.grid_layout.addWidget(subframe, 0, 0)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        leftframe.layout_.addWidget(subframe, 0, 0)
 
         label = QLabel(self._lang.get('QLabel.files'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        subframe.grid_layout.addWidget(label, 0, 0)
+        subframe.layout_.addWidget(label, 0, 0)
 
         self._file_draglist = QDragList()
         self._file_draglist.moved.connect(self._file_entry_moved)
-        subframe.grid_layout.addWidget(self._file_draglist, 1, 0)
+        subframe.layout_.addWidget(self._file_draglist, 1, 0)
 
         self._add_file_entry_button = QPushButton(self._lang.get('QPushButton.addFile'))
         self._add_file_entry_button.setIcon(self._add_entry_icon)
         self._add_file_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_file_entry_button.setProperty('color', 'main')
         self._add_file_entry_button.clicked.connect(self._add_file_entry)
-        subframe.grid_layout.addWidget(self._add_file_entry_button, 2, 0)
+        subframe.layout_.addWidget(self._add_file_entry_button, 2, 0)
         self._add_file_entry_button.setEnabled(False)
 
-        subframe.grid_layout.setRowStretch(3, 1)
+        subframe.layout_.setRowStretch(3, 1)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        rightframe.grid_layout.addWidget(subframe, 0, 0)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        rightframe.layout_.addWidget(subframe, 0, 0)
 
         label = QLabel(self._lang.get('QLabel.folders'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        subframe.grid_layout.addWidget(label, 0, 0)
+        subframe.layout_.addWidget(label, 0, 0)
 
         self._folder_draglist = QDragList()
         self._folder_draglist.moved.connect(self._folder_entry_moved)
-        subframe.grid_layout.addWidget(self._folder_draglist, 1, 0)
+        subframe.layout_.addWidget(self._folder_draglist, 1, 0)
 
         self._add_folder_entry_button = QPushButton(self._lang.get('QPushButton.addFolder'))
         self._add_folder_entry_button.setIcon(self._add_entry_icon)
         self._add_folder_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_folder_entry_button.setProperty('color', 'main')
         self._add_folder_entry_button.clicked.connect(self._add_folder_entry)
-        subframe.grid_layout.addWidget(self._add_folder_entry_button, 2, 0)
+        subframe.layout_.addWidget(self._add_folder_entry_button, 2, 0)
         self._add_folder_entry_button.setEnabled(False)
 
-        subframe.grid_layout.setRowStretch(3, 1)
+        subframe.layout_.setRowStretch(3, 1)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        leftframe.grid_layout.addWidget(subframe, 1, 0)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        leftframe.layout_.addWidget(subframe, 1, 0)
 
         label = QLabel(self._lang.get('QLabel.savegames'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        subframe.grid_layout.addWidget(label, 0, 0)
+        subframe.layout_.addWidget(label, 0, 0)
 
         self._savegame_draglist = QDragList()
         self._savegame_draglist.moved.connect(self._savegame_entry_moved)
-        subframe.grid_layout.addWidget(self._savegame_draglist, 1, 0)
+        subframe.layout_.addWidget(self._savegame_draglist, 1, 0)
 
         self._add_savegame_entry_button = QPushButton(self._lang.get('QPushButton.addSavegame'))
         self._add_savegame_entry_button.setIcon(self._add_entry_icon)
         self._add_savegame_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_savegame_entry_button.setProperty('color', 'main')
         self._add_savegame_entry_button.clicked.connect(self._add_savegame_entry)
-        subframe.grid_layout.addWidget(self._add_savegame_entry_button, 2, 0)
+        subframe.layout_.addWidget(self._add_savegame_entry_button, 2, 0)
         self._add_savegame_entry_button.setEnabled(False)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        leftframe.grid_layout.addWidget(subframe, 2, 0)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        leftframe.layout_.addWidget(subframe, 2, 0)
 
         label = QLabel(self._lang.get('QLabel.memories'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        subframe.grid_layout.addWidget(label, 0, 0)
+        subframe.layout_.addWidget(label, 0, 0)
 
         self._memory_draglist = QDragList()
         self._memory_draglist.moved.connect(self._memory_entry_moved)
-        subframe.grid_layout.addWidget(self._memory_draglist, 1, 0)
+        subframe.layout_.addWidget(self._memory_draglist, 1, 0)
 
         self._add_memory_entry_button = QPushButton(self._lang.get('QPushButton.addMemory'))
         self._add_memory_entry_button.setIcon(self._add_entry_icon)
         self._add_memory_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_memory_entry_button.setProperty('color', 'main')
         self._add_memory_entry_button.clicked.connect(self._add_memory_entry)
-        subframe.grid_layout.addWidget(self._add_memory_entry_button, 2, 0)
+        subframe.layout_.addWidget(self._add_memory_entry_button, 2, 0)
         self._add_memory_entry_button.setEnabled(False)
 
 
-        subframe.grid_layout.setRowStretch(3, 1)
+        subframe.layout_.setRowStretch(3, 1)
 
-        leftframe.grid_layout.setRowStretch(2, 1)
-        frame.scroll_layout.setRowStretch(2, 1)
+        leftframe.layout_.setRowStretch(2, 1)
+        frame.layout_.setRowStretch(2, 1)
 
 
         self._data_frame = QGridWidget()
-        self._data_frame.grid_layout.setSpacing(8)
-        self._data_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        self._data_frame.layout_.setSpacing(8)
+        self._data_frame.layout_.setContentsMargins(0, 0, 0, 0)
 
         self._child_pages.addWidget(self._data_frame)
 
@@ -436,7 +436,7 @@ class PatchData(BaseItemData):
 
     def _set_widget(self, widget: QGridWidget | None) -> None:
         if self._current_widget: self._current_widget.setParent(None)
-        if widget: self._data_frame.grid_layout.addWidget(widget, 0, 0)
+        if widget: self._data_frame.layout_.addWidget(widget, 0, 0)
         self._current_widget = widget
 
 

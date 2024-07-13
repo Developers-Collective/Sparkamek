@@ -60,27 +60,27 @@ class OpenProjectDialog(QDialog):
         self._layout.setContentsMargins(0, 0, 0, 0)
 
         right_buttons = QGridWidget()
-        right_buttons.grid_layout.setSpacing(16)
-        right_buttons.grid_layout.setContentsMargins(0, 0, 0, 0)
+        right_buttons.layout_.setSpacing(16)
+        right_buttons.layout_.setContentsMargins(0, 0, 0, 0)
 
         self._cancel_button = QPushButton(self._lang.get('QPushButton.cancel'))
         self._cancel_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._cancel_button.clicked.connect(self.new_reject)
         self._cancel_button.setProperty('color', 'white')
         self._cancel_button.setProperty('transparent', True)
-        right_buttons.grid_layout.addWidget(self._cancel_button, 0, 0)
+        right_buttons.layout_.addWidget(self._cancel_button, 0, 0)
 
         self._load_button = QPushButton(self._lang.get('QPushButton.load'))
         self._load_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._load_button.clicked.connect(self.accept)
         self._load_button.setProperty('color', 'main')
-        right_buttons.grid_layout.addWidget(self._load_button, 0, 1)
+        right_buttons.layout_.addWidget(self._load_button, 0, 1)
 
         self.setWindowTitle(self._lang.get('title.' + ('edit' if data else 'open')))
 
         root_frame = QGridFrame()
-        root_frame.grid_layout.setSpacing(0)
-        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+        root_frame.layout_.setSpacing(0)
+        root_frame.layout_.setContentsMargins(0, 0, 0, 0)
 
         self._menus: dict[OpenProjectDialog.Menus, BaseMenu] = {
             OpenProjectDialog.Menus.General: MenuGeneral(self._data),
@@ -121,14 +121,14 @@ class OpenProjectDialog(QDialog):
             menu.can_continue_changed.connect(self._update_continue)
             self._progress_indicator_widget.add_widget(menu)
 
-        root_frame.grid_layout.addWidget(self._progress_indicator_widget, 0, 0)
+        root_frame.layout_.addWidget(self._progress_indicator_widget, 0, 0)
         self._progress_indicator_widget.set_current_index(0)
 
         self._frame = QGridFrame()
-        self._frame.grid_layout.addWidget(right_buttons, 0, 0)
-        self._frame.grid_layout.setAlignment(right_buttons, Qt.AlignmentFlag.AlignRight)
-        self._frame.grid_layout.setSpacing(0)
-        self._frame.grid_layout.setContentsMargins(16, 16, 16, 16)
+        self._frame.layout_.addWidget(right_buttons, 0, 0)
+        self._frame.layout_.setAlignment(right_buttons, Qt.AlignmentFlag.AlignRight)
+        self._frame.layout_.setSpacing(0)
+        self._frame.layout_.setContentsMargins(16, 16, 16, 16)
         self._frame.setProperty('border-top', True)
         self._frame.setProperty('border-bottom', True)
         self._frame.setProperty('border-left', True)

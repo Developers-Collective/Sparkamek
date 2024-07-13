@@ -47,9 +47,9 @@ class LoaderWidget(SubProjectWidgetBase):
         self._compile_thread = None
 
         frame = QGridWidget()
-        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignTop)
+        frame.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.setSpacing(8)
+        self._root.layout_.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         self._compile_button = QPushButton(self._lang.get('QPushButton.compile'))
         self._compile_button.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -57,14 +57,14 @@ class LoaderWidget(SubProjectWidgetBase):
         self._compile_button.clicked.connect(self._compile)
         self._compile_button.setProperty('color', 'main')
         self._compile_button.setProperty('icon-padding', True)
-        frame.grid_layout.addWidget(self._compile_button, 0, 0, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        frame.layout_.addWidget(self._compile_button, 0, 0, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         self._complete_view_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.showCompleteLogs'))
         self._complete_view_toggle.toggle_button.toggled.connect(self._switch_logs_view)
-        frame.grid_layout.addWidget(self._complete_view_toggle, 0, 1, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
+        frame.layout_.addWidget(self._complete_view_toggle, 0, 1, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
         self._logs_slide_widget = QSlidingStackedWidget()
-        self._root.scroll_layout.addWidget(self._logs_slide_widget, 1, 0)
+        self._root.layout_.addWidget(self._logs_slide_widget, 1, 0)
 
         self._simple_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get('QNamedTextBrowser.simpleLogs'))
         self._simple_logs_textbrowser.setReadOnly(True)

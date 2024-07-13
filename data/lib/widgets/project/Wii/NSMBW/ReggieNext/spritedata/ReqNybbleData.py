@@ -32,18 +32,18 @@ class ReqNybbleData(QGridWidget):
         self._parent_sprite = parent_sprite
 
 
-        self.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.grid_layout.setSpacing(8)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setSpacing(8)
 
 
         label = QLabel(self._lang.get('QLabel.title'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        self.grid_layout.addWidget(label, 0, 0)
+        self.layout_.addWidget(label, 0, 0)
 
 
         self._list = QDragList()
-        self.grid_layout.addWidget(self._list, 1, 0)
+        self.layout_.addWidget(self._list, 1, 0)
 
         for data in self._data:
             item = ReqNybbleDataItem(data)
@@ -57,7 +57,7 @@ class ReqNybbleData(QGridWidget):
         self._add_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_button.setIcon(ReqNybbleData._add_icon)
         self._add_button.clicked.connect(self._add)
-        self.grid_layout.addWidget(self._add_button, 2, 0)
+        self.layout_.addWidget(self._add_button, 2, 0)
 
 
 

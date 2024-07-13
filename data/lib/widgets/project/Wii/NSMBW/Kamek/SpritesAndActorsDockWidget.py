@@ -34,15 +34,15 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         self._root.setMinimumWidth(200)
         self._root.setMinimumHeight(100)
         self._root.setFrameShape(QFrame.Shape.NoFrame)
-        self._root.scroll_widget.setProperty('QDockWidget', True)
+        self._root.widget_.setProperty('QDockWidget', True)
         self.setObjectName('spritesAndActors')
         self.setWidget(self._root)
 
 
         subtopframe = QGridWidget()
-        subtopframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        subtopframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(subtopframe, 0, 0, Qt.AlignmentFlag.AlignTop)
+        subtopframe.layout_.setContentsMargins(0, 0, 0, 0)
+        subtopframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(subtopframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         search_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.searchBy.title'))
         search_combobox.combo_box.addItems([
@@ -53,28 +53,28 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         ])
         search_combobox.combo_box.setCurrentIndex(0)
         search_combobox.combo_box.currentIndexChanged.connect(self._search_by_changed)
-        subtopframe.grid_layout.addWidget(search_combobox, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        subtopframe.layout_.addWidget(search_combobox, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         subtoprightframe = QGridWidget()
-        subtoprightframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        subtoprightframe.grid_layout.setSpacing(8)
-        subtopframe.grid_layout.addWidget(subtoprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
-        subtoprightframe.grid_layout.setColumnStretch(1, 0)
+        subtoprightframe.layout_.setContentsMargins(0, 0, 0, 0)
+        subtoprightframe.layout_.setSpacing(8)
+        subtopframe.layout_.addWidget(subtoprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
+        subtoprightframe.layout_.setColumnStretch(1, 0)
 
         case_sensitive_togge = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.caseSensitive'), False)
         case_sensitive_togge.toggle_button.toggled.connect(self.case_sensitive_toggled)
-        subtoprightframe.grid_layout.addWidget(case_sensitive_togge, 0, 0)
+        subtoprightframe.layout_.addWidget(case_sensitive_togge, 0, 0)
 
         self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get('QIconLineEdit.search'))
         self._searchbar.textChanged.connect(self.text_changed)
-        subtoprightframe.grid_layout.addWidget(self._searchbar, 0, 1)
+        subtoprightframe.layout_.addWidget(self._searchbar, 0, 1)
 
         self._refresh_sprites_and_actors_button = QPushButton()
         self._refresh_sprites_and_actors_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._refresh_sprites_and_actors_button.setProperty('color', 'main')
         self._refresh_sprites_and_actors_button.setIcon(self._refresh_icon)
         self._refresh_sprites_and_actors_button.clicked.connect(self._refresh_sprites_and_actors)
-        subtoprightframe.grid_layout.addWidget(self._refresh_sprites_and_actors_button, 0, 2)
+        subtoprightframe.layout_.addWidget(self._refresh_sprites_and_actors_button, 0, 2)
 
 
         self._sprite_list = QBetterListWidget(
@@ -89,7 +89,7 @@ class SpritesAndActorsDockWidget(QSavableDockWidget):
         )
         self._sprite_list.setSortingEnabled(True)
         self._sprite_list.sortByColumn(1, Qt.SortOrder.AscendingOrder)
-        self._root.scroll_layout.addWidget(self._sprite_list, 1, 0)
+        self._root.layout_.addWidget(self._sprite_list, 1, 0)
 
         self._proxy_model = QSortFilterProxyModel(
             self, filterKeyColumn = 0, recursiveFilteringEnabled = True

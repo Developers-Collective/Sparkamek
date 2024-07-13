@@ -34,7 +34,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
 
-        self.scroll_layout.setSpacing(20)
+        self.layout_.setSpacing(20)
 
         dockwidgets = data.get('dockwidgets', {})
 
@@ -44,9 +44,9 @@ class RiivolutionWidget(SubProjectWidgetBase):
         else: self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._item_data_property_dock_widget)
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         self._load_button = QPushButton(self._lang.get('QPushButton.load'))
         self._load_button.setIcon(self._load_icon)
@@ -54,7 +54,7 @@ class RiivolutionWidget(SubProjectWidgetBase):
         self._load_button.setProperty('icon-padding', True)
         self._load_button.setProperty('color', 'main')
         self._load_button.clicked.connect(self._load)
-        topframe.grid_layout.addWidget(self._load_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topframe.layout_.addWidget(self._load_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._save_button = QPushButton(self._lang.get('QPushButton.save'))
         self._save_button.setIcon(self._save_icon)
@@ -62,13 +62,13 @@ class RiivolutionWidget(SubProjectWidgetBase):
         self._save_button.setProperty('icon-padding', True)
         self._save_button.setProperty('color', 'main')
         self._save_button.clicked.connect(self._save)
-        topframe.grid_layout.addWidget(self._save_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        topframe.layout_.addWidget(self._save_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
 
         label = QLabel(self._lang.get('QLabel.description')
             .replace('%s', f'<a href="https://riivolution.github.io/wiki/Patch_Format/" style="color: {self._app.COLOR_LINK.hex}; text-decoration: none;">Riivolution Patch Format Wiki</a>', 1)
@@ -77,13 +77,13 @@ class RiivolutionWidget(SubProjectWidgetBase):
         label.setOpenExternalLinks(True)
         label.setWordWrap(True)
         label.setProperty('brighttitle', True)
-        topframe.grid_layout.addWidget(label, 0, 0)
+        topframe.layout_.addWidget(label, 0, 0)
 
 
         self._wii_disc_widget = WiiDiscWidget(self._path)
         self._wii_disc_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
         self._wii_disc_widget.setDisabled(True)
-        self._root.scroll_layout.addWidget(self._wii_disc_widget, 2, 0)
+        self._root.layout_.addWidget(self._wii_disc_widget, 2, 0)
 
         self._wii_disc_widget.wiidisc = WiiDisc(WiiDisc.create().export())
         self._wii_disc_widget.setDisabled(False)

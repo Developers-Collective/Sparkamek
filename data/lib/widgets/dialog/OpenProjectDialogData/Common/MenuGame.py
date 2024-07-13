@@ -24,35 +24,35 @@ class MenuGame(BaseMenu):
 
         lang = self._lang
 
-        self.scroll_layout.setSpacing(30)
+        self.layout_.setSpacing(30)
 
         topframe = QGridFrame()
-        topframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(topframe, self.scroll_layout.count(), 0)
+        topframe.layout_.setSpacing(8)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(topframe, self.layout_.count(), 0)
 
         label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
-        topframe.grid_layout.addWidget(label, 0, 0)
+        topframe.layout_.addWidget(label, 0, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
-        topframe.grid_layout.addWidget(frame, 1, 0)
+        topframe.layout_.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
-        root_frame.grid_layout.setSpacing(16)
-        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(root_frame, self.scroll_layout.count(), 0)
-        self.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+        root_frame.layout_.setSpacing(16)
+        root_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(root_frame, self.layout_.count(), 0)
+        self.layout_.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
         label = self._text_group(lang.get('QLabel.game.title'), lang.get('QLabel.game.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         self._flow_widget = QFlowScrollableWidget(None, Qt.Orientation.Horizontal, 16, 8)
-        root_frame.grid_layout.addWidget(self._flow_widget, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(self._flow_widget, root_frame.layout_.count(), 0)
 
         self._factory = None
         self._games = tuple()
@@ -66,10 +66,10 @@ class MenuGame(BaseMenu):
         self._games = tuple(factory.create(p) for p in factory.get_all())
         send_param = lambda s: lambda: self.select_game(s)
         for p in self._games:
-            self._flow_widget.scroll_layout.addWidget(p)
+            self._flow_widget.layout_.addWidget(p)
             p.clicked.connect(send_param(p.key))
 
-        self._flow_widget.setFixedHeight(self._flow_widget.scroll_layout.sizeHint().height() + 32)
+        self._flow_widget.setFixedHeight(self._flow_widget.layout_.sizeHint().height() + 32)
 
 
     @property

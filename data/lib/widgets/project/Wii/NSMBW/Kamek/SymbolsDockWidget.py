@@ -33,20 +33,20 @@ class SymbolsDockWidget(QSavableDockWidget):
         self._root.setMinimumWidth(200)
         self._root.setMinimumHeight(100)
         self._root.setFrameShape(QFrame.Shape.NoFrame)
-        self._root.scroll_widget.setProperty('QDockWidget', True)
+        self._root.widget_.setProperty('QDockWidget', True)
         self.setObjectName('symbols')
         self.setWidget(self._root)
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         topleftframe = QGridWidget()
-        topleftframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topleftframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.addWidget(topleftframe, 0, 0, Qt.AlignmentFlag.AlignLeft)
-        topleftframe.grid_layout.setColumnStretch(1, 0)
+        topleftframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topleftframe.layout_.setSpacing(8)
+        topframe.layout_.addWidget(topleftframe, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topleftframe.layout_.setColumnStretch(1, 0)
 
         self._search_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.searchBy.title'))
         self._search_combobox.combo_box.addItems([
@@ -56,7 +56,7 @@ class SymbolsDockWidget(QSavableDockWidget):
         ])
         self._search_combobox.combo_box.setCurrentIndex(1)
         self._search_combobox.combo_box.currentIndexChanged.connect(self._search_by_changed)
-        topleftframe.grid_layout.addWidget(self._search_combobox, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topleftframe.layout_.addWidget(self._search_combobox, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._address_mode_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.addressMode.title'))
         self._address_mode_combobox.combo_box.addItems([
@@ -66,22 +66,22 @@ class SymbolsDockWidget(QSavableDockWidget):
         ])
         self._address_mode_combobox.combo_box.setCurrentIndex(1)
         self._address_mode_combobox.combo_box.currentIndexChanged.connect(self._address_mode_changed)
-        topleftframe.grid_layout.addWidget(self._address_mode_combobox, 0, 1, Qt.AlignmentFlag.AlignLeft)
+        topleftframe.layout_.addWidget(self._address_mode_combobox, 0, 1, Qt.AlignmentFlag.AlignLeft)
         self._address_mode_combobox.setVisible(False)
 
         toprightframe = QGridWidget()
-        toprightframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        toprightframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.addWidget(toprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
-        toprightframe.grid_layout.setColumnStretch(1, 0)
+        toprightframe.layout_.setContentsMargins(0, 0, 0, 0)
+        toprightframe.layout_.setSpacing(8)
+        topframe.layout_.addWidget(toprightframe, 0, 1, Qt.AlignmentFlag.AlignRight)
+        toprightframe.layout_.setColumnStretch(1, 0)
 
         case_sensitive_togge = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.caseSensitive'), False)
         case_sensitive_togge.toggle_button.toggled.connect(self.case_sensitive_toggled)
-        toprightframe.grid_layout.addWidget(case_sensitive_togge, 0, 0)
+        toprightframe.layout_.addWidget(case_sensitive_togge, 0, 0)
 
         self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get('QIconLineEdit.search'))
         self._searchbar.textChanged.connect(self.text_changed)
-        toprightframe.grid_layout.addWidget(self._searchbar, 0, 1)
+        toprightframe.layout_.addWidget(self._searchbar, 0, 1)
 
         self._list = QBetterListWidget(
             [
@@ -94,7 +94,7 @@ class SymbolsDockWidget(QSavableDockWidget):
         )
         self._list.setSortingEnabled(True)
         self._list.sortByColumn(0, Qt.SortOrder.AscendingOrder)
-        self._root.scroll_layout.addWidget(self._list, 1, 0)
+        self._root.layout_.addWidget(self._list, 1, 0)
 
         self._proxy_model = QBetterSortFilterProxyModel(
             self, filterKeyColumn = 1, recursiveFilteringEnabled = True

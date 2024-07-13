@@ -48,49 +48,49 @@ class BaseItemData(QDragListItem):
         self._data = data
         self._path = path
 
-        self.grid_layout.setContentsMargins(10, 10, 10, 10)
-        self.grid_layout.setSpacing(8)
+        self.layout_.setContentsMargins(10, 10, 10, 10)
+        self.layout_.setSpacing(8)
 
 
         top_frame = QGridWidget()
-        top_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        top_frame.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(top_frame, 0, 0)
+        top_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        top_frame.layout_.setSpacing(8)
+        self.layout_.addWidget(top_frame, 0, 0)
 
         topleft_frame = QGridWidget()
-        topleft_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topleft_frame.grid_layout.setSpacing(8)
-        top_frame.grid_layout.addWidget(topleft_frame, 0, 0)
+        topleft_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        topleft_frame.layout_.setSpacing(8)
+        top_frame.layout_.addWidget(topleft_frame, 0, 0)
 
         self._type_label = QLabel()
         self._type_label.setProperty('brightsubtitle', True)
-        topleft_frame.grid_layout.addWidget(self._type_label, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        topleft_frame.layout_.addWidget(self._type_label, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         self._update_title_text()
 
         self._content_frame = QGridWidget()
-        self._content_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._content_frame.grid_layout.setSpacing(8)
-        topleft_frame.grid_layout.addWidget(self._content_frame, 1, 0)
+        self._content_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self._content_frame.layout_.setSpacing(8)
+        topleft_frame.layout_.addWidget(self._content_frame, 1, 0)
 
 
         topright_frame = QGridWidget()
-        topright_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topright_frame.grid_layout.setSpacing(8)
-        top_frame.grid_layout.addWidget(topright_frame, 0, 1, Qt.AlignmentFlag.AlignRight)
-        topright_frame.grid_layout.setColumnStretch(2, 1)
+        topright_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        topright_frame.layout_.setSpacing(8)
+        top_frame.layout_.addWidget(topright_frame, 0, 1, Qt.AlignmentFlag.AlignRight)
+        topright_frame.layout_.setColumnStretch(2, 1)
 
         delete_button = QPushButton()
         delete_button.clicked.connect(self._delete)
         delete_button.setIcon(self._delete_icon)
         delete_button.setProperty('color', 'main')
         delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        topright_frame.grid_layout.addWidget(delete_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
+        topright_frame.layout_.addWidget(delete_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
 
 
         self._property_frame = QGridWidget()
         self._property_frame.type = self.type
-        self._property_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._property_frame.grid_layout.setSpacing(20)
+        self._property_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self._property_frame.layout_.setSpacing(20)
 
 
     @property

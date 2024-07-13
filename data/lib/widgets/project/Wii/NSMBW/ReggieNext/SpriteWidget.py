@@ -44,162 +44,162 @@ class SpriteWidget(QGridWidget):
 
         self._disable_send = True
 
-        self.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.grid_layout.setSpacing(30)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setSpacing(30)
 
 
         self._top_info_widget = QGridWidget()
-        self._top_info_widget.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._top_info_widget.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(self._top_info_widget, 0, 0)
+        self._top_info_widget.layout_.setContentsMargins(0, 0, 0, 0)
+        self._top_info_widget.layout_.setSpacing(8)
+        self.layout_.addWidget(self._top_info_widget, 0, 0)
 
         label = QLabel(self._lang.get('QLabel.generalInfo'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        self._top_info_widget.grid_layout.addWidget(label, 0, 0, 1, 2)
+        self._top_info_widget.layout_.addWidget(label, 0, 0, 1, 2)
 
         self._id_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.spriteID'))
         self._id_spinbox.spin_box.valueChanged.connect(self._id_changed)
         self._id_spinbox.setRange(0, 2147483647) # profileID is u32 (2^32 - 1) but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 2^31 sprites lmao
         self._id_spinbox.setValue(0)
         self._id_spinbox.setProperty('wide', True)
-        self._top_info_widget.grid_layout.addWidget(self._id_spinbox, 1, 0)
+        self._top_info_widget.layout_.addWidget(self._id_spinbox, 1, 0)
 
         self._name_lineedit = QNamedLineEdit(None, '', self._lang.get('QNamedLineEdit.name'))
         self._name_lineedit.line_edit.textChanged.connect(self._name_changed)
-        self._top_info_widget.grid_layout.addWidget(self._name_lineedit, 1, 1)
+        self._top_info_widget.layout_.addWidget(self._name_lineedit, 1, 1)
 
         self._used_settings_label = QLabel()
         self._used_settings_label.setProperty('title', True)
-        self._top_info_widget.grid_layout.addWidget(self._used_settings_label, 2, 0, 1, 2, Qt.AlignmentFlag.AlignRight)
+        self._top_info_widget.layout_.addWidget(self._used_settings_label, 2, 0, 1, 2, Qt.AlignmentFlag.AlignRight)
 
 
         toggle_and_comment_frame = QGridWidget()
-        toggle_and_comment_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        toggle_and_comment_frame.grid_layout.setSpacing(8)
-        self._top_info_widget.grid_layout.addWidget(toggle_and_comment_frame, 3, 0, 1, 2)
+        toggle_and_comment_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        toggle_and_comment_frame.layout_.setSpacing(8)
+        self._top_info_widget.layout_.addWidget(toggle_and_comment_frame, 3, 0, 1, 2)
 
 
         toggle_topframe = QGridWidget()
-        toggle_topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        toggle_topframe.grid_layout.setSpacing(8)
-        toggle_and_comment_frame.grid_layout.addWidget(toggle_topframe, 0, 0)
+        toggle_topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        toggle_topframe.layout_.setSpacing(8)
+        toggle_and_comment_frame.layout_.addWidget(toggle_topframe, 0, 0)
 
         self._asmhacks_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.asmhacks'), False, True)
         self._asmhacks_toggle.toggle_button.toggled.connect(self._asmhacks_changed)
-        toggle_topframe.grid_layout.addWidget(self._asmhacks_toggle, 0, 0)
+        toggle_topframe.layout_.addWidget(self._asmhacks_toggle, 0, 0)
 
         self._sizehacks_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.sizehacks'), False, True)
         self._sizehacks_toggle.toggle_button.toggled.connect(self._sizehacks_changed)
-        toggle_topframe.grid_layout.addWidget(self._sizehacks_toggle, 0, 1)
+        toggle_topframe.layout_.addWidget(self._sizehacks_toggle, 0, 1)
 
         self._yoshi_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.yoshi'), False, True)
         self._yoshi_toggle.toggle_button.toggled.connect(self._yoshi_changed)
-        toggle_topframe.grid_layout.addWidget(self._yoshi_toggle, 0, 2)
+        toggle_topframe.layout_.addWidget(self._yoshi_toggle, 0, 2)
 
         self._extended_toggle = QNamedToggleButton(None, self._lang.get('QNamedToggleButton.extended'), False, True)
         self._extended_toggle.toggle_button.toggled.connect(self._extended_changed)
-        toggle_topframe.grid_layout.addWidget(self._extended_toggle, 0, 3)
+        toggle_topframe.layout_.addWidget(self._extended_toggle, 0, 3)
 
 
         comment_middleframe = QGridWidget()
-        comment_middleframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        comment_middleframe.grid_layout.setSpacing(8)
-        toggle_and_comment_frame.grid_layout.addWidget(comment_middleframe, 1, 0)
+        comment_middleframe.layout_.setContentsMargins(0, 0, 0, 0)
+        comment_middleframe.layout_.setSpacing(8)
+        toggle_and_comment_frame.layout_.addWidget(comment_middleframe, 1, 0)
 
         self._notes_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.notes'))
         self._notes_textedit.text_edit.textChanged.connect(self._notes_changed)
-        comment_middleframe.grid_layout.addWidget(self._notes_textedit, 0, 0)
+        comment_middleframe.layout_.addWidget(self._notes_textedit, 0, 0)
 
         self._yoshinotes_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.yoshinotes'))
         self._yoshinotes_textedit.text_edit.textChanged.connect(self._yoshinotes_changed)
-        comment_middleframe.grid_layout.addWidget(self._yoshinotes_textedit, 0, 1)
+        comment_middleframe.layout_.addWidget(self._yoshinotes_textedit, 0, 1)
 
 
         self._advancednotes_textedit = QNamedTextEdit(None, '', self._lang.get('QNamedTextEdit.advancednotes'))
         self._advancednotes_textedit.text_edit.textChanged.connect(self._advancednotes_changed)
-        comment_middleframe.grid_layout.addWidget(self._advancednotes_textedit, 0, 2)
+        comment_middleframe.layout_.addWidget(self._advancednotes_textedit, 0, 2)
 
 
         self._dependencies_widget = QGridWidget()
-        self._dependencies_widget.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._dependencies_widget.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(self._dependencies_widget, 1, 0)
+        self._dependencies_widget.layout_.setContentsMargins(0, 0, 0, 0)
+        self._dependencies_widget.layout_.setSpacing(8)
+        self.layout_.addWidget(self._dependencies_widget, 1, 0)
 
         label = QLabel(self._lang.get('QLabel.dependencies'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        self._dependencies_widget.grid_layout.addWidget(label, 0, 0)
+        self._dependencies_widget.layout_.addWidget(label, 0, 0)
 
 
         dependencies_bottom_frame = QGridWidget()
-        dependencies_bottom_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        dependencies_bottom_frame.grid_layout.setSpacing(30)
-        self._dependencies_widget.grid_layout.addWidget(dependencies_bottom_frame, 1, 0)
+        dependencies_bottom_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        dependencies_bottom_frame.layout_.setSpacing(30)
+        self._dependencies_widget.layout_.addWidget(dependencies_bottom_frame, 1, 0)
 
 
         required_frame = QGridWidget()
-        required_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        required_frame.grid_layout.setSpacing(8)
-        dependencies_bottom_frame.grid_layout.addWidget(required_frame, 1, 0, Qt.AlignmentFlag.AlignTop)
+        required_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        required_frame.layout_.setSpacing(8)
+        dependencies_bottom_frame.layout_.addWidget(required_frame, 1, 0, Qt.AlignmentFlag.AlignTop)
 
         label = QLabel(self._lang.get('QLabel.required'))
         label.setProperty('brighttitle', True)
-        required_frame.grid_layout.addWidget(label, 0, 0)
+        required_frame.layout_.addWidget(label, 0, 0)
 
         self._required_draglist = QDragList(None, Qt.Orientation.Vertical)
         self._required_draglist.moved.connect(self._required_entry_moved)
-        required_frame.grid_layout.addWidget(self._required_draglist, 1, 0)
+        required_frame.layout_.addWidget(self._required_draglist, 1, 0)
 
         self._add_required_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_required_entry_button.setIcon(self._add_entry_icon)
         self._add_required_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_required_entry_button.setProperty('color', 'main')
         self._add_required_entry_button.clicked.connect(self._add_required_entry)
-        required_frame.grid_layout.addWidget(self._add_required_entry_button, 2, 0)
+        required_frame.layout_.addWidget(self._add_required_entry_button, 2, 0)
 
 
         suggested_frame = QGridWidget()
-        suggested_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        suggested_frame.grid_layout.setSpacing(8)
-        dependencies_bottom_frame.grid_layout.addWidget(suggested_frame, 1, 1, Qt.AlignmentFlag.AlignTop)
+        suggested_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        suggested_frame.layout_.setSpacing(8)
+        dependencies_bottom_frame.layout_.addWidget(suggested_frame, 1, 1, Qt.AlignmentFlag.AlignTop)
 
         label = QLabel(self._lang.get('QLabel.suggested'))
         label.setProperty('brighttitle', True)
-        suggested_frame.grid_layout.addWidget(label, 0, 0)
+        suggested_frame.layout_.addWidget(label, 0, 0)
 
         self._suggested_draglist = QDragList(None, Qt.Orientation.Vertical)
         self._suggested_draglist.moved.connect(self._suggested_entry_moved)
-        suggested_frame.grid_layout.addWidget(self._suggested_draglist, 1, 0)
+        suggested_frame.layout_.addWidget(self._suggested_draglist, 1, 0)
 
         self._add_suggested_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_suggested_entry_button.setIcon(self._add_entry_icon)
         self._add_suggested_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_suggested_entry_button.setProperty('color', 'main')
         self._add_suggested_entry_button.clicked.connect(self._add_suggested_entry)
-        suggested_frame.grid_layout.addWidget(self._add_suggested_entry_button, 2, 0)
+        suggested_frame.layout_.addWidget(self._add_suggested_entry_button, 2, 0)
 
 
         self._settings_widget = QGridWidget()
-        self._settings_widget.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._settings_widget.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(self._settings_widget, 2, 0)
+        self._settings_widget.layout_.setContentsMargins(0, 0, 0, 0)
+        self._settings_widget.layout_.setSpacing(8)
+        self.layout_.addWidget(self._settings_widget, 2, 0)
 
         label = QLabel(self._lang.get('QLabel.settings'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        self._settings_widget.grid_layout.addWidget(label, 0, 0)
+        self._settings_widget.layout_.addWidget(label, 0, 0)
 
         self._settings_draglist = QDragList(None, Qt.Orientation.Vertical)
         self._settings_draglist.moved.connect(self._settings_entry_moved)
-        self._settings_widget.grid_layout.addWidget(self._settings_draglist, 1, 0)
+        self._settings_widget.layout_.addWidget(self._settings_draglist, 1, 0)
 
         self._add_settings_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_settings_entry_button.setIcon(self._add_entry_icon)
         self._add_settings_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_settings_entry_button.setProperty('color', 'main')
         self._add_settings_entry_button.clicked.connect(self._add_settings_entry)
-        self._settings_widget.grid_layout.addWidget(self._add_settings_entry_button, 2, 0, Qt.AlignmentFlag.AlignBottom)
+        self._settings_widget.layout_.addWidget(self._add_settings_entry_button, 2, 0, Qt.AlignmentFlag.AlignBottom)
 
         self.sprite = None
 

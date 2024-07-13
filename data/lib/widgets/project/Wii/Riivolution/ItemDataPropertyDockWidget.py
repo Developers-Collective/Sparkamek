@@ -20,7 +20,7 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
         self._root.setMinimumWidth(200)
         self._root.setMinimumHeight(100)
         self._root.setFrameShape(QFrame.Shape.NoFrame)
-        self._root.scroll_widget.setProperty('QDockWidget', True)
+        self._root.widget_.setProperty('QDockWidget', True)
         self.setObjectName('itemDataProperty')
         self.setWidget(self._root)
 
@@ -32,8 +32,8 @@ class ItemDataPropertyDockWidget(QSavableDockWidget):
     def set_widget(self, widget: QGridWidget | None) -> None:
         self.update_title(widget.type if widget else None)
 
-        while self._root.scroll_widget.layout().count():
-            self._root.scroll_widget.layout().takeAt(0).widget().setParent(None)
+        while self._root.widget_.layout().count():
+            self._root.widget_.layout().takeAt(0).widget().setParent(None)
 
-        if widget: self._root.scroll_layout.addWidget(widget, 0, 0)
+        if widget: self._root.layout_.addWidget(widget, 0, 0)
 #----------------------------------------------------------------------

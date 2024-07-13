@@ -28,27 +28,27 @@ class EntryListItem(QDragListItem):
         self.setProperty('side', 'all')
         self.setProperty('border-radius', 8)
 
-        self.grid_layout.setContentsMargins(10, 10, 10, 10)
-        self.grid_layout.setSpacing(8)
+        self.layout_.setContentsMargins(10, 10, 10, 10)
+        self.layout_.setSpacing(8)
 
 
         self._value_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.value'))
         self._value_spinbox.setRange(0, 2147483647) # 16^16 - 1 but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 16^16 entries lmao
         self._value_spinbox.setValue(self._data.value)
         self._value_spinbox.spin_box.valueChanged.connect(self._value_changed)
-        self.grid_layout.addWidget(self._value_spinbox, 0, 0)
+        self.layout_.addWidget(self._value_spinbox, 0, 0)
 
         self._item_lineedit = QNamedLineEdit(None, '', self._lang.get('QNamedLineEdit.item'))
         self._item_lineedit.setText(str(self._data.item))
         self._item_lineedit.line_edit.textChanged.connect(self._item_changed)
-        self.grid_layout.addWidget(self._item_lineedit, 0, 1)
+        self.layout_.addWidget(self._item_lineedit, 0, 1)
 
         self._delete_button = QPushButton()
         self._delete_button.setProperty('color', 'main')
         self._delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._delete_button.setIcon(self._delete_icon)
         self._delete_button.clicked.connect(self._delete_clicked)
-        self.grid_layout.addWidget(self._delete_button, 0, 2)
+        self.layout_.addWidget(self._delete_button, 0, 2)
 
 
     @property

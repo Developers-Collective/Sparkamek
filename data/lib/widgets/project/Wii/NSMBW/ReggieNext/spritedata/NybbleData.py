@@ -36,42 +36,42 @@ class NybbleData(QGridWidget):
         self._data = data
         self._type = type
 
-        self.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.grid_layout.setSpacing(16)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setSpacing(16)
 
         self._nybble_grid = QGridWidget()
-        self._nybble_grid.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self._nybble_grid.grid_layout.setSpacing(8)
-        self._nybble_grid.grid_layout.setColumnStretch(6, 1)
-        self.grid_layout.addWidget(self._nybble_grid, 0, 0)
+        self._nybble_grid.layout_.setContentsMargins(0, 0, 0, 0)
+        self._nybble_grid.layout_.setSpacing(8)
+        self._nybble_grid.layout_.setColumnStretch(6, 1)
+        self.layout_.addWidget(self._nybble_grid, 0, 0)
 
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
-        self._nybble_grid.grid_layout.addWidget(self._first_nybble_combobox, 0, 0)
+        self._nybble_grid.layout_.addWidget(self._first_nybble_combobox, 0, 0)
 
         label = QLabel('.')
         label.setProperty('brighttitle', True)
-        self._nybble_grid.grid_layout.addWidget(label, 0, 1)
+        self._nybble_grid.layout_.addWidget(label, 0, 1)
 
         self._first_nybblebit_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybbleBit'))
         self._first_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
         self._first_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._first_nybblebit_changed)
-        self._nybble_grid.grid_layout.addWidget(self._first_nybblebit_combobox, 0, 2)
+        self._nybble_grid.layout_.addWidget(self._first_nybblebit_combobox, 0, 2)
 
         label = QLabel('-')
         label.setProperty('brighttitle', True)
-        self._nybble_grid.grid_layout.addWidget(label, 0, 3)
+        self._nybble_grid.layout_.addWidget(label, 0, 3)
 
         self._last_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybble'))
-        self._nybble_grid.grid_layout.addWidget(self._last_nybble_combobox, 0, 4)
+        self._nybble_grid.layout_.addWidget(self._last_nybble_combobox, 0, 4)
 
         label = QLabel('.')
         label.setProperty('brighttitle', True)
-        self._nybble_grid.grid_layout.addWidget(label, 0, 5)
+        self._nybble_grid.layout_.addWidget(label, 0, 5)
 
         self._last_nybblebit_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybbleBit'))
         self._last_nybblebit_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, 5)])
         self._last_nybblebit_combobox.combo_box.currentIndexChanged.connect(self._last_nybblebit_changed)
-        self._nybble_grid.grid_layout.addWidget(self._last_nybblebit_combobox, 0, 6)
+        self._nybble_grid.layout_.addWidget(self._last_nybblebit_combobox, 0, 6)
 
 
         self._block_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.block'))
@@ -79,7 +79,7 @@ class NybbleData(QGridWidget):
         self._block_spinbox.spin_box.setMaximum(255)
         self._block_spinbox.spin_box.setValue(self._data.block if self._data.block else 0)
         self._block_spinbox.spin_box.valueChanged.connect(self._block_changed)
-        self.grid_layout.addWidget(self._block_spinbox, 0, 1)
+        self.layout_.addWidget(self._block_spinbox, 0, 1)
         self._block_spinbox.setVisible(False)
 
         self._rebuild_nybbles(self.extended)
@@ -150,7 +150,7 @@ class NybbleData(QGridWidget):
 
         self._first_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.firstNybble'))
         self._first_nybble_combobox.combo_box.addItems([str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
-        self._nybble_grid.grid_layout.addWidget(self._first_nybble_combobox, 0, 0)
+        self._nybble_grid.layout_.addWidget(self._first_nybble_combobox, 0, 0)
 
         if not (self._type & NybbleData.Type.Nybble):
             self._first_nybble_combobox.setCurrentIndex(0)
@@ -166,7 +166,7 @@ class NybbleData(QGridWidget):
 
         self._last_nybble_combobox = QNamedComboBox(None, self._lang.get('QNamedComboBox.lastNybble'))
         self._last_nybble_combobox.combo_box.addItems(['None'] + [str(i) for i in range(1, (9 if self.extended and self._data.block > 0 else 17))])
-        self._nybble_grid.grid_layout.addWidget(self._last_nybble_combobox, 0, 4)
+        self._nybble_grid.layout_.addWidget(self._last_nybble_combobox, 0, 4)
 
         if not (self._type & NybbleData.Type.Nybble):
             self._last_nybble_combobox.setCurrentIndex(self._last_nybble_combobox.combo_box.count() - 1)

@@ -30,37 +30,37 @@ class ReqNybbleDataItem(QDragListItem):
 
         self._data = data
 
-        self.grid_layout.setContentsMargins(10, 10, 10, 10)
-        self.grid_layout.setSpacing(8)
+        self.layout_.setContentsMargins(10, 10, 10, 10)
+        self.layout_.setSpacing(8)
 
 
         left_frame = QGridWidget()
-        left_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        left_frame.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        left_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        left_frame.layout_.setSpacing(8)
+        self.layout_.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._nybble_data = NybbleData(data)
         self._nybble_data.data_changed.connect(self.data_changed.emit)
-        left_frame.grid_layout.addWidget(self._nybble_data, 0, 0)
+        left_frame.layout_.addWidget(self._nybble_data, 0, 0)
 
 
         right_frame = QGridWidget()
-        right_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        right_frame.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(right_frame, 0, 1, Qt.AlignmentFlag.AlignRight)
-        right_frame.grid_layout.setColumnStretch(2, 1)
+        right_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        right_frame.layout_.setSpacing(8)
+        self.layout_.addWidget(right_frame, 0, 1, Qt.AlignmentFlag.AlignRight)
+        right_frame.layout_.setColumnStretch(2, 1)
 
         self._from_value_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.fromValue'))
         self._from_value_spinbox.setRange(0, 2147483647) # 2^32 - 1 but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will require a value of 2^31 lmao
         self._from_value_spinbox.setValue(data.values.start)
         self._from_value_spinbox.spin_box.valueChanged.connect(self._from_value_changed)
-        right_frame.grid_layout.addWidget(self._from_value_spinbox, 0, 1)
+        right_frame.layout_.addWidget(self._from_value_spinbox, 0, 1)
 
         self._to_value_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.toValue'))
         self._to_value_spinbox.setRange(0, 2147483647) # 2^32 - 1 but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will require a value of 2^31 lmao
         self._to_value_spinbox.setValue(data.values.end)
         self._to_value_spinbox.spin_box.valueChanged.connect(self._to_value_changed)
-        right_frame.grid_layout.addWidget(self._to_value_spinbox, 0, 2)
+        right_frame.layout_.addWidget(self._to_value_spinbox, 0, 2)
 
 
         delete_button = QPushButton()
@@ -68,7 +68,7 @@ class ReqNybbleDataItem(QDragListItem):
         delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
         delete_button.setIcon(self._delete_icon)
         delete_button.clicked.connect(self._delete)
-        self.grid_layout.addWidget(delete_button, 0, 2, Qt.AlignmentFlag.AlignRight)
+        self.layout_.addWidget(delete_button, 0, 2, Qt.AlignmentFlag.AlignRight)
 
 
     @property

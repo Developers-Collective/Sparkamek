@@ -12,7 +12,7 @@ class BaseMenu(BaseWidget):
 
     def __init__(self) -> None:
         super().__init__()
-        self.scroll_layout.setContentsMargins(16, 16, 32, 16)
+        self.layout_.setContentsMargins(16, 16, 32, 16)
 
 
     def update_continue(self, *args, **kwargs) -> None:

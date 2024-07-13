@@ -22,36 +22,36 @@ class MenuGeneral(BaseMenu):
 
         lang = self._lang
 
-        self.scroll_layout.setSpacing(30)
+        self.layout_.setSpacing(30)
 
         topframe = QGridFrame()
-        topframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(topframe, self.scroll_layout.count(), 0)
+        topframe.layout_.setSpacing(8)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(topframe, self.layout_.count(), 0)
 
         label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
-        topframe.grid_layout.addWidget(label, 0, 0)
+        topframe.layout_.addWidget(label, 0, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
-        topframe.grid_layout.addWidget(frame, 1, 0)
+        topframe.layout_.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
-        root_frame.grid_layout.setSpacing(16)
-        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(root_frame, self.scroll_layout.count(), 0)
-        self.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+        root_frame.layout_.setSpacing(16)
+        root_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(root_frame, self.layout_.count(), 0)
+        self.layout_.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
         label = self._text_group(lang.get('QLabel.name.title'), lang.get('QLabel.name.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         self.name_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.name'))
         self.name_entry.setText(data['name'] if data else 'Project')
-        root_frame.grid_layout.addWidget(self.name_entry, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(self.name_entry, root_frame.layout_.count(), 0)
         self.name_entry.text_changed.connect(self.update_continue)
 
 

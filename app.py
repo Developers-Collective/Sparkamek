@@ -30,9 +30,9 @@ class Application(QBaseApplication):
     def __init__(self, platform: QPlatform) -> None:
         super().__init__(platform = platform, app_type = QAppType.Main, single_instance = True)
 
-        self.update_request = None
-        self.must_update = False
-        self.must_restart = False
+        self._update_request = None
+        self._must_update = False
+        self._must_restart = False
 
         self.setOrganizationName('Synel')
         # self.setApplicationDisplayName(Info.application_name)
@@ -41,7 +41,7 @@ class Application(QBaseApplication):
 
         self.another_instance_opened.connect(self.on_another_instance)
 
-        self.save_data = SaveData(
+        self._save_data = SaveData(
             app = self,
             save_path = Info.save_path,
             main_color_set = Info.main_color_set,
@@ -142,8 +142,8 @@ class Application(QBaseApplication):
 
     def create_widgets(self) -> None:
         self.root = QGridFrame()
-        self.root.grid_layout.setSpacing(0)
-        self.root.grid_layout.setContentsMargins(0, 0, 0, 0)
+        self.root.layout_.setSpacing(0)
+        self.root.layout_.setContentsMargins(0, 0, 0, 0)
 
         self.window.setCentralWidget(self.root)
 
@@ -155,16 +155,16 @@ class Application(QBaseApplication):
         lang = self.get_lang_data('QMainWindow.topBar')
 
         top_menu = QGridFrame()
-        top_menu.grid_layout.setSpacing(10)
-        top_menu.grid_layout.setContentsMargins(16, 16, 16, 16)
+        top_menu.layout_.setSpacing(10)
+        top_menu.layout_.setContentsMargins(16, 16, 16, 16)
         top_menu.setProperty('light', True)
         top_menu.setProperty('border-bottom', True)
 
 
         left_frame = QGridFrame()
-        left_frame.grid_layout.setSpacing(10)
-        left_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        top_menu.grid_layout.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        left_frame.layout_.setSpacing(10)
+        left_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        top_menu.layout_.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         open_project_button = QPushButton(lang['QPushButton']['openProject'])
         open_project_button.setProperty('icon-padding', True)
@@ -172,27 +172,27 @@ class Application(QBaseApplication):
         open_project_button.setCursor(Qt.CursorShape.PointingHandCursor)
         open_project_button.setIcon(self.save_data.get_icon('pushbutton/open.png', mode = QSaveData.IconMode.Local))
         open_project_button.clicked.connect(self.open_project_clicked)
-        left_frame.grid_layout.addWidget(open_project_button, 0, 0)
+        left_frame.layout_.addWidget(open_project_button, 0, 0)
 
 
         right_frame = QGridFrame()
-        right_frame.grid_layout.setSpacing(10)
-        right_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        top_menu.grid_layout.addWidget(right_frame, 0, 0, Qt.AlignmentFlag.AlignRight)
+        right_frame.layout_.setSpacing(10)
+        right_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        top_menu.layout_.addWidget(right_frame, 0, 0, Qt.AlignmentFlag.AlignRight)
 
         self.update_button = QPushButton(lang['QPushButton']['update'])
         self.update_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.update_button.clicked.connect(self.update_click)
         self.update_button.setProperty('color', 'main')
         self.update_button.setProperty('transparent', True)
-        right_frame.grid_layout.addWidget(self.update_button, 0, 0)
+        right_frame.layout_.addWidget(self.update_button, 0, 0)
         self.update_button.setVisible(False)
 
         self.logs_button = QPushButton()
         self.logs_button.setIcon(self.save_data.get_icon('pushbutton/logs.png', mode = QSaveData.IconMode.Local))
         self.logs_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.logs_button.clicked.connect(self.logs_dialog.exec)
-        right_frame.grid_layout.addWidget(self.logs_button, 0, 1)
+        right_frame.layout_.addWidget(self.logs_button, 0, 1)
         self.logs_button.setVisible(self.save_data.developer_mode)
 
         settings_button = QPushButton(lang['QPushButton']['settings'])
@@ -200,16 +200,16 @@ class Application(QBaseApplication):
         settings_button.setCursor(Qt.CursorShape.PointingHandCursor)
         settings_button.setIcon(self.save_data.get_icon('pushbutton/settings.png', mode = QSaveData.IconMode.Local))
         settings_button.clicked.connect(self.settings_menu)
-        right_frame.grid_layout.addWidget(settings_button, 0, 2)
+        right_frame.layout_.addWidget(settings_button, 0, 2)
 
         about_button = QPushButton()
         about_button.setCursor(Qt.CursorShape.PointingHandCursor)
         about_button.setIcon(self.save_data.get_icon('menubar/note.png', mode = QSaveData.IconMode.Local))
         about_button.clicked.connect(self.about_menu_clicked)
-        right_frame.grid_layout.addWidget(about_button, 0, 3)
+        right_frame.layout_.addWidget(about_button, 0, 3)
 
 
-        self.root.grid_layout.addWidget(top_menu, 0, 0, Qt.AlignmentFlag.AlignTop)
+        self.root.layout_.addWidget(top_menu, 0, 0, Qt.AlignmentFlag.AlignTop)
 
 
     def create_main_menu(self) -> None:
@@ -218,30 +218,30 @@ class Application(QBaseApplication):
         def create_empty_menu() -> QGridFrame:
             sublang = lang['emptyMenu']
             w = QGridFrame()
-            w.grid_layout.setSpacing(10)
-            w.grid_layout.setContentsMargins(16, 16, 16, 16)
+            w.layout_.setSpacing(10)
+            w.layout_.setContentsMargins(16, 16, 16, 16)
 
             frame = QGridFrame()
-            frame.grid_layout.setSpacing(10)
-            frame.grid_layout.setContentsMargins(0, 0, 0, 0)
+            frame.layout_.setSpacing(10)
+            frame.layout_.setContentsMargins(0, 0, 0, 0)
 
             icon = QIconWidget(
                 icon = self.save_data.get_icon('mainmenu/empty.png', mode = QSaveData.IconMode.Local),
                 icon_size = QSize(72, 72),
                 check_file = False
             )
-            frame.grid_layout.addWidget(icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
+            frame.layout_.addWidget(icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
 
             label = QLabel(sublang['QLabel']['title'])
             label.setProperty('h', 2)
-            frame.grid_layout.addWidget(label, 1, 0, Qt.AlignmentFlag.AlignCenter)
+            frame.layout_.addWidget(label, 1, 0, Qt.AlignmentFlag.AlignCenter)
 
             label = QLabel(sublang['QLabel']['text'])
             label.setProperty('h', 4)
-            frame.grid_layout.addWidget(label, 2, 0, Qt.AlignmentFlag.AlignCenter)
+            frame.layout_.addWidget(label, 2, 0, Qt.AlignmentFlag.AlignCenter)
 
-            frame.grid_layout.setRowStretch(3, 1)
-            w.grid_layout.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignCenter)
+            frame.layout_.setRowStretch(3, 1)
+            w.layout_.addWidget(frame, 0, 0, Qt.AlignmentFlag.AlignCenter)
 
             return w
 
@@ -261,7 +261,7 @@ class Application(QBaseApplication):
         self.sidepanelwidget: QSidePanelWidget = create_projects_menu()
         self.main_menu.addWidget(self.sidepanelwidget)
 
-        self.root.grid_layout.addWidget(self.main_menu, 1, 0)
+        self.root.layout_.addWidget(self.main_menu, 1, 0)
 
         if not self.save_data.projects: return
 
@@ -346,19 +346,19 @@ class Application(QBaseApplication):
 
 
     def check_updates(self) -> None:
-        self.update_request = RequestWorker([self.UPDATE_LINK])
-        self.update_request.signals.received.connect(self.check_updates_release)
-        self.update_request.signals.failed.connect(self.check_updates_failed)
-        self.update_request.start()
+        self._update_request = RequestWorker([self.UPDATE_LINK])
+        self._update_request.signals.received.connect(self.check_updates_release)
+        self._update_request.signals.failed.connect(self.check_updates_failed)
+        self._update_request.start()
 
     def check_updates_release(self, rel: dict, app: str) -> None:
-        self.update_request.exit()
-        self.must_update_link = RequestWorker.get_release(rel, None).link
+        self._update_request.exit()
+        self._must_update_link = RequestWorker.get_release(rel, None).link
         if rel['tag_name'] > Info.build: self.set_update(True)
         else: self.save_data.last_check_for_updates = datetime.now()
 
     def check_updates_failed(self, error: str) -> None:
-        self.update_request.exit()
+        self._update_request.exit()
         print('Failed to check for updates:', error)
 
     def set_update(self, update: bool) -> None:
@@ -366,7 +366,7 @@ class Application(QBaseApplication):
 
     def update_click(self) -> None:
         self.save()
-        self.must_update = self.must_update_link
+        self._must_update = self._must_update_link
         self.exit()
 
 
@@ -480,11 +480,11 @@ class Application(QBaseApplication):
             self.exit()
 
     def exit(self) -> None:
-        if self.update_request:
-            self.update_request.exit()
+        if self._update_request:
+            self._update_request.exit()
 
-            if self.update_request.isRunning():
-                self.update_request.terminate()
+            if self._update_request.isRunning():
+                self._update_request.terminate()
 
         self.save()
 

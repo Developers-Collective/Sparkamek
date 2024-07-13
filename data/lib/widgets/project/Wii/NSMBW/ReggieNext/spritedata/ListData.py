@@ -34,33 +34,33 @@ class ListData(BaseItemData):
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._title_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._title_label, 0, 0)
 
         iw = QIconWidget(None, self._list_icon, self._icon_size, False)
-        self._content_frame.grid_layout.addWidget(iw, 0, 1)
+        self._content_frame.layout_.addWidget(iw, 0, 1)
 
-        self._content_frame.grid_layout.setColumnStretch(2, 1)
+        self._content_frame.layout_.setColumnStretch(2, 1)
 
         self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title'))
         self._property_last_frame.title_lineedit.setText(self._data.title)
         self._property_last_frame.title_lineedit.line_edit.textChanged.connect(self._title_changed)
-        self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title_lineedit, 0, 0)
+        self._property_last_frame.layout_.addWidget(self._property_last_frame.title_lineedit, 0, 0)
 
         bottom_frame = QGridWidget()
-        bottom_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        bottom_frame.grid_layout.setSpacing(8)
-        self._property_last_frame.grid_layout.addWidget(bottom_frame, 1, 0)
+        bottom_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        bottom_frame.layout_.setSpacing(8)
+        self._property_last_frame.layout_.addWidget(bottom_frame, 1, 0)
 
         self._property_last_frame.items_draglist = QDragList(None, Qt.Orientation.Vertical)
         self._property_last_frame.items_draglist.moved.connect(self.move_item)
-        bottom_frame.grid_layout.addWidget(self._property_last_frame.items_draglist, 0, 0)
+        bottom_frame.layout_.addWidget(self._property_last_frame.items_draglist, 0, 0)
 
         add_item_button = QPushButton(self._sublang.get('QPushButton.add'))
         add_item_button.setIcon(self._add_icon)
         add_item_button.setProperty('color', 'main')
         add_item_button.setCursor(Qt.CursorShape.PointingHandCursor)
         add_item_button.clicked.connect(self._add_item)
-        bottom_frame.grid_layout.addWidget(add_item_button, 2, 0)
+        bottom_frame.layout_.addWidget(add_item_button, 2, 0)
 
         for child in self._data.children:
             entry_list_item = EntryListItem(child)

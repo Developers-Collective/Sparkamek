@@ -22,20 +22,20 @@ class RegionData(BaseItemData):
 
         self._regiontype_label = QLabel()
         self._regiontype_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._regiontype_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._regiontype_label, 0, 0)
 
         frame = QScrollableGridFrame()
         frame.set_all_property('transparent', True)
-        frame.scroll_layout.setSpacing(30)
-        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
-        self._property_frame.grid_layout.addWidget(frame, 0, 0)
+        frame.layout_.setSpacing(30)
+        frame.layout_.setContentsMargins(0, 0, 10, 0)
+        self._property_frame.layout_.addWidget(frame, 0, 0)
 
         self._regiontype_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.type'))
         self._regiontype_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.type'))
         self._regiontype_lineedit.line_edit.setText(self._data.type)
         self._regiontype_lineedit.line_edit.textChanged.connect(self._type_changed)
         self._regiontype_lineedit.line_edit.setMaxLength(1)
-        frame.scroll_layout.addWidget(self._regiontype_lineedit, 0, 0)
+        frame.layout_.addWidget(self._regiontype_lineedit, 0, 0)
 
         self._update_text()
 

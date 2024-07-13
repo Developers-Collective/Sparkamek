@@ -51,7 +51,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._root.setMinimumWidth(200)
         self._root.setMinimumHeight(100)
         self._root.setFrameShape(QFrame.Shape.NoFrame)
-        self._root.scroll_widget.setProperty('QDockWidget', True)
+        self._root.widget_.setProperty('QDockWidget', True)
         self.setObjectName('spriteList')
         self.setWidget(self._root)
 
@@ -61,9 +61,9 @@ class SpriteListDockWidget(QSavableDockWidget):
 
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         self._load_button = QPushButton(self._lang.get('QPushButton.load'))
         self._load_button.setIcon(self._load_icon)
@@ -71,7 +71,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._load_button.setProperty('icon-padding', True)
         self._load_button.setProperty('color', 'main')
         self._load_button.clicked.connect(self._load)
-        topframe.grid_layout.addWidget(self._load_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topframe.layout_.addWidget(self._load_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._save_button = QPushButton(self._lang.get('QPushButton.save'))
         self._save_button.setIcon(self._save_icon)
@@ -79,12 +79,12 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._save_button.setProperty('icon-padding', True)
         self._save_button.setProperty('color', 'main')
         self._save_button.clicked.connect(self._save)
-        topframe.grid_layout.addWidget(self._save_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        topframe.layout_.addWidget(self._save_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
         self._searchbar = QIconLineEdit(None, self._search_icon, self._lang.get('QIconLineEdit.search'))
         self._searchbar.textChanged.connect(self.text_changed)
-        self._root.scroll_layout.addWidget(self._searchbar, 1, 0, Qt.AlignmentFlag.AlignTop)
+        self._root.layout_.addWidget(self._searchbar, 1, 0, Qt.AlignmentFlag.AlignTop)
 
 
         self._list = QBetterListWidget(
@@ -98,7 +98,7 @@ class SpriteListDockWidget(QSavableDockWidget):
         self._list.setSortingEnabled(True)
         self._list.sortByColumn(0, Qt.SortOrder.AscendingOrder)
         self._list.item_selection_changed.connect(self._sprite_selection_changed)
-        self._root.scroll_layout.addWidget(self._list, 2, 0)
+        self._root.layout_.addWidget(self._list, 2, 0)
 
         self._proxy_model = QBetterSortFilterProxyModel(
             self, filterKeyColumn = 1, recursiveFilteringEnabled = True

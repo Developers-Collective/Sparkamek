@@ -30,14 +30,14 @@ class FolderData(BaseSubItemData):
 
         self._text_label = QLabel()
         self._text_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._text_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._text_label, 0, 0)
 
 
         frame = QScrollableGridFrame()
         frame.set_all_property('transparent', True)
-        frame.scroll_layout.setSpacing(30)
-        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
-        self._property_frame.grid_layout.addWidget(frame, 0, 0)
+        frame.layout_.setSpacing(30)
+        frame.layout_.setContentsMargins(0, 0, 10, 0)
+        self._property_frame.layout_.addWidget(frame, 0, 0)
 
         self._back_button = QPushButton()
         self._back_button.setIcon(self._back_icon)
@@ -45,52 +45,52 @@ class FolderData(BaseSubItemData):
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
-        frame.scroll_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        frame.layout_.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.scroll_layout.addWidget(subframe, 1, 0)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.addWidget(subframe, 1, 0)
 
 
         self._disc_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.disc'))
         self._disc_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.disc'))
         self._disc_lineedit.line_edit.setText(self._data.disc)
         self._disc_lineedit.line_edit.textChanged.connect(self._disc_changed)
-        subframe.grid_layout.addWidget(self._disc_lineedit, 0, 0)
+        subframe.layout_.addWidget(self._disc_lineedit, 0, 0)
 
         self._external_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.external'))
         self._external_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.external'))
         self._external_lineedit.line_edit.setText(self._data.external)
         self._external_lineedit.line_edit.textChanged.connect(self._external_changed)
-        subframe.grid_layout.addWidget(self._external_lineedit, 0, 1)
+        subframe.layout_.addWidget(self._external_lineedit, 0, 1)
 
         self._resize_togglebutton = QNamedToggleButton(None, self._lang.get('PropertyWidget.QNamedToggleButton.resize'), self._data.resize, True)
         self._resize_togglebutton.setToolTip(self._lang.get('PropertyWidget.QToolTip.resize'))
         self._resize_togglebutton.toggled.connect(self._resize_toggled)
-        subframe.grid_layout.addWidget(self._resize_togglebutton, 1, 0)
+        subframe.layout_.addWidget(self._resize_togglebutton, 1, 0)
 
         self._create_togglebutton = QNamedToggleButton(None, self._lang.get('PropertyWidget.QNamedToggleButton.create'), self._data.create_, True)
         self._create_togglebutton.setToolTip(self._lang.get('PropertyWidget.QToolTip.create'))
         self._create_togglebutton.toggled.connect(self._create_toggled)
-        subframe.grid_layout.addWidget(self._create_togglebutton, 1, 1)
+        subframe.layout_.addWidget(self._create_togglebutton, 1, 1)
 
         self._recursive_togglebutton = QNamedToggleButton(None, self._lang.get('PropertyWidget.QNamedToggleButton.recursive'), self._data.recursive, True)
         self._recursive_togglebutton.setToolTip(self._lang.get('PropertyWidget.QToolTip.recursive'))
         self._recursive_togglebutton.toggled.connect(self._recursive_toggled)
-        subframe.grid_layout.addWidget(self._recursive_togglebutton, 2, 0)
+        subframe.layout_.addWidget(self._recursive_togglebutton, 2, 0)
 
         self._length_hexspinbox = QNamedHexSpinBox(None, self._lang.get('PropertyWidget.QNamedHexSpinBox.length'))
         self._length_hexspinbox.setToolTip(self._lang.get('PropertyWidget.QToolTip.length'))
         self._length_hexspinbox.set_range(0, 0xFFFFFFFF)
         self._length_hexspinbox.set_value(self._data.length)
         self._length_hexspinbox.value_changed.connect(self._length_changed)
-        subframe.grid_layout.addWidget(self._length_hexspinbox, 2, 1)
+        subframe.layout_.addWidget(self._length_hexspinbox, 2, 1)
 
-        subframe.grid_layout.setRowStretch(3, 1)
+        subframe.layout_.setRowStretch(3, 1)
 
-        frame.scroll_layout.setRowStretch(2, 1)
+        frame.layout_.setRowStretch(2, 1)
 
         self._update_text()
 

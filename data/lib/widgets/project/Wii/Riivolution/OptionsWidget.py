@@ -37,30 +37,30 @@ class OptionsWidget(QGridWidget):
 
         self._disable_send = True
 
-        self.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.grid_layout.setSpacing(16)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setSpacing(16)
 
 
         frame = QGridWidget()
-        frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(frame, 0, 0)
+        frame.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.setSpacing(8)
+        self.layout_.addWidget(frame, 0, 0)
 
         label = QLabel(self._lang.get('QLabel.options'))
         label.setProperty('h', 2)
         label.setProperty('small', True)
-        frame.grid_layout.addWidget(label, 2, 0)
+        frame.layout_.addWidget(label, 2, 0)
 
         self._section_draglist = QDragList(None, Qt.Orientation.Vertical)
         self._section_draglist.moved.connect(self._section_entry_moved)
-        frame.grid_layout.addWidget(self._section_draglist, 3, 0)
+        frame.layout_.addWidget(self._section_draglist, 3, 0)
 
         self._add_section_entry_button = QPushButton(self._lang.get('QPushButton.addEntry'))
         self._add_section_entry_button.setIcon(self._add_entry_icon)
         self._add_section_entry_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._add_section_entry_button.setProperty('color', 'main')
         self._add_section_entry_button.clicked.connect(self._add_section_entry)
-        frame.grid_layout.addWidget(self._add_section_entry_button, 4, 0)
+        frame.layout_.addWidget(self._add_section_entry_button, 4, 0)
         self._add_section_entry_button.setEnabled(False)
 
 

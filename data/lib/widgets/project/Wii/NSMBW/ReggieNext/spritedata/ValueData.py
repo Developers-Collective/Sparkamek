@@ -29,26 +29,26 @@ class ValueData(BaseItemData):
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._title_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._title_label, 0, 0)
 
         iw = QIconWidget(None, self._value_icon, self._icon_size, False)
-        self._content_frame.grid_layout.addWidget(iw, 0, 1)
+        self._content_frame.layout_.addWidget(iw, 0, 1)
 
         self._idtype_label = QLabel(self._data.idtype)
         self._idtype_label.setProperty('indice', True)
-        self._content_frame.grid_layout.addWidget(self._idtype_label, 0, 2)
+        self._content_frame.layout_.addWidget(self._idtype_label, 0, 2)
 
-        self._content_frame.grid_layout.setColumnStretch(3, 1)
+        self._content_frame.layout_.setColumnStretch(3, 1)
 
         self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title'))
         self._property_last_frame.title_lineedit.setText(self._data.title)
         self._property_last_frame.title_lineedit.line_edit.textChanged.connect(self._title_changed)
-        self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title_lineedit, 0, 0)
+        self._property_last_frame.layout_.addWidget(self._property_last_frame.title_lineedit, 0, 0)
 
         self._property_last_frame.idtype_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.idtype'))
         self._property_last_frame.idtype_lineedit.setText(self._data.idtype)
         self._property_last_frame.idtype_lineedit.line_edit.textChanged.connect(self._idtype_changed)
-        self._property_last_frame.grid_layout.addWidget(self._property_last_frame.idtype_lineedit, 0, 1)
+        self._property_last_frame.layout_.addWidget(self._property_last_frame.idtype_lineedit, 0, 1)
 
 
     def _title_changed(self) -> None:

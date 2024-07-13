@@ -28,7 +28,7 @@ class PatchRefData(BaseItemData):
         self._id_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.id'))
         self._id_lineedit.line_edit.setText(self._data.id)
         self._id_lineedit.line_edit.textChanged.connect(self._id_changed)
-        self._content_frame.grid_layout.addWidget(self._id_lineedit, 0, 0)
+        self._content_frame.layout_.addWidget(self._id_lineedit, 0, 0)
 
 
     def _id_changed(self, text: str) -> None:

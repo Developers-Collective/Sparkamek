@@ -28,19 +28,19 @@ class Game(QGridFrame):
         self._game_info = game_info
         self.checked = False
 
-        self.grid_layout.setSpacing(8)
-        self.grid_layout.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setSpacing(8)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
 
         self._icon = QIconWidget(None, icon, QSize(120, 80), False)
-        self.grid_layout.addWidget(self._icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
+        self.layout_.addWidget(self._icon, 0, 0, Qt.AlignmentFlag.AlignCenter)
 
         self._title = QLabel(self._lang.get(f'game.{key}.title') if key else self._lang.get('game.unknown'))
         self._title.setProperty('h', 3)
-        self.grid_layout.addWidget(self._title, 1, 0, Qt.AlignmentFlag.AlignCenter)
+        self.layout_.addWidget(self._title, 1, 0, Qt.AlignmentFlag.AlignCenter)
 
         self.setToolTip(self._title.text())
 
-        self.grid_layout.setRowStretch(2, 1)
+        self.layout_.setRowStretch(2, 1)
 
         self.setProperty('GameButton', True)
         self.setCursor(Qt.CursorShape.PointingHandCursor)

@@ -16,18 +16,18 @@ class MenuGameInfo(BaseMenu):
         self._data = data
         self._widget: type[GameInfo] = None
 
-        self.scroll_layout.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
 
 
     def set_game(self, widget: GameInfo) -> None:
-        for i in reversed(range(self.scroll_layout.count())):
-            item = self.scroll_layout.itemAt(i)
+        for i in reversed(range(self.layout_.count())):
+            item = self.layout_.itemAt(i)
             if item.widget():
                 item.widget().deleteLater()
-            self.scroll_layout.removeItem(item)
+            self.layout_.removeItem(item)
 
         self._widget = widget
-        self.scroll_layout.addWidget(self._widget, 0, 0)
+        self.layout_.addWidget(self._widget, 0, 0)
 
 
     def update_continue(self, *args, **kwargs) -> None:

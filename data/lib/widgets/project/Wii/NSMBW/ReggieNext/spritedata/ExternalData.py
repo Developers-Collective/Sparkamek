@@ -30,21 +30,21 @@ class ExternalData(BaseItemData):
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._title_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._title_label, 0, 0)
 
         iw = QIconWidget(None, self._external_icon, self._icon_size, False)
-        self._content_frame.grid_layout.addWidget(iw, 0, 1)
+        self._content_frame.layout_.addWidget(iw, 0, 1)
 
         self._external_type_label = QLabel(self._data.type)
         self._external_type_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._external_type_label, 0, 2)
+        self._content_frame.layout_.addWidget(self._external_type_label, 0, 2)
 
-        self._content_frame.grid_layout.setColumnStretch(3, 1)
+        self._content_frame.layout_.setColumnStretch(3, 1)
 
         self._property_last_frame.title_lineedit = QNamedLineEdit(None, '', self._sublang.get('QNamedLineEdit.title'))
         self._property_last_frame.title_lineedit.setText(self._data.title)
         self._property_last_frame.title_lineedit.line_edit.textChanged.connect(self._title_changed)
-        self._property_last_frame.grid_layout.addWidget(self._property_last_frame.title_lineedit, 0, 0)
+        self._property_last_frame.layout_.addWidget(self._property_last_frame.title_lineedit, 0, 0)
 
         self._files = []
         if os.path.isdir(f'{path}/external'):
@@ -57,7 +57,7 @@ class ExternalData(BaseItemData):
         self._property_last_frame.type_combobox.combo_box.addItems(self._files)
         if self._data.type in self._files: self._property_last_frame.type_combobox.combo_box.setCurrentIndex(self._files.index(self._data.type))
         self._property_last_frame.type_combobox.combo_box.currentIndexChanged.connect(self._type_changed)
-        self._property_last_frame.grid_layout.addWidget(self._property_last_frame.type_combobox, 0, 1)
+        self._property_last_frame.layout_.addWidget(self._property_last_frame.type_combobox, 0, 1)
 
 
     def _title_changed(self) -> None:

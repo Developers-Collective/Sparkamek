@@ -51,7 +51,7 @@
     },
     "MemoryValueFileData": {
         "QPushButton": {
-            "back": "Retour"
+            "back": "Back"
         },
         "QLabel": {
             "text": "%s: %s"

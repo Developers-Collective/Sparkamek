@@ -30,14 +30,14 @@ class SaveGameData(BaseSubItemData):
 
         self._text_label = QLabel()
         self._text_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._text_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._text_label, 0, 0)
 
 
         frame = QScrollableGridFrame()
         frame.set_all_property('transparent', True)
-        frame.scroll_layout.setSpacing(30)
-        frame.scroll_layout.setContentsMargins(0, 0, 10, 0)
-        self._property_frame.grid_layout.addWidget(frame, 0, 0)
+        frame.layout_.setSpacing(30)
+        frame.layout_.setContentsMargins(0, 0, 10, 0)
+        self._property_frame.layout_.addWidget(frame, 0, 0)
 
         self._back_button = QPushButton()
         self._back_button.setIcon(self._back_icon)
@@ -45,27 +45,27 @@ class SaveGameData(BaseSubItemData):
         self._back_button.setProperty('color', 'main')
         self._back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._back_button.clicked.connect(self.back_pressed.emit)
-        frame.scroll_layout.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        frame.layout_.addWidget(self._back_button, 0, 0, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
 
         subframe = QGridWidget()
-        subframe.grid_layout.setSpacing(8)
-        subframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        frame.scroll_layout.addWidget(subframe, 1, 0)
+        subframe.layout_.setSpacing(8)
+        subframe.layout_.setContentsMargins(0, 0, 0, 0)
+        frame.layout_.addWidget(subframe, 1, 0)
 
 
         self._external_lineedit = QNamedLineEdit(None, '', self._lang.get('PropertyWidget.QNamedLineEdit.external'))
         self._external_lineedit.setToolTip(self._lang.get('PropertyWidget.QToolTip.external'))
         self._external_lineedit.line_edit.setText(self._data.external)
         self._external_lineedit.line_edit.textChanged.connect(self._external_changed)
-        subframe.grid_layout.addWidget(self._external_lineedit, 0, 0)
+        subframe.layout_.addWidget(self._external_lineedit, 0, 0)
 
         self._clone_togglebutton = QNamedToggleButton(None, self._lang.get('PropertyWidget.QNamedToggleButton.clone'), self._data.clone, True)
         self._clone_togglebutton.setToolTip(self._lang.get('PropertyWidget.QToolTip.clone'))
         self._clone_togglebutton.toggled.connect(self._clone_toggled)
-        subframe.grid_layout.addWidget(self._clone_togglebutton, 0, 1)
+        subframe.layout_.addWidget(self._clone_togglebutton, 0, 1)
 
-        frame.scroll_layout.setRowStretch(2, 1)
+        frame.layout_.setRowStretch(2, 1)
 
         self._update_text()
 

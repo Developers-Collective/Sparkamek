@@ -47,44 +47,44 @@ class KamekWidget(BaseWidget):
 
         lang = self._lang
 
-        self.scroll_layout.setSpacing(30)
-        self.scroll_layout.setContentsMargins(0, 0, 16, 0)
+        self.layout_.setSpacing(30)
+        self.layout_.setContentsMargins(0, 0, 16, 0)
 
         topframe = QGridFrame()
-        topframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(topframe, self.scroll_layout.count(), 0)
+        topframe.layout_.setSpacing(8)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(topframe, self.layout_.count(), 0)
 
         label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', 16)
-        topframe.grid_layout.addWidget(label, 0, 0)
+        topframe.layout_.addWidget(label, 0, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
-        topframe.grid_layout.addWidget(frame, 1, 0)
+        topframe.layout_.addWidget(frame, 1, 0)
 
         label = QLabel(lang.get('QLabel.resources').replace('%s', f'<a href="{self._kamek_resouces_link}" style=\"color: {self._color_link.hex}; text-decoration: none;\">Horizon Wiki</a>'))
         label.setProperty('brighttitle', True)
         label.setOpenExternalLinks(True)
         label.setProperty('margin-left', 16)
-        topframe.grid_layout.addWidget(label, 2, 0)
+        topframe.layout_.addWidget(label, 2, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
-        topframe.grid_layout.addWidget(frame, 3, 0)
+        topframe.layout_.addWidget(frame, 3, 0)
 
         root_frame = QGridFrame()
-        root_frame.grid_layout.setSpacing(16)
-        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(root_frame, self.scroll_layout.count(), 0)
-        self.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+        root_frame.layout_.setSpacing(16)
+        root_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(root_frame, self.layout_.count(), 0)
+        self.layout_.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
         label = self._text_group(lang.get('QLabel.kamekFile.title'), lang.get('QLabel.kamekFile.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         l = {
             "title": lang.get(f'QFileButton.kamekFile'),
@@ -100,33 +100,33 @@ class KamekWidget(BaseWidget):
             'All supported files (*.yaml *.yml);;YAML (*.yaml *.yml)'
         )
         self._kamek_file_button.setFixedWidth(350)
-        root_frame.grid_layout.addWidget(self._kamek_file_button, root_frame.grid_layout.count(), 0)
-        root_frame.grid_layout.setAlignment(self._kamek_file_button, Qt.AlignmentFlag.AlignLeft)
+        root_frame.layout_.addWidget(self._kamek_file_button, root_frame.layout_.count(), 0)
+        root_frame.layout_.setAlignment(self._kamek_file_button, Qt.AlignmentFlag.AlignLeft)
 
 
         frame = QFrame()
         frame.setProperty('border-top', True)
         frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(frame, root_frame.layout_.count(), 0)
 
 
         label = self._text_group(lang.get('QLabel.buildFolder.title'), lang.get('QLabel.buildFolder.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         self._kamek_build_folder_entry = QNamedLineEdit(None, '', lang.get('QNamedLineEdit.buildFolder'))
         self._kamek_build_folder_entry.setText(kamek_data.get('build', None) if kamek_data else 'Build')
         if self._kamek_build_folder_entry.text() == '': self._kamek_build_folder_entry.setText('Build')
-        root_frame.grid_layout.addWidget(self._kamek_build_folder_entry, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(self._kamek_build_folder_entry, root_frame.layout_.count(), 0)
 
 
         frame = QFrame()
         frame.setProperty('border-top', True)
         frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(frame, root_frame.layout_.count(), 0)
 
 
         label = self._text_group(lang.get('QLabel.copyType.title'), lang.get('QLabel.copyType.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         copy_type_model: QComboBoxItemModel = QComboBoxItemModel()
 
@@ -141,17 +141,17 @@ class KamekWidget(BaseWidget):
         )
         copy_type_model.bind(self._kamek_copy_type_combo_box.combo_box)
         self._kamek_copy_type_combo_box.setCurrentIndex(kamek_data.get('copyType', 1) if kamek_data else 1)
-        root_frame.grid_layout.addWidget(self._kamek_copy_type_combo_box, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(self._kamek_copy_type_combo_box, root_frame.layout_.count(), 0)
 
 
         frame = QFrame()
         frame.setProperty('border-top', True)
         frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(frame, root_frame.layout_.count(), 0)
 
 
         label = self._text_group(lang.get('QLabel.outputFolder.title'), lang.get('QLabel.outputFolder.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         l = {
             "title": lang.get(f'QFileButton.outputFolder'),
@@ -167,24 +167,24 @@ class KamekWidget(BaseWidget):
             QFiles.Dialog.ExistingDirectory
         )
         self._kamek_output_folder.setFixedWidth(350)
-        root_frame.grid_layout.addWidget(self._kamek_output_folder, root_frame.grid_layout.count(), 0)
-        root_frame.grid_layout.setAlignment(self._kamek_output_folder, Qt.AlignmentFlag.AlignLeft)
+        root_frame.layout_.addWidget(self._kamek_output_folder, root_frame.layout_.count(), 0)
+        root_frame.layout_.setAlignment(self._kamek_output_folder, Qt.AlignmentFlag.AlignLeft)
 
 
         def generate_version(key: str, checked: bool) -> QNamedToggleButton:
             frame = QFrame()
             frame.setProperty('border-top', True)
             frame.setFixedHeight(1)
-            root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+            root_frame.layout_.addWidget(frame, root_frame.layout_.count(), 0)
 
             label = self._text_group(lang.get(f'QLabel.{key}.title'), lang.get(f'QLabel.{key}.description'))
-            root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+            root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
             w = QNamedToggleButton()
             w.setText(lang.get(f'QNamedToggleButton.{key}'))
             w.setChecked(checked)
-            root_frame.grid_layout.addWidget(w, root_frame.grid_layout.count(), 0)
-            root_frame.grid_layout.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
+            root_frame.layout_.addWidget(w, root_frame.layout_.count(), 0)
+            root_frame.layout_.setAlignment(w, Qt.AlignmentFlag.AlignLeft)
 
             return w
 
@@ -204,16 +204,16 @@ class KamekWidget(BaseWidget):
         frame = QFrame()
         frame.setProperty('border-top', True)
         frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(frame, root_frame.layout_.count(), 0)
 
         label = self._text_group(lang.get(f'QLabel.nintendoDriverMode.title'), lang.get(f'QLabel.nintendoDriverMode.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         self._nintendo_driver_mode_toggle = QNamedToggleButton()
         self._nintendo_driver_mode_toggle.setText(lang.get(f'QNamedToggleButton.nintendoDriverMode'))
         self._nintendo_driver_mode_toggle.setChecked(kamek_data.get('nintendoDriverMode', False) if kamek_data else False)
-        root_frame.grid_layout.addWidget(self._nintendo_driver_mode_toggle, root_frame.grid_layout.count(), 0)
-        root_frame.grid_layout.setAlignment(self._nintendo_driver_mode_toggle, Qt.AlignmentFlag.AlignLeft)
+        root_frame.layout_.addWidget(self._nintendo_driver_mode_toggle, root_frame.layout_.count(), 0)
+        root_frame.layout_.setAlignment(self._nintendo_driver_mode_toggle, Qt.AlignmentFlag.AlignLeft)
 
 
     def export(self) -> dict | None:

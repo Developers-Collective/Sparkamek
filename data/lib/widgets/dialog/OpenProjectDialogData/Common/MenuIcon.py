@@ -31,40 +31,40 @@ class MenuIcon(BaseMenu):
 
         self.raw_icon = data['icon'] if data else os.path.abspath('./data/icons/questionMark.svg')
 
-        self.scroll_layout.setSpacing(30)
-        self.scroll_layout.setContentsMargins(16, 16, 16, 16)
+        self.layout_.setSpacing(30)
+        self.layout_.setContentsMargins(16, 16, 16, 16)
 
         topframe = QGridFrame()
-        topframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(topframe, self.scroll_layout.count(), 0)
+        topframe.layout_.setSpacing(8)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(topframe, self.layout_.count(), 0)
 
         label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
-        topframe.grid_layout.addWidget(label, 0, 0)
+        topframe.layout_.addWidget(label, 0, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
-        topframe.grid_layout.addWidget(frame, 1, 0)
+        topframe.layout_.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
-        root_frame.grid_layout.setSpacing(16)
-        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(root_frame, self.scroll_layout.count(), 0)
-        self.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+        root_frame.layout_.setSpacing(16)
+        root_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(root_frame, self.layout_.count(), 0)
+        self.layout_.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
         self._top = QGridFrame()
-        self._top.grid_layout.setSpacing(16)
-        self._top.grid_layout.setContentsMargins(0, 0, 0, 0)
-        root_frame.grid_layout.addWidget(self._top, root_frame.grid_layout.count(), 0)
+        self._top.layout_.setSpacing(16)
+        self._top.layout_.setContentsMargins(0, 0, 0, 0)
+        root_frame.layout_.addWidget(self._top, root_frame.layout_.count(), 0)
 
         label = self._text_group(lang.get('QLabel.icon.title'), lang.get('QLabel.icon.description'))
-        self._top.grid_layout.addWidget(label, 0, 0, 1, 2)
+        self._top.layout_.addWidget(label, 0, 0, 1, 2)
 
         self._top.icon_group = self.icon_with_text(self.raw_icon, lang.get('QLabel.currentIcon'))
-        self._top.grid_layout.addWidget(self._top.icon_group, 1, 0)
+        self._top.layout_.addWidget(self._top.icon_group, 1, 0)
 
         self.icon_button = QFileButton(
             self, lang.get('QFileButton.icon'),
@@ -75,28 +75,28 @@ class MenuIcon(BaseMenu):
         )
         self.icon_button.path_changed.connect(self._icon_file_button_path_changed)
         self.icon_button.setMinimumWidth(int(self.icon_button.sizeHint().width() * 1.25))
-        self._top.grid_layout.addWidget(self.icon_button, 1, 1)
+        self._top.layout_.addWidget(self.icon_button, 1, 1)
 
 
         frame = QFrame()
         frame.setProperty('border-top', True)
         frame.setFixedHeight(1)
-        root_frame.grid_layout.addWidget(frame, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(frame, root_frame.layout_.count(), 0)
 
 
         label = self._text_group(lang.get('QLabel.predefinedIcons.title'), lang.get('QLabel.predefinedIcons.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
 
         self._bottom = QFlowScrollableWidget()
-        self._bottom.scroll_layout.setSpacing(16)
-        self._bottom.scroll_layout.setContentsMargins(0, 0, 0, 0)
-        root_frame.grid_layout.addWidget(self._bottom, root_frame.grid_layout.count(), 0)
+        self._bottom.layout_.setSpacing(16)
+        self._bottom.layout_.setContentsMargins(0, 0, 0, 0)
+        root_frame.layout_.addWidget(self._bottom, root_frame.layout_.count(), 0)
 
         for index, icon in enumerate(['../none.svg'] + os.listdir(self._icon_path)):
             if not icon.endswith('.svg'): continue
             b = self._generate_button(f'{self._icon_path}/{icon}')
-            self._bottom.scroll_layout.addWidget(b)
+            self._bottom.layout_.addWidget(b)
 
         self._bottom.setFixedHeight(self._bottom.heightMM() + 16) # Cuz weird things happen when resizing the window
 

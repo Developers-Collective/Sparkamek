@@ -50,26 +50,26 @@ class Project(QGridWidget):
 
         self._load_project(project, name, icon, platform, game)
 
-        self.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.grid_layout.setSpacing(0)
+        self.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.setSpacing(0)
 
         self._build()
 
     def _build(self) -> None:
         top_frame = QGridWidget()
-        top_frame.grid_layout.setContentsMargins(16, 16, 16, 0)
-        top_frame.grid_layout.setSpacing(0)
-        self.grid_layout.addWidget(top_frame, 0, 0)
+        top_frame.layout_.setContentsMargins(16, 16, 16, 0)
+        top_frame.layout_.setSpacing(0)
+        self.layout_.addWidget(top_frame, 0, 0)
 
         self._notebook = QTabWidget()
         self._notebook.tabBar().setProperty('color', 'main')
         self._notebook.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         self._notebook.tabBar().setCursor(Qt.CursorShape.PointingHandCursor)
-        top_frame.grid_layout.addWidget(self._notebook, 0, 0)
+        top_frame.layout_.addWidget(self._notebook, 0, 0)
 
         self._notebook_tabs = QSlidingStackedWidget()
         self._notebook_tabs.set_orientation(Qt.Orientation.Horizontal)
-        self.grid_layout.addWidget(self._notebook_tabs, 1, 0)
+        self.layout_.addWidget(self._notebook_tabs, 1, 0)
 
         self._tabs: dict[int, Project.TabInfo] = {}
 
@@ -80,11 +80,11 @@ class Project(QGridWidget):
             i = self._notebook.addTab(widget, self._lang['QTabWidget'][tab])
 
             gw = QGridWidget()
-            gw.grid_layout.setContentsMargins(0, 0, 0, 0)
-            gw.grid_layout.addWidget(w)
+            gw.layout_.setContentsMargins(0, 0, 0, 0)
+            gw.layout_.addWidget(w)
             self._notebook_tabs.addWidget(gw)
-            gw.grid_layout.setAlignment(gw, Qt.AlignmentFlag.AlignTop)
-            gw.grid_layout.setSpacing(1)
+            gw.layout_.setAlignment(gw, Qt.AlignmentFlag.AlignTop)
+            gw.layout_.setSpacing(1)
 
             self._tabs[tab] = Project.TabInfo(gw, tab, i)
 
@@ -96,13 +96,13 @@ class Project(QGridWidget):
         self._more_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self._more_button.clicked.connect(self._create_more_popup)
         self._more_button.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
-        top_frame.grid_layout.addWidget(self._more_button, 0, 0, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
+        top_frame.layout_.addWidget(self._more_button, 0, 0, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
 
     def rebuild(self, project: dict, name: str, icon: str, platform: str, game: str) -> None:
-        while self.grid_layout.count() > 0:
-            w = self.grid_layout.itemAt(0).widget()
+        while self.layout_.count() > 0:
+            w = self.layout_.itemAt(0).widget()
             if w:
-                self.grid_layout.removeWidget(w)
+                self.layout_.removeWidget(w)
                 w.deleteLater()
 
         self._load_project(project, name, icon, platform, game)

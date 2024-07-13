@@ -28,10 +28,10 @@ class UnknownData(BaseItemData):
 
         self._title_label = QLabel(self._data.title)
         self._title_label.setProperty('brighttitle', True)
-        self._content_frame.grid_layout.addWidget(self._title_label, 0, 0)
+        self._content_frame.layout_.addWidget(self._title_label, 0, 0)
 
         iw = QIconWidget(None, self._value_icon, self._icon_size, False)
-        self._content_frame.grid_layout.addWidget(iw, 0, 1)
+        self._content_frame.layout_.addWidget(iw, 0, 1)
 
-        self._content_frame.grid_layout.setColumnStretch(2, 1)
+        self._content_frame.layout_.setColumnStretch(2, 1)
 #----------------------------------------------------------------------

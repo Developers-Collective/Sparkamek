@@ -28,33 +28,33 @@ class ReggieNextWidget(BaseWidget):
 
         lang = self._lang
 
-        self.scroll_layout.setSpacing(30)
-        self.scroll_layout.setContentsMargins(0, 0, 16, 0)
+        self.layout_.setSpacing(30)
+        self.layout_.setContentsMargins(0, 0, 16, 0)
 
         topframe = QGridFrame()
-        topframe.grid_layout.setSpacing(8)
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(topframe, self.scroll_layout.count(), 0)
+        topframe.layout_.setSpacing(8)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(topframe, self.layout_.count(), 0)
 
         label = QLabel(lang.get('QLabel.title'))
         label.setProperty('h', 1)
         label.setProperty('margin-left', True)
-        topframe.grid_layout.addWidget(label, 0, 0)
+        topframe.layout_.addWidget(label, 0, 0)
 
         frame = QFrame()
         frame.setProperty('separator', True)
         frame.setFixedHeight(4)
-        topframe.grid_layout.addWidget(frame, 1, 0)
+        topframe.layout_.addWidget(frame, 1, 0)
 
         root_frame = QGridFrame()
-        root_frame.grid_layout.setSpacing(16)
-        root_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        self.scroll_layout.addWidget(root_frame, self.scroll_layout.count(), 0)
-        self.scroll_layout.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
+        root_frame.layout_.setSpacing(16)
+        root_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        self.layout_.addWidget(root_frame, self.layout_.count(), 0)
+        self.layout_.setAlignment(root_frame, Qt.AlignmentFlag.AlignTop)
 
 
         label = self._text_group(lang.get('QLabel.reggieNextFolder.title'), lang.get('QLabel.reggieNextFolder.description'))
-        root_frame.grid_layout.addWidget(label, root_frame.grid_layout.count(), 0)
+        root_frame.layout_.addWidget(label, root_frame.layout_.count(), 0)
 
         kw = ('edit' if reggienext_data else 'open') + 'ReggieNextFolder'
         l = {
@@ -70,8 +70,8 @@ class ReggieNextWidget(BaseWidget):
             QFiles.Dialog.ExistingDirectory
         )
         self.reggie_folder_button.setFixedWidth(350)
-        root_frame.grid_layout.addWidget(self.reggie_folder_button, root_frame.grid_layout.count(), 0)
-        root_frame.grid_layout.setAlignment(self.reggie_folder_button, Qt.AlignmentFlag.AlignLeft)
+        root_frame.layout_.addWidget(self.reggie_folder_button, root_frame.layout_.count(), 0)
+        root_frame.layout_.setAlignment(self.reggie_folder_button, Qt.AlignmentFlag.AlignLeft)
 
 
     def export(self) -> dict | None:

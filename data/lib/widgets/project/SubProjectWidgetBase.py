@@ -16,8 +16,8 @@ class SubProjectWidgetBase(QSubScrollableGridMainWindow):
 
         if not self.type: raise NotImplementedError('SubProjectWidgetBase.type must be set')
 
-        self.scroll_layout.setContentsMargins(16, 16, 16, 16)
-        self.scroll_layout.setSpacing(8)
+        self.layout_.setContentsMargins(16, 16, 16, 16)
+        self.layout_.setSpacing(8)
 
         self._path = data['path']
 

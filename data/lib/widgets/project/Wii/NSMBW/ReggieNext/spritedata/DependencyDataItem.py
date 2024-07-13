@@ -30,21 +30,21 @@ class DependencyDataItem(QDragListItem):
 
         self._data = data
 
-        self.grid_layout.setContentsMargins(10, 10, 10, 10)
-        self.grid_layout.setSpacing(8)
+        self.layout_.setContentsMargins(10, 10, 10, 10)
+        self.layout_.setSpacing(8)
 
 
         left_frame = QGridWidget()
-        left_frame.grid_layout.setContentsMargins(0, 0, 0, 0)
-        left_frame.grid_layout.setSpacing(8)
-        self.grid_layout.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
-        left_frame.grid_layout.setColumnStretch(2, 1)
+        left_frame.layout_.setContentsMargins(0, 0, 0, 0)
+        left_frame.layout_.setSpacing(8)
+        self.layout_.addWidget(left_frame, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        left_frame.layout_.setColumnStretch(2, 1)
 
         self._id_spinbox = QNamedSpinBox(None, self._lang.get('QNamedSpinBox.spriteID'))
         self._id_spinbox.spin_box.valueChanged.connect(self._id_changed)
         self._id_spinbox.setRange(0, 2147483647) # profileID is u32 (2^32 - 1) but QSpinBox are s32 (2^31 - 1) -> Tbf nobody will have 2^31 sprites lmao
         self._id_spinbox.spin_box.setValue(data.sprite)
-        left_frame.grid_layout.addWidget(self._id_spinbox, 0, 0)
+        left_frame.layout_.addWidget(self._id_spinbox, 0, 0)
 
 
         delete_button = QPushButton()
@@ -52,7 +52,7 @@ class DependencyDataItem(QDragListItem):
         delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
         delete_button.setIcon(self._delete_icon)
         delete_button.clicked.connect(self._delete)
-        self.grid_layout.addWidget(delete_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        self.layout_.addWidget(delete_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
     @property

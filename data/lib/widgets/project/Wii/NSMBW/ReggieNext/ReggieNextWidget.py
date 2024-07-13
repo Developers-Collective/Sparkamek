@@ -44,7 +44,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
     def __init__(self, app: QBaseApplication, name: str, icon: str, data: dict) -> None:
         super().__init__(app, data)
 
-        self.scroll_layout.setSpacing(10)
+        self.layout_.setSpacing(10)
 
         dockwidgets = data.get('dockwidgets', {})
 
@@ -67,9 +67,9 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         self._create_button = QPushButton(self._lang.get('QPushButton.create'))
         self._create_button.setIcon(self._create_icon)
@@ -77,7 +77,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._create_button.setProperty('icon-padding', True)
         self._create_button.setProperty('color', 'main')
         self._create_button.clicked.connect(self._create)
-        topframe.grid_layout.addWidget(self._create_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topframe.layout_.addWidget(self._create_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._delete_button = QPushButton(self._lang.get('QPushButton.delete'))
         self._delete_button.setIcon(self._delete_icon)
@@ -86,13 +86,13 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._delete_button.setProperty('color', 'main')
         self._delete_button.clicked.connect(self._delete)
         self._delete_button.setEnabled(False)
-        topframe.grid_layout.addWidget(self._delete_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        topframe.layout_.addWidget(self._delete_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 1, 0, Qt.AlignmentFlag.AlignTop)
 
         self._import_button = QPushButton(self._lang.get('QPushButton.import'))
         self._import_button.setIcon(self._import_icon)
@@ -100,7 +100,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._import_button.setProperty('icon-padding', True)
         self._import_button.setProperty('color', 'main')
         self._import_button.clicked.connect(self._import)
-        topframe.grid_layout.addWidget(self._import_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topframe.layout_.addWidget(self._import_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._export_button = QPushButton(self._lang.get('QPushButton.export'))
         self._export_button.setIcon(self._export_icon)
@@ -109,13 +109,13 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._export_button.setProperty('color', 'main')
         self._export_button.clicked.connect(self._export)
         self._export_button.setEnabled(False)
-        topframe.grid_layout.addWidget(self._export_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        topframe.layout_.addWidget(self._export_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
         topframe = QGridWidget()
-        topframe.grid_layout.setContentsMargins(0, 0, 0, 0)
-        topframe.grid_layout.setSpacing(8)
-        self._root.scroll_layout.addWidget(topframe, 2, 0, Qt.AlignmentFlag.AlignTop)
+        topframe.layout_.setContentsMargins(0, 0, 0, 0)
+        topframe.layout_.setSpacing(8)
+        self._root.layout_.addWidget(topframe, 2, 0, Qt.AlignmentFlag.AlignTop)
 
         self._reset_button = QPushButton(self._lang.get('QPushButton.reset'))
         self._reset_button.setIcon(self._reset_icon)
@@ -124,7 +124,7 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._reset_button.setProperty('color', 'main')
         self._reset_button.clicked.connect(self._reset)
         self._reset_button.setEnabled(False)
-        topframe.grid_layout.addWidget(self._reset_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
+        topframe.layout_.addWidget(self._reset_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
 
         self._clear_button = QPushButton(self._lang.get('QPushButton.clear'))
         self._clear_button.setIcon(self._clear_icon)
@@ -133,14 +133,14 @@ class ReggieNextWidget(SubProjectWidgetBase):
         self._clear_button.setProperty('color', 'main')
         self._clear_button.clicked.connect(self._clear)
         self._clear_button.setEnabled(False)
-        topframe.grid_layout.addWidget(self._clear_button, 0, 1, Qt.AlignmentFlag.AlignRight)
+        topframe.layout_.addWidget(self._clear_button, 0, 1, Qt.AlignmentFlag.AlignRight)
 
 
         self._sprite_widget = SpriteWidget(self._path)
         self._sprite_widget.sprite_edited.connect(self._sprite_edited)
         self._sprite_widget.current_sprite_changed.connect(self._item_data_property_dock_widget.update_title)
         self._sprite_widget.property_entry_selected.connect(self._item_data_property_dock_widget.set_widget)
-        self._root.scroll_layout.addWidget(self._sprite_widget, 3, 0)
+        self._root.layout_.addWidget(self._sprite_widget, 3, 0)
 
 
     @property
