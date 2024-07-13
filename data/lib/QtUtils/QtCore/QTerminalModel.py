@@ -228,11 +228,11 @@ class QTerminalModel:
             return ''
 
         return (html
-            .replace('\r', '')
-            .replace('<', '&lt;')
-            .replace('>', '&gt;')
-            .replace('&', '&amp;')
+            # .replace('<', '&lt;')
+            # .replace('>', '&gt;')
+            # .replace('&', '&amp;')
             .replace(' ', '&nbsp;')
+            .replace('\r', '')
             .replace('\n', '<br>')
             .replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
         )
