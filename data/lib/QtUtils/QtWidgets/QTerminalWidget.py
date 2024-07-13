@@ -4,6 +4,8 @@
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import Qt, QEvent
+from typing import Callable
+
 from .QGridWidget import QGridWidget
 from .QGridFrame import QGridFrame
 from ..QtCore import QBaseApplication
@@ -72,6 +74,8 @@ class QTerminalWidget(QGridWidget):
 
         self.leaveEvent()
 
+        self._web_view.page().setHtml(self._model.render())
+
 
     def enterEvent(self, event: QEvent = None) -> None:
         self.label.setProperty('inputhover', True)
@@ -93,15 +97,32 @@ class QTerminalWidget(QGridWidget):
         else: self.label.setStyleSheet(f'color: {self._normal_color}')
 
 
-    def log(self, text: str, *log_types: QEnumColor) -> None:
-        actual_scroll = self._web_view.page().scrollPosition()
-        is_bottom = actual_scroll.y() >= self._web_view.page().contentsSize().height()
+    def _log_raw(self, func: Callable, text: str, *log_types: QEnumColor, continuous: bool = False) -> None:
+        # actual_scroll = self._web_view.page().scrollPosition()
+        # is_bottom = actual_scroll.y() >= self._web_view.page().contentsSize().height()
+        # print(actual_scroll, is_bottom)
 
-        self._model.log(text, *log_types)
+        html_to_add = func(text, *log_types, continuous = continuous)
         self._web_view.page().setHtml(self._model.render())
+        # self._web_view.page().append_html(
+        #     {
+        #         'selector':'.columns' if continuous else '.vertical-space',
+        #         'index': -1 if continuous else 0,
+        #     },
+        #     html_to_add
+        # )
 
-        if is_bottom: self._web_view.page().runJavaScript('window.scrollTo(0, document.body.scrollHeight)')
-        else: self._web_view.page().runJavaScript(f'window.scrollTo({actual_scroll.x()}, {actual_scroll.y()})')
+        # if is_bottom: self._web_view.page().runJavaScript('window.scrollTo(0, document.body.scrollHeight)')
+        # else: self._web_view.page().runJavaScript(f'window.scrollTo({actual_scroll.x()}, {actual_scroll.y()})')
+
+
+    def log_empty(self) -> None:
+        self._log_raw(self._model.log_empty, '')
+
+
+    def log(self, text: str, *log_types: QEnumColor, continuous: bool = False) -> None:
+        if not text.strip(): return self.log_empty()
+        self._log_raw(self._model.log, text, *log_types, continuous = continuous)
 
 
     @property
@@ -110,7 +131,8 @@ class QTerminalWidget(QGridWidget):
 
 
     def clear(self) -> None:
-        self._web_view.page().setHtml('')
+        self._model.clear()
+        self._web_view.page().setHtml(self._model.render())
 
 
     def isEnabled(self) -> bool:

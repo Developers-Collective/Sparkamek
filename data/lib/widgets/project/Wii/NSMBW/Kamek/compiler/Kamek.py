@@ -4,13 +4,14 @@
 from PySide6.QtCore import Signal, QObject
 from typing import Any
 import binascii, os, os.path, shutil, struct, subprocess, sys, yaml, elftools.elf.elffile, dataclasses, difflib
+
+from data.lib.QtUtils.QtCore import QLogsColor
 from .Hooks import Hooks as hooks
 from .MissingSymbol import MissingSymbol
 from .CannotFindFunctionException import CannotFindFunctionException
 from .MatchingFuncSymbol import MatchingFuncSymbol
 from .FuncSymbol import FuncSymbol
-
-from .....LogType import LogType
+from ..LogsColor import LogsColor
 from .....ProjectException import ProjectException
 #----------------------------------------------------------------------
 
@@ -216,7 +217,7 @@ class KamekBuilder:
                     self._multi_build = {self._config['short_name']: self._config['linker_script']}
 
             except Exception:
-                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', QLogsColor.Error)
 
             for s_name, s_script in self._multi_build.items():
                 if s_name not in keys: continue
@@ -257,7 +258,7 @@ class KamekBuilder:
 
     def _set_config(self, config: dict) -> None:
         self._config: dict = config
-        self._controller.log_info_all('&nbsp;', True)
+        self._controller.log_info_all(' ', True)
         self._controller.log_info_all('Building for configuration: ' + config['friendly_name'])
 
         self.config_short_name = config['short_name']
@@ -268,7 +269,7 @@ class KamekBuilder:
 
 
     def _create_hooks(self) -> None:
-        self._controller.log_info('&nbsp;', True)
+        self._controller.log_info(' ', True)
         self._controller.log_info('Creating hooks')
 
         for m in self.project.modules:
@@ -394,52 +395,52 @@ class KamekBuilder:
 
                 continue
 
-        if warnings or errors: self._controller.log_info_all('&nbsp;', True)
+        if warnings or errors: self._controller.log_info_all(' ', True, LogsColor.Code)
 
         for file in warnings:
-            self._controller.log_warning(f'<span style="font-weight: 700">{file}</span>:')
+            self._controller.log_warning(f'<span style="font-weight: 700">{file}</span>:', False, LogsColor.Code)
 
             for fasthack_line, code, pos1, pos2, details in warnings[file]:
                 code_begin = code[:pos1]
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
-                self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', True)
-                self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Warning.value.hex[1:]}">{code_middle}</span>{code_end}', True)
+                self._controller.log_warning(f'    <span style="font-style: italic">Line {fasthack_line}</span>', True, LogsColor.Code)
+                self._controller.log_warning(f'    {code_begin}<span style="background-color: #55{QLogsColor.Warning.value.hex[1:]}">{code_middle}</span>{code_end}', True, LogsColor.Code)
                 for detail in details:
-                    self._controller.log_warning(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', True)
-                self._controller.log_warning('&nbsp;', True)
+                    self._controller.log_warning(f'    <span style="font-style: italic">{detail}</span>', True, LogsColor.Code)
+                self._controller.log_warning(' ', True, LogsColor.Code)
 
 
         if not first_error: return
 
         file, fasthack_line, code, pos1, pos2, details = first_error
-        self._controller.log_simple.emit(f'<span style="font-weight: 700">{file}</span>:', LogType.Error, False)
+        self._controller.log_simple.emit(f'<span style="font-weight: 700">{file}</span>:', QLogsColor.Error, False, (LogsColor.Code,))
 
         code_begin = code[:pos1]
         code_middle = code[pos1:pos2 + 1]
         code_end = code[pos2 + 1:]
-        self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', LogType.Error, True)
-        self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{code_middle}</span>{code_end}', LogType.Error, True)
+        self._controller.log_simple.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span>', QLogsColor.Error, True, (LogsColor.Code,))
+        self._controller.log_simple.emit(f'    {code_begin}<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
         for detail in details:
-            self._controller.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
-        self._controller.log_simple.emit('&nbsp;', LogType.Error, True)
+            self._controller.log_simple.emit(f'    <span style="font-style: italic">{detail}</span>', QLogsColor.Error, True, (LogsColor.Code,))
+        self._controller.log_simple.emit(' ', QLogsColor.Error, True, (LogsColor.Code,))
 
         for file in errors: # Keeping the errors as sometimes it can be useful
-            self._controller.log_complete.emit(f'<span style="font-weight: 700">{file}</span>:', LogType.Error, False)
+            self._controller.log_complete.emit(f'<span style="font-weight: 700">{file}</span>:', QLogsColor.Error, False, (LogsColor.Code,))
 
             for fasthack_line, code, pos1, pos2, details in errors[file]:
                 code_begin = code[:pos1]
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
-                self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">Line {fasthack_line}</span>', LogType.Error, True)
-                self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;{code_begin}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{code_middle}</span>{code_end}', LogType.Error, True)
+                self._controller.log_complete.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span>', QLogsColor.Error, True, (LogsColor.Code,))
+                self._controller.log_complete.emit(f'    {code_begin}<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
                 for detail in details:
-                    self._controller.log_complete.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic">{detail}</span>', LogType.Error, True)
-                self._controller.log_complete.emit('&nbsp;', LogType.Error, True)
+                    self._controller.log_complete.emit(f'    <span style="font-style: italic">{detail}</span>', QLogsColor.Error, True)
+                self._controller.log_complete.emit(' ', QLogsColor.Error, True, (LogsColor.Code,))
 
 
     def _compile_modules(self) -> None:
-        self._controller.log_info('&nbsp;', True)
+        self._controller.log_info(' ', True)
         self._controller.log_info('Compiling modules')
 
         if self._controller.config.use_mw:
@@ -504,7 +505,7 @@ class KamekBuilder:
                     as_command.insert(0, 'wine')
 
             except Exception as e:
-                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', QLogsColor.Error)
 
         else:
             # gcc setup
@@ -519,7 +520,7 @@ class KamekBuilder:
                     cc_command.append('-I%s' % i)
 
             except Exception:
-                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', QLogsColor.Error)
 
 
         self._module_files = []
@@ -555,10 +556,10 @@ class KamekBuilder:
                                 fast_cpp.write(sf.read())
 
                         except UnicodeError as e:
-                            raise ProjectException(f'{sourcefile} >> Please use UTF-8 encoding for your source files as using multiple encodings can mess up CodeWarrior.', LogType.Error)
+                            raise ProjectException(f'{sourcefile} >> Please use UTF-8 encoding for your source files as using multiple encodings can mess up CodeWarrior.', QLogsColor.Error)
 
                         except Exception as e:
-                            raise ProjectException(f'{sourcefile} >> {e}', LogType.Error)
+                            raise ProjectException(f'{sourcefile} >> {e}', QLogsColor.Error)
 
                         fast_cpp.write('\n')
                         continue
@@ -585,14 +586,14 @@ class KamekBuilder:
 
                 except Exception as e:
                     os.chdir(cwd)
-                    raise ProjectException(f'An error occured while calling the compiler.\nPlease make sure CodeWarrior is installed correctly into the tools folder.\nIf it\'s installed correctly, here is the error:\n{e}', LogType.Error)
+                    raise ProjectException(f'An error occured while calling the compiler.\nPlease make sure CodeWarrior is installed correctly into the tools folder.\nIf it\'s installed correctly, here is the error:\n{e}', QLogsColor.Error)
                 
                 if error_val != 0:
                     if 'Driver Error' in output.stdout:
-                        raise ProjectException(output.stdout, LogType.Error)
+                        raise ProjectException(output.stdout, QLogsColor.Error)
 
                     else:
-                        raise ProjectException('Compiler returned %d - An error occurred while compiling %s' % (error_val, sourcefile), LogType.Error)
+                        raise ProjectException('Compiler returned %d - An error occurred while compiling %s' % (error_val, sourcefile), QLogsColor.Error)
 
                 self._module_files.append(objfile)
 
@@ -615,22 +616,22 @@ class KamekBuilder:
             self._filter_compilation_output(output.stdout)
 
             if error_val != 0:
-                raise ProjectException('Compiler returned %d - An error occurred while compiling the fast hack' % error_val, LogType.Error)
+                raise ProjectException('Compiler returned %d - An error occurred while compiling the fast hack' % error_val, QLogsColor.Error)
 
             self._module_files.append(objfile)
 
         self._controller.log_success('Compilation complete')
-        self._controller.log_success('&nbsp;', True)
+        self._controller.log_success(' ', True)
 
 
     def _link(self, short_name, script_file) -> None:
-        self._controller.log_info('Linking %s (%s)...' % (short_name, script_file))
+        self._controller.log_info('Linking %s (%s)...' % (short_name, script_file), False, LogsColor.Link)
 
         try:
             nice_name = '%s_%s' % (self._config['short_name'], short_name)
 
         except Exception:
-                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', QLogsColor.Error)
 
         self._current_map_file = '%s/%s_linkmap.map' % (self._out_dir, nice_name)
         outname = 'object.plf' if self.dynamic_link_base else 'object.bin'
@@ -656,7 +657,7 @@ class KamekBuilder:
         ld_command += self._module_files
 
         if self._controller.config.show_cmd:
-            self._controller.log_info(str(ld_command))
+            self._controller.log_info(str(ld_command), False, LogsColor.Link)
 
         cwd = os.getcwd()
         os.chdir(self._controller.cwd)
@@ -670,20 +671,20 @@ class KamekBuilder:
 
                 for i, arg in enumerate(line.replace('`', '\'').split('\'')):
                     if i % 2 == 0: new_line += arg
-                    else: new_line += f'\'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{arg}</span>\''
+                    else: new_line += f'\'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{arg}</span>\''
 
-                self._controller.log_error(new_line, index != 0)
+                self._controller.log_error(new_line, index != 0, LogsColor.Link)
 
         os.chdir(cwd)
 
         if error_val != 0:
-            raise ProjectException('ld returned %d' % error_val, LogType.Error)
+            raise ProjectException('ld returned %d' % error_val, QLogsColor.Error)
 
-        self._controller.log_success_all('Successfully linked %s' % short_name)
+        self._controller.log_success_all('Successfully linked %s' % short_name, False, LogsColor.Link)
 
 
     def _read_symbol_map(self) -> None:
-        self._controller.log_info('Reading symbol map')
+        self._controller.log_info('Reading symbol map', False, LogsColor.Symbols)
 
         self._symbols = []
 
@@ -725,14 +726,14 @@ class KamekBuilder:
             self._code_start = self._text_seg_start
             self._code_end = current_end_address
 
-        self._controller.log_info('Read, %d symbol(s) parsed' % len(self._symbols))
+        self._controller.log_info('Read, %d symbol(s) parsed' % len(self._symbols), False, LogsColor.Symbols)
 
 
         # next up, run it through c++filt
-        self._controller.log_info('Running c++filt')
+        self._controller.log_info('Running c++filt', False, LogsColor.Symbols)
         opsys = sys.platform
         if opsys == 'darwin': opsys = 'osx'
-        self._controller.log_info('%s/%s/%s-c++filt' % (self._controller.config.filt_path, opsys, self._controller.config.gcc_type))
+        self._controller.log_info('%s/%s/%s-c++filt' % (self._controller.config.filt_path, opsys, self._controller.config.gcc_type), False, LogsColor.Symbols)
 
         cwd = os.getcwd()
         try:
@@ -742,7 +743,7 @@ class KamekBuilder:
 
         except Exception as e:
             os.chdir(cwd)
-            raise ProjectException(f'An error occured while calling c++filt.\nPlease make sure c++filt is installed correctly into the tools folder.\nIf it\'s installed correctly, here is the error:\n{e}', LogType.Error)
+            raise ProjectException(f'An error occured while calling c++filt.\nPlease make sure c++filt is installed correctly into the tools folder.\nIf it\'s installed correctly, here is the error:\n{e}', QLogsColor.Error)
 
         symbol_name_list = [sym[1] for sym in self._symbols]
         filt_result = p.communicate('\n'.join(symbol_name_list).encode('utf-8'))
@@ -751,8 +752,8 @@ class KamekBuilder:
         for sym, filt in zip(self._symbols, filtered_symbols):
             sym.append(filt.strip())
 
-        self._controller.log_success('Done. All symbols complete.')
-        self._controller.log_success('Generated code is at 0x%08X .. 0x%08X' % (self._code_start, self._code_end - 4))
+        self._controller.log_success('Done. All symbols complete.', False, LogsColor.Symbols)
+        self._controller.log_success('Generated code is at 0x%08X .. 0x%08X' % (self._code_start, self._code_end - 4), False, LogsColor.Symbols)
 
 
     def find_func_by_symbol(self, find_symbol: str) -> int:
@@ -789,13 +790,13 @@ class KamekBuilder:
 
 
     def _create_patch(self, short_name: str) -> None:
-        self._controller.log_info('Creating patch')
+        self._controller.log_info('Creating patch', False, LogsColor.Patch)
 
         try:
             nice_name = '%s_%s' % (self._config['short_name'], short_name)
 
         except Exception:
-                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', LogType.Error)
+                raise ProjectException(f'Invalid config file: "kamek_configs.yaml". Try using the same format as the NewerSMBW 1.3.0 one.', QLogsColor.Error)
 
         # convert the .rel patches to KamekPatcher format
         if len(self._rel_patches) > 0:
@@ -832,7 +833,7 @@ class KamekBuilder:
         with open(f'{self._out_dir}/{nice_name}_loader.bin', 'wb') as kpatch:
             kpatch.write(self._controller.generate_kamek_patches(self._patches))
 
-        self._controller.log_success('Patches generated')
+        self._controller.log_success('Patches generated', False, LogsColor.Patch)
 
 
 
@@ -883,8 +884,8 @@ class KamekProject:
 
 
 class KamekController(QObject):
-    log_simple = Signal(str, LogType, bool)
-    log_complete = Signal(str, LogType, bool)
+    log_simple = Signal(str, QLogsColor, bool, tuple)
+    log_complete = Signal(str, QLogsColor, bool, tuple)
 
     _u32 = struct.Struct('>I')
 
@@ -902,7 +903,7 @@ class KamekController(QObject):
 
 
     def add_missing_symbol(self, symbol: MissingSymbol) -> None:
-        self.log_complete.emit(f'The following reloc ({symbol.addr:x}) points to {symbol.target:d}: Is this right? <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{symbol.name}</span>', LogType.Warning, False)
+        self.log_complete.emit(f'The following reloc ({symbol.addr:x}) points to {symbol.target:d}: Is this right? <span style="font-style: italic; background-color: #55{QLogsColor.Warning.value.hex[1:]}">{symbol.name}</span>', QLogsColor.Warning, False, (LogsColor.Symbols,))
         if symbol.name not in self._missing_symbols: self._missing_symbols[symbol.name] = symbol
 
 
@@ -934,39 +935,39 @@ class KamekController(QObject):
         return self._version_ids
 
 
-    def log_info(self, msg: str, invisible: bool = False) -> None:
+    def log_info(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
-    def log_info_all(self, msg: str, invisible: bool = False) -> None:
+    def log_info_all(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Info, invisible)
-        self.log_simple.emit(msg, LogType.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
-    def log_warning(self, msg: str, invisible: bool = False) -> None:
+    def log_warning(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Warning, invisible)
-        self.log_simple.emit(msg, LogType.Warning, invisible)
+        self.log_complete.emit(msg, QLogsColor.Warning, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Warning, invisible, extra_logs)
 
-    def log_error(self, msg: str, invisible: bool = False) -> None:
+    def log_error(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Error, invisible)
-        self.log_simple.emit(msg, LogType.Error, invisible)
+        self.log_complete.emit(msg, QLogsColor.Error, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Error, invisible, extra_logs)
 
-    def log_success(self, msg: str, invisible: bool = False) -> None:
+    def log_success(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Success, invisible)
+        self.log_complete.emit(msg, QLogsColor.Success, invisible, extra_logs)
 
-    def log_success_all(self, msg: str, invisible: bool = False) -> None:
+    def log_success_all(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Success, invisible)
-        self.log_simple.emit(msg, LogType.Success, invisible)
+        self.log_complete.emit(msg, QLogsColor.Success, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Success, invisible, extra_logs)
 
 
     def run(self) -> tuple[tuple[MissingSymbol], tuple[FuncSymbol]]:

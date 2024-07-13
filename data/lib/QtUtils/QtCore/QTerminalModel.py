@@ -45,7 +45,14 @@ class QTerminalModel:
 
             background-color: var(--bg);
             color: var(--fg);
+
+            /*line-height: 1.5em;*/
         }
+
+        /*html, body {
+            max-width: 90%;
+            overflow-x: hidden;
+        }*/
 
         body {
             margin: 10px;
@@ -60,6 +67,10 @@ class QTerminalModel:
             margin-top: 0.75em;
         }
 
+        span {
+            background-color: transparent;
+        }
+
         .special-text {
             padding-top: 0.125em;
             padding-bottom: 0.188em;
@@ -69,6 +80,7 @@ class QTerminalModel:
             margin-right: 0.625em;
             color: var(--fg);
             font-weight: bold;
+            height: 1.17em;
         }
 
         .special-text::after {
@@ -100,19 +112,18 @@ class QTerminalModel:
             margin-top: -0.125em;
         }
 
-        %unique-styles
-
-        div.columns {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
+        div.columns > div.column {
+            margin-right: 0.5em;
         }
 
-        div.columns > *:first-child > * {
-            vertical-align: top;
-            display: inline-block;
-            margin-left: 0;
-            margin-right: auto;
+        %unique-styles
+
+        div.columns, div.column {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: start;
+            min-height: 1.188em;
         }
 
         a {
@@ -128,6 +139,10 @@ class QTerminalModel:
         function sendButtonClicked(button_id) {
             console.log('buttonClicked:' + button_id);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.scrollTo(0, document.body.scrollHeight);
+        })
     </script>
 
     <div class="vertical-space">
@@ -147,6 +162,7 @@ class QTerminalModel:
 
     def __init__(self, *enum_colors: type[QEnumColor]) -> None:
         self._html = ''
+        self._last_added = ''
 
         fg_color = QTerminalModel._app.qss.search(
             QssSelector(widget = 'QWidget', attributes = {'QTerminalWidget': True}),
@@ -175,14 +191,17 @@ class QTerminalModel:
         )
 
 
-    def _str_to_html(self, html: str) -> str:
+    def _str_to_html(self, html: str, accept_empty: bool = True) -> str:
+        if html.strip() == '' and not accept_empty:
+            return ''
+
         return (html
-            .replace('\n', '<br>')
             .replace('\r', '')
             .replace('<', '&lt;')
             .replace('>', '&gt;')
             .replace('&', '&amp;')
             .replace(' ', '&nbsp;')
+            .replace('\n', '<br>')
             .replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
         )
 
@@ -217,7 +236,7 @@ class QTerminalModel:
         attributes = self._extract_attributes(text)
 
         for i in range(len(split)):
-            split[i] = self._str_to_html(split[i])
+            split[i] = self._str_to_html(split[i], i >= 0)
 
             if i % 2 == 0: # Outside a tag
                 pass
@@ -253,21 +272,50 @@ class QTerminalModel:
         return ''.join(split)
 
 
-    def log(self, text: str, *log_types: QEnumColor) -> None:
+    def log_empty(self, *args, **kwargs) -> str:
+        div = f'<div class="columns"></div>'
+        self._html += self._last_added + div
+        self._last_added = ''
+
+        return div
+
+
+    def log(self, text: str, *log_types: QEnumColor, continuous: bool = False) -> str:
+        if not log_types or not (text.strip()):
+            self.log_empty()
+
         div = f'<div class="columns">%s</div>'
 
+        if continuous:
+            add = self._build_element(text)
+
+            last_span = self._last_added.rfind('</span>')
+            if last_span != -1:
+                self._last_added = self._last_added[:last_span] + '<br>' + add + self._last_added[last_span:]
+            else: self._last_added += add
+
+            return add
+
         parts = (
-            ''.join((
+            f'<div class="column">' + ''.join((
                 f'<span class="special-text{" first" if i == 0 else ""} {log_type.name.lower()}">'
                     f'{self._lang.get(log_type.name.lower())}'
                 f'</span>'
-            ) for i, log_type in enumerate(log_types)),
+            ) for i, log_type in enumerate(log_types)) + '</div>',
             f'<span>{self._build_element(text)}</span>'
         )
 
-        self._html += div.replace('%s', '\n'.join(parts))
+        self._html += self._last_added
+        self._last_added = div.replace('%s', '\n'.join(parts))
+
+        return self._last_added
 
 
     def render(self) -> str:
-        return self._parsed_model.replace('%s', self._html)
+        return self._parsed_model.replace('%s', self._html + self._last_added)
+
+
+    def clear(self) -> None:
+        self._html = ''
+        self._last_added = ''
 #----------------------------------------------------------------------

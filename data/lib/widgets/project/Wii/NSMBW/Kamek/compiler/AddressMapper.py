@@ -4,7 +4,7 @@
 from PySide6.QtCore import Signal, QObject
 import dataclasses, typing, re, yaml, os
 
-from .....LogType import LogType
+from data.lib.QtUtils import QLogsColor
 from .....ProjectException import ProjectException
 from .KamekConstants import KamekConstants
 #----------------------------------------------------------------------
@@ -138,8 +138,8 @@ class AddressMapper(QObject):
 
 
 class AddressMapperController(QObject):
-    log_simple = Signal(str, LogType, bool)
-    log_complete = Signal(str, LogType, bool)
+    log_simple = Signal(str, QLogsColor, bool, tuple)
+    log_complete = Signal(str, QLogsColor, bool, tuple)
 
     def __init__(self, cwd: str, project_path: str, base_version: str, version_ids: dict) -> None:
         super(AddressMapperController, self).__init__()
@@ -161,11 +161,11 @@ class AddressMapperController(QObject):
         path = KamekConstants.get_versions_nsmbw(self._cwd)
         
         if not os.path.exists(path):
-            raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">versions-nsmbw.txt</span>" at "{self._cwd}/tools"', LogType.Error)
+            raise ProjectException(f'Unable to find "<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">versions-nsmbw.txt</span>" at "{self._cwd}/tools"', QLogsColor.Error)
 
         with open(path, 'r', encoding = 'utf-8') as infile:
             try: mappers = AddressMapperController.read_version_info(infile, self._reverse_version_ids)
-            except ValueError as e: raise ProjectException(str(e), LogType.Error)
+            except ValueError as e: raise ProjectException(str(e), QLogsColor.Error)
             except ProjectException as e: raise e
 
         if not os.path.isdir(f'{self._cwd}/processed'):
@@ -173,13 +173,13 @@ class AddressMapperController(QObject):
 
         for x_id, txt_id in self._version_ids.items():
             try: self._do_mapfile(f'kamek_{self._base_version}.x', f'kamek_{x_id}.x', mappers[txt_id])
-            except FileNotFoundError: raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">kamek_{self._base_version}.x</span>" at "{self._cwd}"', LogType.Error)
-            except KeyError: raise ProjectException(f'Unable to find version <span style="background-color: #55{LogType.Error.value.hex[1:]}">{txt_id}</span> in {self._cwd}/tools/versions-nsmbw.txt', LogType.Error)
-            except Exception as e: raise ProjectException(str(e), LogType.Error)
+            except FileNotFoundError: raise ProjectException(f'Unable to find "<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">kamek_{self._base_version}.x</span>" at "{self._cwd}"', QLogsColor.Error)
+            except KeyError: raise ProjectException(f'Unable to find version <span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{txt_id}</span> in {self._cwd}/tools/versions-nsmbw.txt', QLogsColor.Error)
+            except Exception as e: raise ProjectException(str(e), QLogsColor.Error)
 
         already_done = set()
         try: self._do_project(self._project_full_path, already_done, mappers)
-        except FileNotFoundError as e: raise ProjectException(str(e), LogType.Error)
+        except FileNotFoundError as e: raise ProjectException(str(e), QLogsColor.Error)
 
 
     @staticmethod
@@ -207,7 +207,7 @@ class AddressMapperController(QObject):
                 # New version
                 current_version_name = match.group(1)
                 if current_version_name in mappers:
-                    raise ValueError(f'Versions file contains duplicate version name <span style="background-color: #55{LogType.Error.value.hex[1:]}">{current_version_name}</span>')
+                    raise ValueError(f'Versions file contains duplicate version name <span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{current_version_name}</span>')
 
                 current_version = AddressMapper(version_ids.get(current_version_name, 'unk'), current_version_name)
                 mappers[current_version_name] = current_version
@@ -219,7 +219,7 @@ class AddressMapperController(QObject):
                 if match:
                     base_name = match.group(1)
                     if base_name not in mappers:
-                        raise ValueError(f'Version {current_version_name} extends unknown version <span style="background-color: #55{LogType.Error.value.hex[1:]}">{base_name}</span>')
+                        raise ValueError(f'Version {current_version_name} extends unknown version <span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{base_name}</span>')
                     if current_version.base is not None:
                         raise ValueError(f'Version {current_version_name} already extends a version')
 
@@ -241,7 +241,7 @@ class AddressMapperController(QObject):
                     current_version.add_mapping(start_address, end_address, delta)
                     continue
 
-            raise ProjectException(f'Unrecognised line in versions file: <span style="background-color: #55{LogType.Warning.value.hex[1:]}">{line}</span>', LogType.Warning)
+            raise ProjectException(f'Unrecognised line in versions file: <span style="background-color: #55{QLogsColor.Warning.value.hex[1:]}">{line}</span>', QLogsColor.Warning)
 
         return mappers
 
@@ -297,7 +297,7 @@ class AddressMapperController(QObject):
                 raise KeyError()
 
         except KeyError:
-            ret = (f'Key Error <span style="background-color: #55{LogType.Error.value.hex[1:]}">{error}</span> in {mapper.name}', LogType.Error, False)
+            ret = (f'Key Error <span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{error}</span> in {mapper.name}', QLogsColor.Error, False, tuple())
             self.log_simple.emit(*ret)
             self.log_complete.emit(*ret)
 
@@ -308,17 +308,17 @@ class AddressMapperController(QObject):
                 m = yaml.safe_load(f.read())
 
         except FileNotFoundError as e:
-            raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">{e.filename}</span>" at "{self._cwd}"', LogType.Error)
+            raise ProjectException(f'Unable to find "<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{e.filename}</span>" at "{self._cwd}"', QLogsColor.Error)
         
         except yaml.MarkedYAMLError as e:
             error = e.problem_mark.get_snippet().split('\n')[0]
             symbols_str = e.problem_mark.get_snippet().split('\n')[1]
             index_start, index_end = symbols_str.find('^'), symbols_str.rfind('^')
-            error_highlight = f'{error[:index_start]}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{error[index_start:index_end+1]}</span>{error[index_end+1:]}'
+            error_highlight = f'{error[:index_start]}<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{error[index_start:index_end+1]}</span>{error[index_end+1:]}'
 
             error_msg = f'{e.problem} {e.context}'.replace('<', '&lt;').replace('>', '&gt;')
 
-            raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{LogType.Error.value.hex[1:]}">{src}</span>\n{error_msg}\n{error_highlight}', LogType.Error)
+            raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{src}</span>\n{error_msg}\n{error_highlight}', QLogsColor.Error)
 
         for hook in m.get('hooks', []):
             exclude = hook.get('exclude', [])
@@ -357,17 +357,17 @@ class AddressMapperController(QObject):
                 proj = yaml.safe_load(infile.read())
 
         except FileNotFoundError as e:
-            raise ProjectException(f'Unable to find "<span style="background-color: #55{LogType.Error.value.hex[1:]}">{e.filename}</span>" at "{self._cwd}"', LogType.Error)
+            raise ProjectException(f'Unable to find "<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{e.filename}</span>" at "{self._cwd}"', QLogsColor.Error)
 
         except yaml.MarkedYAMLError as e:
             error = e.problem_mark.get_snippet().split('\n')[0]
             symbols_str = e.problem_mark.get_snippet().split('\n')[1]
             index_start, index_end = symbols_str.find('^'), symbols_str.rfind('^')
-            error_highlight = f'{error[:index_start]}<span style="background-color: #55{LogType.Error.value.hex[1:]}">{error[index_start:index_end+1]}</span>{error[index_end+1:]}'
+            error_highlight = f'{error[:index_start]}<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{error[index_start:index_end+1]}</span>{error[index_end+1:]}'
 
             error_msg = f'{e.problem} {e.context}'.replace('<', '&lt;').replace('>', '&gt;')
 
-            raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{LogType.Error.value.hex[1:]}">{f}</span>\n{error_msg}\n{error_highlight}', LogType.Error)
+            raise ProjectException(f'Error parsing module file at line {e.problem_mark.line + 1}, column {e.problem_mark.column + 1}: <span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{f}</span>\n{error_msg}\n{error_highlight}', QLogsColor.Error)
 
         if 'modules' in proj:
             for m in proj['modules']:

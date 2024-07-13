@@ -6,9 +6,9 @@ import os, yaml, sys, difflib, timeit
 from pathlib import Path
 from shutil import copyfile
 
-from data.lib.QtUtils import QBaseApplication, QUtilsColor
-from ....LogType import LogType
+from data.lib.QtUtils import QBaseApplication, QUtilsColor, QLogsColor
 from ....ProjectException import ProjectException
+from .LogsColor import LogsColor
 from .CopyType import CopyType
 from .compiler import *
 #----------------------------------------------------------------------
@@ -19,8 +19,8 @@ class CompilerWorker(QThread):
 
     done = Signal(bool)
     error = Signal(str)
-    log_simple = Signal(str, LogType, bool)
-    log_complete = Signal(str, LogType, bool)
+    log_simple = Signal(str, QLogsColor, bool, tuple)
+    log_complete = Signal(str, QLogsColor, bool, tuple)
     new_symbols = Signal(tuple)
 
     @staticmethod
@@ -77,27 +77,27 @@ class CompilerWorker(QThread):
 
         except FileNotFoundError:
             msg = f'Cannot find project file at "{self._project_full_path}"'
-            self.log_error(msg, False)
+            self.log_error(msg, False, LogsColor.Project)
             return self.error.emit(msg)
         
         except yaml.YAMLError as e:
             msg = f'Cannot parse project file at "{self._project_full_path}"'
-            self.log_error(msg, False)
+            self.log_error(msg, False, LogsColor.Project)
             return self.error.emit(msg)
         
         except Exception as e:
             msg = f'Cannot read project file at "{self._project_full_path}"\n{e}'
-            self.log_error(msg, False)
+            self.log_error(msg, False, LogsColor.Project)
             return self.error.emit(msg)
 
         if not isinstance(project_data, dict):
             msg = 'The project file is an invalid format (it should be a YAML mapping)'
-            self.log_error(msg, False)
+            self.log_error(msg, False, LogsColor.Project)
             return self.error.emit(msg)
 
         if 'output_dir' not in project_data:
             msg = 'Missing output_dir field in the project file'
-            self.log_error(msg, False)
+            self.log_error(msg, False, LogsColor.Project)
             return self.error.emit(msg)
 
         self._asm_folder = Path(project_data['output_dir'])
@@ -127,7 +127,7 @@ class CompilerWorker(QThread):
         try: self._address_mapper_controller.run()
 
         except ProjectException as e:
-            l = e.msg.replace('\n', '<br/>').split('<br/>')
+            l = e.msg.split('\n')
             if not l:
                 self.log_error('Internal error', False)
                 return self.error.emit('Internal error')
@@ -177,7 +177,7 @@ class CompilerWorker(QThread):
         try: missing_symbols, func_symbols = self._kamek_controller.run()
 
         except CannotFindFunctionException as e:
-            self.log_error(f'Cannot find function: "<span style="background-color: #55{LogType.Error.value.hex[1:]}">{e.not_found_func}</span>"', False)
+            self.log_error(f'Cannot find function: "<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{e.not_found_func}</span>"', False, LogsColor.MissingFunction)
 
             def make_diff(a: str, b: str) -> str:
                 new_s = ''
@@ -185,33 +185,33 @@ class CompilerWorker(QThread):
 
                 for tag, i1, i2, j1, j2 in s.get_opcodes():
                     if tag == 'equal': new_s += a[i1:i2]
-                    elif tag == 'replace': new_s += make_span(b[j1:j2], LogType.Info)
-                    # elif tag == 'delete': new_s += make_span(a[i1:i2], LogType.Error) # To prevent confusion, don't highlight deleted characters
-                    elif tag == 'insert': new_s += make_span(b[j1:j2], LogType.Success)
+                    elif tag == 'replace': new_s += make_span(b[j1:j2], QLogsColor.Info)
+                    # elif tag == 'delete': new_s += make_span(a[i1:i2], QLogsColor.Error) # To prevent confusion, don't highlight deleted characters
+                    elif tag == 'insert': new_s += make_span(b[j1:j2], QLogsColor.Success)
 
                 return new_s
 
-            def make_span(s: str, log_type: LogType) -> str:
+            def make_span(s: str, log_type: QLogsColor) -> str:
                 return f'<span style="background-color: #55{log_type.value.hex[1:]}">{s}</span>'
 
             if len(e.func_symbols) == 1:
-                self.log_error(f'&nbsp;&nbsp;Did you mean "{make_diff(e.not_found_func, e.func_symbols[0].name)}"?', True)
-                # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;→ {e.func_symbols[0].raw}', True)
+                self.log_error(f'  Did you mean "{make_diff(e.not_found_func, e.func_symbols[0].name)}"?', True, LogsColor.MissingFunction)
+                # self.log_error(f'    → {e.func_symbols[0].raw}', True)
 
             elif len(e.func_symbols) > 1:
-                self.log_error(f'&nbsp;&nbsp;Did you mean one of these?', True)
+                self.log_error(f'  Did you mean one of these?', True, LogsColor.MissingFunction)
 
                 for func in e.func_symbols:
-                    self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;• {make_diff(e.not_found_func, func.name)}', True)
-                    # self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ {func.raw}', True)
+                    self.log_error(f'    • {make_diff(e.not_found_func, func.name)}', True)
+                    # self.log_error(f'      → {func.raw}', True)
 
-                    # if func != e.func_symbols[-1]: self.log_error('&nbsp;', True)
+                    # if func != e.func_symbols[-1]: self.log_error(' ', True)
 
             return self.error.emit(e.msg)
 
         except ProjectException as e:
             if 'Driver Error' in e.msg:
-                func = lambda s, inv: self.log_complete.emit(s, LogType.Error, inv)
+                func = lambda s, inv: self.log_complete.emit(s, QLogsColor.Error, inv, tuple())
                 self.log_error('An Driver Error occured while calling the compiler.', False)
                 self.log_error('Please make sure the right version of CodeWarrior is installed into the tools folder.', True)
                 self.log_error(f'You can find the installer here: <a href=\"http://cache.nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe?WT_TYPE=IDE%20-%20Debug,%20Compile%20and%20Build%20Tools&WT_VENDOR=FREESCALE&WT_FILE_FORMAT=exe&WT_ASSET=Downloads&fileExt=.exe\" style=\"color: {self._color_link.hex}; text-decoration: none;\">NXP \'CodeWarrior Special Edition\' for MPC55xx/MPC56xx v2.10</a>.', True)
@@ -238,7 +238,7 @@ class CompilerWorker(QThread):
             self._build_folder.mkdir()
 
 
-        self.log_info('&nbsp;', True)
+        self.log_info(' ', True)
 
         def rename(name: str, key: str, key_all: str, version_name1: str, version_name2: str) -> None:
             if self._data.get(key, None) or (self._data.get(key_all, None) if key_all else False):
@@ -260,11 +260,13 @@ class CompilerWorker(QThread):
         rename('CN', 'generateCN', None, 'chn', 'CN_5')
 
         if missing_symbols:
-            self.log_simple.emit('&nbsp;', LogType.Info, True)
-            self.log_simple.emit('Your code is missing the following symbols:', LogType.Warning, False)
+            self.log_simple.emit(' ', QLogsColor.Info, True, tuple())
+
+            copy_missing_symbols = '\\n'.join(f'{s.name} = 0x0;' for s in missing_symbols)
+            self.log_simple.emit(f'Your code is missing the following symbols: <button click="copyMissingSymbols|{copy_missing_symbols}">Copy</button>', QLogsColor.Warning, False, (LogsColor.Symbols,))
 
             for symbol in missing_symbols:
-                self.log_simple.emit(f'&nbsp;&nbsp;&nbsp;&nbsp;• <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{symbol.name}</span>', LogType.Warning, True)
+                self.log_simple.emit(f'    • <span style="font-style: italic; background-color: #55{QLogsColor.Warning.value.hex[1:]}">{symbol.name}</span>', QLogsColor.Warning, True, (LogsColor.Symbols,))
 
 
         if path := self._data.get('outputFolder', None):
@@ -286,8 +288,8 @@ class CompilerWorker(QThread):
 
         s = f'Compilation finished in {timeit.default_timer() - start_time:.2f} seconds.'
 
-        self.log_info_all('&nbsp;', True)
-        if missing_symbols: self.log_success(f'All done, but the game will crash at some point due to missing symbols.\n{s}', False)
+        self.log_info_all(' ', True)
+        if missing_symbols: self.log_success(f'All done, but the game will crash at some point due to missing symbols.\n{s}', False, LogsColor.Symbols)
         else: self.log_success(f'All done! {s}', False)
 
         self.new_symbols.emit(func_symbols)
@@ -309,37 +311,37 @@ class CompilerWorker(QThread):
                 (asm_folder / old).replace(build_folder / new)
 
             except FileNotFoundError as e:
-                self.log_warning(f'Cannot find <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{old}</span> file ({os.path.basename(e.filename)}). Did you forget to add them to the compilation config?', False)
+                self.log_warning(f'Cannot find <span style="font-style: italic; background-color: #55{QLogsColor.Warning.value.hex[1:]}">{old}</span> file ({os.path.basename(e.filename)}). Did you forget to add them to the compilation config?', False, LogsColor.Project)
 
             except Exception as e:
-                self.log_warning(f'Cannot copy <span style="font-style: italic; background-color: #55{LogType.Warning.value.hex[1:]}">{old}</span> file: {e}', False)
+                self.log_warning(f'Cannot copy <span style="font-style: italic; background-color: #55{QLogsColor.Warning.value.hex[1:]}">{old}</span> file: {e}', False, LogsColor.Project)
 
-    def log_info(self, msg: str, invisible: bool = False) -> None:
+    def log_info(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
-    def log_info_all(self, msg: str, invisible: bool = False) -> None:
+    def log_info_all(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Info, invisible)
-        self.log_simple.emit(msg, LogType.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
-    def log_warning(self, msg: str, invisible: bool = False) -> None:
+    def log_warning(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Warning, invisible)
-        self.log_simple.emit(msg, LogType.Warning, invisible)
+        self.log_complete.emit(msg, QLogsColor.Warning, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Warning, invisible, extra_logs)
 
-    def log_error(self, msg: str, invisible: bool = False) -> None:
+    def log_error(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Error, invisible)
-        self.log_simple.emit(msg, LogType.Error, invisible)
+        self.log_complete.emit(msg, QLogsColor.Error, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Error, invisible, extra_logs)
 
-    def log_success(self, msg: str, invisible: bool = False) -> None:
+    def log_success(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Success, invisible)
-        self.log_simple.emit(msg, LogType.Success, invisible)
+        self.log_complete.emit(msg, QLogsColor.Success, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Success, invisible, extra_logs)
 #----------------------------------------------------------------------

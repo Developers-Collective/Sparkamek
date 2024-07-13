@@ -3,16 +3,16 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
-from data.lib.QtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QLangData
+from data.lib.QtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QTerminalWidget, QSlidingStackedWidget, QUtilsColor, QLangData, QLogsColor
 from data.lib.widgets.NotificationManager import NotificationManager
-from ....SubProjectWidgetBase import SubProjectWidgetBase
-from ..NSMBW import NSMBW
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
 from .AddressConverterDockWidget import AddressConverterDockWidget
 from .CompilerWorker import CompilerWorker
 from .CopyType import CopyType
-from ....LogType import LogType
+from .LogsColor import LogsColor
+from ..NSMBW import NSMBW
+from ....SubProjectWidgetBase import SubProjectWidgetBase
 #----------------------------------------------------------------------
 
     # Class
@@ -102,23 +102,11 @@ class KamekWidget(SubProjectWidgetBase):
         self._logs_slide_widget = QSlidingStackedWidget()
         self._root.layout_.addWidget(self._logs_slide_widget, 1, 0)
 
-        self._simple_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get('QNamedTextBrowser.simpleLogs'))
-        self._simple_logs_textbrowser.setReadOnly(True)
-        self._simple_logs_textbrowser.text_browser.setTextInteractionFlags(
-            Qt.TextInteractionFlag.TextSelectableByMouse |
-            Qt.TextInteractionFlag.LinksAccessibleByMouse
-        )
-        self._simple_logs_textbrowser.text_browser.setOpenExternalLinks(True)
-        self._logs_slide_widget.addWidget(self._simple_logs_textbrowser)
+        self._simple_logs_terminal = QTerminalWidget(None, self._lang.get('QTerminalWidget.simpleLogs'), QLogsColor, LogsColor)
+        self._logs_slide_widget.addWidget(self._simple_logs_terminal)
 
-        self._complete_logs_textbrowser = QNamedTextBrowser(None, '', self._lang.get('QNamedTextBrowser.completeLogs'))
-        self._complete_logs_textbrowser.setReadOnly(True)
-        self._complete_logs_textbrowser.text_browser.setTextInteractionFlags(
-            Qt.TextInteractionFlag.TextSelectableByMouse |
-            Qt.TextInteractionFlag.LinksAccessibleByMouse
-        )
-        self._complete_logs_textbrowser.text_browser.setOpenExternalLinks(True)
-        self._logs_slide_widget.addWidget(self._complete_logs_textbrowser)
+        self._complete_logs_terminal = QTerminalWidget(None, self._lang.get('QTerminalWidget.completeLogs'), QLogsColor, LogsColor)
+        self._logs_slide_widget.addWidget(self._complete_logs_terminal)
 
 
     @property
@@ -136,8 +124,8 @@ class KamekWidget(SubProjectWidgetBase):
             self._compile_button.setIcon(self._stop_icon)
             self._compile_button.setText(self._lang.get('QPushButton.stop'))
 
-            self._simple_logs_textbrowser.clear()
-            self._complete_logs_textbrowser.clear()
+            self._simple_logs_terminal.clear()
+            self._complete_logs_terminal.clear()
 
             self._compile_thread = CompilerWorker(self._data, self._devkitppc_path, self._copy_type)
             self._compile_thread.done.connect(self._compile_done)
@@ -206,23 +194,13 @@ class KamekWidget(SubProjectWidgetBase):
     def _switch_logs_view(self, value: bool) -> None:
         self._logs_slide_widget.slide_in_index(int(value))
 
-    def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
-        l = self._lang.get(f'QNamedTextBrowser.{log_type.name.lower()}')
-        if invisible:
-            l = '<span>' + '&nbsp;' * (len(l) + 2) * 2 + '</span>'
+    def _log_simple(self, msg: str, log_type: QLogsColor, invisible: bool = False, extra_logs: tuple[LogsColor] = tuple()) -> None:
+        # print(msg, extra_logs, type(extra_logs))
+        self._simple_logs_terminal.log(msg, *extra_logs, log_type, continuous = invisible)
 
-        def gen_span(msg: str, color: QUtilsColor, bold: bool = False) -> str:
-            bold_text = 'font-weight: 700;' if bold else 'font-weight: 400;'
-            return f'<span style="color: {color.hex}; {bold_text};">{msg}</span>'
-
-        if invisible: return f'{l} {gen_span(msg, self._neutral_color)}'
-        return f'{gen_span("[", self._bracket_color, True)}{gen_span(l, log_type.value, True)}{gen_span("]", self._bracket_color, True)} {gen_span(msg, self._neutral_color)}'
-
-    def _log_simple(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
-        self._simple_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
-
-    def _log_complete(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
-        self._complete_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
+    def _log_complete(self, msg: str, log_type: QLogsColor, invisible: bool = False, extra_logs: tuple[LogsColor] = tuple()) -> None:
+        # print(msg, extra_logs, type(extra_logs))
+        self._complete_logs_terminal.log(msg, *extra_logs, log_type, continuous = invisible)
 
     def terminate_task(self) -> None:
         if self._compile_thread is not None:

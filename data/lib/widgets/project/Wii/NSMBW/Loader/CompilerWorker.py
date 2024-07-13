@@ -4,8 +4,7 @@
 from PySide6.QtCore import Signal, QThread
 import os, subprocess, shutil, sys
 
-from data.lib.QtUtils import QBaseApplication, QUtilsColor
-from ....LogType import LogType
+from data.lib.QtUtils import QBaseApplication, QUtilsColor, QLogsColor
 #----------------------------------------------------------------------
 
 #   Setup
@@ -22,8 +21,8 @@ class CompilerWorker(QThread):
 
     done = Signal()
     error = Signal(str)
-    log_simple = Signal(str, LogType, bool)
-    log_complete = Signal(str, LogType, bool)
+    log_simple = Signal(str, QLogsColor, bool)
+    log_complete = Signal(str, QLogsColor, bool)
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
@@ -71,7 +70,7 @@ class CompilerWorker(QThread):
 
             for line in output_lines:
                 if not line:
-                    self.log_error('&nbsp;', True)
+                    self.log_error(' ', True)
                     continue
 
                 if line.endswith('Assembler messages:'): continue
@@ -85,10 +84,10 @@ class CompilerWorker(QThread):
                     new_line = ': '.join(args)
 
                     func_name = new_line.split('\'')[1]
-                    new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{func_name}</span>')
+                    new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{func_name}</span>')
 
                     self.log_error(f'<span style="font-style: italic">Line {line_nb}</span>', True)
-                    self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;{new_line}', True)
+                    self.log_error(f'    {new_line}', True)
 
                 except Exception as e:
                     self.log_error(line, True)
@@ -117,7 +116,7 @@ class CompilerWorker(QThread):
 
             for line in output_lines:
                 if not line:
-                    self.log_error('&nbsp;', True)
+                    self.log_error(' ', True)
                     continue
 
                 if line.startswith(command[0]):
@@ -126,7 +125,7 @@ class CompilerWorker(QThread):
                         new_line = new_line[0].upper() + new_line[1:]
 
                         func_name = new_line.split('\'')[1]
-                        new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{func_name}</span>')
+                        new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{func_name}</span>')
 
                         self.log_error(f'{new_line}:', True)
 
@@ -138,9 +137,9 @@ class CompilerWorker(QThread):
                 new_line = line.replace('`', '\'').strip()
 
                 func_name = new_line.split('\'')[1]
-                new_line = new_line.replace(func_name, f'<span style="font-style: italic; background-color: #55{LogType.Error.value.hex[1:]}">{func_name}</span>')
+                new_line = new_line.replace(func_name, f'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{func_name}</span>')
 
-                self.log_error(f'&nbsp;&nbsp;&nbsp;&nbsp;{new_line}', True)
+                self.log_error(f'    {new_line}', True)
 
             self.error.emit(output)
             return
@@ -166,29 +165,29 @@ class CompilerWorker(QThread):
     def log_info(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible)
 
     def log_info_all(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Info, invisible)
-        self.log_simple.emit(msg, LogType.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible)
+        self.log_simple.emit(msg, QLogsColor.Info, invisible)
 
     def log_warning(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Warning, invisible)
-        self.log_simple.emit(msg, LogType.Warning, invisible)
+        self.log_complete.emit(msg, QLogsColor.Warning, invisible)
+        self.log_simple.emit(msg, QLogsColor.Warning, invisible)
 
     def log_error(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Error, invisible)
-        self.log_simple.emit(msg, LogType.Error, invisible)
+        self.log_complete.emit(msg, QLogsColor.Error, invisible)
+        self.log_simple.emit(msg, QLogsColor.Error, invisible)
 
     def log_success(self, msg: str, invisible: bool = False) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, LogType.Success, invisible)
-        self.log_simple.emit(msg, LogType.Success, invisible)
+        self.log_complete.emit(msg, QLogsColor.Success, invisible)
+        self.log_simple.emit(msg, QLogsColor.Success, invisible)
 #----------------------------------------------------------------------

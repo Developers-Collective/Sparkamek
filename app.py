@@ -58,6 +58,7 @@ class Application(QBaseApplication):
 
         QLogsList.init(self)
         QLogsDialog.init(self)
+        QTerminalWidget.init(self)
 
         self.logs_dialog: QLogsDialog = QLogsDialog(self.window)
         self.save_data.warning_received.connect(self.logs_dialog.add_warning)

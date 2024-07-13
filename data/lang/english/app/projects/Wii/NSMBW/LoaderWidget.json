@@ -6,7 +6,7 @@
     "QNamedToggleButton": {
         "showCompleteLogs": "Show Complete Logs"
     },
-    "QNamedTextBrowser": {
+    "QTerminalWidget": {
         "simpleLogs": "Simple Logs",
         "completeLogs": "Complete Logs",
         "error": "Error",

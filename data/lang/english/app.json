@@ -32,6 +32,12 @@
         "error": "Error",
         "warning": "Warning",
         "info": "Info",
-        "success": "Success"
+        "success": "Success",
+        "code": "Code",
+        "missingfunction": "Missing Function",
+        "symbols": "Symbols",
+        "patch": "Patch",
+        "link": "Link",
+        "project": "Project"
     }
 }

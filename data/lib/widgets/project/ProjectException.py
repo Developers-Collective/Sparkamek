@@ -1,12 +1,12 @@
 #----------------------------------------------------------------------
 
     # Libraries
-from .LogType import LogType
+from data.lib.QtUtils.QtCore.QLogsColor import QLogsColor
 #----------------------------------------------------------------------
 
     # Class
 class ProjectException(Exception):
-    def __init__(self, msg: str, type: LogType) -> None:
+    def __init__(self, msg: str, type: QLogsColor) -> None:
         super().__init__(msg)
 
         self._msg = msg
@@ -17,6 +17,6 @@ class ProjectException(Exception):
         return self._msg
 
     @property
-    def type(self) -> LogType:
+    def type(self) -> QLogsColor:
         return self._type
 #----------------------------------------------------------------------

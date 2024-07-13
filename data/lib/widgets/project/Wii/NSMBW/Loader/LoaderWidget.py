@@ -3,10 +3,9 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QSystemTrayIcon
 from PySide6.QtCore import Qt
-from data.lib.QtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData
+from data.lib.QtUtils import QBaseApplication, QGridWidget, QNamedToggleButton, QNamedTextBrowser, QSlidingStackedWidget, QUtilsColor, QSaveData, QLangData, QLogsColor
 from data.lib.widgets.NotificationManager import NotificationManager
 from ....SubProjectWidgetBase import SubProjectWidgetBase
-from ....LogType import LogType
 from ..NSMBW import NSMBW
 from .CompilerWorker import CompilerWorker
 #----------------------------------------------------------------------
@@ -155,10 +154,10 @@ class LoaderWidget(SubProjectWidgetBase):
     def _switch_logs_view(self, value: bool) -> None:
         self._logs_slide_widget.slide_in_index(int(value))
 
-    def _format_msg(self, msg: str, log_type: LogType, invisible: bool = False) -> str:
+    def _format_msg(self, msg: str, log_type: QLogsColor, invisible: bool = False) -> str:
         l = self._lang.get(f'QNamedTextBrowser.{log_type.name.lower()}')
         if invisible:
-            l = '<span>' + '&nbsp;' * (len(l) + 2) * 2 + '</span>'
+            l = '<span>' + ' ' * (len(l) + 2) * 2 + '</span>'
 
         def gen_span(msg: str, color: QUtilsColor, bold: bool = False) -> str:
             bold_text = 'font-weight: 700;' if bold else 'font-weight: 400;'
@@ -167,10 +166,10 @@ class LoaderWidget(SubProjectWidgetBase):
         if invisible: return f'{l} {gen_span(msg, self._neutral_color)}'
         return f'{gen_span("[", self._bracket_color, True)}{gen_span(l, log_type.value, True)}{gen_span("]", self._bracket_color, True)} {gen_span(msg, self._neutral_color)}'
 
-    def _log_simple(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
+    def _log_simple(self, msg: str, log_type: QLogsColor, invisible: bool = False) -> None:
         self._simple_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
 
-    def _log_complete(self, msg: str, log_type: LogType, invisible: bool = False) -> None:
+    def _log_complete(self, msg: str, log_type: QLogsColor, invisible: bool = False) -> None:
         self._complete_logs_textbrowser.append(self._format_msg(msg, log_type, invisible))
 
     def terminate_task(self) -> None:
