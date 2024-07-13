@@ -5,6 +5,7 @@ from PySide6.QtCore import Signal, QThread
 import os, subprocess, shutil, sys
 
 from data.lib.QtUtils import QBaseApplication, QUtilsColor, QLogsColor
+from .LogsColor import LogsColor
 #----------------------------------------------------------------------
 
 #   Setup
@@ -21,8 +22,8 @@ class CompilerWorker(QThread):
 
     done = Signal()
     error = Signal(str)
-    log_simple = Signal(str, QLogsColor, bool)
-    log_complete = Signal(str, QLogsColor, bool)
+    log_simple = Signal(str, QLogsColor, bool, tuple)
+    log_complete = Signal(str, QLogsColor, bool, tuple)
 
     @staticmethod
     def init(app: QBaseApplication) -> None:
@@ -162,32 +163,32 @@ class CompilerWorker(QThread):
         self.done.emit()
 
 
-    def log_info(self, msg: str, invisible: bool = False) -> None:
+    def log_info(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, QLogsColor.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
-    def log_info_all(self, msg: str, invisible: bool = False) -> None:
+    def log_info_all(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, QLogsColor.Info, invisible)
-        self.log_simple.emit(msg, QLogsColor.Info, invisible)
+        self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
-    def log_warning(self, msg: str, invisible: bool = False) -> None:
+    def log_warning(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, QLogsColor.Warning, invisible)
-        self.log_simple.emit(msg, QLogsColor.Warning, invisible)
+        self.log_complete.emit(msg, QLogsColor.Warning, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Warning, invisible, extra_logs)
 
-    def log_error(self, msg: str, invisible: bool = False) -> None:
+    def log_error(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, QLogsColor.Error, invisible)
-        self.log_simple.emit(msg, QLogsColor.Error, invisible)
+        self.log_complete.emit(msg, QLogsColor.Error, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Error, invisible, extra_logs)
 
-    def log_success(self, msg: str, invisible: bool = False) -> None:
+    def log_success(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
         msg = msg.strip()
         if not msg: return
-        self.log_complete.emit(msg, QLogsColor.Success, invisible)
-        self.log_simple.emit(msg, QLogsColor.Success, invisible)
+        self.log_complete.emit(msg, QLogsColor.Success, invisible, extra_logs)
+        self.log_simple.emit(msg, QLogsColor.Success, invisible, extra_logs)
 #----------------------------------------------------------------------

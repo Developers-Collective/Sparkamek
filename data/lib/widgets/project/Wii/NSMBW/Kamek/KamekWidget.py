@@ -195,11 +195,9 @@ class KamekWidget(SubProjectWidgetBase):
         self._logs_slide_widget.slide_in_index(int(value))
 
     def _log_simple(self, msg: str, log_type: QLogsColor, invisible: bool = False, extra_logs: tuple[LogsColor] = tuple()) -> None:
-        # print(msg, extra_logs, type(extra_logs))
         self._simple_logs_terminal.log(msg, *extra_logs, log_type, continuous = invisible)
 
     def _log_complete(self, msg: str, log_type: QLogsColor, invisible: bool = False, extra_logs: tuple[LogsColor] = tuple()) -> None:
-        # print(msg, extra_logs, type(extra_logs))
         self._complete_logs_terminal.log(msg, *extra_logs, log_type, continuous = invisible)
 
     def terminate_task(self) -> None:
