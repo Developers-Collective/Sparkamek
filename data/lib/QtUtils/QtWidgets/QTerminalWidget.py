@@ -94,8 +94,8 @@ class QTerminalWidget(QGridWidget):
         else: self.label.setStyleSheet(f'color: {self._normal_color}')
 
 
-    def log_raw(self, text: str, *log_types: QEnumColor) -> None:
-        self._model.log_raw(text, *log_types)
+    def log(self, text: str, *log_types: QEnumColor) -> None:
+        self._model.log(text, *log_types)
         self._web_view.page().setHtml(self._model.render())
 
 

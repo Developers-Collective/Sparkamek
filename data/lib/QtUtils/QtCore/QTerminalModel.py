@@ -253,7 +253,7 @@ class QTerminalModel:
         return ''.join(split)
 
 
-    def log_raw(self, text: str, *log_types: QEnumColor) -> None:
+    def log(self, text: str, *log_types: QEnumColor) -> None:
         div = f'<div class="columns">%s</div>'
 
         parts = (
@@ -269,10 +269,5 @@ class QTerminalModel:
 
 
     def render(self) -> str:
-        r = self._parsed_model.replace('%s', self._html)
-
-        with open('terminal.html', 'w', encoding = 'utf-8') as outfile:
-            outfile.write(r)
-
-        return r
+        return self._parsed_model.replace('%s', self._html)
 #----------------------------------------------------------------------
