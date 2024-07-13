@@ -405,7 +405,7 @@ class KamekBuilder:
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
                 self._controller.log_warning(f'    <span style="font-style: italic">Line {fasthack_line}</span>', True, LogsColor.Code)
-                self._controller.log_warning(f'    {code_begin}<span style="background-color: #55{QLogsColor.Warning.value.hex[1:]}">{code_middle}</span>{code_end}', True, LogsColor.Code)
+                self._controller.log_warning(f'    {code_begin}<span style="background-color: #{QLogsColor.Warning.value.hex[1:]}55">{code_middle}</span>{code_end}', True, LogsColor.Code)
                 for detail in details:
                     self._controller.log_warning(f'    <span style="font-style: italic">{detail}</span>', True, LogsColor.Code)
                 self._controller.log_warning(' ', True, LogsColor.Code)
@@ -420,7 +420,7 @@ class KamekBuilder:
         code_middle = code[pos1:pos2 + 1]
         code_end = code[pos2 + 1:]
         self._controller.log_simple.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span>', QLogsColor.Error, True, (LogsColor.Code,))
-        self._controller.log_simple.emit(f'    {code_begin}<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
+        self._controller.log_simple.emit(f'    {code_begin}<span style="background-color: #{QLogsColor.Error.value.hex[1:]}55">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
         for detail in details:
             self._controller.log_simple.emit(f'    <span style="font-style: italic">{detail}</span>', QLogsColor.Error, True, (LogsColor.Code,))
         self._controller.log_simple.emit(' ', QLogsColor.Error, True, (LogsColor.Code,))
@@ -433,7 +433,7 @@ class KamekBuilder:
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
                 self._controller.log_complete.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span>', QLogsColor.Error, True, (LogsColor.Code,))
-                self._controller.log_complete.emit(f'    {code_begin}<span style="background-color: #55{QLogsColor.Error.value.hex[1:]}">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
+                self._controller.log_complete.emit(f'    {code_begin}<span style="background-color: #{QLogsColor.Error.value.hex[1:]}55">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
                 for detail in details:
                     self._controller.log_complete.emit(f'    <span style="font-style: italic">{detail}</span>', QLogsColor.Error, True)
                 self._controller.log_complete.emit(' ', QLogsColor.Error, True, (LogsColor.Code,))
@@ -671,7 +671,7 @@ class KamekBuilder:
 
                 for i, arg in enumerate(line.replace('`', '\'').split('\'')):
                     if i % 2 == 0: new_line += arg
-                    else: new_line += f'\'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{arg}</span>\''
+                    else: new_line += f'\'<span style="font-style: italic; background-color: #{QLogsColor.Error.value.hex[1:]}55">{arg}</span>\''
 
                 self._controller.log_error(new_line, index != 0, LogsColor.Link)
 
@@ -903,7 +903,7 @@ class KamekController(QObject):
 
 
     def add_missing_symbol(self, symbol: MissingSymbol) -> None:
-        self.log_complete.emit(f'The following reloc ({symbol.addr:x}) points to {symbol.target:d}: Is this right? <span style="font-style: italic; background-color: #55{QLogsColor.Warning.value.hex[1:]}">{symbol.name}</span>', QLogsColor.Warning, False, (LogsColor.Symbols,))
+        self.log_complete.emit(f'The following reloc ({symbol.addr:x}) points to {symbol.target:d}: Is this right? <span style="font-style: italic; background-color: #{QLogsColor.Warning.value.hex[1:]}55">{symbol.name}</span>', QLogsColor.Warning, False, (LogsColor.Symbols,))
         if symbol.name not in self._missing_symbols: self._missing_symbols[symbol.name] = symbol
 
 

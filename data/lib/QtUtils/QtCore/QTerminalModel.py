@@ -63,6 +63,31 @@ class QTerminalModel:
             margin-top: 40px;
         }
 
+        ::-webkit-scrollbar {
+            width: 6px;  /* Largeur de la scrollbar verticale */
+            height: 6px; /* Hauteur de la scrollbar horizontale */
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-button {
+            display: none;
+            background: none;
+            border: none;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: none;
+        }
+
         div.vertical-space > * {
             margin-top: 0.75em;
         }

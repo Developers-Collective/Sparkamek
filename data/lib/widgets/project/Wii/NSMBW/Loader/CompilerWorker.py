@@ -84,7 +84,7 @@ class CompilerWorker(QThread):
                     new_line = ': '.join(args)
 
                     func_name = new_line.split('\'')[1]
-                    new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{func_name}</span>')
+                    new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #{QLogsColor.Error.value.hex[1:]}55">{func_name}</span>')
 
                     self.log_error(f'<span style="font-style: italic">Line {line_nb}</span>', True)
                     self.log_error(f'    {new_line}', True)
@@ -125,7 +125,7 @@ class CompilerWorker(QThread):
                         new_line = new_line[0].upper() + new_line[1:]
 
                         func_name = new_line.split('\'')[1]
-                        new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{func_name}</span>')
+                        new_line = new_line.replace(f'\'{func_name}\'', f'<span style="font-style: italic; background-color: #{QLogsColor.Error.value.hex[1:]}55">{func_name}</span>')
 
                         self.log_error(f'{new_line}:', True)
 
@@ -137,7 +137,7 @@ class CompilerWorker(QThread):
                 new_line = line.replace('`', '\'').strip()
 
                 func_name = new_line.split('\'')[1]
-                new_line = new_line.replace(func_name, f'<span style="font-style: italic; background-color: #55{QLogsColor.Error.value.hex[1:]}">{func_name}</span>')
+                new_line = new_line.replace(func_name, f'<span style="font-style: italic; background-color: #{QLogsColor.Error.value.hex[1:]}55">{func_name}</span>')
 
                 self.log_error(f'    {new_line}', True)
 
