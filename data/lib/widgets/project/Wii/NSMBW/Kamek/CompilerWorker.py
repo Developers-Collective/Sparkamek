@@ -202,7 +202,7 @@ class CompilerWorker(QThread):
                 self.log_error(f'  Did you mean one of these?', True, LogsColor.MissingFunction)
 
                 for func in e.func_symbols:
-                    self.log_error(f'    • {make_diff(e.not_found_func, func.name)}', True)
+                    self.log_error(f'    • {make_diff(e.not_found_func, func.name)} <button click="copy|{func.name}">Copy</button>', True)
                     # self.log_error(f'      → {func.raw}', True)
 
                     # if func != e.func_symbols[-1]: self.log_error(' ', True)
@@ -263,7 +263,7 @@ class CompilerWorker(QThread):
             self.log_simple.emit(' ', QLogsColor.Info, True, tuple())
 
             copy_missing_symbols = '\\n'.join(f'{s.name} = 0x0;' for s in missing_symbols)
-            self.log_simple.emit(f'Your code is missing the following symbols: <button click="copyMissingSymbols|{copy_missing_symbols}">Copy</button>', QLogsColor.Warning, False, (LogsColor.Symbols,))
+            self.log_simple.emit(f'Your code is missing the following symbols: <button click="copy|{copy_missing_symbols}">Copy</button>', QLogsColor.Warning, False, (LogsColor.Symbols,))
 
             for symbol in missing_symbols:
                 self.log_simple.emit(f'    • <span style="font-style: italic; background-color: #{QLogsColor.Warning.value.hex[1:]}55">{symbol.name}</span>', QLogsColor.Warning, True, (LogsColor.Symbols,))

@@ -151,7 +151,12 @@ class QTerminalModel:
             min-height: 1.188em;
         }
 
-        a {
+        a:not(.button) {
+            text-decoration: none;
+            color: %a-color;
+        }
+
+        a.button {
             text-decoration: none;
             border: #fff 1px solid;
             padding: 2px 5px;
@@ -197,6 +202,7 @@ class QTerminalModel:
             QssSelector(widget = 'QWidget', attributes = {'QTerminalWidget': True}),
             QssSelector(widget = 'QWebEngineView')
         )['background-color']
+        a_color = QTerminalModel._app.save_data.COLOR_LINK.hexa
 
         root_vars = [
             f'--fg: {fg_color};',
@@ -212,6 +218,7 @@ class QTerminalModel:
         self._parsed_model = (
             QTerminalModel._model
                 .replace('%vars', '\n'.join(root_vars))
+                .replace('%a-color', a_color)
                 .replace('%unique-styles', '\n'.join(unique_styles))
         )
 
@@ -271,15 +278,33 @@ class QTerminalModel:
 
                 attr_convert = {}
                 attr_disable = {}
+                extra_classes = []
 
                 match tag_name:
                     case 'button':
                         tag_name = 'a'
+                        extra_classes.append('button')
                         attr_convert = {
                             'click': 'onclick="sendButtonClicked(\'%s\')" href="javascript:void(0)"',
                         }
 
+                    case 'a':
+                        attr_convert = {
+                            'href': 'onclick="sendButtonClicked(\'href|%s\')" href="javascript:void(0)"',
+                        }
+
                 assembled_attributes = []
+                if extra_classes:
+                    if 'class' in [t[0] for t in tag_info]:
+                        tag_info = list(tag_info)
+                        index = [t[0] for t in tag_info].index('class')
+                        tag_info[index] = ('class', ' '.join(extra_classes) + ' ' + tag_info[index][1])
+
+                    else:
+                        tag_info = list(tag_info)
+                        tag_info.append(('class', ' '.join(extra_classes)))
+                        tag_info = tuple(tag_info)
+
                 for attr_name, attr_value in tag_info:
                     if attr_name in attr_convert:
                         assembled_attributes.append(attr_convert[attr_name].replace('%s', attr_value))
