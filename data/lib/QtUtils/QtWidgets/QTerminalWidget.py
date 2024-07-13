@@ -64,7 +64,6 @@ class QTerminalWidget(QGridWidget):
         self._web_view = QWebEngineView()
         self._web_view.setPage(QTerminalWebEnginePage(self._web_view))
         self._root.layout_.addWidget(self._web_view)
-        self._html = ''
 
         self._web_view.base_focusInEvent = self._web_view.focusInEvent
         self._web_view.base_focusOutEvent = self._web_view.focusOutEvent
@@ -95,13 +94,23 @@ class QTerminalWidget(QGridWidget):
 
 
     def log(self, text: str, *log_types: QEnumColor) -> None:
+        actual_scroll = self._web_view.page().scrollPosition()
+        is_bottom = actual_scroll.y() >= self._web_view.page().contentsSize().height()
+
         self._model.log(text, *log_types)
         self._web_view.page().setHtml(self._model.render())
+
+        if is_bottom: self._web_view.page().runJavaScript('window.scrollTo(0, document.body.scrollHeight)')
+        else: self._web_view.page().runJavaScript(f'window.scrollTo({actual_scroll.x()}, {actual_scroll.y()})')
+
+
+    @property
+    def html(self) -> str:
+        return self._model.render()
 
 
     def clear(self) -> None:
         self._web_view.page().setHtml('')
-        self._html = ''
 
 
     def isEnabled(self) -> bool:
