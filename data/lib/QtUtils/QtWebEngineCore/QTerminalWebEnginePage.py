@@ -1,15 +1,17 @@
 from PySide6.QtWidgets import QWidget
-from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineNewWindowRequest
+from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineNewWindowRequest, QWebEngineSettings
 from PySide6.QtCore import QUrl
 from PySide6.QtCore import Signal
 
 
 class QTerminalWebEnginePage(QWebEnginePage):
-    button_clicked = Signal(str)
+    action_triggered = Signal(str)
 
     def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
         self._first_load = True
+
+        self.settings().setAttribute(QWebEngineSettings.WebAttribute.ScrollAnimatorEnabled, True)
 
 
     def acceptNavigationRequest(self, url: QUrl | str, type: QWebEnginePage.NavigationType, is_main_frame: bool) -> bool:
@@ -23,18 +25,14 @@ class QTerminalWebEnginePage(QWebEnginePage):
 
     def javaScriptConsoleMessage(self, level: QWebEnginePage.JavaScriptConsoleMessageLevel, message: str, line_number: int, source_id: str) -> None:
         if message.startswith('buttonClicked:'):
-            button_id = ':'.join(message.split(':')[1:])
-            print(button_id)
-            self.button_clicked.emit(button_id)
+            action = ':'.join(message.split(':')[1:])
+            self.action_triggered.emit(action)
             return
-        
-        # if level == QWebEnginePage.JavaScriptConsoleMessageLevel.ErrorMessageLevel:
-        #     print(f'[ERROR] {message} ({source_id}:{line_number})')
 
         return super().javaScriptConsoleMessage(level, message, line_number, source_id)
 
 
-    def append_html(self, selector_data: dict, html: str) -> None: # TODO: fix this
+    def append_html(self, selector_data: dict, html: str) -> None: # TODO: fix this to not do weird scrollbar things
         selector = selector_data['selector']
 
         index = selector_data.get('index', 0)

@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QPushButton, QDockWidget, QSystemTrayIcon
 from PySide6.QtCore import Qt
-from data.lib.QtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QTerminalWidget, QSlidingStackedWidget, QUtilsColor, QLangData, QLogsColor
+from data.lib.QtUtils import QBaseApplication, QSaveData, QGridWidget, QNamedToggleButton, QTerminalWidget, QSlidingStackedWidget, QUtilsColor, QLangData, QLogsColor, QTerminalAction
 from data.lib.widgets.NotificationManager import NotificationManager
 from .SpritesAndActorsDockWidget import SpritesAndActorsDockWidget
 from .SymbolsDockWidget import SymbolsDockWidget
@@ -103,9 +103,11 @@ class KamekWidget(SubProjectWidgetBase):
         self._root.layout_.addWidget(self._logs_slide_widget, 1, 0)
 
         self._simple_logs_terminal = QTerminalWidget(None, self._lang.get('QTerminalWidget.simpleLogs'), QLogsColor, LogsColor)
+        self._simple_logs_terminal.action_triggered.connect(self._exec_terminal_action)
         self._logs_slide_widget.addWidget(self._simple_logs_terminal)
 
         self._complete_logs_terminal = QTerminalWidget(None, self._lang.get('QTerminalWidget.completeLogs'), QLogsColor, LogsColor)
+        self._complete_logs_terminal.action_triggered.connect(self._exec_terminal_action)
         self._logs_slide_widget.addWidget(self._complete_logs_terminal)
 
 
@@ -256,6 +258,11 @@ class KamekWidget(SubProjectWidgetBase):
     def settings_updated(self, settings: QSaveData) -> None:
         self._devkitppc_path = settings.devkitppc_path
         return super().settings_updated(settings)
+
+
+    def _exec_terminal_action(self, action: QTerminalAction) -> None:
+        try: action.exec()
+        except Exception as e: print(e)
 #----------------------------------------------------------------------
 
     # Setup

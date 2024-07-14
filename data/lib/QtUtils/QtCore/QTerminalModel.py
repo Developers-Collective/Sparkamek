@@ -3,6 +3,7 @@
     # Librairies
 from .QLangData import QLangData
 from .QEnumColor import QEnumColor
+from .QTerminalAction import QTerminalAction, QTerminalActionFabric
 from . import QBaseApplication
 from ..QtGui.QssParser import QssSelector
 
@@ -157,27 +158,66 @@ class QTerminalModel:
         }
 
         a.button {
+            display: inline-block;
+            transition: all 0.2s ease-in-out;
             text-decoration: none;
             border: #fff 1px solid;
             padding: 2px 5px;
             border-radius: 10px;
             font-size: 0.775em;
         }
-    </style>
 
-    <script>
-        function sendButtonClicked(button_id) {
-            console.log('buttonClicked:' + button_id);
+        a.button.animated {
+            animation: pulse 0.75s ease-in-out;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            window.scrollTo(0, document.body.scrollHeight);
-        })
-    </script>
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                background-color: transparent;
+            }
+            15% {
+                transform: scale(1.1);
+                background-color: #20df2055;
+            }
+            75% {
+                transform: scale(1.1);
+                background-color: #20df2055;
+            }
+            100% {
+                transform: scale(1);
+                background-color: transparent;
+            }
+        }
+    </style>
 
     <div class="vertical-space">
         %s
     </div>
+
+    <script>
+        function sendButtonClicked(action) {
+            console.log('buttonClicked:' + action);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.scrollTo(0, document.body.scrollHeight);
+
+            var elements = document.getElementsByClassName('button');
+
+            for (let i = 0; i <= elements.length; i++) {
+                elements[i]?.addEventListener('animationend', function(e) {
+                    if (elements[i].classList.contains('animated'))
+                        elements[i].classList.remove('animated');
+                });
+
+                elements[i]?.addEventListener('click', function(e) {
+                    if (!elements[i].classList.contains('animated'))
+                        elements[i].classList.add('animated');
+                });
+            }
+        })
+    </script>
 </body>
 </html>
 '''
@@ -368,4 +408,8 @@ class QTerminalModel:
     def clear(self) -> None:
         self._html = ''
         self._last_added = ''
+
+
+    def convert_to_action(self, action: str) -> QTerminalAction:
+        return QTerminalActionFabric.create(action)
 #----------------------------------------------------------------------

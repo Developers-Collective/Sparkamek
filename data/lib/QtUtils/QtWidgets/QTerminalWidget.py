@@ -3,7 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import Qt, QEvent
+from PySide6.QtCore import Qt, QEvent, Signal
 from typing import Callable
 
 from .QGridWidget import QGridWidget
@@ -11,12 +11,15 @@ from .QGridFrame import QGridFrame
 from ..QtCore import QBaseApplication
 from ..QtCore.QTerminalModel import QTerminalModel
 from ..QtCore.QEnumColor import QEnumColor
+from ..QtCore.QTerminalAction import QTerminalAction
 from ..QtGui import QssSelector
 from ..QtWebEngineCore import QTerminalWebEnginePage
 #----------------------------------------------------------------------
 
     # Class
 class QTerminalWidget(QGridWidget):
+    action_triggered = Signal(QTerminalAction)
+
     _normal_color = '#FFFFFF'
     _hover_color = '#FFFFFF'
     _focus_color = '#FFFFFF'
@@ -64,7 +67,9 @@ class QTerminalWidget(QGridWidget):
 
 
         self._web_view = QWebEngineView()
-        self._web_view.setPage(QTerminalWebEnginePage(self._web_view))
+        page = QTerminalWebEnginePage(self._web_view)
+        page.action_triggered.connect(self._convert_action)
+        self._web_view.setPage(page)
         self._root.layout_.addWidget(self._web_view)
 
         self._web_view.base_focusInEvent = self._web_view.focusInEvent
@@ -141,4 +146,8 @@ class QTerminalWidget(QGridWidget):
     def setEnabled(self, enabled: bool) -> None:
         self._web_view.setEnabled(enabled)
         self.label.setEnabled(enabled)
+
+
+    def _convert_action(self, action: str) -> None:
+        self.action_triggered.emit(self._model.convert_to_action(action))
 #----------------------------------------------------------------------

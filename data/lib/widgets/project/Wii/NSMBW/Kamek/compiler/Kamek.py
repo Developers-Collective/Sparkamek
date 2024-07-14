@@ -398,13 +398,14 @@ class KamekBuilder:
         if warnings or errors: self._controller.log_info_all(' ', True, LogsColor.Code)
 
         for file in warnings:
+            complete_file = f'{self._controller.cwd}/{file}'
             self._controller.log_warning(f'<span style="font-weight: 700">{file}</span>:', False, LogsColor.Code)
 
             for fasthack_line, code, pos1, pos2, details in warnings[file]:
                 code_begin = code[:pos1]
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
-                self._controller.log_warning(f'    <span style="font-style: italic">Line {fasthack_line}</span> <button click="open-code|{file}|{fasthack_line}|{code_middle}">Open file in Editor</button>', True, LogsColor.Code)
+                self._controller.log_warning(f'    <span style="font-style: italic">Line {fasthack_line}</span> <button click="open-code|{complete_file}|{fasthack_line}|{code_middle}">Open file in Editor</button>', True, LogsColor.Code)
                 self._controller.log_warning(f'    {code_begin}<span style="background-color: #{QLogsColor.Warning.value.hex[1:]}55">{code_middle}</span>{code_end}', True, LogsColor.Code)
                 for detail in details:
                     self._controller.log_warning(f'    <span style="font-style: italic">{detail}</span>', True, LogsColor.Code)
@@ -414,25 +415,27 @@ class KamekBuilder:
         if not first_error: return
 
         file, fasthack_line, code, pos1, pos2, details = first_error
+        complete_file = f'{self._controller.cwd}/{file}'
         self._controller.log_simple.emit(f'<span style="font-weight: 700">{file}</span>:', QLogsColor.Error, False, (LogsColor.Code,))
 
         code_begin = code[:pos1]
         code_middle = code[pos1:pos2 + 1]
         code_end = code[pos2 + 1:]
-        self._controller.log_simple.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span> <button click="open-code|{file}|{fasthack_line}|{code_middle}">Open file in Editor</button>', QLogsColor.Error, True, (LogsColor.Code,))
+        self._controller.log_simple.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span> <button click="open-code|{complete_file}|{fasthack_line}|{code_middle}">Open file in Editor</button>', QLogsColor.Error, True, (LogsColor.Code,))
         self._controller.log_simple.emit(f'    {code_begin}<span style="background-color: #{QLogsColor.Error.value.hex[1:]}55">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
         for detail in details:
             self._controller.log_simple.emit(f'    <span style="font-style: italic">{detail}</span>', QLogsColor.Error, True, (LogsColor.Code,))
         self._controller.log_simple.emit(' ', QLogsColor.Error, True, (LogsColor.Code,))
 
         for file in errors: # Keeping the errors as sometimes it can be useful
+            complete_file = f'{self._controller.cwd}/{file}'
             self._controller.log_complete.emit(f'<span style="font-weight: 700">{file}</span>:', QLogsColor.Error, False, (LogsColor.Code,))
 
             for fasthack_line, code, pos1, pos2, details in errors[file]:
                 code_begin = code[:pos1]
                 code_middle = code[pos1:pos2 + 1]
                 code_end = code[pos2 + 1:]
-                self._controller.log_complete.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span> <button click="open-code|{file}|{fasthack_line}|{code_middle}">Open file in Editor</button>', QLogsColor.Error, True, (LogsColor.Code,))
+                self._controller.log_complete.emit(f'    <span style="font-style: italic">Line {fasthack_line}</span> <button click="open-code|{complete_file}|{fasthack_line}|{code_middle}">Open file in Editor</button>', QLogsColor.Error, True, (LogsColor.Code,))
                 self._controller.log_complete.emit(f'    {code_begin}<span style="background-color: #{QLogsColor.Error.value.hex[1:]}55">{code_middle}</span>{code_end}', QLogsColor.Error, True, (LogsColor.Code,))
                 for detail in details:
                     self._controller.log_complete.emit(f'    <span style="font-style: italic">{detail}</span>', QLogsColor.Error, True, (LogsColor.Code,))

@@ -18,4 +18,5 @@ from .QCrashReport import QCrashReport
 from .QDirection import QDirection
 from .QLogsColor import QLogsColor
 from .QTerminalModel import QTerminalModel
+from .QTerminalAction import *
 #----------------------------------------------------------------------
