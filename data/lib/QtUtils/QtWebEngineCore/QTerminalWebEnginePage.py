@@ -42,3 +42,4 @@ class QTerminalWebEnginePage(QWebEnginePage):
         self.runJavaScript((
             f'modifyHTML({modifier.selector.__repr__()}, {modifier.index}, {modifier.html.__repr__()}, {modifier.behaviour.value.__repr__()});'
         ).replace('\n', ''))
+#----------------------------------------------------------------------
