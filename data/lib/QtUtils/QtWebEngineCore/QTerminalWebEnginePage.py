@@ -1,9 +1,15 @@
+#----------------------------------------------------------------------
+
+    # Librairies
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineNewWindowRequest, QWebEngineSettings
 from PySide6.QtCore import QUrl
 from PySide6.QtCore import Signal
 
+from ..QtCore import QTerminalElementModifier
+#----------------------------------------------------------------------
 
+    # Class
 class QTerminalWebEnginePage(QWebEnginePage):
     action_triggered = Signal(str)
 
@@ -32,23 +38,7 @@ class QTerminalWebEnginePage(QWebEnginePage):
         return super().javaScriptConsoleMessage(level, message, line_number, source_id)
 
 
-    def append_html(self, selector_data: dict, html: str) -> None: # TODO: fix this to not do weird scrollbar things
-        selector = selector_data['selector']
-
-        index = selector_data.get('index', 0)
-        if index == 'first': index = 0
-        elif index == 'last': index = -1
-
-        html = html.replace('\'', '\\\'')
-
-        # print('\n'.join([
-        #     f'var nodes = document.querySelectorAll("{selector}");'.replace('\n', ''),
-        #     f'var element = nodes[' + str(index if index >= 0 else f'nodes.length - {index}') + f'];'.replace('\n', ''),
-        #     f'element.innerHTML += \'{html}\';'.replace('\n', '')
-        # ]))
-
+    def modify_html(self, modifier: QTerminalElementModifier) -> None:
         self.runJavaScript((
-            f'var nodes = document.querySelectorAll("{selector}");'
-            f'var element = nodes[' + str(index if index >= 0 else f'nodes.length - {index}') + f'];'
-            f'element.innerHTML += \'{html}\';'
+            f'modifyHTML({modifier.selector.__repr__()}, {modifier.index}, {modifier.html.__repr__()}, {modifier.behaviour.value.__repr__()});'
         ).replace('\n', ''))

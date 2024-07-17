@@ -3,6 +3,7 @@
     # Libraries
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtCore import Qt, QEvent, Signal
 from typing import Callable
 
@@ -43,9 +44,9 @@ class QTerminalWidget(QGridWidget):
         QTerminalModel.init(app)
 
 
-    def __init__(self, parent = None, name: str = '', *enum_colors: type[QEnumColor]) -> None:
+    def __init__(self, parent = None, name: str = '', *enum_colors: type[QEnumColor], terminal_name: str = '') -> None:
         super().__init__(parent)
-        self._model = QTerminalModel(*enum_colors)
+        self._model = QTerminalModel(*enum_colors, name = terminal_name)
 
         self.layout_.setSpacing(0)
         self.layout_.setContentsMargins(0, 0, 0, 0)
@@ -103,22 +104,9 @@ class QTerminalWidget(QGridWidget):
 
 
     def _log_raw(self, func: Callable, text: str, *log_types: QEnumColor, continuous: bool = False) -> None:
-        # actual_scroll = self._web_view.page().scrollPosition()
-        # is_bottom = actual_scroll.y() >= self._web_view.page().contentsSize().height()
-        # print(actual_scroll, is_bottom)
-
-        html_to_add = func(text, *log_types, continuous = continuous)
-        self._web_view.page().setHtml(self._model.render())
-        # self._web_view.page().append_html(
-        #     {
-        #         'selector':'.columns' if continuous else '.vertical-space',
-        #         'index': -1 if continuous else 0,
-        #     },
-        #     html_to_add
-        # )
-
-        # if is_bottom: self._web_view.page().runJavaScript('window.scrollTo(0, document.body.scrollHeight)')
-        # else: self._web_view.page().runJavaScript(f'window.scrollTo({actual_scroll.x()}, {actual_scroll.y()})')
+        self._web_view.page().modify_html(
+            func(text, *log_types, continuous = continuous)
+        )
 
 
     def log_empty(self) -> None:
@@ -126,7 +114,6 @@ class QTerminalWidget(QGridWidget):
 
 
     def log(self, text: str, *log_types: QEnumColor, continuous: bool = False) -> None:
-        if not text.strip(): return self.log_empty()
         self._log_raw(self._model.log, text, *log_types, continuous = continuous)
 
 

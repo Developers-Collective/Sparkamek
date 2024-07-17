@@ -939,36 +939,24 @@ class KamekController(QObject):
 
 
     def log_info(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
-        msg = msg.strip()
-        if not msg: return
         self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
     def log_info_all(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
-        msg = msg.strip()
-        if not msg: return
         self.log_complete.emit(msg, QLogsColor.Info, invisible, extra_logs)
         self.log_simple.emit(msg, QLogsColor.Info, invisible, extra_logs)
 
     def log_warning(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
-        msg = msg.strip()
-        if not msg: return
         self.log_complete.emit(msg, QLogsColor.Warning, invisible, extra_logs)
         self.log_simple.emit(msg, QLogsColor.Warning, invisible, extra_logs)
 
     def log_error(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
-        msg = msg.strip()
-        if not msg: return
         self.log_complete.emit(msg, QLogsColor.Error, invisible, extra_logs)
         self.log_simple.emit(msg, QLogsColor.Error, invisible, extra_logs)
 
     def log_success(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
-        msg = msg.strip()
-        if not msg: return
         self.log_complete.emit(msg, QLogsColor.Success, invisible, extra_logs)
 
     def log_success_all(self, msg: str, invisible: bool = False, *extra_logs: LogsColor) -> None:
-        msg = msg.strip()
-        if not msg: return
         self.log_complete.emit(msg, QLogsColor.Success, invisible, extra_logs)
         self.log_simple.emit(msg, QLogsColor.Success, invisible, extra_logs)
 

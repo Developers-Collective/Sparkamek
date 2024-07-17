@@ -1,13 +1,14 @@
 #----------------------------------------------------------------------
 
     # Librairies
+import regex
+
 from .QLangData import QLangData
 from .QEnumColor import QEnumColor
 from .QTerminalAction import QTerminalAction, QTerminalActionFabric
+from .QTerminalElementModifier import QTerminalElementModifier
 from . import QBaseApplication
 from ..QtGui.QssParser import QssSelector
-
-import regex
 #----------------------------------------------------------------------
 
     # Class
@@ -32,7 +33,7 @@ class QTerminalModel:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal</title>
+    <title>%title</title>
 </head>
 <body>
     <style>
@@ -147,9 +148,12 @@ class QTerminalModel:
         div.columns, div.column {
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap;
             justify-content: start;
             min-height: 1.188em;
+        }
+
+        div.column {
+            flex-wrap: wrap;
         }
 
         a:not(.button) {
@@ -196,26 +200,91 @@ class QTerminalModel:
     </div>
 
     <script>
-        function sendButtonClicked(action) {
-            console.log('buttonClicked:' + action);
-        }
+        function bindButtonAnimations(parent) {
+            var elements = parent.getElementsByClassName('button');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            window.scrollTo(0, document.body.scrollHeight);
-
-            var elements = document.getElementsByClassName('button');
-
-            for (let i = 0; i <= elements.length; i++) {
-                elements[i]?.addEventListener('animationend', function(e) {
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].addEventListener('animationend', function(e) {
                     if (elements[i].classList.contains('animated'))
                         elements[i].classList.remove('animated');
                 });
 
-                elements[i]?.addEventListener('click', function(e) {
+                elements[i].addEventListener('click', function(e) {
                     if (!elements[i].classList.contains('animated'))
                         elements[i].classList.add('animated');
                 });
             }
+        }
+
+        function sendButtonClicked(action) {
+            console.log('buttonClicked:' + action);
+        }
+
+        var followScroll = true;
+
+        function modifyHTML(selector, index, html, action) {
+            var nodes = document.querySelectorAll(selector);
+            var element = nodes[index >= 0 ? index : nodes.length + index];
+
+            switch (action) {
+                case 'add-inner':
+                    element.innerHTML += html;
+                    break;
+
+                case 'add-outer':
+                    element.outerHTML += html;
+                    break;
+
+                case 'replace-inner':
+                    element.innerHTML = html;
+                    break;
+
+                case 'replace-outer':
+                    element.outerHTML = html;
+                    break;
+            }
+            bindButtonAnimations(element);
+
+            nodes = document.querySelectorAll('.column');
+            element = nodes[nodes.length - 1]; // Get the new element
+
+            // Scroll to the new element
+            if (followScroll) {
+                window.scroll({
+                    top: element.getBoundingClientRect().y + window.scrollY,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.addEventListener('scroll', eventHandler);
+        document.addEventListener('mousedown', eventHandler);
+        document.addEventListener('wheel', eventHandler);
+        document.addEventListener('DOMMouseScroll', eventHandler);
+        document.addEventListener('mousewheel', eventHandler);
+        document.addEventListener('keyup', eventHandler);
+
+        function eventHandler(evt) {
+            if (evt.type !== 'scroll') {
+                if (!followScroll) {
+                    if (evt.detail > 0 || (evt.wheelDelta && evt.wheelDelta < 0)) { // Scroll down
+                        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) { // If at the bottom
+                            followScroll = true;
+                        }
+                    }
+                }
+
+                else {
+                    if (evt.detail < 0 || (evt.wheelDelta && evt.wheelDelta > 0)) { // Scroll up
+                        followScroll = false;
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            bindButtonAnimations(document);
         })
     </script>
 </body>
@@ -230,7 +299,7 @@ class QTerminalModel:
         QTerminalModel._app = app
 
 
-    def __init__(self, *enum_colors: type[QEnumColor]) -> None:
+    def __init__(self, *enum_colors: type[QEnumColor], name: str = 'Terminal') -> None:
         self._html = ''
         self._last_added = ''
 
@@ -257,6 +326,7 @@ class QTerminalModel:
 
         self._parsed_model = (
             QTerminalModel._model
+                .replace('%title', name)
                 .replace('%vars', '\n'.join(root_vars))
                 .replace('%a-color', a_color)
                 .replace('%unique-styles', '\n'.join(unique_styles))
@@ -362,29 +432,42 @@ class QTerminalModel:
         return ''.join(split)
 
 
-    def log_empty(self, *args, **kwargs) -> str:
+    def log_empty(self, *args, **kwargs) -> QTerminalElementModifier:
         div = f'<div class="columns"></div>'
         self._html += self._last_added + div
         self._last_added = ''
 
-        return div
+        return QTerminalElementModifier(
+            '.vertical-space',
+            0,
+            div,
+            QTerminalElementModifier.Behaviour.AddInner
+        )
 
 
-    def log(self, text: str, *log_types: QEnumColor, continuous: bool = False) -> str:
-        if not log_types or not (text.strip()):
-            self.log_empty()
+    def _log_continuous(self, text: str) -> None:
+        add = self._build_element(text)
+
+        last_span = self._last_added.rfind('</span>')
+        if last_span != -1:
+            self._last_added = self._last_added[:last_span] + '<br>' + add + self._last_added[last_span:]
+        else: self._last_added += add
+
+        return QTerminalElementModifier(
+            '.columns',
+            -1,
+            self._last_added,
+            QTerminalElementModifier.Behaviour.ReplaceOuter
+        )
+
+
+    def log(self, text: str, *log_types: QEnumColor, continuous: bool = False) -> QTerminalElementModifier:
+        if continuous: return self._log_continuous(text)
+
+        if (not log_types) or (not text.strip()):
+            return self.log_empty()
 
         div = f'<div class="columns">%s</div>'
-
-        if continuous:
-            add = self._build_element(text)
-
-            last_span = self._last_added.rfind('</span>')
-            if last_span != -1:
-                self._last_added = self._last_added[:last_span] + '<br>' + add + self._last_added[last_span:]
-            else: self._last_added += add
-
-            return add
 
         parts = (
             f'<div class="column">' + ''.join((
@@ -398,7 +481,12 @@ class QTerminalModel:
         self._html += self._last_added
         self._last_added = div.replace('%s', '\n'.join(parts))
 
-        return self._last_added
+        return QTerminalElementModifier(
+            '.vertical-space',
+            -1,
+            self._last_added,
+            QTerminalElementModifier.Behaviour.AddInner
+        )
 
 
     def render(self) -> str:

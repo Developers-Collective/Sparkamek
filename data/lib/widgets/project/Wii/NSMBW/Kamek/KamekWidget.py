@@ -102,11 +102,23 @@ class KamekWidget(SubProjectWidgetBase):
         self._logs_slide_widget = QSlidingStackedWidget()
         self._root.layout_.addWidget(self._logs_slide_widget, 1, 0)
 
-        self._simple_logs_terminal = QTerminalWidget(None, self._lang.get('QTerminalWidget.simpleLogs'), QLogsColor, LogsColor)
+        self._simple_logs_terminal = QTerminalWidget(
+            None,
+            self._lang.get('QTerminalWidget.simpleLogs'),
+            QLogsColor,
+            LogsColor,
+            terminal_name = f'{name} - {self._lang.get("QTerminalWidget.simpleLogs")}',
+        )
         self._simple_logs_terminal.action_triggered.connect(self._exec_terminal_action)
         self._logs_slide_widget.addWidget(self._simple_logs_terminal)
 
-        self._complete_logs_terminal = QTerminalWidget(None, self._lang.get('QTerminalWidget.completeLogs'), QLogsColor, LogsColor)
+        self._complete_logs_terminal = QTerminalWidget(
+            None,
+            self._lang.get('QTerminalWidget.completeLogs'),
+            QLogsColor,
+            LogsColor,
+            terminal_name = f'{name} - {self._lang.get("QTerminalWidget.completeLogs")}',
+        )
         self._complete_logs_terminal.action_triggered.connect(self._exec_terminal_action)
         self._logs_slide_widget.addWidget(self._complete_logs_terminal)
 
