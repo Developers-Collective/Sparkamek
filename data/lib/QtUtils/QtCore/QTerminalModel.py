@@ -63,6 +63,7 @@ class QTerminalModel:
 
         body {
             margin-top: 40px;
+            overflow-x: hidden;
         }
 
         ::-webkit-scrollbar {
@@ -153,7 +154,8 @@ class QTerminalModel:
         }
 
         div.column {
-            flex-wrap: wrap;
+            flex-wrap: no-wrap;
+            display: inline-flex;
         }
 
         a:not(.button) {

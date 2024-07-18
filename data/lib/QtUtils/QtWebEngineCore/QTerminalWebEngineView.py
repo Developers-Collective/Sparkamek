@@ -9,7 +9,7 @@ from PySide6.QtCore import Signal
 from typing import Callable
 import pyperclip
 
-from ..QtCore import QTerminalModel, QTerminalAction, QEnumColor
+from ..QtCore import QTerminalModel, QEnumColor
 from .QTerminalWebEnginePage import QTerminalWebEnginePage
 #----------------------------------------------------------------------
 
