@@ -187,8 +187,17 @@ class QSaveData(QObject):
 
         return ''
 
-    def get_icon_dir(self) -> str:
-        return f'{self._themes_folder}/{self._theme}/{self._theme_variant}/icons/'
+    def get_theme_dir(self, mode: StyleSheetMode = StyleSheetMode.Local) -> str:
+        if mode == QSaveData.StyleSheetMode.Global: path_start = './data/lib/QtUtils/themes'
+        else: path_start = f'{self._themes_folder}'
+
+        return os.path.join(path_start, f'{self._theme}/{self._theme_variant}/')
+
+    def get_icon_dir(self, mode: StyleSheetMode = StyleSheetMode.Local) -> str:
+        return f'{self.get_theme_dir(mode)}icons/'
+
+    def get_template_dir(self, mode: StyleSheetMode = StyleSheetMode.Local) -> str:
+        return f'{self.get_theme_dir(mode)}templates/'
 
     def get_icon(self, path: str, asQIcon = True, mode: IconMode | str = IconMode.Local) -> QIcon | str:
         if isinstance(mode, str): mode = QSaveData.IconMode(mode)

@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------
 
     # Librairies
-import regex
+import regex, os
 
 from .QLangData import QLangData
 from .QEnumColor import QEnumColor
@@ -15,283 +15,8 @@ from ..QtGui.QssParser import QssSelector
 class QTerminalModel:
     _lang: QLangData = QLangData.NoTranslation()
 
-    _unique_style = '''
-        .%name {
-            background-color: var(--%name-bg);
-        }
-        .%name::after {
-            border-left-color: var(--%name-bg);
-        }
-        .%name.special-text:not(.first)::before {
-            border-left-color: var(--%name-bg);
-        }
-'''
-
-    _model: str = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>%title</title>
-</head>
-<body>
-    <style>
-        :root {
-            %vars
-        }
-
-        * {
-            font-family: "Consolas";
-            font-size: 1em;
-
-            background-color: var(--bg);
-            color: var(--fg);
-
-            /*line-height: 1.5em;*/
-        }
-
-        /*html, body {
-            max-width: 90%;
-            overflow-x: hidden;
-        }*/
-
-        body {
-            margin: 10px;
-            padding: 0;
-        }
-
-        body {
-            margin-top: 40px;
-            overflow-x: hidden;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;  /* Largeur de la scrollbar verticale */
-            height: 6px; /* Hauteur de la scrollbar horizontale */
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #404040;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-button {
-            display: none;
-            background: none;
-            border: none;
-        }
-
-        ::-webkit-scrollbar-corner {
-            background: none;
-        }
-
-        div.vertical-space > * {
-            margin-top: 0.75em;
-        }
-
-        span {
-            background-color: transparent;
-        }
-
-        .special-text {
-            padding-top: 0.125em;
-            padding-bottom: 0.188em;
-            padding-right: 0.188em;
-            padding-left: 0.5em;
-            padding-right: 0.25em;
-            margin-right: 0.625em;
-            color: var(--fg);
-            font-weight: bold;
-            height: 1.17em;
-        }
-
-        .special-text::after {
-            content: '';
-            position: absolute;
-            margin-left: 0.25em;
-            margin-top: -0.125em;
-            width: 0;
-            height: 0;
-            border-top: 0.75em solid transparent;
-            border-bottom: 0.75em solid transparent;
-            border-left: 0.625em solid #000000;
-            z-index: 1;
-        }
-
-        .special-text.first {
-            padding-left: 0.5em;
-            border-top-left-radius: 0.625em;
-            border-bottom-left-radius: 0.625em;
-        }
-
-        .special-text:not(.first)::before {
-            content: '';
-            position: absolute;
-            margin-left: -1.125em;
-            width: 0;
-            height: 1.49em;
-            border-left: 0.65em solid var(--fg);
-            margin-top: -0.125em;
-        }
-
-        div.columns > div.column {
-            margin-right: 0.5em;
-        }
-
-        %unique-styles
-
-        div.columns, div.column {
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            min-height: 1.188em;
-        }
-
-        div.column {
-            flex-wrap: no-wrap;
-            display: inline-flex;
-        }
-
-        a:not(.button) {
-            text-decoration: none;
-            color: %a-color;
-        }
-
-        a.button {
-            display: inline-block;
-            transition: all 0.2s ease-in-out;
-            text-decoration: none;
-            border: #fff 1px solid;
-            padding: 2px 5px;
-            border-radius: 10px;
-            font-size: 0.775em;
-        }
-
-        a.button.animated {
-            animation: pulse 0.75s ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                background-color: transparent;
-            }
-            15% {
-                transform: scale(1.1);
-                background-color: #20df2055;
-            }
-            75% {
-                transform: scale(1.1);
-                background-color: #20df2055;
-            }
-            100% {
-                transform: scale(1);
-                background-color: transparent;
-            }
-        }
-    </style>
-
-    <div class="vertical-space">
-        %s
-    </div>
-
-    <script>
-        function bindButtonAnimations(parent) {
-            var elements = parent.getElementsByClassName('button');
-
-            for (let i = 0; i < elements.length; i++) {
-                elements[i].addEventListener('animationend', function(e) {
-                    if (elements[i].classList.contains('animated'))
-                        elements[i].classList.remove('animated');
-                });
-
-                elements[i].addEventListener('click', function(e) {
-                    if (!elements[i].classList.contains('animated'))
-                        elements[i].classList.add('animated');
-                });
-            }
-        }
-
-        function sendButtonClicked(action) {
-            console.log('buttonClicked:' + action);
-        }
-
-        var followScroll = true;
-
-        function modifyHTML(selector, index, html, action) {
-            var nodes = document.querySelectorAll(selector);
-            var element = nodes[index >= 0 ? index : nodes.length + index];
-
-            switch (action) {
-                case 'add-inner':
-                    element.innerHTML += html;
-                    break;
-
-                case 'add-outer':
-                    element.outerHTML += html;
-                    break;
-
-                case 'replace-inner':
-                    element.innerHTML = html;
-                    break;
-
-                case 'replace-outer':
-                    element.outerHTML = html;
-                    break;
-            }
-            bindButtonAnimations(element);
-
-            nodes = document.querySelectorAll('.column');
-            element = nodes[nodes.length - 1]; // Get the new element
-
-            // Scroll to the new element
-            if (followScroll) {
-                window.scroll({
-                    top: element.getBoundingClientRect().y + window.scrollY,
-                    left: 0,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        document.addEventListener('scroll', eventHandler);
-        document.addEventListener('mousedown', eventHandler);
-        document.addEventListener('wheel', eventHandler);
-        document.addEventListener('DOMMouseScroll', eventHandler);
-        document.addEventListener('mousewheel', eventHandler);
-        document.addEventListener('keyup', eventHandler);
-
-        function eventHandler(evt) {
-            if (evt.type !== 'scroll') {
-                if (!followScroll) {
-                    if (evt.detail > 0 || (evt.wheelDelta && evt.wheelDelta < 0)) { // Scroll down
-                        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) { // If at the bottom
-                            followScroll = true;
-                        }
-                    }
-                }
-
-                else {
-                    if (evt.detail < 0 || (evt.wheelDelta && evt.wheelDelta > 0)) { // Scroll up
-                        followScroll = false;
-                    }
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            bindButtonAnimations(document);
-        })
-    </script>
-</body>
-</html>
-'''
+    _unique_style: str = ''
+    _model: str = ''
 
     _app: QBaseApplication = None
 
@@ -299,6 +24,16 @@ class QTerminalModel:
     def init(app: QBaseApplication) -> None:
         QTerminalModel._lang = app.get_lang_data('QTerminalModel')
         QTerminalModel._app = app
+
+        folder = app.save_data.get_template_dir(app.save_data.StyleSheetMode.Global)
+
+        if not os.path.exists(path := (os.path.join(folder, 'QTerminalModel/unique_style.css'))): return
+        with open(path, 'r', encoding = 'utf-8') as f:
+            QTerminalModel._unique_style = f.read()
+
+        if not os.path.exists(path := (os.path.join(folder, 'QTerminalModel/model.html'))): return
+        with open(path, 'r', encoding = 'utf-8') as f:
+            QTerminalModel._model = f.read()
 
 
     def __init__(self, *enum_colors: type[QEnumColor], name: str = 'Terminal') -> None:
