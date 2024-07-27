@@ -1,6 +1,6 @@
 multipledispatch==0.6.0
 PySide6==6.4.1
-requests==2.31.0
+requests==2.32.2
 psutil==5.9.5
 python-interface==1.6.1
 PyYAML==6.0
