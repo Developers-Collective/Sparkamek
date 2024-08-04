@@ -204,7 +204,7 @@ class QBaseApplication(QApplication):
 
     @property
     def language(self) -> str:
-        return self._save_data.language
+        return self._save_data.current_language
 
     @property
     def theme(self) -> str:

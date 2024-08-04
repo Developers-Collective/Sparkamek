@@ -3,6 +3,7 @@
     # Libraries
 from .QBaseApplication import QBaseApplication
 from .QAppType import QAppType
+from .QData import QData
 from .QThemeManager import QThemeManager
 from .QLangDataManager import QLangDataManager, QLangData
 from .QSaveData import QSaveData

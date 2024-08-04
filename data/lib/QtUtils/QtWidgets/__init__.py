@@ -63,4 +63,10 @@ from .QWidgetTabWidget import QWidgetTabWidget, QWidgetTabBar, QWidgetTabBarItem
 from .QIconTabBar import QIconTabBar
 from .QCheckableGridFrame import QCheckableGridFrame
 from .QTerminalWidget import QTerminalWidget
+from .QClickableGridWidget import QClickableGridWidget
+from .QClickableGridFrame import QClickableGridFrame
+from .QDialogBase import QDialogBase
+from .QYesNoDialog import QYesNoDialog
+from .BoxShadow import BoxShadowWrapper
+from .QSearchNamedComboBox import QSearchNamedComboBox
 #----------------------------------------------------------------------
