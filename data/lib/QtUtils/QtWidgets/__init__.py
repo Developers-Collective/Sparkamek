@@ -69,4 +69,7 @@ from .QDialogBase import QDialogBase
 from .QYesNoDialog import QYesNoDialog
 from .BoxShadow import BoxShadowWrapper
 from .QSearchNamedComboBox import QSearchNamedComboBox
+from .QNamedDateTimeEdit import QNamedDateTimeEdit
+from .QNamedDateEdit import QNamedDateEdit
+from .QNamedTimeEdit import QNamedTimeEdit
 #----------------------------------------------------------------------

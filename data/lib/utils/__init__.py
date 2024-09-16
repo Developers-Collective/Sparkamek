@@ -10,4 +10,6 @@ from .AbstractFactory import AbstractFactory
 from .AbstractTypeFactory import AbstractTypeFactory
 from .rreplace import rreplace
 from .CombinedException import CombinedException
+from .UUIDManager import UUIDManager
+from .strfdelta import strfdelta, StrfDeltaType, deltastrf
 #----------------------------------------------------------------------
