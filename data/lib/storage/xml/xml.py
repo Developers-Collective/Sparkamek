@@ -2,21 +2,21 @@
 
     # Libraries
 import xml.dom.minidom as minidom
-from typing import Union
+from typing import Iterable
 #----------------------------------------------------------------------
 
     # Class
 class XMLNode:
-    def __init__(self, name: str, attributes: dict = {}, children: list = [], value: int | float | str | None = None) -> None:
-        self._name = name
+    def __init__(self, tag: str, attributes: dict = {}, children: Iterable['XMLNode'] = [], value: int | float | str | None = None) -> None:
+        self._tag = tag
         self._attributes = attributes
-        self._children = children
+        self._children = list(children)
         self._value = value
 
 
     @property
-    def name(self) -> str:
-        return self._name
+    def tag(self) -> str:
+        return self._tag
 
     @property
     def attributes(self) -> dict[str, int | float | str | None]:
@@ -32,17 +32,17 @@ class XMLNode:
         return self._value
 
 
-    def get_attribute(self, name: str, default: int | float | str | None = None) -> int | float | str | None:
-        return self.attributes.get(name, default)
+    def get_attribute(self, attribute_name: str, default: int | float | str | None = None) -> int | float | str | None:
+        return self.attributes.get(attribute_name, default)
 
 
-    def get_first_child(self, name: str) -> Union['XMLNode', None]:
+    def get_first_child(self, tag: str) -> 'XMLNode | None':
         for child in self.children:
-            if child.name == name: return child
+            if child.tag == tag: return child
         return None
 
-    def get_children(self, name: str) -> list['XMLNode']:
-        return [child for child in self.children if child.name == name]
+    def get_children(self, tag: str) -> list['XMLNode']:
+        return [child for child in self.children if child.tag == tag]
 
 
     def _convert_data(self, attr: str) -> str:
@@ -52,21 +52,24 @@ class XMLNode:
 
 
     def __repr__(self) -> str:
-        attr = ' '.join([f'{self._convert_data(str(key))}="{self._convert_data(str(value))}"' for key, value in self.attributes.items()])
+        attr = ' '.join([
+            f'{self._convert_data(str(key))}="{self._convert_data(str(value))}"'
+                for key, value in self.attributes.items()
+        ])
 
-        s = f'<{self.name}'
+        s = f'<{self.tag}'
         if attr: s += f' {attr}'
 
         while None in self._children: self._children.remove(None)
 
-        if self.value is not None: s += f'>{self._convert_data(str(self.value))}</{self.name}>'
+        if self.value is not None: s += f'>{self._convert_data(str(self.value))}</{self.tag}>'
         elif self.children:
             s += '>'
 
             for child in self.children:
                 s += '\n\t' + str(child).replace('\n', '\n\t')
 
-            s += f'\n</{self.name}>'
+            s += f'\n</{self.tag}>'
 
         else:
             s += '/>'

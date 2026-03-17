@@ -35,10 +35,10 @@ class Sprite(implements(IBaseSprite)):
         self._children: list[BaseItem] = []
 
         for child in data.children:
-            match child.name:
+            match child.tag:
                 case 'dependency': continue
                 case _:
-                    cls = ItemFabric.get(child.name)
+                    cls = ItemFabric.get(child.tag)
                     if cls:
                         inst = cls(child)
                         inst.parent = self

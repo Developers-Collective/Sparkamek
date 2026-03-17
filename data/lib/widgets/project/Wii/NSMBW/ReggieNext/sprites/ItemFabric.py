@@ -15,7 +15,7 @@ class ItemFabric(AbstractTypeFactory):
 
     @classmethod
     def create(cls_, data: XMLNode) -> BaseItem:
-        return super().create(data.name, data)
+        return super().create(data.tag, data)
 
 
     @classmethod

@@ -222,9 +222,9 @@ class ReggieNextWidget(SubProjectWidgetBase):
 
         try:
             root = XML.parse_file(path).root
-            if root.name == 'sprite': ls = [root]
-            elif root.name == 'sprites':
-                ls = [c for c in root.children if c.name == 'sprite']
+            if root.tag == 'sprite': ls = [root]
+            elif root.tag == 'sprites':
+                ls = [c for c in root.children if c.tag == 'sprite']
                 if not ls: raise Exception('Invalid sprite')
             else: raise Exception('Invalid sprite')
 

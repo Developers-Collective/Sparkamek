@@ -1,6 +1,7 @@
 #----------------------------------------------------------------------------------------------------
 
     # Libraries
+from typing import Iterator
 from .Singleton import Singleton
 #----------------------------------------------------------------------------------------------------
 
@@ -60,4 +61,13 @@ class AbstractFactory(metaclass = Singleton):
             key (str): The key to delete.
         '''
         del self._registry[key]
+
+
+    def __iter__(self) -> Iterator[str]:
+        '''Iterate over the keys in the factory.
+
+        Returns:
+            str: The keys in the factory.
+        '''
+        return iter(self._registry)
 #----------------------------------------------------------------------------------------------------
